@@ -6,7 +6,7 @@
 
 .logo {
   position: absolute;
-  z-index: 2;
+  z-index: 3; /* Incrementa el z-index para asegurarte de que el logo siempre esté en la parte superior */
   top: 42%;
   left: 31.5%;
   transform: translate(-50%, -50%);
@@ -14,13 +14,14 @@
 
 .fondo {
   position: absolute;
-  z-index: 1;
+  z-index: 1; /* Asegúrate de que el fondo esté detrás de los otros elementos */
   width: 100%;
   height: 100%;
 }
 
 .box-shadow {
   position: absolute;
+  z-index: 2; /* Asegúrate de que este elemento esté por encima del fondo */
   bottom: 40%;
   right: 3%;
   width: 30%;
@@ -33,7 +34,7 @@
   .logo {
     position: absolute;
     width: 40%;
-    z-index: 2;
+    z-index: 3; /* Mantén el z-index más alto para el logo */
     top: 40%;
     left: 31.5%;
     transform: translate(-50%, -50%);
@@ -49,13 +50,13 @@
 
   .fondo {
     position: absolute;
-    z-index: 1;
+    z-index: 1; /* Mantén el z-index más bajo para el fondo */
     width: 300%;
     height: 150%;
   }
 
   .box-shadow {
-    z-index: 2;
+    z-index: 2; /* Mantén el z-index más alto para el box-shadow */
     position: absolute;
     right: 9%;
     width: 80%;
