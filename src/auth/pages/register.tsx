@@ -1,45 +1,58 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../../store/actions/authActions";
-import { authService } from "../../api/authService";
-import { useNavigate } from "react-router-dom";
+import AuthLayout from "../layout/AuthLayout";
+import {
+  StyledButton,
+  ForgotText,
+  GridItem,
+  GridContainer,
+  InputContainer,
+  StyledTextField,
+} from "./styles";
 
-const Login: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    authService
-      .login(username, password)
-      .then((user) => {
-        dispatch(login(user));
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error during login:", error);
-      });
-  };
-
+export const Register = () => {
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <button type="submit">Login</button>
-    </form>
+    <>
+      <AuthLayout title={"Registrar usuario"}>
+        <form className="">
+          <GridContainer container>
+            <InputContainer item xs={12}>
+              <StyledTextField
+                label="Correo"
+                type="email"
+                placeholder="correo@correo.com"
+                fullWidth
+              />
+              <StyledTextField
+                label="Clave"
+                type="password"
+                placeholder="Clave"
+                fullWidth
+                name="password"
+              />
+              <StyledTextField
+                label="Repetir Clave"
+                type="password"
+                placeholder="Clave"
+                fullWidth
+                name="password"
+              />
+            </InputContainer>
+            <GridContainer container spacing={2}>
+              <GridItem item xs={12} sm={6}>
+                <StyledButton type="submit" variant="contained" fullWidth>
+                  Registrar
+                </StyledButton>
+              </GridItem>
+              <GridItem item xs={12} sm={6}>
+                <StyledButton type="submit" variant="contained" fullWidth>
+                  Volver
+                </StyledButton>
+              </GridItem>
+            </GridContainer>
+          </GridContainer>
+        </form>
+      </AuthLayout>
+    </>
   );
 };
 
-export default Login;
+export default Register;
