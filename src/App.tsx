@@ -2,8 +2,8 @@
 import React from "react";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import Login from "./auth/Login";
-import Register from "./auth/register";
+import Login from "./auth/pages/Login";
+import Register from "./auth/pages/register";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App: React.FC = () => {

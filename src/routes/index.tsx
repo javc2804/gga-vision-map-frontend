@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MyComponent from "../components/MyComponent";
-import Login from "../auth/Login";
-import Register from "../auth/register";
+import Login from "../auth/pages/Login";
+import Register from "../auth/pages/register";
 
 const RoutesComponent: React.FC = () => {
   return (

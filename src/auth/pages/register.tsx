@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { authService } from "../api/authService";
-import { login } from "../store/actions/authActions";
+import { login } from "../../store/actions/authActions";
+import { authService } from "../../api/authService";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,9 +16,10 @@ const Login: React.FC = () => {
       .login(username, password)
       .then((user) => {
         dispatch(login(user));
+        navigate("/");
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Error during login:", error);
       });
   };
 
@@ -34,7 +37,7 @@ const Login: React.FC = () => {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
       />
-      <button type="submit">Log in</button>
+      <button type="submit">Login</button>
     </form>
   );
 };
