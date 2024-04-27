@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import AuthLayout from "../layout/AuthLayout";
 import {
   StyledButton,
@@ -43,9 +44,11 @@ export const Register = () => {
                 </StyledButton>
               </GridItem>
               <GridItem item xs={12} sm={6}>
-                <StyledButton type="submit" variant="contained" fullWidth>
-                  Volver
-                </StyledButton>
+                <Link to="/auth/login">
+                  <StyledButton type="button" variant="contained" fullWidth>
+                    Volver
+                  </StyledButton>
+                </Link>
               </GridItem>
             </GridContainer>
           </GridContainer>
