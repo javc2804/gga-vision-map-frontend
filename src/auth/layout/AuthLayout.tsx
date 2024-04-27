@@ -20,7 +20,10 @@ const AuthLayout = ({ children, title }) => {
       }}
     >
       <Grid item className="box-shadow" xs={3}>
-        <Typography variant="h5" sx={{ mb: 1 }}>
+        <Typography
+          variant="h4"
+          sx={{ mb: 1, textAlign: "center", fontWeight: 600 }}
+        >
           {title}
         </Typography>
         {children}

@@ -5,7 +5,7 @@ import store from "./store/store";
 import Login from "./auth/pages/Login";
 import Register from "./auth/pages/register";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+import "./App.css";
 const App: React.FC = () => {
   return (
     <Provider store={store}>
