@@ -1,6 +1,7 @@
 .container {
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 
 .logo {
@@ -28,9 +29,37 @@
   border-radius: 20px;
 }
 
-@media screen and (max-width: 960px) {
+@media (max-width: 1024px) {
+  .logo {
+    position: absolute;
+    width: 40%;
+    z-index: 2;
+    top: 40%;
+    left: 31.5%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 600px) {
+  .logo {
+    width: 80%;
+    top: 20%;
+    left: 50%;
+  }
+
+  .fondo {
+    position: absolute;
+    z-index: 1;
+    width: 300%;
+    height: 150%;
+  }
+
   .box-shadow {
-    width: 100%;
-    bottom: 0;
+    z-index: 2;
+    position: absolute;
+    right: 9%;
+    width: 80%;
+    top: 40%;
+    height: 35%;
   }
 }
