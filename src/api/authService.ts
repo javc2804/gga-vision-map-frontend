@@ -1,24 +1,24 @@
+import { API_URL } from "./index";
+
 export const authService = {
-  login: (username: string, password: string) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (username === "user" && password === "password") {
-          resolve({ username });
-        } else {
-          reject(new Error("Invalid credentials"));
-        }
-      }, 1000);
-    });
+  login: (email: string, password: string) => {
+    return API_URL.post("auth/login", {
+      email,
+      password,
+    })
+      .then((response) => response.data)
+      .catch((error) => {
+        throw new Error(error.response.data.message);
+      });
   },
-  register: (username: string, password: string) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (username && password) {
-          resolve({ username });
-        } else {
-          reject(new Error("Invalid data"));
-        }
-      }, 1000);
-    });
+  register: (email: string, password: string) => {
+    return API_URL.post("auth/register", {
+      email,
+      password,
+    })
+      .then((response) => response.data)
+      .catch((error) => {
+        throw new Error(error.response.data.message);
+      });
   },
 };

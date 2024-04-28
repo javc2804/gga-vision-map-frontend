@@ -1,16 +1,19 @@
-import { Alert } from "@mui/material";
-import { Snackbar } from "@mui/material";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+// import { useSelector } from "react-redux";
+import { useMemo, useState } from "react";
 import AuthLayout from "../layout/AuthLayout";
+
 import {
   StyledButton,
-  ForgotText,
   GridItem,
   GridContainer,
   InputContainer,
   StyledTextField,
 } from "./styles";
+
+import { startCreatingUser } from "../../store/auth/thunks";
+import { useForm } from "../../hooks/useForm";
+import { useDispatch as _useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 
 export const Register = () => {
   const [alert, setAlert] = useState({
@@ -19,24 +22,44 @@ export const Register = () => {
     severity: "",
   });
 
-  const handleRegister = (event) => {
+  const useDispatch = () => _useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
+
+  // const { status, errorMessage } = useSelector((state) => state.auth);
+  // const isCheckingAuthentication = useMemo(
+  //   () => status === "checking",
+  //   [status]
+  // );
+
+  // Define formData y formValidations aquí
+  const formData = {
+    /* tus datos de formulario aquí */
+  };
+  const formValidations = {
+    /* tus validaciones de formulario aquí */
+  };
+
+  const {
+    formState: { email, password },
+    onInputChange,
+    isFormValid,
+  } = useForm(formData, formValidations);
+
+  const onSubmit = (event: any) => {
     event.preventDefault();
-    // Aquí va tu lógica de registro
-    // Si el registro es exitoso
+    console.log("llegue");
+    dispatch(startCreatingUser({ email, password }));
     setAlert({
       show: true,
       message: "Registrado con éxito",
       severity: "success",
     });
-    setTimeout(() => setAlert({ ...alert, show: false }), 4000);
-    // Si el registro falla
-    // setAlert({ show: true, message: 'Error al registrar', severity: 'error' });
   };
 
   return (
     <>
       <AuthLayout title={"Registrar usuario"}>
-        <form className="" onSubmit={handleRegister}>
+        <form className="" onSubmit={onSubmit}>
           <GridContainer container>
             <InputContainer item xs={12}>
               <StyledTextField
@@ -44,6 +67,9 @@ export const Register = () => {
                 type="email"
                 placeholder="correo@correo.com"
                 fullWidth
+                name="email"
+                value={email}
+                onChange={onInputChange}
               />
               <StyledTextField
                 label="Clave"
@@ -51,40 +77,16 @@ export const Register = () => {
                 placeholder="Clave"
                 fullWidth
                 name="password"
-              />
-              <StyledTextField
-                label="Repetir Clave"
-                type="password"
-                placeholder="Clave"
-                fullWidth
-                name="password"
+                value={password}
+                onChange={onInputChange}
               />
             </InputContainer>
-            <Snackbar
-              open={alert.show}
-              autoHideDuration={4000}
-              onClose={() => setAlert({ ...alert, show: false })}
-              anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            >
-              <Alert variant="filled" severity={alert.severity}>
-                {alert.message}
-              </Alert>
-            </Snackbar>
-            <GridContainer container spacing={2}>
-              <GridItem item xs={12} sm={6}>
-                <StyledButton type="submit" variant="contained" fullWidth>
-                  Registrar
-                </StyledButton>
-              </GridItem>
-              <GridItem item xs={12} sm={6}>
-                <Link to="/auth/login">
-                  <StyledButton type="button" variant="contained" fullWidth>
-                    Volver
-                  </StyledButton>
-                </Link>
-              </GridItem>
-            </GridContainer>
           </GridContainer>
+          <GridItem item xs={12} sm={6}>
+            <StyledButton type="submit" variant="contained" fullWidth>
+              Registrar
+            </StyledButton>
+          </GridItem>
         </form>
       </AuthLayout>
     </>
