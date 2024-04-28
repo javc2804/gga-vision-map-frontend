@@ -11,10 +11,19 @@ export const authService = {
         throw new Error(error.response.data.message);
       });
   },
-  register: (email: string, password: string) => {
+  register: (
+    email: string,
+    password: string,
+    name: string,
+    lastName: string,
+    role: string
+  ) => {
     return API_URL.post("auth/register", {
       email,
       password,
+      name,
+      lastName,
+      role,
     })
       .then((response) => {
         return { ok: true, response: response.data };

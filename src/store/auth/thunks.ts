@@ -6,7 +6,9 @@ import { AppThunk } from "../store/store";
 interface UserCredentials {
   email: string;
   password: string;
-  displayName?: string;
+  name: string;
+  lastName: string;
+  role: string;
 }
 
 export const startCreatingUser =
@@ -14,9 +16,15 @@ export const startCreatingUser =
   async (dispatch) => {
     dispatch(checkingCredentials());
 
-    const { email, password } = userCredentials;
+    const { email, password, name, lastName, role } = userCredentials;
 
-    const { ok, uid, response } = await authService.register(email, password);
+    const { ok, uid, response } = await authService.register(
+      email,
+      password,
+      name,
+      lastName,
+      role
+    );
 
     if (!ok) {
       dispatch(logout(response));
@@ -24,7 +32,7 @@ export const startCreatingUser =
       return { wasSuccessful: false, messageType: "error" };
     }
 
-    dispatch(login({ uid, email }));
+    dispatch(login({ uid, email, name, lastName, role }));
     dispatch(
       showSnackbar({ message: "Usuario registrado con éxito", type: "success" })
     );

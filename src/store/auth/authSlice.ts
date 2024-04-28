@@ -11,6 +11,9 @@ interface AuthState {
   uid: string | null;
   email: string | null;
   displayName: string | null;
+  name: string | null;
+  lastName: string | null;
+  role: string | null;
   errorMessage: string | null;
   snackbar: SnackbarState;
 }
@@ -20,6 +23,9 @@ const initialState: AuthState = {
   uid: null,
   email: null,
   displayName: null,
+  name: null,
+  lastName: null,
+  role: null,
   errorMessage: null,
   snackbar: {
     open: false,
@@ -37,6 +43,9 @@ export const authSlice = createSlice({
       state.uid = payload.uid;
       state.email = payload.email;
       state.displayName = payload.displayName;
+      state.name = payload.name;
+      state.lastName = payload.lastName;
+      state.role = payload.role;
       state.errorMessage = null;
     },
     logout: (state, { payload }) => {

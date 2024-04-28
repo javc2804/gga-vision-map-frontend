@@ -1,14 +1,13 @@
-import React from "react";
-import AuthLayout from "../layout/AuthLayout";
+import React, { useState } from "react";
 import { useSelector, useDispatch as _useDispatch } from "react-redux";
-import Snackbar from "@mui/material/Snackbar";
-import SnackbarContent from "@mui/material/SnackbarContent";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ErrorIcon from "@mui/icons-material/Error";
-import { hideSnackbar } from "../../store/auth/authSlice";
-import { startCreatingUser } from "../../store/auth/thunks";
 import { useForm } from "../../hooks/useForm";
 import { AppDispatch } from "../../store/store";
+import { hideSnackbar } from "../../store/auth/authSlice";
+import { startCreatingUser } from "../../store/auth/thunks";
+import AuthLayout from "../layout/AuthLayout";
+import * as yup from "yup";
+import { useNavigate, Link } from "react-router-dom";
+
 import {
   StyledButton,
   GridItem,
@@ -16,8 +15,39 @@ import {
   InputContainer,
   StyledTextField,
 } from "./styles";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+
+import {
+  Snackbar,
+  SnackbarContent,
+  FormControl,
+  InputLabel,
+  Select,
+  FormHelperText,
+  MenuItem,
+} from "@mui/material";
+
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
+
+const formSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required("El nombre es requerido")
+    .matches(/^[A-Za-z]+$/, "El nombre sólo debe contener letras"),
+  lastName: yup
+    .string()
+    .required("El apellido es requerido")
+    .matches(/^[A-Za-z]+$/, "El apellido sólo debe contener letras"),
+  email: yup
+    .string()
+    .email("Debe ser un correo válido")
+    .required("El correo es requerido"),
+  password: yup
+    .string()
+    .min(6, "La clave debe tener al menos 6 caracteres")
+    .required("La clave es requerida"),
+  role: yup.string().required("El rol es requerido"), // Agrega esta línea
+});
 
 export const Register = () => {
   const useDispatch = () => _useDispatch<AppDispatch>();
@@ -27,35 +57,80 @@ export const Register = () => {
   const formData = {
     email: "", // valor inicial para email
     password: "", // valor inicial para password
-  };
-  const formValidations = {
-    /* tus validaciones de formulario aquí */
+    name: "", // valor inicial para nombre
+    lastName: "", // valor inicial para apellido
+    role: "", // valor inicial para rol
   };
 
   const {
-    formState: { email, password },
+    formState: { email, password, name, lastName, role },
     onInputChange,
-    isFormValid,
-  } = useForm(formData, formValidations);
+  } = useForm(formData);
   const navigate = useNavigate();
+
+  // Agrega un estado para los errores
+  const [errors, setErrors] = useState({});
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
-    const response = await dispatch(startCreatingUser({ email, password }));
-    console.log(response);
-    if (response.wasSuccessful) {
-      setTimeout(() => {
-        navigate("/auth/login");
-      }, 4000);
+    try {
+      await formSchema.validate(
+        { email, password, name, lastName, role },
+        { abortEarly: false }
+      );
+      const response = await dispatch(
+        startCreatingUser({ email, password, name, lastName, role })
+      );
+      console.log(response);
+      if (response.wasSuccessful) {
+        // Restablece el estado de los errores
+        setErrors({});
+        setTimeout(() => {
+          navigate("/auth/login");
+        }, 4000);
+      }
+    } catch (error) {
+      console.log(error);
+      // Actualiza el estado de los errores con los errores de validación
+      setErrors(
+        error.inner.reduce(
+          (acc, curr) => ({ ...acc, [curr.path]: curr.message }),
+          {}
+        )
+      );
     }
   };
 
   return (
     <>
       <AuthLayout title={"Registrar usuario"}>
-        <form className="" onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}>
           <GridContainer container>
             <InputContainer item xs={12}>
+              <StyledTextField
+                label="Nombre"
+                type="text"
+                placeholder="Nombre"
+                fullWidth
+                name="name"
+                value={name}
+                onChange={onInputChange}
+                // Muestra el error de validación para el campo 'name'
+                helperText={errors.name}
+                error={!!errors.name}
+              />
+              <StyledTextField
+                label="Apellido"
+                type="text"
+                placeholder="Apellido"
+                fullWidth
+                name="lastName"
+                value={lastName}
+                onChange={onInputChange}
+                // Muestra el error de validación para el campo 'lastName'
+                helperText={errors.lastName}
+                error={!!errors.lastName}
+              />
               <StyledTextField
                 label="Correo"
                 type="email"
@@ -64,6 +139,9 @@ export const Register = () => {
                 name="email"
                 value={email}
                 onChange={onInputChange}
+                // Muestra el error de validación para el campo 'email'
+                helperText={errors.email}
+                error={!!errors.email}
               />
               <StyledTextField
                 label="Clave"
@@ -73,7 +151,28 @@ export const Register = () => {
                 name="password"
                 value={password}
                 onChange={onInputChange}
+                // Muestra el error de validación para el campo 'password'
+                helperText={errors.password}
+                error={!!errors.password}
               />
+              <FormControl fullWidth>
+                <InputLabel id="role-label">Rol</InputLabel>
+                <Select
+                  labelId="role-label"
+                  id="role"
+                  value={role}
+                  label="Rol"
+                  onChange={onInputChange}
+                  name="role"
+                  error={!!errors.role}
+                >
+                  <MenuItem value={"admin"}>Administrador</MenuItem>
+                  <MenuItem value={"store"}>Almacén</MenuItem>
+                </Select>
+                {!!errors.role && (
+                  <FormHelperText error>{errors.role}</FormHelperText>
+                )}
+              </FormControl>
             </InputContainer>
           </GridContainer>
           <GridContainer container>
