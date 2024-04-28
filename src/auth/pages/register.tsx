@@ -33,7 +33,8 @@ export const Register = () => {
 
   // Define formData y formValidations aquí
   const formData = {
-    /* tus datos de formulario aquí */
+    email: "", // valor inicial para email
+    password: "", // valor inicial para password
   };
   const formValidations = {
     /* tus validaciones de formulario aquí */
