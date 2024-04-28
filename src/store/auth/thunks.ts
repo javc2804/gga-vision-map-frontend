@@ -24,9 +24,10 @@ export const startCreatingUser =
     if (!ok) {
       dispatch(logout(errorMessage));
       dispatch(showSnackbar(errorMessage));
-      return;
+      return false;
     }
 
     dispatch(login({ uid, email }));
     dispatch(showSnackbar("Usuario registrado con éxito"));
+    return true;
   };

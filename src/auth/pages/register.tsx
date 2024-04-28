@@ -15,6 +15,7 @@ import {
   InputContainer,
   StyledTextField,
 } from "./styles";
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
   const useDispatch = () => _useDispatch<AppDispatch>();
@@ -34,10 +35,19 @@ export const Register = () => {
     onInputChange,
     isFormValid,
   } = useForm(formData, formValidations);
+  const navigate = useNavigate();
 
-  const onSubmit = (event: any) => {
+  const onSubmit = async (event: any) => {
     event.preventDefault();
-    dispatch(startCreatingUser({ email, password }));
+    const wasSuccessful = await dispatch(
+      startCreatingUser({ email, password })
+    );
+    console.log(wasSuccessful);
+    if (wasSuccessful) {
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 4000);
+    }
   };
 
   return (
@@ -86,7 +96,7 @@ export const Register = () => {
               {snackbar.message}
             </span>
           }
-          style={{ color: "white", backgroundColor: "green" }}
+          style={{ color: "white", backgroundColor: "green", fontSize: "20px" }}
         />
       </Snackbar>
     </>
