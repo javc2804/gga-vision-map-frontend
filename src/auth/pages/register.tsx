@@ -2,6 +2,8 @@ import React from "react";
 import AuthLayout from "../layout/AuthLayout";
 import { useSelector, useDispatch as _useDispatch } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
+import SnackbarContent from "@mui/material/SnackbarContent";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { hideSnackbar } from "../../store/auth/authSlice";
 import { startCreatingUser } from "../../store/auth/thunks";
 import { useForm } from "../../hooks/useForm";
@@ -73,14 +75,20 @@ export const Register = () => {
       </AuthLayout>
       <Snackbar
         open={snackbar.open}
-        message={snackbar.message}
         autoHideDuration={6000}
         onClose={() => dispatch(hideSnackbar())}
-        ContentProps={{
-          style: { color: "white" },
-        }}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      />
+      >
+        <SnackbarContent
+          message={
+            <span style={{ display: "flex", alignItems: "center" }}>
+              <CheckCircleIcon style={{ marginRight: "8px" }} />{" "}
+              {snackbar.message}
+            </span>
+          }
+          style={{ color: "white", backgroundColor: "green" }}
+        />
+      </Snackbar>
     </>
   );
 };
