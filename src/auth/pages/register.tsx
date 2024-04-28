@@ -46,7 +46,7 @@ const formSchema = yup.object().shape({
     .string()
     .min(6, "La clave debe tener al menos 6 caracteres")
     .required("La clave es requerida"),
-  role: yup.string().required("El rol es requerido"), // Agrega esta línea
+  role: yup.string().required("El rol es requerido"),
 });
 
 export const Register = () => {
@@ -55,11 +55,11 @@ export const Register = () => {
   const { snackbar } = useSelector((state) => state.auth);
 
   const formData = {
-    email: "", // valor inicial para email
-    password: "", // valor inicial para password
-    name: "", // valor inicial para nombre
-    lastName: "", // valor inicial para apellido
-    role: "", // valor inicial para rol
+    email: "",
+    password: "",
+    name: "",
+    lastName: "",
+    role: "",
   };
 
   const {
@@ -68,7 +68,6 @@ export const Register = () => {
   } = useForm(formData);
   const navigate = useNavigate();
 
-  // Agrega un estado para los errores
   const [errors, setErrors] = useState({});
 
   const onSubmit = async (event: any) => {
@@ -83,7 +82,6 @@ export const Register = () => {
       );
       console.log(response);
       if (response.wasSuccessful) {
-        // Restablece el estado de los errores
         setErrors({});
         setTimeout(() => {
           navigate("/auth/login");
@@ -91,7 +89,6 @@ export const Register = () => {
       }
     } catch (error) {
       console.log(error);
-      // Actualiza el estado de los errores con los errores de validación
       setErrors(
         error.inner.reduce(
           (acc, curr) => ({ ...acc, [curr.path]: curr.message }),
@@ -115,7 +112,6 @@ export const Register = () => {
                 name="name"
                 value={name}
                 onChange={onInputChange}
-                // Muestra el error de validación para el campo 'name'
                 helperText={errors.name}
                 error={!!errors.name}
               />
@@ -127,7 +123,6 @@ export const Register = () => {
                 name="lastName"
                 value={lastName}
                 onChange={onInputChange}
-                // Muestra el error de validación para el campo 'lastName'
                 helperText={errors.lastName}
                 error={!!errors.lastName}
               />
@@ -139,7 +134,6 @@ export const Register = () => {
                 name="email"
                 value={email}
                 onChange={onInputChange}
-                // Muestra el error de validación para el campo 'email'
                 helperText={errors.email}
                 error={!!errors.email}
               />
@@ -151,7 +145,6 @@ export const Register = () => {
                 name="password"
                 value={password}
                 onChange={onInputChange}
-                // Muestra el error de validación para el campo 'password'
                 helperText={errors.password}
                 error={!!errors.password}
               />
