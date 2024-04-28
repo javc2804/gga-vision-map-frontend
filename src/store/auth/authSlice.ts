@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface SnackbarState {
+  open: boolean;
+  message: string;
+  type: "success" | "error";
+}
+
 interface AuthState {
   status: string;
   uid: string | null;
   email: string | null;
   displayName: string | null;
   errorMessage: string | null;
-  snackbar: {
-    open: boolean;
-    message: string;
-  };
+  snackbar: SnackbarState;
 }
 
 const initialState: AuthState = {
@@ -21,6 +24,7 @@ const initialState: AuthState = {
   snackbar: {
     open: false,
     message: "",
+    type: "success",
   },
 };
 
@@ -45,9 +49,13 @@ export const authSlice = createSlice({
     checkingCredentials: (state) => {
       state.status = "checking";
     },
-    showSnackbar: (state, action: PayloadAction<string>) => {
+    showSnackbar: (
+      state,
+      action: PayloadAction<{ message: string; type: "success" | "error" }>
+    ) => {
       state.snackbar.open = true;
-      state.snackbar.message = action.payload;
+      state.snackbar.message = action.payload.message;
+      state.snackbar.type = action.payload.type;
     },
     hideSnackbar: (state) => {
       state.snackbar.open = false;

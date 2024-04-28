@@ -20,7 +20,7 @@ export const authService = {
         return { ok: true, response: response.data };
       })
       .catch((error) => {
-        return { ok: false, response: error.response.data.message };
+        return { ok: false, response: error.response.data.msg };
       });
   },
 };

@@ -16,18 +16,17 @@ export const startCreatingUser =
 
     const { email, password } = userCredentials;
 
-    const { ok, uid, errorMessage } = await authService.register(
-      email,
-      password
-    );
+    const { ok, uid, response } = await authService.register(email, password);
 
     if (!ok) {
-      dispatch(logout(errorMessage));
-      dispatch(showSnackbar(errorMessage));
-      return false;
+      dispatch(logout(response));
+      dispatch(showSnackbar({ message: response, type: "error" }));
+      return { wasSuccessful: false, messageType: "error" };
     }
 
     dispatch(login({ uid, email }));
-    dispatch(showSnackbar("Usuario registrado con éxito"));
-    return true;
+    dispatch(
+      showSnackbar({ message: "Usuario registrado con éxito", type: "success" })
+    );
+    return { wasSuccessful: true, messageType: "success" };
   };

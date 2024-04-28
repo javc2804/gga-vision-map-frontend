@@ -4,6 +4,7 @@ import { useSelector, useDispatch as _useDispatch } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
 import SnackbarContent from "@mui/material/SnackbarContent";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
 import { hideSnackbar } from "../../store/auth/authSlice";
 import { startCreatingUser } from "../../store/auth/thunks";
 import { useForm } from "../../hooks/useForm";
@@ -16,6 +17,7 @@ import {
   StyledTextField,
 } from "./styles";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const useDispatch = () => _useDispatch<AppDispatch>();
@@ -39,11 +41,9 @@ export const Register = () => {
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
-    const wasSuccessful = await dispatch(
-      startCreatingUser({ email, password })
-    );
-    console.log(wasSuccessful);
-    if (wasSuccessful) {
+    const response = await dispatch(startCreatingUser({ email, password }));
+    console.log(response);
+    if (response.wasSuccessful) {
       setTimeout(() => {
         navigate("/auth/login");
       }, 4000);
@@ -76,27 +76,54 @@ export const Register = () => {
               />
             </InputContainer>
           </GridContainer>
-          <GridItem item xs={12} sm={6}>
-            <StyledButton type="submit" variant="contained" fullWidth>
-              Registrar
-            </StyledButton>
-          </GridItem>
+          <GridContainer container>
+            <GridItem item xs={12} sm={6}>
+              <StyledButton type="submit" variant="contained" fullWidth>
+                Registrar
+              </StyledButton>
+            </GridItem>
+            <GridItem
+              item
+              xs={12}
+              sm={6}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Link
+                to="/auth/login"
+                style={{ color: "black", fontSize: "1.5em" }}
+              >
+                ¿Ya tienes cuenta?
+              </Link>
+            </GridItem>
+          </GridContainer>
         </form>
       </AuthLayout>
       <Snackbar
         open={snackbar.open}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={() => dispatch(hideSnackbar())}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <SnackbarContent
           message={
             <span style={{ display: "flex", alignItems: "center" }}>
-              <CheckCircleIcon style={{ marginRight: "8px" }} />{" "}
+              {snackbar.type === "success" ? (
+                <CheckCircleIcon style={{ marginRight: "8px" }} />
+              ) : (
+                <ErrorIcon style={{ marginRight: "8px" }} />
+              )}
               {snackbar.message}
             </span>
           }
-          style={{ color: "white", backgroundColor: "green", fontSize: "20px" }}
+          style={{
+            color: "white",
+            backgroundColor: snackbar.type === "success" ? "green" : "red",
+            fontSize: "20px",
+          }}
         />
       </Snackbar>
     </>
