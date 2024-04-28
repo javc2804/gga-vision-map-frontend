@@ -1,4 +1,4 @@
-import { checkingCredentials, login, logout } from "./authSlice";
+import { checkingCredentials, login, logout, showSnackbar } from "./authSlice";
 import { AppDispatch } from "../store";
 import { authService } from "../../api/authService";
 import { AppThunk } from "../store/store";
@@ -23,8 +23,10 @@ export const startCreatingUser =
 
     if (!ok) {
       dispatch(logout(errorMessage));
+      dispatch(showSnackbar(errorMessage));
       return;
     }
 
     dispatch(login({ uid, email }));
+    dispatch(showSnackbar("Usuario registrado con éxito"));
   };

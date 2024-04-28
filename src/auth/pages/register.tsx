@@ -1,7 +1,11 @@
-// import { useSelector } from "react-redux";
-import { useMemo, useState } from "react";
+import React from "react";
 import AuthLayout from "../layout/AuthLayout";
-
+import { useSelector, useDispatch as _useDispatch } from "react-redux";
+import Snackbar from "@mui/material/Snackbar";
+import { hideSnackbar } from "../../store/auth/authSlice";
+import { startCreatingUser } from "../../store/auth/thunks";
+import { useForm } from "../../hooks/useForm";
+import { AppDispatch } from "../../store/store";
 import {
   StyledButton,
   GridItem,
@@ -10,28 +14,11 @@ import {
   StyledTextField,
 } from "./styles";
 
-import { startCreatingUser } from "../../store/auth/thunks";
-import { useForm } from "../../hooks/useForm";
-import { useDispatch as _useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
-
 export const Register = () => {
-  const [alert, setAlert] = useState({
-    show: false,
-    message: "",
-    severity: "",
-  });
-
   const useDispatch = () => _useDispatch<AppDispatch>();
   const dispatch = useDispatch();
+  const { snackbar } = useSelector((state) => state.auth);
 
-  // const { status, errorMessage } = useSelector((state) => state.auth);
-  // const isCheckingAuthentication = useMemo(
-  //   () => status === "checking",
-  //   [status]
-  // );
-
-  // Define formData y formValidations aquí
   const formData = {
     email: "", // valor inicial para email
     password: "", // valor inicial para password
@@ -48,13 +35,7 @@ export const Register = () => {
 
   const onSubmit = (event: any) => {
     event.preventDefault();
-    console.log("llegue");
     dispatch(startCreatingUser({ email, password }));
-    setAlert({
-      show: true,
-      message: "Registrado con éxito",
-      severity: "success",
-    });
   };
 
   return (
@@ -90,6 +71,16 @@ export const Register = () => {
           </GridItem>
         </form>
       </AuthLayout>
+      <Snackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        autoHideDuration={6000}
+        onClose={() => dispatch(hideSnackbar())}
+        ContentProps={{
+          style: { color: "white" },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      />
     </>
   );
 };

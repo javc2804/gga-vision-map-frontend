@@ -16,9 +16,11 @@ export const authService = {
       email,
       password,
     })
-      .then((response) => response.data)
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
       .catch((error) => {
-        throw new Error(error.response.data.message);
+        return { ok: false, response: error.response.data.message };
       });
   },
 };
