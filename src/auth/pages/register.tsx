@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import AuthLayout from "../layout/AuthLayout";
 import {
@@ -24,8 +24,23 @@ import { hideSnackbar } from "../../store/auth/authSlice";
 import { Link } from "react-router-dom";
 import { useCreateUser } from "./hooks/useCreateUser";
 
+interface RootState {
+  auth: {
+    snackbar: any;
+  };
+}
+
+interface Errors {
+  name?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  role?: string;
+}
+
 export const Register = () => {
-  const { snackbar } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { snackbar } = useSelector((state: RootState) => state.auth);
   const createUser = useCreateUser();
 
   const formData = {
@@ -41,7 +56,13 @@ export const Register = () => {
     onInputChange,
   } = useForm(formData);
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Errors>({});
+  const onClose = (event: any, reason: any) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    dispatch(hideSnackbar());
+  };
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
@@ -52,10 +73,13 @@ export const Register = () => {
       lastName,
       role,
     });
-    if (response.wasSuccessful) {
-      setErrors({});
-    } else {
-      setErrors(response.errors);
+
+    if (response) {
+      if (response.wasSuccessful) {
+        setErrors({});
+      } else {
+        setErrors(response.errors);
+      }
     }
   };
 
