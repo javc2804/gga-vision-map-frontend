@@ -1,13 +1,7 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch as _useDispatch } from "react-redux";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
-import { AppDispatch } from "../../store/store";
-import { hideSnackbar } from "../../store/auth/authSlice";
-import { startCreatingUser } from "../../store/auth/thunks";
 import AuthLayout from "../layout/AuthLayout";
-import * as yup from "yup";
-import { useNavigate, Link } from "react-router-dom";
-
 import {
   StyledButton,
   GridItem,
@@ -15,7 +9,6 @@ import {
   InputContainer,
   StyledTextField,
 } from "./styles";
-
 import {
   Snackbar,
   SnackbarContent,
@@ -25,34 +18,15 @@ import {
   FormHelperText,
   MenuItem,
 } from "@mui/material";
-
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
-
-const formSchema = yup.object().shape({
-  name: yup
-    .string()
-    .required("El nombre es requerido")
-    .matches(/^[A-Za-z]+$/, "El nombre sólo debe contener letras"),
-  lastName: yup
-    .string()
-    .required("El apellido es requerido")
-    .matches(/^[A-Za-z]+$/, "El apellido sólo debe contener letras"),
-  email: yup
-    .string()
-    .email("Debe ser un correo válido")
-    .required("El correo es requerido"),
-  password: yup
-    .string()
-    .min(6, "La clave debe tener al menos 6 caracteres")
-    .required("La clave es requerida"),
-  role: yup.string().required("El rol es requerido"),
-});
+import { hideSnackbar } from "../../store/auth/authSlice";
+import { Link } from "react-router-dom";
+import { useCreateUser } from "./hooks/useCreateUser";
 
 export const Register = () => {
-  const useDispatch = () => _useDispatch<AppDispatch>();
-  const dispatch = useDispatch();
   const { snackbar } = useSelector((state) => state.auth);
+  const createUser = useCreateUser();
 
   const formData = {
     email: "",
@@ -66,35 +40,22 @@ export const Register = () => {
     formState: { email, password, name, lastName, role },
     onInputChange,
   } = useForm(formData);
-  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
-    try {
-      await formSchema.validate(
-        { email, password, name, lastName, role },
-        { abortEarly: false }
-      );
-      const response = await dispatch(
-        startCreatingUser({ email, password, name, lastName, role })
-      );
-      console.log(response);
-      if (response.wasSuccessful) {
-        setErrors({});
-        setTimeout(() => {
-          navigate("/auth/login");
-        }, 4000);
-      }
-    } catch (error) {
-      console.log(error);
-      setErrors(
-        error.inner.reduce(
-          (acc, curr) => ({ ...acc, [curr.path]: curr.message }),
-          {}
-        )
-      );
+    const response = await createUser({
+      email,
+      password,
+      name,
+      lastName,
+      role,
+    });
+    if (response.wasSuccessful) {
+      setErrors({});
+    } else {
+      setErrors(response.errors);
     }
   };
 
