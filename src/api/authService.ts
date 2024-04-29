@@ -8,7 +8,7 @@ export const authService = {
     })
       .then((response) => response.data)
       .catch((error) => {
-        throw new Error(error.response.data.message);
+        return { ok: false, response: error.response.data.msg };
       });
   },
   register: (

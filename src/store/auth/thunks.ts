@@ -11,6 +11,33 @@ interface UserCredentials {
   role: string;
 }
 
+interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export const startLogin =
+  (loginCredentials: LoginCredentials): AppThunk =>
+  async (dispatch) => {
+    dispatch(checkingCredentials());
+
+    const { email, password } = loginCredentials;
+
+    try {
+      const userData = await authService.login(email, password);
+      if (userData.ok === false) {
+        dispatch(showSnackbar({ message: userData.response, type: "error" }));
+      } else {
+        dispatch(login(userData));
+      }
+      // return { wasSuccessful: true, messageType: "success" };
+    } catch (error) {
+      dispatch(logout(error.message));
+      dispatch(showSnackbar({ message: error.message, type: "error" }));
+      return { wasSuccessful: false, messageType: "error" };
+    }
+  };
+
 export const startCreatingUser =
   (userCredentials: UserCredentials): AppThunk =>
   async (dispatch) => {
