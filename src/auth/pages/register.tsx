@@ -99,6 +99,7 @@ export const Register = () => {
                 onChange={onInputChange}
                 helperText={errors.name}
                 error={!!errors.name}
+                style={{ marginBottom: "1%" }}
               />
               <StyledTextField
                 label="Apellido"
@@ -110,6 +111,7 @@ export const Register = () => {
                 onChange={onInputChange}
                 helperText={errors.lastName}
                 error={!!errors.lastName}
+                style={{ marginBottom: "1%" }}
               />
               <StyledTextField
                 label="Correo"
@@ -121,6 +123,7 @@ export const Register = () => {
                 onChange={onInputChange}
                 helperText={errors.email}
                 error={!!errors.email}
+                style={{ marginBottom: "1%" }}
               />
               <StyledTextField
                 label="Clave"
@@ -132,6 +135,7 @@ export const Register = () => {
                 onChange={onInputChange}
                 helperText={errors.password}
                 error={!!errors.password}
+                style={{ marginBottom: "1%" }}
               />
               <FormControl fullWidth>
                 <InputLabel id="role-label">Rol</InputLabel>
@@ -167,11 +171,16 @@ export const Register = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "flex-end",
+                textAlign: "right",
               }}
             >
               <Link
                 to="/auth/login"
-                style={{ color: "black", fontSize: "1.5em" }}
+                style={{
+                  color: "black",
+                  fontSize: "1.3em",
+                  whiteSpace: "nowrap",
+                }}
               >
                 ¿Ya tienes cuenta?
               </Link>
