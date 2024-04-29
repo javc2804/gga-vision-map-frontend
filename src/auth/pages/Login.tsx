@@ -9,7 +9,7 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import ErrorIcon from "@mui/icons-material/Error";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
+import { useNavigate } from "react-router-dom";
 import {
   StyledButton,
   ForgotText,
@@ -20,14 +20,18 @@ import {
 } from "./styles";
 
 export const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { snackbar } = useSelector((state) => state.auth);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(startLogin({ email, password }));
+    const result = await dispatch(startLogin({ email, password }));
+    if (result.wasSuccessful) {
+      navigate("/");
+    }
   };
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {

@@ -1,4 +1,10 @@
-import { checkingCredentials, login, logout, showSnackbar } from "./authSlice";
+import {
+  checkingCredentials,
+  login,
+  logout,
+  showSnackbar,
+  setToken,
+} from "./authSlice";
 import { AppDispatch } from "../store";
 import { authService } from "../../api/authService";
 import { AppThunk } from "../store/store";
@@ -27,10 +33,12 @@ export const startLogin =
       const userData = await authService.login(email, password);
       if (userData.ok === false) {
         dispatch(showSnackbar({ message: userData.response, type: "error" }));
+        return { wasSuccessful: false, messageType: "error" };
       } else {
+        dispatch(setToken(userData.token));
         dispatch(login(userData));
+        return { wasSuccessful: true, messageType: "success" };
       }
-      // return { wasSuccessful: true, messageType: "success" };
     } catch (error) {
       dispatch(logout(error.message));
       dispatch(showSnackbar({ message: error.message, type: "error" }));
