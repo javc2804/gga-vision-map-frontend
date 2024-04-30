@@ -23,7 +23,7 @@ interface LoginCredentials {
 }
 
 export const startLogin =
-  (loginCredentials: LoginCredentials): AppThunk =>
+  (loginCredentials: UserCredentials): AppThunk =>
   async (dispatch) => {
     dispatch(checkingCredentials());
 
@@ -31,12 +31,19 @@ export const startLogin =
 
     try {
       const userData = await authService.login(email, password);
+      console.log(userData);
+
       if (userData.ok === false) {
         dispatch(showSnackbar({ message: userData.response, type: "error" }));
         return { wasSuccessful: false, messageType: "error" };
       } else {
-        dispatch(setToken(userData.token));
-        dispatch(login(userData));
+        localStorage.setItem("token", userData.response.user.token);
+        localStorage.setItem("name", userData.response.user.name);
+        localStorage.setItem("lastName", userData.response.user.lastName);
+        localStorage.setItem("email", userData.response.user.email);
+        localStorage.setItem("status", userData.response.user.status);
+        dispatch(setToken(userData.response.user.token));
+        dispatch(login(userData.response.user));
         return { wasSuccessful: true, messageType: "success" };
       }
     } catch (error) {

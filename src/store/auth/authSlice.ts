@@ -14,26 +14,28 @@ interface AuthState {
   name: string | null;
   lastName: string | null;
   role: string | null;
+  estado: boolean | null;
   errorMessage: string | null;
   snackbar: SnackbarState;
-  token: string | null; // Agregamos el token al estado
+  token: string | null;
 }
 
 const initialState: AuthState = {
-  status: "checking",
+  status: "not-authenticated",
   uid: null,
   email: null,
   displayName: null,
   name: null,
   lastName: null,
   role: null,
+  estado: null,
   errorMessage: null,
   snackbar: {
     open: false,
     message: "",
     type: "success",
   },
-  token: null, // Inicializamos el token como null
+  token: null,
 };
 
 export const authSlice = createSlice({
@@ -48,6 +50,8 @@ export const authSlice = createSlice({
       state.name = payload.name;
       state.lastName = payload.lastName;
       state.role = payload.role;
+      state.token = payload.token;
+      state.estado = payload.estado;
       state.errorMessage = null;
     },
     logout: (state, { payload }) => {
@@ -56,7 +60,7 @@ export const authSlice = createSlice({
       state.email = null;
       state.displayName = null;
       state.errorMessage = payload;
-      state.token = null; // Limpiamos el token cuando el usuario cierra sesión
+      state.token = null;
     },
     checkingCredentials: (state) => {
       state.status = "checking";

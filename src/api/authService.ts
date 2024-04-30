@@ -6,7 +6,9 @@ export const authService = {
       email,
       password,
     })
-      .then((response) => response.data)
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
       .catch((error) => {
         return { ok: false, response: error.response.data.msg };
       });
