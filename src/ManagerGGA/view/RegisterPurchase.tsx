@@ -19,8 +19,12 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ListIcon from "@mui/icons-material/List";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+const handleSave = () => {
+  console.log("Guardar clicked");
+};
+
 const actions = [
-  { icon: <SaveIcon />, name: "Guardar" },
+  { icon: <SaveIcon />, name: "Guardar", onClick: handleSave },
   { icon: <CloudUploadIcon />, name: "Subir Excel" },
   { icon: <ListIcon />, name: "Listar registros" },
   { icon: <DeleteIcon />, name: "Limpiar campos" },
@@ -30,6 +34,8 @@ const RegisterPurchase = () => {
   const [paymentDate, setPaymentDate] = useState(new Date());
   const [orderDate, setOrderDate] = useState(new Date());
   const [open, setOpen] = useState(false);
+  const [repuestos, setRepuestos] = useState(""); // Add this line
+  const [formaDePago, setFormaDePago] = useState(""); // Add this line
 
   const handleClose = () => {
     setOpen(false);
@@ -58,7 +64,7 @@ const RegisterPurchase = () => {
         <TextField label="Registro proveedor" variant="outlined" />
         <FormControl variant="outlined" sx={{ minWidth: 200 }}>
           <InputLabel>Repuestos</InputLabel>
-          <Select label="Repuestos">
+          <Select label="Repuestos" value={repuestos}>
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
@@ -70,7 +76,7 @@ const RegisterPurchase = () => {
 
         <FormControl variant="outlined" sx={{ minWidth: 200 }}>
           <InputLabel>Forma de pago</InputLabel>
-          <Select label="Forma de pago">
+          <Select label="Forma de pago" value={formaDePago}>
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
