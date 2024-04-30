@@ -13,6 +13,7 @@ export const ManagerGGAPage = () => {
       </Typography> */}
       {/* NothungSelected*/}
       <RegisterPurchase />
+      <div></div>
     </ManagerGGALayout>
   );
 };
