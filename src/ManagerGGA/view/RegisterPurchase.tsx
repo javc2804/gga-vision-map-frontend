@@ -9,6 +9,8 @@ import {
   SpeedDial,
   SpeedDialAction,
 } from "@mui/material";
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { useState } from "react";
@@ -18,10 +20,10 @@ import ListIcon from "@mui/icons-material/List";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const actions = [
-  { icon: <SaveIcon />, name: "Save" },
-  { icon: <CloudUploadIcon />, name: "Upload" },
-  { icon: <ListIcon />, name: "List" },
-  { icon: <DeleteIcon />, name: "Delete" },
+  { icon: <SaveIcon />, name: "Guardar" },
+  { icon: <CloudUploadIcon />, name: "Subir Excel" },
+  { icon: <ListIcon />, name: "Listar registros" },
+  { icon: <DeleteIcon />, name: "Limpiar campos" },
 ];
 const RegisterPurchase = () => {
   const [deliveryDate, setDeliveryDate] = useState(new Date());
@@ -54,8 +56,29 @@ const RegisterPurchase = () => {
           variant="outlined"
         />
         <TextField label="Registro proveedor" variant="outlined" />
-        <TextField label="Repuestos" variant="outlined" />
-        <TextField label="Forma de pago" variant="outlined" />
+        <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+          <InputLabel>Repuestos</InputLabel>
+          <Select label="Repuestos">
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+          <InputLabel>Forma de pago</InputLabel>
+          <Select label="Forma de pago">
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </FormControl>
         <TextField label="Descripción" variant="outlined" />
         <TextField label="Cantidad" variant="outlined" />
         <TextField label="Precio unitario en bolívares" variant="outlined" />
@@ -130,6 +153,7 @@ const RegisterPurchase = () => {
             onOpen={handleOpen}
             open={open}
             direction="up"
+            FabProps={{ style: { backgroundColor: "#17dbeb", color: "#fff" } }} // Add this line
           >
             {actions.map((action) => (
               <SpeedDialAction
