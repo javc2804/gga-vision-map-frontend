@@ -26,15 +26,14 @@ export const startLogin =
   (loginCredentials: UserCredentials): AppThunk =>
   async (dispatch) => {
     dispatch(checkingCredentials());
-
     const { email, password } = loginCredentials;
 
     try {
       const userData = await authService.login(email, password);
-      console.log(userData);
 
       if (userData.ok === false) {
         dispatch(showSnackbar({ message: userData.response, type: "error" }));
+        dispatch(logout(userData.response));
         return { wasSuccessful: false, messageType: "error" };
       } else {
         localStorage.setItem("token", userData.response.user.token);
