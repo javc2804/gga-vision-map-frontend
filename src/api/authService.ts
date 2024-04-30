@@ -45,4 +45,16 @@ export const authService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  changePassword: (token: string, password: string) => {
+    return API_URL.post("auth/change-password", {
+      token,
+      password,
+    })
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
 };
