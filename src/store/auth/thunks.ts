@@ -79,3 +79,10 @@ export const startCreatingUser =
     );
     return { wasSuccessful: true, messageType: "success" };
   };
+
+export const startLogout = () => {
+  return async (dispatch) => {
+    localStorage.clear();
+    dispatch(logout());
+  };
+};
