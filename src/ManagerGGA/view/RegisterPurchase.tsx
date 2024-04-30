@@ -1,14 +1,37 @@
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { AddOutlined } from "@mui/icons-material";
-import { Box, IconButton, TextField } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  TextField,
+  Fab,
+  Stack,
+  SpeedDial,
+  SpeedDialAction,
+} from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { useState } from "react";
-
+const actions = [
+  { icon: <AddOutlined />, name: "Button 1" },
+  { icon: <AddOutlined />, name: "Button 2" },
+  { icon: <AddOutlined />, name: "Button 3" },
+  { icon: <AddOutlined />, name: "Button 4" },
+  { icon: <AddOutlined />, name: "Button 5" },
+];
 const RegisterPurchase = () => {
   const [deliveryDate, setDeliveryDate] = useState(new Date());
   const [paymentDate, setPaymentDate] = useState(new Date());
   const [orderDate, setOrderDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -73,7 +96,7 @@ const RegisterPurchase = () => {
         <TextField label="Número de nota de entrega" variant="outlined" />
         <TextField label="Estatus" variant="outlined" />
         <TextField label="Observación" variant="outlined" multiline rows={4} />
-        <IconButton
+        {/* <IconButton
           size="large"
           sx={{
             color: "white",
@@ -85,7 +108,35 @@ const RegisterPurchase = () => {
           }}
         >
           <AddOutlined sx={{ fontSize: 30 }} />
-        </IconButton>
+        </IconButton> */}
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            position: "fixed",
+            bottom: 16,
+            right: 16,
+          }}
+        >
+          <SpeedDial
+            ariaLabel="SpeedDial basic example"
+            sx={{ position: "absolute", bottom: 16, right: 16 }}
+            icon={<AddOutlined />}
+            onClose={handleClose}
+            onOpen={handleOpen}
+            open={open}
+            direction="up"
+          >
+            {actions.map((action) => (
+              <SpeedDialAction
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+                onClick={handleClose}
+              />
+            ))}
+          </SpeedDial>
+        </Stack>
       </Box>
     </LocalizationProvider>
   );
