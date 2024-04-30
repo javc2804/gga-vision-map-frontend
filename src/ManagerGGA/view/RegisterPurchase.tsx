@@ -12,12 +12,16 @@ import {
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { useState } from "react";
+import SaveIcon from "@mui/icons-material/Save";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import ListIcon from "@mui/icons-material/List";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 const actions = [
-  { icon: <AddOutlined />, name: "Button 1" },
-  { icon: <AddOutlined />, name: "Button 2" },
-  { icon: <AddOutlined />, name: "Button 3" },
-  { icon: <AddOutlined />, name: "Button 4" },
-  { icon: <AddOutlined />, name: "Button 5" },
+  { icon: <SaveIcon />, name: "Save" },
+  { icon: <CloudUploadIcon />, name: "Upload" },
+  { icon: <ListIcon />, name: "List" },
+  { icon: <DeleteIcon />, name: "Delete" },
 ];
 const RegisterPurchase = () => {
   const [deliveryDate, setDeliveryDate] = useState(new Date());
