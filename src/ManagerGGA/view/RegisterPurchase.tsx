@@ -22,12 +22,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 const handleSave = () => {
   console.log("Guardar clicked");
 };
+const handleClear = () => {
+  console.log("limpiar clicked");
+};
 
 const actions = [
   { icon: <SaveIcon />, name: "Guardar", onClick: handleSave },
   { icon: <CloudUploadIcon />, name: "Subir Excel" },
   { icon: <ListIcon />, name: "Listar registros" },
-  { icon: <DeleteIcon />, name: "Limpiar campos" },
+  { icon: <DeleteIcon />, name: "Limpiar campos", onClick: handleClear },
 ];
 const RegisterPurchase = () => {
   const [deliveryDate, setDeliveryDate] = useState(new Date());
@@ -166,7 +169,10 @@ const RegisterPurchase = () => {
                 key={action.name}
                 icon={action.icon}
                 tooltipTitle={action.name}
-                onClick={handleClose}
+                onClick={() => {
+                  handleClose();
+                  action.onClick && action.onClick();
+                }}
               />
             ))}
           </SpeedDial>
