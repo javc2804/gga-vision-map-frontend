@@ -34,4 +34,15 @@ export const authService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  forgot: (email: string) => {
+    return API_URL.post("auth/forgot-password", {
+      email,
+    })
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
 };
