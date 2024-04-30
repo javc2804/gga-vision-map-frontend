@@ -41,6 +41,10 @@ export const startLogin =
         localStorage.setItem("lastName", userData.response.user.lastName);
         localStorage.setItem("email", userData.response.user.email);
         localStorage.setItem("status", userData.response.user.status);
+        localStorage.setItem(
+          "menu",
+          JSON.stringify(userData.response.user.menu)
+        );
         dispatch(setToken(userData.response.user.token));
         dispatch(login(userData.response.user));
         return { wasSuccessful: true, messageType: "success" };

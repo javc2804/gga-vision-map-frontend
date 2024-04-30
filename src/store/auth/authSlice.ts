@@ -18,6 +18,7 @@ interface AuthState {
   errorMessage: string | null;
   snackbar: SnackbarState;
   token: string | null;
+  menu: string | null;
 }
 
 const initialState: AuthState = {
@@ -36,6 +37,7 @@ const initialState: AuthState = {
     type: "success",
   },
   token: null,
+  menu: null,
 };
 
 export const authSlice = createSlice({
@@ -52,6 +54,7 @@ export const authSlice = createSlice({
       state.role = payload.role;
       state.token = payload.token;
       state.estado = payload.estado;
+      state.menu = payload.menu;
       state.errorMessage = null;
     },
     logout: (state, { payload }) => {

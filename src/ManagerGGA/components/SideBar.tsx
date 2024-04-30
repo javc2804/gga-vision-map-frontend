@@ -14,6 +14,10 @@ import {
 } from "@mui/material";
 
 export const SideBar = ({ drawerWith = 240 }) => {
+  let menu = JSON.parse(localStorage.getItem("menu") || "[]");
+  if (!Array.isArray(menu)) {
+    menu = [menu];
+  }
   return (
     <Box
       component="nav"
@@ -33,18 +37,28 @@ export const SideBar = ({ drawerWith = 240 }) => {
           </Typography>
           <Divider />
           <List>
-            {["Enero", "Febrero", "Marzo", "Abril"].map((text) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <TurnedInNot />
-                  </ListItemIcon>
-                  <Grid container>
-                    <ListItemText primary={text} />
-                    <ListItemText secondary={"textoooooooooooo"} />
-                  </Grid>
-                </ListItemButton>
-              </ListItem>
+            {menu.map((item) => (
+              <div key={item.name}>
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <TurnedInNot />
+                    </ListItemIcon>
+                    <ListItemText primary={item.name} />
+                  </ListItemButton>
+                </ListItem>
+                {item.subMenu &&
+                  item.subMenu.map((subItem) => (
+                    <ListItem key={subItem} disablePadding>
+                      <ListItemButton>
+                        <ListItemIcon>
+                          <TurnedInNot />
+                        </ListItemIcon>
+                        <ListItemText primary={subItem} />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+              </div>
             ))}
           </List>
         </Toolbar>
