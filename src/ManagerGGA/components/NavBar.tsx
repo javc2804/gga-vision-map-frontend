@@ -10,7 +10,7 @@ import {
 import { useDispatch } from "react-redux";
 import { startLogout } from "../../store/auth";
 
-export const Navbar = ({ drawerWidth = 240 }) => {
+export const Navbar = ({ drawerWidth = 240, onMenuClick, open }) => {
   const dispatch = useDispatch();
   const logOut = () => {
     dispatch(startLogout());
@@ -25,12 +25,12 @@ export const Navbar = ({ drawerWidth = 240 }) => {
       position="fixed"
       sx={{
         backgroundColor: "#17dbeb",
-        width: { sm: `calc(100% - ${drawerWidth}px)` },
-        ml: { sm: `${drawerWidth}px` },
+        width: { sm: open ? `calc(100% - ${drawerWidth}px)` : "100%" }, // Cambia esto
+        ml: { sm: open ? `${drawerWidth}px` : "0px" },
       }}
     >
       <Toolbar>
-        <IconButton>
+        <IconButton onClick={onMenuClick}>
           <MenuOutlined />
         </IconButton>
         <Grid
@@ -46,7 +46,7 @@ export const Navbar = ({ drawerWidth = 240 }) => {
             <Typography noWrap component="div">
               {userName}
             </Typography>
-            <IconButton color="white" onClick={logOut}>
+            <IconButton color="inherit" onClick={logOut}>
               <LoginOutlined />
             </IconButton>
           </Box>

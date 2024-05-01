@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export const SideBar = ({ drawerWith = 240 }) => {
+export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
   let menu = JSON.parse(localStorage.getItem("menu") || "[]");
   if (!Array.isArray(menu)) {
     menu = [menu];
@@ -21,14 +21,15 @@ export const SideBar = ({ drawerWith = 240 }) => {
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWith }, flexShrink: { sm: 0 } }}
+      sx={{ width: { sm: open ? drawerWidth : 0 }, flexShrink: { sm: 0 } }} // Cambia esto
     >
       <Drawer
-        variant="permanent"
-        open={true}
+        variant={open ? "persistent" : "temporary"}
+        open={open}
+        onClose={onClose}
         sx={{
           display: { xs: "none", sm: "block" },
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWith },
+          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
         }}
       >
         <Toolbar>
