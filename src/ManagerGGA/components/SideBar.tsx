@@ -85,7 +85,9 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
             }}
           />
           <Typography variant="h6" noWrap>
-            Adminitración
+            {localStorage.getItem("role") === "admin"
+              ? "Administración"
+              : "Almacén"}
           </Typography>
         </Toolbar>
         <Divider />

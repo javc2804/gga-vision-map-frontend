@@ -41,6 +41,7 @@ export const startLogin =
         localStorage.setItem("lastName", userData.response.user.lastName);
         localStorage.setItem("email", userData.response.user.email);
         localStorage.setItem("status", userData.response.user.status);
+        localStorage.setItem("role", userData.response.user.role);
         localStorage.setItem(
           "menu",
           JSON.stringify(userData.response.user.menu)
