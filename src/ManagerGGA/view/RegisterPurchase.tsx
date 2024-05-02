@@ -1,8 +1,5 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { startGetPurchase } from "../../store/purchase/purchaseThunks";
-import { selectPurchase } from "../../store/purchase/purchaseSlice";
-
+import { usePurchase } from "../hooks/usePurchase";
+import React, { useEffect } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { AddOutlined } from "@mui/icons-material";
 import {
@@ -19,37 +16,40 @@ import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ListIcon from "@mui/icons-material/List";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-const handleSave = () => {
-  console.log("Guardar clicked");
-};
-const handleClear = () => {
-  console.log("limpiar clicked");
-};
-
-const actions = [
-  { icon: <SaveIcon />, name: "Guardar", onClick: handleSave },
-  { icon: <CloudUploadIcon />, name: "Subir Excel" },
-  { icon: <ListIcon />, name: "Listar registros" },
-  { icon: <DeleteIcon />, name: "Limpiar campos", onClick: handleClear },
-];
+import { useDispatch } from "react-redux";
+import { startGetPurchase } from "../../store/purchase/purchaseThunks";
 const RegisterPurchase = () => {
-  const [deliveryDate, setDeliveryDate] = useState(new Date());
-  const [paymentDate, setPaymentDate] = useState(new Date());
-  const [orderDate, setOrderDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
-  const [repuestos, setRepuestos] = useState(""); // Add this line
-  const [formaDePago, setFormaDePago] = useState(""); // Add this line
-  const [ut, setUt] = useState("");
+  const {
+    deliveryDate,
+    setDeliveryDate,
+    paymentDate,
+    setPaymentDate,
+    orderDate,
+    setOrderDate,
+    repuestos,
+    setRepuestos,
+    formaDePago,
+    setFormaDePago,
+    ut,
+    setUt,
+    purchase,
+    handleSave,
+    handleClear,
+  } = usePurchase();
 
   const dispatch = useDispatch();
-  const purchase = useSelector(selectPurchase);
+  const [open, setOpen] = React.useState(false);
 
+  const actions = [
+    { icon: <SaveIcon />, name: "Guardar", onClick: handleSave },
+    { icon: <CloudUploadIcon />, name: "Subir Excel" },
+    { icon: <ListIcon />, name: "Listar registros" },
+    { icon: <DeleteIcon />, name: "Limpiar campos", onClick: handleClear },
+  ];
   function capitalizeFirstLetter(string) {
     if (!string) {
       return "";
@@ -188,19 +188,7 @@ const RegisterPurchase = () => {
         <TextField label="Número de nota de entrega" variant="outlined" />
         <TextField label="Estatus" variant="outlined" />
         <TextField label="Observación" variant="outlined" multiline rows={4} />
-        {/* <IconButton
-          size="large"
-          sx={{
-            color: "white",
-            backgroundColor: "#17dbeb",
-            ":hover": { backgroundColor: "#17dbeb", opacity: 0.9 },
-            position: "fixed",
-            right: 50,
-            bottom: 50,
-          }}
-        >
-          <AddOutlined sx={{ fontSize: 30 }} />
-        </IconButton> */}
+        <AddOutlined sx={{ fontSize: 30 }} />
         <Stack
           direction="row"
           spacing={2}
@@ -217,8 +205,6 @@ const RegisterPurchase = () => {
             onClose={handleClose}
             onOpen={handleOpen}
             open={open}
-            direction="up"
-            FabProps={{ style: { backgroundColor: "#17dbeb", color: "#fff" } }} // Add this line
           >
             {actions.map((action) => (
               <SpeedDialAction
