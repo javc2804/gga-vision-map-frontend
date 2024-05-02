@@ -56,7 +56,6 @@ const RegisterPurchase = () => {
     }
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-  console.log(purchase?.response);
 
   const sparePartsItems = purchase?.response?.spareParts.map(
     (sparePart, index) => (
