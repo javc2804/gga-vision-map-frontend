@@ -13,6 +13,7 @@ import {
   Stack,
   SpeedDial,
   SpeedDialAction,
+  Autocomplete,
 } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
@@ -44,6 +45,7 @@ const RegisterPurchase = () => {
   const [open, setOpen] = useState(false);
   const [repuestos, setRepuestos] = useState(""); // Add this line
   const [formaDePago, setFormaDePago] = useState(""); // Add this line
+  const [ut, setUt] = useState("");
 
   const dispatch = useDispatch();
   const purchase = useSelector(selectPurchase);
@@ -54,7 +56,7 @@ const RegisterPurchase = () => {
     }
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-  console.log(purchase?.response?.paymentTypes);
+  console.log(purchase?.response);
 
   const sparePartsItems = purchase?.response?.spareParts.map(
     (sparePart, index) => (
@@ -71,6 +73,13 @@ const RegisterPurchase = () => {
       </MenuItem>
     )
   );
+
+  const fleetItems = purchase?.response?.fleets
+    ? purchase.response.fleets.map((fleet, index) => ({
+        title: fleet.ut,
+        key: `${fleet.ut}-${index}`,
+      }))
+    : [];
 
   useEffect(() => {
     if (!purchase) {
@@ -97,7 +106,14 @@ const RegisterPurchase = () => {
         autoComplete="off"
       >
         <TextField label="Número de registro" variant="outlined" />
-        <TextField label="IDUT" variant="outlined" />
+        <Autocomplete
+          options={fleetItems}
+          getOptionLabel={(option) => option.title}
+          renderInput={(params) => (
+            <TextField {...params} label="UT" variant="outlined" />
+          )}
+          onChange={(event, newValue) => setUt(newValue)}
+        />
         <TextField
           label="Número de factura o nota de entrega"
           variant="outlined"
