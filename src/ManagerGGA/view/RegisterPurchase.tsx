@@ -1,18 +1,22 @@
-import { usePurchase } from "../hooks/usePurchase";
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { usePurchase } from "../hooks/usePurchase";
+
+/*MUI*/
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { AddOutlined } from "@mui/icons-material";
 import {
   Box,
-  IconButton,
   TextField,
-  Fab,
   Stack,
   SpeedDial,
   SpeedDialAction,
   Autocomplete,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
-import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -20,7 +24,9 @@ import SaveIcon from "@mui/icons-material/Save";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ListIcon from "@mui/icons-material/List";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch } from "react-redux";
+
+/*FIN MUI*/
+
 import { startGetPurchase } from "../../store/purchase/purchaseThunks";
 const RegisterPurchase = () => {
   const {
@@ -80,12 +86,6 @@ const RegisterPurchase = () => {
       }))
     : [];
 
-  useEffect(() => {
-    if (!purchase) {
-      dispatch(startGetPurchase());
-    }
-  }, [dispatch, purchase]);
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -93,6 +93,12 @@ const RegisterPurchase = () => {
   const handleOpen = () => {
     setOpen(true);
   };
+
+  useEffect(() => {
+    if (!purchase) {
+      dispatch(startGetPurchase());
+    }
+  }, [dispatch, purchase]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
