@@ -47,11 +47,23 @@ const RegisterPurchase = () => {
 
   const dispatch = useDispatch();
   const purchase = useSelector(selectPurchase);
-  console.log(purchase);
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  const sparePartsItems = purchase?.response?.spareParts.map(
+    (sparePart, index) => (
+      <MenuItem key={index} value={sparePart.type}>
+        {capitalizeFirstLetter(sparePart.type)}
+      </MenuItem>
+    )
+  );
 
   useEffect(() => {
-    dispatch(startGetPurchase());
-  }, [dispatch]);
+    if (!purchase) {
+      dispatch(startGetPurchase());
+    }
+  }, [dispatch, purchase]);
 
   const handleClose = () => {
     setOpen(false);
@@ -80,16 +92,17 @@ const RegisterPurchase = () => {
         <TextField label="Registro proveedor" variant="outlined" />
         <FormControl variant="outlined" sx={{ minWidth: 200 }}>
           <InputLabel>Repuestos</InputLabel>
-          <Select label="Repuestos" value={repuestos}>
+          <Select
+            label="Repuestos"
+            value={repuestos}
+            onChange={(event) => setRepuestos(event.target.value)}
+          >
             <MenuItem value="">
-              <em>None</em>
+              <em>Seleccione un repuesto</em>{" "}
             </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            {sparePartsItems}
           </Select>
         </FormControl>
-
         <FormControl variant="outlined" sx={{ minWidth: 200 }}>
           <InputLabel>Forma de pago</InputLabel>
           <Select label="Forma de pago" value={formaDePago}>
