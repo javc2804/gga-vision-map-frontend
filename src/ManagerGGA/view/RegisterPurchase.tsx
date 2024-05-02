@@ -47,14 +47,27 @@ const RegisterPurchase = () => {
 
   const dispatch = useDispatch();
   const purchase = useSelector(selectPurchase);
+
   function capitalizeFirstLetter(string) {
+    if (!string) {
+      return "";
+    }
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+  console.log(purchase?.response?.paymentTypes);
 
   const sparePartsItems = purchase?.response?.spareParts.map(
     (sparePart, index) => (
       <MenuItem key={index} value={sparePart.type}>
         {capitalizeFirstLetter(sparePart.type)}
+      </MenuItem>
+    )
+  );
+
+  const paymentTypesItems = purchase?.response?.paymentTypes.map(
+    (paymentType, index) => (
+      <MenuItem key={index} value={paymentType.types}>
+        {capitalizeFirstLetter(paymentType.types)}
       </MenuItem>
     )
   );
@@ -105,13 +118,15 @@ const RegisterPurchase = () => {
         </FormControl>
         <FormControl variant="outlined" sx={{ minWidth: 200 }}>
           <InputLabel>Forma de pago</InputLabel>
-          <Select label="Forma de pago" value={formaDePago}>
+          <Select
+            label="Forma de pago"
+            value={formaDePago}
+            onChange={(event) => setFormaDePago(event.target.value)}
+          >
             <MenuItem value="">
-              <em>None</em>
+              <em>Seleccione una forma de pago</em>
             </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            {paymentTypesItems}
           </Select>
         </FormControl>
         <TextField label="Descripción" variant="outlined" />
