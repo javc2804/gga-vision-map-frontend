@@ -1,3 +1,8 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { startGetPurchase } from "../../store/purchase/purchaseThunks";
+import { selectPurchase } from "../../store/purchase/purchaseSlice";
+
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { AddOutlined } from "@mui/icons-material";
 import {
@@ -39,6 +44,14 @@ const RegisterPurchase = () => {
   const [open, setOpen] = useState(false);
   const [repuestos, setRepuestos] = useState(""); // Add this line
   const [formaDePago, setFormaDePago] = useState(""); // Add this line
+
+  const dispatch = useDispatch();
+  const purchase = useSelector(selectPurchase);
+  console.log(purchase);
+
+  useEffect(() => {
+    dispatch(startGetPurchase());
+  }, [dispatch]);
 
   const handleClose = () => {
     setOpen(false);
