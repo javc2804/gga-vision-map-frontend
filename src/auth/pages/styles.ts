@@ -46,3 +46,7 @@ export const StyledTextField = styled(TextField)({
   marginBottom: "16px",
   width: "100%",
 });
+
+export const StyledBox = styled(TextField)({
+  marginTop: "40px",
+});

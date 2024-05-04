@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import AuthLayout from "../layout/AuthLayout";
@@ -8,6 +8,7 @@ import {
   GridContainer,
   InputContainer,
   StyledTextField,
+  StyledBox,
 } from "./styles";
 import {
   Snackbar,
@@ -17,7 +18,9 @@ import {
   Select,
   FormHelperText,
   MenuItem,
+  Box,
 } from "@mui/material";
+
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import { hideSnackbar } from "../../store/auth/authSlice";
@@ -42,6 +45,7 @@ export const Register = () => {
   const dispatch = useDispatch();
   const { snackbar } = useSelector((state: RootState) => state.auth);
   const createUser = useCreateUser();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const formData = {
     email: "",
@@ -83,110 +87,125 @@ export const Register = () => {
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Limpiar el listener cuando el componente se desmonte
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       <AuthLayout title={"Registrar usuario"}>
-        <form onSubmit={onSubmit}>
-          <GridContainer container>
-            <InputContainer item xs={12}>
-              <StyledTextField
-                label="Nombre"
-                type="text"
-                placeholder="Nombre"
-                fullWidth
-                name="name"
-                value={name}
-                onChange={onInputChange}
-                helperText={errors.name}
-                error={!!errors.name}
-                style={{ marginBottom: "1%" }}
-              />
-              <StyledTextField
-                label="Apellido"
-                type="text"
-                placeholder="Apellido"
-                fullWidth
-                name="lastName"
-                value={lastName}
-                onChange={onInputChange}
-                helperText={errors.lastName}
-                error={!!errors.lastName}
-                style={{ marginBottom: "1%" }}
-              />
-              <StyledTextField
-                label="Correo"
-                type="email"
-                placeholder="correo@correo.com"
-                fullWidth
-                name="email"
-                value={email}
-                onChange={onInputChange}
-                helperText={errors.email}
-                error={!!errors.email}
-                style={{ marginBottom: "1%" }}
-              />
-              <StyledTextField
-                label="Clave"
-                type="password"
-                placeholder="Clave"
-                fullWidth
-                name="password"
-                value={password}
-                onChange={onInputChange}
-                helperText={errors.password}
-                error={!!errors.password}
-                style={{ marginBottom: "1%" }}
-              />
-              <FormControl fullWidth>
-                <InputLabel id="role-label">Rol</InputLabel>
-                <Select
-                  labelId="role-label"
-                  id="role"
-                  value={role}
-                  label="Rol"
+        <Box style={windowWidth <= 600 ? { marginTop: "-50px" } : {}}>
+          <form onSubmit={onSubmit}>
+            <GridContainer container>
+              <InputContainer item xs={12}>
+                <StyledTextField
+                  label="Nombre"
+                  type="text"
+                  placeholder="Nombre"
+                  fullWidth
+                  name="name"
+                  value={name}
                   onChange={onInputChange}
-                  name="role"
-                  error={!!errors.role}
-                >
-                  <MenuItem value={"admin"}>Administrador</MenuItem>
-                  <MenuItem value={"store"}>Almacén</MenuItem>
-                </Select>
-                {!!errors.role && (
-                  <FormHelperText error>{errors.role}</FormHelperText>
-                )}
-              </FormControl>
-            </InputContainer>
-          </GridContainer>
-          <GridContainer container>
-            <GridItem item xs={12} sm={6}>
-              <StyledButton type="submit" variant="contained" fullWidth>
-                Registrar
-              </StyledButton>
-            </GridItem>
-            <GridItem
-              item
-              xs={12}
-              sm={6}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                textAlign: "right",
-              }}
-            >
-              <Link
-                to="/auth/login"
+                  helperText={errors.name}
+                  error={!!errors.name}
+                  style={{ marginBottom: "1%" }}
+                />
+                <StyledTextField
+                  label="Apellido"
+                  type="text"
+                  placeholder="Apellido"
+                  fullWidth
+                  name="lastName"
+                  value={lastName}
+                  onChange={onInputChange}
+                  helperText={errors.lastName}
+                  error={!!errors.lastName}
+                  style={{ marginBottom: "1%" }}
+                />
+                <StyledTextField
+                  label="Correo"
+                  type="email"
+                  placeholder="correo@correo.com"
+                  fullWidth
+                  name="email"
+                  value={email}
+                  onChange={onInputChange}
+                  helperText={errors.email}
+                  error={!!errors.email}
+                  style={{ marginBottom: "1%" }}
+                />
+                <StyledTextField
+                  label="Clave"
+                  type="password"
+                  placeholder="Clave"
+                  fullWidth
+                  name="password"
+                  value={password}
+                  onChange={onInputChange}
+                  helperText={errors.password}
+                  error={!!errors.password}
+                  style={{ marginBottom: "1%" }}
+                />
+                <FormControl fullWidth>
+                  <InputLabel id="role-label">Rol</InputLabel>
+                  <Select
+                    labelId="role-label"
+                    id="role"
+                    value={role}
+                    label="Rol"
+                    onChange={onInputChange}
+                    name="role"
+                    error={!!errors.role}
+                  >
+                    <MenuItem value={"admin"}>Administrador</MenuItem>
+                    <MenuItem value={"store"}>Almacén</MenuItem>
+                  </Select>
+                  {!!errors.role && (
+                    <FormHelperText error>{errors.role}</FormHelperText>
+                  )}
+                </FormControl>
+              </InputContainer>
+            </GridContainer>
+            <GridContainer container>
+              <GridItem item xs={12} sm={6}>
+                <StyledButton type="submit" variant="contained" fullWidth>
+                  Registrar
+                </StyledButton>
+              </GridItem>
+              <GridItem
+                item
+                xs={12}
+                sm={6}
                 style={{
-                  color: "black",
-                  fontSize: "1.3em",
-                  whiteSpace: "nowrap",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                  textAlign: "right",
                 }}
               >
-                ¿Ya tienes cuenta?
-              </Link>
-            </GridItem>
-          </GridContainer>
-        </form>
+                <Link
+                  to="/auth/login"
+                  style={{
+                    color: "black",
+                    fontSize: "1.3em",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  ¿Ya tienes cuenta?
+                </Link>
+              </GridItem>
+            </GridContainer>
+          </form>
+        </Box>
       </AuthLayout>
       <Snackbar
         open={snackbar.open}

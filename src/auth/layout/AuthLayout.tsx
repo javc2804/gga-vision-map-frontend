@@ -22,7 +22,7 @@ const AuthLayout = ({ children, title }) => {
       <Grid item className="box-shadow" xs={3}>
         <Typography
           variant="h4"
-          sx={{ mb: 1, textAlign: "center", fontWeight: 600 }}
+          sx={{ mb: 4, textAlign: "center", fontWeight: 600 }}
         >
           {title}
         </Typography>

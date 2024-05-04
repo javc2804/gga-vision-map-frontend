@@ -19,6 +19,8 @@ import {
   StyledTextField,
 } from "./styles";
 
+import { NavLink } from "react-router-dom";
+
 export const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -41,6 +43,19 @@ export const Login = () => {
     dispatch(hideSnackbar());
   };
 
+  const ForgotText = ({ to, children }) => (
+    <NavLink
+      to={to}
+      style={{
+        textDecoration: "none",
+        color: "inherit",
+        fontSize: "21px",
+        fontWeight: 600,
+      }}
+    >
+      {children}
+    </NavLink>
+  );
   return (
     <>
       <AuthLayout title={"Iniciar Sesión"}>
@@ -67,7 +82,7 @@ export const Login = () => {
             </InputContainer>
             <GridItem item xs={12}>
               <GridContainer container justifyContent="flex-end">
-                <ForgotText href="#">¿Olvidaste la clave?</ForgotText>
+                <ForgotText to="/auth/forgot">¿Olvidaste la clave?</ForgotText>
               </GridContainer>
             </GridItem>
             <GridContainer container spacing={2}>

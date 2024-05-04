@@ -1,3 +1,4 @@
+import { useState } from "react";
 import React from "react";
 import {
   Button,
@@ -10,12 +11,12 @@ import {
   Alert as MuiAlert,
   AlertProps as MuiAlertProps,
 } from "@mui/material";
-import { useState } from "react";
-import logo from "../../assets/logo.png";
 import { authService } from "../../api/authService";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { styled } from "@mui/system";
+import logo from "../../assets/logo.png";
+import { Link } from "react-router-dom";
 
 const WhiteErrorOutlineIcon = styled(ErrorOutlineIcon)({
   color: "white",
@@ -112,6 +113,16 @@ const ForgotPassword = () => {
               sx={{ mt: 3, mb: 2, bgcolor: "#f5447a" }}
             >
               Restablecer contraseña
+            </Button>
+            <Button
+              component={Link}
+              to="/auth/login" // reemplaza esto con la ruta a la que quieres navegar
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2, bgcolor: "#f5447a" }}
+            >
+              Volver
             </Button>
           </Box>
         </Container>
