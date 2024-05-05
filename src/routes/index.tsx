@@ -34,11 +34,13 @@ export const RoutesComponent: React.FC = () => {
     <Router>
       <Routes>
         {status === "authenticated" ? (
-          <Route path="/*" element={<ManagerRoutes />} />
+          <>
+            <Route path="/*" element={<ManagerRoutes />} />
+            <Route path="/*" element={<Navigate to={"/auth/login"} />} />
+          </>
         ) : (
           <Route path="/auth/*" element={<AuthRoutes />} />
         )}
-        <Route path="/*" element={<Navigate to={"/auth/login"} />} />
       </Routes>
     </Router>
   );

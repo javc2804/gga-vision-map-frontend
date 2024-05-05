@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import {
   ExpandLess,
   ExpandMore,
@@ -26,6 +28,7 @@ import {
 } from "@mui/material";
 import Logo from "../../assets/logo.png";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
   let menu = JSON.parse(localStorage.getItem("menu") || "[]");
@@ -33,10 +36,12 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
     menu = [menu];
   }
 
+  const navigate = useNavigate();
   const [openSubMenu, setOpenSubMenu] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleClick = (name) => {
+  const handleClick = (name, route) => {
+    console.log(name, route);
     setOpenSubMenu((prevOpenSubMenu) => ({
       ...prevOpenSubMenu,
       [name]: !prevOpenSubMenu[name],
@@ -44,6 +49,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
     setSelectedItem((prevSelectedItem) =>
       prevSelectedItem === name ? null : name
     );
+    navigate(route);
   };
 
   const iconMap = {
@@ -74,16 +80,18 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
         }}
       >
         <Toolbar sx={{ justifyContent: "center", flexDirection: "column" }}>
-          <img
-            src={Logo}
-            alt="Logo"
-            style={{
-              width: "200px",
-              height: "auto",
-              marginBottom: "10px",
-              marginTop: "20px",
-            }}
-          />
+          <Link to="/">
+            <img
+              src={Logo}
+              alt="Logo"
+              style={{
+                width: "200px",
+                height: "auto",
+                marginBottom: "10px",
+                marginTop: "20px",
+              }}
+            />
+          </Link>
           <Typography variant="h6" noWrap>
             {localStorage.getItem("role") === "admin"
               ? "Administración"
@@ -95,7 +103,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
           {menu.map((item) => (
             <div key={item.name}>
               <ListItemButton
-                onClick={() => handleClick(item.name)}
+                onClick={() => handleClick(item.name, item.route)}
                 selected={selectedItem === item.name}
                 style={{
                   backgroundColor:
@@ -123,7 +131,9 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
                     item.subMenu.map((subItem) => (
                       <ListItem key={subItem.name} disablePadding>
                         <ListItemButton
-                          onClick={() => setSelectedItem(subItem.name)}
+                          onClick={() =>
+                            handleClick(subItem.name, subItem.route)
+                          }
                           selected={selectedItem === subItem.name}
                           style={{
                             backgroundColor:
