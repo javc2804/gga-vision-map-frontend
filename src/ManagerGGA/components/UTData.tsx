@@ -12,22 +12,10 @@ const UTData = ({
   ut,
   style,
 }) => {
-  useEffect(() => {
-    console.log(
-      note_number,
-      delivered_by,
-      quantity,
-      observation,
-      spare_part,
-      spare_part_variant,
-      provider,
-      ut
-    );
-  }, []); // Pasar un array vacío como segundo argumento asegura que el efecto se ejecute sólo una vez
-
   return (
     <Paper elevation={3} style={style}>
-      <Grid container spacing={2}>
+      <Box>Numero de registro: 1</Box>
+      <Grid container spacing={5}>
         <Grid item xs={4}>
           <Box mt={2} mb={2}>
             <TextField

@@ -18,3 +18,19 @@ export const startGetPurchase =
       dispatch(getPurchaseFailure(error.message));
     }
   };
+
+export const startSavePurchase =
+  (purchaseData: any): AppThunk =>
+  async (dispatch: AppDispatch) => {
+    dispatch(getPurchaseStart());
+    try {
+      const result = await purchaseService.savePurchase(purchaseData);
+      if (result.ok) {
+        dispatch(getPurchaseSuccess(result.response));
+      } else {
+        throw new Error(result.response);
+      }
+    } catch (error) {
+      dispatch(getPurchaseFailure(error.message));
+    }
+  };

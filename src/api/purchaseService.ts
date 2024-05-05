@@ -10,4 +10,17 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+
+  savePurchase: (purchaseData: any) => {
+    console.log(purchaseData.invoices);
+    return API_URL.post("transaction", purchaseData.invoices)
+      .then((response) => {
+        console.log(response);
+
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
 };
