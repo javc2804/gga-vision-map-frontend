@@ -19,7 +19,21 @@ const RegisterPurchase = () => {
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [costData, setCostData] = useState(
-    invoice.invoices.map(() => ({ priceBS: "", priceUSD: "" }))
+    invoice.invoices.map(() => ({
+      precioUnitarioDivisas: "",
+      montoTotalPagoBolivares: "",
+      montoTotalDivisasDeuda: "",
+      precioUnitarioDivisasS: "",
+      montoTotalPagoDivisas: "",
+      fechaEntrega: "",
+      fechaPago: "",
+      ordenPagoNumero: "",
+      ordenCompraServicio: "",
+      ordenCompraServicioFecha: "",
+      notaEntregaNumero: "",
+      estatus: "",
+      observacion: "",
+    }))
   );
 
   const handleCostDataChange = (index, newCostData) => {
@@ -29,13 +43,12 @@ const RegisterPurchase = () => {
   const handleSave = () => {
     const updatedInvoices = invoice.invoices.map((inv, index) => ({
       ...inv,
-      priceBS: costData[index].priceBS,
-      priceUSD: costData[index].priceUSD,
+      ...costData[index],
     }));
 
     const updatedInvoice = { ...invoice, invoices: updatedInvoices };
 
-    console.log(JSON.stringify({ invoice: updatedInvoice }, null, 2));
+    console.log(JSON.stringify({ invoice: updatedInvoice.invoices }, null, 2));
   };
 
   return (
