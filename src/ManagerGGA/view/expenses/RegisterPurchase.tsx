@@ -1,5 +1,17 @@
+import InputForm from "../../components/UTInputForm";
+
 export const RegisterPurchase = () => {
-  return <div>RegisterPurchase</div>;
+  const initialValues = {
+    ut: "",
+    marca: "",
+    modelo: "",
+    eje: "",
+    subeje: "",
+  };
+
+  const isDisabled = Object.values(initialValues).some((value) => value !== "");
+
+  return <InputForm initialValues={initialValues} disabled={isDisabled} />;
 };
 
 export default RegisterPurchase;
