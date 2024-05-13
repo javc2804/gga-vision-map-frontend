@@ -9,11 +9,15 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { startLogout } from "../../store/auth";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = ({ drawerWidth = 240, onMenuClick, open }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const logOut = () => {
     dispatch(startLogout());
+    navigate("/auth/login");
   };
 
   const userName =

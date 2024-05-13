@@ -36,10 +36,12 @@ export const RoutesComponent: React.FC = () => {
         {status === "authenticated" ? (
           <>
             <Route path="/*" element={<ManagerRoutes />} />
-            <Route path="/*" element={<Navigate to={"/auth/login"} />} />
           </>
         ) : (
-          <Route path="/auth/*" element={<AuthRoutes />} />
+          <>
+            <Route path="/auth/*" element={<AuthRoutes />} />
+            <Route path="/*" element={<Navigate to="/auth/login" replace />} />
+          </>
         )}
       </Routes>
     </Router>

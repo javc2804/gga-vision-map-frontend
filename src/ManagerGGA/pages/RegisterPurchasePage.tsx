@@ -1,12 +1,5 @@
-import ManagerGGALayout from "../layout/ManagerGGALayout";
-import RegisterPurchase from "../view/expenses/RegisterPurchase";
-
-export const RegisterPurchasePage = () => {
-  return (
-    <ManagerGGALayout>
-      <RegisterPurchase />
-    </ManagerGGALayout>
-  );
+const RegisterPurchasePage = () => {
+  return <div>RegisterPurchasePage</div>;
 };
 
 export default RegisterPurchasePage;

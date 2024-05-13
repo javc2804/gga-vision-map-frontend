@@ -1,13 +1,14 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ManagerGGAPage } from "../pages/ManagerGGAPage";
-import RegisterPurchasePage from "../pages/RegisterPurchasePage";
 import ListPurchasePage from "../pages/ListPurchasePage";
+import RegisterOutPage from "../pages/RegisterOutPage";
 
 const ManagerRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<ManagerGGAPage />} />
-      <Route path="/register-purchase" element={<RegisterPurchasePage />} />
+      <Route path="/register-out" element={<RegisterOutPage />} />
+      {/* <Route path="/register-purchase" element={<DetailPurchasePage />} /> */}
       <Route path="/list-purchases" element={<ListPurchasePage />} />
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>

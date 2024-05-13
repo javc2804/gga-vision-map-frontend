@@ -1,1 +1,2 @@
-export * from "./expenses/RegisterPurchase";
+export * from "./NotesAdmin";
+export * from "./expenses/index";

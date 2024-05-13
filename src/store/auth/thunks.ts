@@ -5,7 +5,6 @@ import {
   showSnackbar,
   setToken,
 } from "./authSlice";
-import { AppDispatch } from "../store";
 import { authService } from "../../api/authService";
 import { AppThunk } from "../store/store";
 
@@ -86,7 +85,7 @@ export const startCreatingUser =
   };
 
 export const startLogout = () => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     localStorage.clear();
     dispatch(logout());
   };

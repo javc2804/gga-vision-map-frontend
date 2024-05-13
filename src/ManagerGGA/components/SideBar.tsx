@@ -12,6 +12,7 @@ import {
   People,
   PersonAdd,
   PeopleOutline,
+  ListAlt,
 } from "@mui/icons-material";
 import {
   Box,
@@ -56,13 +57,13 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
     Money: <MoneyOffCsred />,
     AddBox: <AddBox />,
     List: <ListIcon />,
+    ListAlt: <ListAlt />,
     Store: <Store />,
     Note: <Note />,
     Inventory: <Inventory />,
     People: <People />,
     PersonAdd: <PersonAdd />,
     PeopleOutline: <PeopleOutline />,
-    // Add more icons as needed
   };
 
   return (
