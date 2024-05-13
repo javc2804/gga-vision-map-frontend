@@ -35,7 +35,9 @@ export const RegisterPurchase = () => {
     (value) => value !== ""
   );
 
-  const [purchaseForms, setPurchaseForms] = useState([{}]);
+  const [purchaseForms, setPurchaseForms] = useState([
+    { ut: "", marca: "", modelo: "", eje: "", subeje: "" },
+  ]);
 
   return (
     <>
@@ -52,7 +54,7 @@ export const RegisterPurchase = () => {
           initialValues={initialValues}
           onChange={(newFormValues) => {
             const newPurchaseForms = [...purchaseForms];
-            newPurchaseForms[index] = newFormValues;
+            newPurchaseForms[index] = { ...initialValues, ...newFormValues };
             setPurchaseForms(newPurchaseForms);
           }}
         />
