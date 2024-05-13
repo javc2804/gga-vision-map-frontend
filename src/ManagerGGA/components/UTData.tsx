@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { TextField, Box, Grid, Paper } from "@mui/material";
 
 const UTData = ({

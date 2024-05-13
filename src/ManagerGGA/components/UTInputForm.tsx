@@ -1,16 +1,34 @@
-import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import Autocomplete from "@mui/material/Autocomplete";
+import { useEffect, useState } from "react";
 
-export const InputForm = ({ initialValues, disabled }) => {
-  const [values, setValues] = useState(initialValues);
+export const InputForm = ({ initialValues, disabled, onChange }) => {
+  const [values, setValues] = useState({
+    ...initialValues,
+    ut: initialValues.ut ? initialValues.ut : null,
+  });
 
+  useEffect(() => {
+    if (typeof onChange === "function") {
+      onChange(values);
+    }
+  }, [values, onChange]);
   const handleChange = (event) => {
     setValues({
       ...values,
       [event.target.id]: event.target.value,
     });
   };
+
+  const handleAutoCompleteChange = (field) => (event, newValue) => {
+    setValues({
+      ...values,
+      [field]: newValue,
+    });
+  };
+
+  const utOptions = ["001", "002"];
 
   return (
     <Box
@@ -21,13 +39,19 @@ export const InputForm = ({ initialValues, disabled }) => {
       noValidate
       autoComplete="off"
     >
-      <TextField
+      <Autocomplete
         id="ut"
-        label="UT"
-        variant="outlined"
+        options={utOptions}
         value={values.ut}
-        onChange={handleChange}
-        disabled={disabled}
+        onChange={handleAutoCompleteChange("ut")}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="UT"
+            variant="outlined"
+            disabled={disabled}
+          />
+        )}
       />
       <TextField
         id="marca"
@@ -35,7 +59,7 @@ export const InputForm = ({ initialValues, disabled }) => {
         variant="outlined"
         value={values.marca}
         onChange={handleChange}
-        disabled={disabled}
+        disabled={true}
       />
       <TextField
         id="modelo"
@@ -43,7 +67,7 @@ export const InputForm = ({ initialValues, disabled }) => {
         variant="outlined"
         value={values.modelo}
         onChange={handleChange}
-        disabled={disabled}
+        disabled={true}
       />
       <TextField
         id="eje"
@@ -51,15 +75,15 @@ export const InputForm = ({ initialValues, disabled }) => {
         variant="outlined"
         value={values.eje}
         onChange={handleChange}
-        disabled={disabled}
+        disabled={true}
       />
       <TextField
         id="subeje"
-        label="Subeje"
+        label="Sub-eje"
         variant="outlined"
         value={values.subeje}
         onChange={handleChange}
-        disabled={disabled}
+        disabled={true}
       />
     </Box>
   );
