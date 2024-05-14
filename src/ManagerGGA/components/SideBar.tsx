@@ -42,7 +42,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleClick = (name, route) => {
-    console.log(name, route);
+    // console.log(name, route);
     setOpenSubMenu((prevOpenSubMenu) => ({
       ...prevOpenSubMenu,
       [name]: !prevOpenSubMenu[name],
