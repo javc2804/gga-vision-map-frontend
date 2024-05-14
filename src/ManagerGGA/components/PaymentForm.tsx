@@ -10,17 +10,27 @@ import * as yup from "yup";
 
 const schema = yup.object().shape({
   precioUnitarioBs: yup
-    .number()
+    .string()
     .required("El precio unitario en Bs es requerido")
     .test(
-      "not-start-with-zero",
-      "El número no puede comenzar con cero",
-      (value) => !String(value).startsWith("0")
+      "not-start-with-decimal-point",
+      "El número no puede comenzar con un punto decimal",
+      (value) => !value.startsWith(".")
     )
     .test(
-      "is-number-or-decimal",
+      "not-start-with-zero",
+      "El número no puede comenzar con cero a menos que sea decimal",
+      (value) => !value.startsWith("0") || value.startsWith("0.")
+    )
+    .test(
+      "no-trailing-decimal-point",
+      "No puede terminar con un punto decimal sin especificar los decimales",
+      (value) => !value.endsWith(".")
+    )
+    .test(
+      "is-number",
       "El campo solo admite números",
-      (value) => !isNaN(value) && !String(value).endsWith(".")
+      (value) => !isNaN(Number(value))
     )
     .test(
       "is-positive",

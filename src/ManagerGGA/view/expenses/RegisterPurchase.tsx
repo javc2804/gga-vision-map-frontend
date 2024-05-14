@@ -18,7 +18,7 @@ export const RegisterPurchase = () => {
     formaPago: "Contado",
     descripcion: "",
     cantidad: "",
-    precioUnitarioBs: "",
+    precioUnitarioBs: 0.0,
     tasaBcv: "",
     precioUnitarioDolares: "",
     montoTotalDolares: "",
