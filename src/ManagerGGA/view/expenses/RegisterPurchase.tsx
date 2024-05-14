@@ -24,7 +24,7 @@ export const RegisterPurchase = () => {
     formaPago: "Contado",
     descripcion: "",
     cantidad: "",
-    precioUnitarioBs: 0.0,
+    precioUnitarioBs: "",
     tasaBcv: "",
     precioUnitarioDolares: "",
     montoTotalDolares: "",
@@ -84,16 +84,12 @@ export const RegisterPurchase = () => {
   };
 
   const handleSaveClick = () => {
-    const hasErrors = forms.some((form) => {
-      return form.errors && Object.keys(form.errors).length > 0;
-    });
-
-    if (hasErrors) {
-      handleSnackbarOpen("Error al guardar, verifica el formulario", "error");
-      return;
-    }
-
     const combinedForms = forms.map((form) => {
+      // Asegúrate de que el campo 'precioUnitarioBs' no esté vacío
+      if (!form.payment.precioUnitarioBs) {
+        form.errors.precioUnitarioBs = "El campo precio no puede estar vacío";
+      }
+
       return {
         id: form.id,
         ...form.input,
@@ -101,6 +97,15 @@ export const RegisterPurchase = () => {
         errors: form.errors,
       };
     });
+
+    const hasErrors = combinedForms.some((form) => {
+      return form.errors && Object.keys(form.errors).length > 0;
+    });
+
+    if (hasErrors) {
+      handleSnackbarOpen("Error al guardar, verifica el formulario", "error");
+      return;
+    }
 
     console.log(combinedForms);
 
