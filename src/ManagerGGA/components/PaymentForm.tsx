@@ -37,7 +37,7 @@ const schema = yup.object().shape({
       "El precio unitario en Bs debe ser un número positivo",
       (value) => Number(value) > 0
     ),
-  precioUnitarioDolares: yup
+  precioUnitarioUsd: yup
     .string()
     .required("El precio unitario en $ es requerido")
     .test(
@@ -83,9 +83,9 @@ const schema = yup.object().shape({
       "La cantidad no puede contener un punto decimal",
       (value) => !value.includes(".")
     ),
-  tasa: yup
+  tasaBcv: yup
     .string()
-    .required("La tasa es requerida")
+    .required("La tasa Bcv es requerida")
     .test(
       "not-start-with-decimal-point",
       "El número no puede comenzar con un punto decimal",
@@ -108,7 +108,63 @@ const schema = yup.object().shape({
     )
     .test(
       "is-positive",
-      "La tasa debe ser un número positivo",
+      "La tasa Bcv debe ser un número positivo",
+      (value) => Number(value) > 0
+    ),
+  montoTotalUsd: yup
+    .string()
+    .required("El monto total $ es requerida")
+    .test(
+      "not-start-with-decimal-point",
+      "El número no puede comenzar con un punto decimal",
+      (value) => !value.startsWith(".")
+    )
+    .test(
+      "not-start-with-zero",
+      "El número no puede comenzar con cero a menos que sea decimal",
+      (value) => !value.startsWith("0") || value.startsWith("0.")
+    )
+    .test(
+      "no-trailing-decimal-point",
+      "No puede terminar con un punto decimal sin especificar los decimales",
+      (value) => !value.endsWith(".")
+    )
+    .test(
+      "is-number",
+      "El campo solo admite números",
+      (value) => !isNaN(Number(value))
+    )
+    .test(
+      "is-positive",
+      "El monto total $ debe ser un número positivo",
+      (value) => Number(value) > 0
+    ),
+  montoTotalBs: yup
+    .string()
+    .required("El monto total Bs es requerida")
+    .test(
+      "not-start-with-decimal-point",
+      "El número no puede comenzar con un punto decimal",
+      (value) => !value.startsWith(".")
+    )
+    .test(
+      "not-start-with-zero",
+      "El número no puede comenzar con cero a menos que sea decimal",
+      (value) => !value.startsWith("0") || value.startsWith("0.")
+    )
+    .test(
+      "no-trailing-decimal-point",
+      "No puede terminar con un punto decimal sin especificar los decimales",
+      (value) => !value.endsWith(".")
+    )
+    .test(
+      "is-number",
+      "El campo solo admite números",
+      (value) => !isNaN(Number(value))
+    )
+    .test(
+      "is-positive",
+      "El monto total Bs debe ser un número positivo",
       (value) => Number(value) > 0
     ),
 });
@@ -186,39 +242,81 @@ export const PaymentForm = ({ initialValues, onChange }) => {
           )}
         />
         <Controller
-          name="tasa"
+          name="tasaBcv"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
               label="Tasa BCV"
               variant="outlined"
-              error={!!errors.tasa}
-              helperText={errors.tasa?.message}
+              error={!!errors.tasaBcv}
+              helperText={errors.tasaBcv?.message}
               onChange={(event) => {
                 field.onChange(event);
-                trigger("tasa");
-                setValues({ ...values, tasa: event.target.value }); // update local state
+                trigger("tasaBcv");
+                setValues({ ...values, tasaBcv: event.target.value }); // update local state
               }}
             />
           )}
         />
         <Controller
-          name="precioUnitarioDolares"
+          name="precioUnitarioUsd"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
               label="Precio Unitario $"
               variant="outlined"
-              error={!!errors.precioUnitarioDolares}
-              helperText={errors.precioUnitarioDolares?.message}
+              error={!!errors.precioUnitarioUsd}
+              helperText={errors.precioUnitarioUsd?.message}
               onChange={(event) => {
                 field.onChange(event); // update field value
-                trigger("precioUnitarioDolares"); // validate field
+                trigger("precioUnitarioUsd"); // validate field
                 setValues({
                   ...values,
-                  precioUnitarioDolares: event.target.value,
+                  precioUnitarioUsd: event.target.value,
+                }); // update local state
+              }}
+            />
+          )}
+        />
+        <Controller
+          name="montoTotalBs"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Monto total Bs"
+              variant="outlined"
+              error={!!errors.montoTotalBs}
+              helperText={errors.montoTotalBs?.message}
+              onChange={(event) => {
+                field.onChange(event); // update field value
+                trigger("montoTotalBs"); // validate field
+                setValues({
+                  ...values,
+                  montoTotalBs: event.target.value,
+                }); // update local state
+              }}
+            />
+          )}
+        />
+        <Controller
+          name="montoTotalUsd"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Monto total $"
+              variant="outlined"
+              error={!!errors.montoTotalUsd}
+              helperText={errors.montoTotalUsd?.message}
+              onChange={(event) => {
+                field.onChange(event); // update field value
+                trigger("montoTotalUsd"); // validate field
+                setValues({
+                  ...values,
+                  montoTotalUsd: event.target.value,
                 }); // update local state
               }}
             />
