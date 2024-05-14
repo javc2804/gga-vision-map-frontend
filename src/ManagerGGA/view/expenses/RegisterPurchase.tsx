@@ -1,9 +1,9 @@
 import InputForm from "../../components/UTInputForm";
 import PaymentForm from "../../components/PaymentForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export const RegisterPurchase = () => {
-  const initialValuesInput = {
+export const RegisterPurchase = ({ value, onChange }) => {
+  const initialValuesInput = value.inputForm || {
     ut: "",
     marca: "",
     modelo: "",
@@ -11,52 +11,55 @@ export const RegisterPurchase = () => {
     subeje: "",
   };
 
-  const initialValuesPayment = {
-    repuestos: "",
-    descripcionRepuesto: "",
-    formaPago: "Contado",
-    descripcion: "",
-    cantidad: "",
-    precioUnitarioBs: "",
-    tasaBcv: "",
-    precioUnitarioDolares: "",
-    montoTotalDolares: "",
-    montoTotalBs: "",
-    ocOs: "",
-    fechaOcOs: "",
-    numeroOrdenPago: "",
-    observacion: "",
+  const initialValuesPayment = value.paymentForms || [
+    {
+      repuestos: "",
+      descripcionRepuesto: "",
+      formaPago: "Contado",
+      descripcion: "",
+      cantidad: "",
+      precioUnitarioBs: "",
+      tasaBcv: "",
+      precioUnitarioDolares: "",
+      montoTotalDolares: "",
+      montoTotalBs: "",
+      ocOs: "",
+      fechaOcOs: "",
+      numeroOrdenPago: "",
+      observacion: "",
+    },
+  ];
+
+  const [inputFormValues, setInputFormValues] = useState(initialValuesInput);
+  const [paymentFormValues, setPaymentFormValues] =
+    useState(initialValuesPayment);
+
+  useEffect(() => {
+    onChange({ inputForm: inputFormValues, paymentForms: paymentFormValues });
+  }, [inputFormValues, paymentFormValues]);
+
+  const handleInputFormChange = (newValues) => {
+    setInputFormValues(newValues);
   };
 
-  const isDisabledInput = Object.values(initialValuesInput).some(
-    (value) => value !== ""
-  );
-  const isDisabledPayment = Object.values(initialValuesPayment).some(
-    (value) => value !== ""
-  );
-
-  const [purchaseForms, setPurchaseForms] = useState([
-    { ut: "", marca: "", modelo: "", eje: "", subeje: "" },
-  ]);
+  const handlePaymentFormChange = (index) => (newValues) => {
+    const newPaymentFormValues = [...paymentFormValues];
+    newPaymentFormValues[index] = newValues;
+    setPaymentFormValues(newPaymentFormValues);
+  };
 
   return (
     <>
       <InputForm
         initialValues={initialValuesInput}
         disabled={false}
-        onChange={(newValues) => {
-          // Aquí puedes manejar los nuevos valores del formulario
-        }}
+        onChange={handleInputFormChange}
       />
-      {purchaseForms.map((initialValues, index) => (
+      {paymentFormValues.map((initialValues, index) => (
         <PaymentForm
           key={index}
           initialValues={initialValues}
-          onChange={(newFormValues) => {
-            const newPurchaseForms = [...purchaseForms];
-            newPurchaseForms[index] = { ...initialValues, ...newFormValues };
-            setPurchaseForms(newPurchaseForms);
-          }}
+          onChange={handlePaymentFormChange(index)}
         />
       ))}
     </>
