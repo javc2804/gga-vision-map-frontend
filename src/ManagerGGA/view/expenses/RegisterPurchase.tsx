@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import InputForm from "../../components/UTInputForm";
 import PaymentForm from "../../components/PaymentForm";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
+  return <MuiAlert elevation={6} variant="filled" ref={ref} {...props} />;
+});
 
 export const RegisterPurchase = () => {
   const initialValuesInput = {
@@ -28,6 +34,10 @@ export const RegisterPurchase = () => {
     numeroOrdenPago: "",
     observacion: "",
   };
+
+  const [open, setOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const [nextId, setNextId] = useState(1);
   const [forms, setForms] = useState([
@@ -56,17 +66,36 @@ export const RegisterPurchase = () => {
     const list = forms.filter((form) => form.id !== id);
     setForms(list);
   };
+  const handleSnackbarOpen = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpen(true);
+  };
+
+  const handleSnackbarClose = (
+    event?: React.SyntheticEvent,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleSaveClick = () => {
+    console.log(forms);
     const hasErrors = forms.some((form) => {
       return form.errors && Object.keys(form.errors).length > 0;
     });
     console.log(hasErrors);
     if (hasErrors) {
       console.log("Error");
+      handleSnackbarOpen("Error al guardar, verifica el formulario", "error");
       return;
     }
     console.log(forms);
+    handleSnackbarOpen("Guardado con éxito", "success");
   };
 
   const handleInputChange = (id) => (newValues, newErrors) => {
@@ -116,6 +145,20 @@ export const RegisterPurchase = () => {
       <Button variant="contained" color="success" onClick={handleSaveClick}>
         Guardar
       </Button>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
