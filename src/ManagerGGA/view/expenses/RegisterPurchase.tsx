@@ -84,17 +84,25 @@ export const RegisterPurchase = () => {
   };
 
   const handleSaveClick = () => {
-    console.log(forms);
     const hasErrors = forms.some((form) => {
       return form.errors && Object.keys(form.errors).length > 0;
     });
-    console.log(hasErrors);
+
     if (hasErrors) {
-      console.log("Error");
       handleSnackbarOpen("Error al guardar, verifica el formulario", "error");
       return;
     }
-    console.log(forms);
+
+    const combinedForms = forms.map((form) => {
+      return {
+        id: form.id,
+        values: { ...form.input, ...form.payment },
+        errors: form.errors,
+      };
+    });
+
+    console.log(combinedForms);
+
     handleSnackbarOpen("Guardado con éxito", "success");
   };
 
