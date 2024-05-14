@@ -96,7 +96,8 @@ export const RegisterPurchase = () => {
     const combinedForms = forms.map((form) => {
       return {
         id: form.id,
-        values: { ...form.input, ...form.payment },
+        ...form.input,
+        ...form.payment,
         errors: form.errors,
       };
     });
