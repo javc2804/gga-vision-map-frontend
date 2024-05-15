@@ -116,20 +116,42 @@ export const RegisterPurchase = () => {
   };
 
   const handleInputChange = (id) => (newValues, newErrors) => {
-    const newForms = forms.map((form) =>
-      form.id === id ? { ...form, input: newValues, errors: newErrors } : form
-    );
-    setForms(newForms);
+    const newForms = forms.map((form) => {
+      if (form.id === id) {
+        // Solo actualiza si los nuevos valores son diferentes a los actuales
+        if (
+          JSON.stringify(form.input) !== JSON.stringify(newValues) ||
+          JSON.stringify(form.errors) !== JSON.stringify(newErrors)
+        ) {
+          return { ...form, input: newValues, errors: newErrors };
+        }
+      }
+      return form;
+    });
+
+    if (JSON.stringify(forms) !== JSON.stringify(newForms)) {
+      setForms(newForms);
+    }
   };
 
   const handlePaymentChange = (id) => (newValues, newErrors) => {
-    setForms((prevForms) =>
-      prevForms.map((form) =>
-        form.id === id
-          ? { ...form, payment: newValues, errors: newErrors }
-          : form
-      )
-    );
+    setForms((prevForms) => {
+      const newForms = prevForms.map((form) => {
+        if (form.id === id) {
+          // Solo actualiza si los nuevos valores son diferentes a los actuales
+          if (
+            JSON.stringify(form.payment) !== JSON.stringify(newValues) ||
+            JSON.stringify(form.errors) !== JSON.stringify(newErrors)
+          ) {
+            return { ...form, payment: newValues, errors: newErrors };
+          }
+        }
+        return form;
+      });
+
+      console.log(newForms); // Aquí está el console.log
+      return newForms;
+    });
   };
 
   return (

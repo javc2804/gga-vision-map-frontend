@@ -12,9 +12,11 @@ export const InputForm = ({ initialValues, disabled, onChange }) => {
 
   useEffect(() => {
     if (typeof onChange === "function") {
-      onChange(values);
+      if (JSON.stringify(values) !== JSON.stringify(initialValues)) {
+        onChange(values);
+      }
     }
-  }, [values, onChange]);
+  }, [values, onChange, initialValues]);
 
   const handleChange = (event) => {
     setValues({
