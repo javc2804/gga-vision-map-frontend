@@ -35,7 +35,7 @@ export const RegisterPurchase = () => {
     fechaOcOs: null,
     numeroOrdenPago: "",
     observacion: "",
-    facNDE: "",
+    facNDE: null,
   };
 
   const [open, setOpen] = useState(false);
@@ -54,6 +54,7 @@ export const RegisterPurchase = () => {
 
   const [totalFactUsd, setTotalFactUsd] = useState(0);
   const [totalFactBs, setTotalFactBs] = useState(0);
+  const [facNDE, setFacNDE] = useState(null);
 
   const handleAddClick = () => {
     setForms([
@@ -105,6 +106,7 @@ export const RegisterPurchase = () => {
     });
 
     const hasErrors = combinedForms.some((form) => {
+      form.facNDE = facNDE;
       return form.errors && Object.keys(form.errors).length > 0;
     });
 
@@ -175,7 +177,13 @@ export const RegisterPurchase = () => {
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2, mr: 4 }}>
-        <TextField label="No Fac/NDE" variant="outlined" sx={{ mr: 1 }} />
+        <TextField
+          label="No Fac/NDE"
+          variant="outlined"
+          sx={{ mr: 1 }}
+          value={facNDE}
+          onChange={(e) => setFacNDE(e.target.value)}
+        />
         <TextField label="Registro Proveedor" variant="outlined" />
       </Box>
       {forms.map((form, index) => (
