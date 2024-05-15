@@ -19,8 +19,8 @@ export const RegisterPurchase = () => {
   };
 
   const initialValuesPayment = {
-    repuestos: "",
-    descripcionRepuesto: "",
+    repuesto: null,
+    descripcionRepuesto: null,
     formaPago: "Contado",
     descripcion: "",
     cantidad: "",
@@ -30,9 +30,10 @@ export const RegisterPurchase = () => {
     montoTotalUsd: "",
     montoTotalBs: "",
     ocOs: "",
-    fechaOcOs: "",
+    fechaOcOs: null,
     numeroOrdenPago: "",
     observacion: "",
+    facNDE: "",
   };
 
   const [open, setOpen] = useState(false);

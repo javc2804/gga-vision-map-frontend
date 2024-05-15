@@ -7,6 +7,7 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { Grid } from "@mui/material";
 
 const schema = yup.object().shape({
   precioUnitarioBs: yup
@@ -167,6 +168,17 @@ const schema = yup.object().shape({
       "El monto total Bs debe ser un número positivo",
       (value) => Number(value) > 0
     ),
+  ocOs: yup
+    .number()
+    .typeError("OC/OS debe ser un número entero")
+    .integer("OC/OS debe ser un número entero")
+    .required("OC/OS es requerido"),
+  ordenPago: yup
+    .number()
+    .typeError("N de Orden de Pago debe ser un número entero")
+    .integer("N de Orden de Pago debe ser un número entero")
+    .required("N de Orden de Pago es requerido"),
+  fechaOcOs: yup.date().required("Fecha de OC/OS es requerido"),
 });
 
 export const PaymentForm = ({ initialValues, onChange }) => {
@@ -181,6 +193,17 @@ export const PaymentForm = ({ initialValues, onChange }) => {
   });
 
   const [values, setValues] = useState(initialValues);
+  const repuestos = [
+    { title: "Repuesto 1" },
+    { title: "Repuesto 2" },
+    // Agrega aquí más repuestos si los necesitas
+  ];
+
+  const descripcionRepuesto = [
+    { title: "Descripción 1" },
+    { title: "Descripción 2" },
+    // Agrega aquí más descripciones si las necesitas
+  ];
 
   useEffect(() => {
     if (typeof onChange === "function") {
@@ -195,16 +218,107 @@ export const PaymentForm = ({ initialValues, onChange }) => {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} sx={{}}>
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
         sx={{
-          "& > :not(style)": { m: 1, width: "25ch" },
+          "& > :not(style)": { m: 1 },
         }}
         noValidate
         autoComplete="off"
       >
+        <Grid container spacing={2} style={{ width: "40%" }}>
+          {" "}
+          <Grid item xs={12} sm={6} md={4}>
+            <Controller
+              name="repuesto"
+              control={control}
+              rules={{ required: "Repuesto es requerido" }}
+              render={({ field }) => (
+                <Autocomplete
+                  {...field}
+                  options={repuestos}
+                  getOptionLabel={(option) => (option ? option.title : "")}
+                  isOptionEqualToValue={(option, value) =>
+                    option.title === value.title
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Repuesto"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  )}
+                  onChange={(_, data) => field.onChange(data)}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Controller
+              name="descripcionRepuesto"
+              control={control}
+              rules={{ required: "Descripción repuesto es requerido" }}
+              render={({ field }) => (
+                <Autocomplete
+                  {...field}
+                  options={descripcionRepuesto}
+                  getOptionLabel={(option) => (option ? option.title : "")}
+                  isOptionEqualToValue={(option, value) =>
+                    option.title === value.title
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Descripción Repuesto"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  )}
+                  onChange={(_, data) => field.onChange(data)}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <Controller
+              name="formaDePago"
+              control={control}
+              rules={{ required: "Forma de pago es requerido" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Contado"
+                  variant="outlined"
+                  fullWidth
+                  defaultValue="Contado"
+                  disabled
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+
+        <Controller
+          name="descripcion"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Descripción"
+              variant="outlined"
+              error={!!errors.descripcion}
+              helperText={errors.descripcion?.message}
+              onChange={(event) => {
+                field.onChange(event); // update field value
+                trigger("descripcion"); // validate field
+                setValues({ ...values, descripcion: event.target.value }); // update local state
+              }}
+            />
+          )}
+        />
         <Controller
           name="cantidad"
           control={control}
@@ -319,6 +433,67 @@ export const PaymentForm = ({ initialValues, onChange }) => {
                   montoTotalUsd: event.target.value,
                 }); // update local state
               }}
+            />
+          )}
+        />
+        <Controller
+          name="ocOs"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="OC/OS"
+              variant="outlined"
+              error={!!errors.ocOs}
+              helperText={errors.ocOs?.message}
+            />
+          )}
+        />
+        <Controller
+          name="fechaOcOs"
+          control={control}
+          rules={{ required: "Fecha de OC/OS es requerido" }}
+          render={({ field: { onChange, value } }) => (
+            <DatePicker
+              id="fechaOcOs"
+              label="Fecha OC/OS"
+              value={value}
+              onChange={onChange}
+              format="dd/MM/yyyy"
+              components={{
+                textField: TextField,
+              }}
+              error={!!errors.fechaOcOs}
+              helperText={errors.fechaOcOs?.message}
+            />
+          )}
+        />
+        <Controller
+          name="ordenPago"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="N de Orden de Pago"
+              variant="outlined"
+              error={!!errors.ordenPago}
+              helperText={errors.ordenPago?.message}
+            />
+          )}
+        />
+        <Controller
+          name="observacion"
+          control={control}
+          rules={{ required: "Observación es requerido" }}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Observación"
+              variant="outlined"
+              multiline
+              rows={4}
+              error={!!errors.observacion}
+              helperText={errors.observacion?.message}
             />
           )}
         />
