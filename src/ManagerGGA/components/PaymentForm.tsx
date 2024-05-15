@@ -236,18 +236,59 @@ export const PaymentForm = ({ initialValues, onChange }) => {
   };
 
   const calculatePrecioUnitarioBs = (
-    precioUnitarioUsd: string,
-    tasaBcv: string
+    montoTotalBs: number,
+    cantidad: number
   ) => {
-    const precioUsd = parseFloat(precioUnitarioUsd);
-    const tasa = parseFloat(tasaBcv);
+    if (isNaN(montoTotalBs) || isNaN(cantidad) || cantidad === 0) {
+      return 0;
+    }
+    return montoTotalBs / cantidad;
+  };
 
-    if (!isNaN(precioUsd) && !isNaN(tasa)) {
-      const result = precioUsd * tasa;
+  const calculateMontoTotalBs = (
+    cantidad: string,
+    precioUnitarioBs: string
+  ) => {
+    const cantidadNum = parseFloat(cantidad);
+    const precioBs = parseFloat(precioUnitarioBs);
+
+    if (!isNaN(cantidadNum) && !isNaN(precioBs)) {
+      const result = cantidadNum * precioBs;
       return result.toFixed(2); // round to 2 decimal places
     }
 
     return "";
+  };
+
+  const calculateMontoTotalUsd = (
+    cantidad: string,
+    precioUnitarioUsd: string
+  ) => {
+    const cantidadNum = parseFloat(cantidad);
+    const precioUsd = parseFloat(precioUnitarioUsd);
+
+    if (!isNaN(cantidadNum) && !isNaN(precioUsd)) {
+      const result = cantidadNum * precioUsd;
+      return result.toFixed(2); // round to 2 decimal places
+    }
+
+    return "";
+  };
+
+  const calculateTasaBcv = (
+    precioUnitarioBs: number,
+    precioUnitarioUsd: number
+  ) => {
+    const epsilon = 0.0001; // or some small value
+    if (
+      isNaN(precioUnitarioBs) ||
+      isNaN(precioUnitarioUsd) ||
+      Math.abs(precioUnitarioUsd) < epsilon
+    ) {
+      return 0;
+    }
+
+    return (precioUnitarioBs / precioUnitarioUsd).toFixed(2);
   };
 
   return (
@@ -365,7 +406,23 @@ export const PaymentForm = ({ initialValues, onChange }) => {
               onChange={(event) => {
                 field.onChange(event); // update field value
                 trigger("cantidad"); // validate field
-                setValues({ ...values, cantidad: event.target.value }); // update local state
+                const newCantidad = event.target.value;
+                const newMontoTotalBs = calculateMontoTotalBs(
+                  newCantidad,
+                  values.precioUnitarioBs
+                );
+                const newMontoTotalUsd = calculateMontoTotalUsd(
+                  newCantidad,
+                  values.precioUnitarioUsd
+                );
+                setValues({
+                  ...values,
+                  cantidad: newCantidad,
+                  montoTotalBs: newMontoTotalBs,
+                  montoTotalUsd: newMontoTotalUsd,
+                });
+                setValue("montoTotalBs", newMontoTotalBs); // update montoTotalBs field
+                setValue("montoTotalUsd", newMontoTotalUsd); // update montoTotalUsd field
               }}
             />
           )}
@@ -388,12 +445,24 @@ export const PaymentForm = ({ initialValues, onChange }) => {
                   newPrecioUnitarioBs,
                   values.tasaBcv
                 );
+                const newMontoTotalBs = calculateMontoTotalBs(
+                  values.cantidad,
+                  newPrecioUnitarioBs
+                );
+                const newMontoTotalUsd = calculateMontoTotalUsd(
+                  values.cantidad,
+                  newPrecioUnitarioUsd
+                );
                 setValues({
                   ...values,
                   precioUnitarioBs: newPrecioUnitarioBs,
                   precioUnitarioUsd: newPrecioUnitarioUsd,
+                  montoTotalBs: newMontoTotalBs,
+                  montoTotalUsd: newMontoTotalUsd,
                 });
                 setValue("precioUnitarioUsd", newPrecioUnitarioUsd); // update precioUnitarioUsd field
+                setValue("montoTotalBs", newMontoTotalBs); // update montoTotalBs field
+                setValue("montoTotalUsd", newMontoTotalUsd); // update montoTotalUsd field
               }}
             />
           )}
@@ -432,23 +501,21 @@ export const PaymentForm = ({ initialValues, onChange }) => {
           render={({ field }) => (
             <TextField
               {...field}
-              label="Precio Unitario $"
+              label="Precio unitario $"
               variant="outlined"
               error={!!errors.precioUnitarioUsd}
               helperText={errors.precioUnitarioUsd?.message}
               onChange={(event) => {
-                field.onChange(event);
-                trigger("precioUnitarioUsd");
+                field.onChange(event); // update field value
+                trigger("precioUnitarioUsd"); // validate field
                 const newPrecioUnitarioUsd = event.target.value;
-                const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
-                  newPrecioUnitarioUsd,
-                  values.tasaBcv
-                );
+                const newPrecioUnitarioBs =
+                  values.tasaBcv * newPrecioUnitarioUsd;
                 setValues({
                   ...values,
                   precioUnitarioUsd: newPrecioUnitarioUsd,
                   precioUnitarioBs: newPrecioUnitarioBs,
-                });
+                }); // update local state
                 setValue("precioUnitarioBs", newPrecioUnitarioBs); // update precioUnitarioBs field
               }}
             />
@@ -467,10 +534,23 @@ export const PaymentForm = ({ initialValues, onChange }) => {
               onChange={(event) => {
                 field.onChange(event); // update field value
                 trigger("montoTotalBs"); // validate field
+                const newMontoTotalBs = event.target.value;
+                const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
+                  newMontoTotalBs,
+                  values.cantidad
+                );
+                const newTasaBcv = calculateTasaBcv(
+                  newPrecioUnitarioBs,
+                  values.precioUnitarioUsd
+                );
                 setValues({
                   ...values,
-                  montoTotalBs: event.target.value,
+                  montoTotalBs: newMontoTotalBs,
+                  precioUnitarioBs: newPrecioUnitarioBs,
+                  tasaBcv: newTasaBcv,
                 }); // update local state
+                setValue("precioUnitarioBs", newPrecioUnitarioBs); // update precioUnitarioBs field
+                setValue("tasaBcv", newTasaBcv); // update tasaBcv field
               }}
             />
           )}
@@ -488,10 +568,23 @@ export const PaymentForm = ({ initialValues, onChange }) => {
               onChange={(event) => {
                 field.onChange(event); // update field value
                 trigger("montoTotalUsd"); // validate field
+                const newMontoTotalUsd = event.target.value;
+                const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
+                  newMontoTotalUsd,
+                  values.cantidad
+                );
+                const newTasaBcv = calculateTasaBcv(
+                  values.precioUnitarioBs,
+                  newPrecioUnitarioUsd
+                );
                 setValues({
                   ...values,
-                  montoTotalUsd: event.target.value,
+                  montoTotalUsd: newMontoTotalUsd,
+                  precioUnitarioUsd: newPrecioUnitarioUsd,
+                  tasaBcv: newTasaBcv,
                 }); // update local state
+                setValue("precioUnitarioUsd", newPrecioUnitarioUsd); // update precioUnitarioUsd field
+                setValue("tasaBcv", newTasaBcv); // update tasaBcv field
               }}
             />
           )}
