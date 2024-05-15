@@ -181,7 +181,12 @@ const schema = yup.object().shape({
   fechaOcOs: yup.date().required("Fecha de OC/OS es requerido"),
 });
 
-export const PaymentForm = ({ initialValues, onChange }) => {
+export const PaymentForm = ({
+  initialValues,
+  spareParts,
+  sparePartVariants,
+  onChange,
+}) => {
   const {
     handleSubmit,
     control,
@@ -194,17 +199,6 @@ export const PaymentForm = ({ initialValues, onChange }) => {
   });
 
   const [values, setValues] = useState(initialValues);
-  const repuestos = [
-    { title: "Repuesto 1" },
-    { title: "Repuesto 2" },
-    // Agrega aquí más repuestos si los necesitas
-  ];
-
-  const descripcionRepuesto = [
-    { title: "Descripción 1" },
-    { title: "Descripción 2" },
-    // Agrega aquí más descripciones si las necesitas
-  ];
 
   useEffect(() => {
     if (typeof onChange === "function") {
@@ -312,8 +306,8 @@ export const PaymentForm = ({ initialValues, onChange }) => {
               render={({ field }) => (
                 <Autocomplete
                   {...field}
-                  options={repuestos}
-                  getOptionLabel={(option) => (option ? option.title : "")}
+                  options={spareParts}
+                  getOptionLabel={(option) => (option ? option.type : "")}
                   isOptionEqualToValue={(option, value) =>
                     option.title === value.title
                   }
@@ -338,8 +332,8 @@ export const PaymentForm = ({ initialValues, onChange }) => {
               render={({ field }) => (
                 <Autocomplete
                   {...field}
-                  options={descripcionRepuesto}
-                  getOptionLabel={(option) => (option ? option.title : "")}
+                  options={sparePartVariants}
+                  getOptionLabel={(option) => (option ? option.variant : "")}
                   isOptionEqualToValue={(option, value) =>
                     option.title === value.title
                   }

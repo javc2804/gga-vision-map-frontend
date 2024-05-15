@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
 import { startGetPurchase } from "../../../store/purchase/purchaseThunks";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
   return <MuiAlert elevation={6} variant="filled" ref={ref} {...props} />;
@@ -17,7 +18,10 @@ export const RegisterPurchase = () => {
   const dispatch = useDispatch();
   const purchaseData = useSelector((state) => state.purchase); // Reemplaza 'purchase' con el nombre de la rebanada de estado que contiene los datos de la compra
   const fleets = purchaseData.purchase?.response?.fleets || []; // Accedemos a la propiedad fleets
-  // console.log(purchaseData.purchase.response);
+  const providers = purchaseData.purchase?.response?.providers || []; // Accedemos a la propiedad fleets
+  const spareParts = purchaseData.purchase?.response?.spareParts || []; // Accedemos a la propiedad fleets
+  const sparePartVariants =
+    purchaseData.purchase?.response?.sparePartVariants || []; // Accedemos a la propiedad fleets
   const initialValuesInput = {
     ut: "",
     marca: "",
@@ -25,6 +29,8 @@ export const RegisterPurchase = () => {
     eje: "",
     subeje: "",
   };
+
+  console.log(providers);
 
   const initialValuesPayment = {
     repuesto: null,
@@ -186,7 +192,15 @@ export const RegisterPurchase = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2, mr: 4 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          mb: 2,
+          mr: 4,
+          mt: 3,
+        }}
+      >
         <TextField
           label="No Fac/NDE"
           variant="outlined"
@@ -194,7 +208,20 @@ export const RegisterPurchase = () => {
           value={facNDE || ""}
           onChange={(e) => setFacNDE(e.target.value)}
         />
-        <TextField label="Registro Proveedor" variant="outlined" />
+        <Autocomplete
+          id="provider"
+          options={providers}
+          getOptionLabel={(option) => option.name}
+          sx={{ flexGrow: 0.15 }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Registro Proveedor"
+              variant="outlined"
+              fullWidth
+            />
+          )}
+        />
       </Box>
       {forms.map((form, index) => (
         <Box
@@ -217,6 +244,8 @@ export const RegisterPurchase = () => {
           <PaymentForm
             initialValues={form.payment}
             onChange={handlePaymentChange(form.id)}
+            spareParts={spareParts}
+            sparePartVariants={sparePartVariants}
           />
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             {forms.length > 1 && (
