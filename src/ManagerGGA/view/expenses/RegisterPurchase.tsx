@@ -4,6 +4,8 @@ import PaymentForm from "../../components/PaymentForm";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
   return <MuiAlert elevation={6} variant="filled" ref={ref} {...props} />;
@@ -132,8 +134,23 @@ export const RegisterPurchase = () => {
 
   return (
     <>
-      {forms.map((form) => (
-        <div key={form.id}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2, mr: 4 }}>
+        <TextField label="No Fac/NDE" variant="outlined" sx={{ mr: 1 }} />
+        <TextField label="Registro Proveedor" variant="outlined" />
+      </Box>
+      {forms.map((form, index) => (
+        <Box
+          key={form.id}
+          sx={{
+            p: 4,
+            mb: 4,
+            mr: 4,
+            mt: 2,
+            ml: 2,
+            borderRadius: 4,
+            boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.45)",
+          }}
+        >
           <InputForm
             initialValues={form.input}
             disabled={false}
@@ -143,23 +160,36 @@ export const RegisterPurchase = () => {
             initialValues={form.payment}
             onChange={handlePaymentChange(form.id)}
           />
-          {forms.length > 1 && (
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => handleRemoveClick(form.id)}
-            >
-              Borrar
-            </Button>
-          )}
-        </div>
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            {forms.length > 1 && (
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleRemoveClick(form.id)}
+                sx={{ mr: 1 }}
+              >
+                Borrar
+              </Button>
+            )}
+            {index === forms.length - 1 && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddClick}
+              >
+                Agregar
+              </Button>
+            )}
+          </Box>
+        </Box>
       ))}
-      <Button variant="contained" color="primary" onClick={handleAddClick}>
-        Agregar
-      </Button>
-      <Button variant="contained" color="success" onClick={handleSaveClick}>
-        Guardar
-      </Button>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2, mr: 3.7 }}>
+        <TextField label="Total factura $" variant="outlined" sx={{ mr: 1 }} />
+        <TextField label="Total factura Bs" variant="outlined" sx={{ mr: 1 }} />
+        <Button variant="contained" color="primary" onClick={handleSaveClick}>
+          Guardar
+        </Button>
+      </Box>
       <Snackbar
         open={open}
         autoHideDuration={6000}
