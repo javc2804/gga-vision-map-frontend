@@ -35,7 +35,7 @@ export const RegisterPurchase = () => {
     fechaOcOs: null,
     numeroOrdenPago: "",
     observacion: "",
-    facNDE: null,
+    facNDE: 0,
   };
 
   const [open, setOpen] = useState(false);
@@ -54,7 +54,7 @@ export const RegisterPurchase = () => {
 
   const [totalFactUsd, setTotalFactUsd] = useState(0);
   const [totalFactBs, setTotalFactBs] = useState(0);
-  const [facNDE, setFacNDE] = useState(null);
+  const [facNDE, setFacNDE] = useState(0);
 
   const handleAddClick = () => {
     setForms([
@@ -181,7 +181,7 @@ export const RegisterPurchase = () => {
           label="No Fac/NDE"
           variant="outlined"
           sx={{ mr: 1 }}
-          value={facNDE}
+          value={facNDE || ""}
           onChange={(e) => setFacNDE(e.target.value)}
         />
         <TextField label="Registro Proveedor" variant="outlined" />
