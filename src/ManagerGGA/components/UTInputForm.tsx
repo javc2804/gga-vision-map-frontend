@@ -3,11 +3,18 @@ import Box from "@mui/material/Box";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-
-export const InputForm = ({ initialValues, disabled, onChange }) => {
+type InitialValuesType = {
+  ut: string;
+  marcaModelo: string;
+  eje: string;
+  subeje: string;
+};
+export const InputForm = ({ initialValues = [], disabled, onChange }) => {
   const [values, setValues] = useState({
-    ...initialValues,
-    ut: initialValues.ut ? initialValues.ut : null,
+    ut: initialValues.length > 0 ? initialValues[0].ut : "",
+    marca: initialValues.length > 0 ? initialValues[0].marcaModelo : "",
+    eje: initialValues.length > 0 ? initialValues[0].eje : "",
+    subeje: initialValues.length > 0 ? initialValues[0].subeje : "",
   });
 
   useEffect(() => {
@@ -26,13 +33,17 @@ export const InputForm = ({ initialValues, disabled, onChange }) => {
   };
 
   const handleAutoCompleteChange = (field) => (event, newValue) => {
+    const selectedUt = initialValues.find((item) => item.ut === newValue);
     setValues({
       ...values,
       [field]: newValue,
+      marca: selectedUt ? selectedUt.marcaModelo : "",
+      eje: selectedUt ? selectedUt.eje : "",
+      subeje: selectedUt ? selectedUt.subeje : "",
     });
   };
 
-  const utOptions = ["001", "002"];
+  const utOptions = initialValues.map((item) => item.ut);
 
   return (
     <Box component="form" noValidate autoComplete="off">
@@ -41,8 +52,9 @@ export const InputForm = ({ initialValues, disabled, onChange }) => {
           <Autocomplete
             id="ut"
             options={utOptions}
-            value={values.ut}
+            value={utOptions.includes(values.ut) ? values.ut : null}
             onChange={handleAutoCompleteChange("ut")}
+            isOptionEqualToValue={(option, value) => option === value}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -57,7 +69,7 @@ export const InputForm = ({ initialValues, disabled, onChange }) => {
         <Grid item>
           <TextField
             id="marca"
-            label="Marca"
+            label="Marca/Model"
             variant="outlined"
             value={values.marca}
             onChange={handleChange}
@@ -65,17 +77,7 @@ export const InputForm = ({ initialValues, disabled, onChange }) => {
             fullWidth
           />
         </Grid>
-        <Grid item>
-          <TextField
-            id="modelo"
-            label="Modelo"
-            variant="outlined"
-            value={values.modelo}
-            onChange={handleChange}
-            disabled={true}
-            fullWidth
-          />
-        </Grid>
+
         <Grid item>
           <TextField
             id="eje"

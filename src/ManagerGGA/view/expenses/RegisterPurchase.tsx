@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputForm from "../../components/UTInputForm";
 import PaymentForm from "../../components/PaymentForm";
 import Button from "@mui/material/Button";
@@ -6,12 +6,18 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import { useDispatch, useSelector } from "react-redux";
+import { startGetPurchase } from "../../../store/purchase/purchaseThunks";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
   return <MuiAlert elevation={6} variant="filled" ref={ref} {...props} />;
 });
 
 export const RegisterPurchase = () => {
+  const dispatch = useDispatch();
+  const purchaseData = useSelector((state) => state.purchase); // Reemplaza 'purchase' con el nombre de la rebanada de estado que contiene los datos de la compra
+  const fleets = purchaseData.purchase?.response?.fleets || []; // Accedemos a la propiedad fleets
+  // console.log(purchaseData.purchase.response);
   const initialValuesInput = {
     ut: "",
     marca: "",
@@ -37,6 +43,10 @@ export const RegisterPurchase = () => {
     observacion: "",
     facNDE: 0,
   };
+
+  useEffect(() => {
+    dispatch(startGetPurchase());
+  }, [dispatch]);
 
   const [open, setOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -200,7 +210,7 @@ export const RegisterPurchase = () => {
           }}
         >
           <InputForm
-            initialValues={form.input}
+            initialValues={fleets}
             disabled={false}
             onChange={handleInputChange(form.id)}
           />
