@@ -173,7 +173,7 @@ const schema = yup.object().shape({
     .typeError("OC/OS debe ser un número entero")
     .integer("OC/OS debe ser un número entero")
     .required("OC/OS es requerido"),
-  ordenPago: yup
+  numeroOrdenPago: yup
     .number()
     .typeError("N de Orden de Pago debe ser un número entero")
     .integer("N de Orden de Pago debe ser un número entero")
@@ -616,15 +616,15 @@ export const PaymentForm = ({
           )}
         />
         <Controller
-          name="ordenPago"
+          name="numeroOrdenPago"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
-              label="N de Orden de Pago"
+              label="Nº de Orden de Pago"
               variant="outlined"
-              error={!!errors.ordenPago}
-              helperText={errors.ordenPago?.message}
+              error={!!errors.numeroOrdenPago}
+              helperText={errors.numeroOrdenPago?.message}
             />
           )}
         />

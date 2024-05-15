@@ -30,8 +30,6 @@ export const RegisterPurchase = () => {
     subeje: "",
   };
 
-  console.log(providers);
-
   const initialValuesPayment = {
     repuesto: null,
     descripcionRepuesto: null,
