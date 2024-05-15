@@ -186,6 +186,7 @@ export const PaymentForm = ({ initialValues, onChange }) => {
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
@@ -217,6 +218,36 @@ export const PaymentForm = ({ initialValues, onChange }) => {
     if (typeof onChange === "function") {
       onChange(data, errors);
     }
+  };
+
+  const calculatePrecioUnitarioUsd = (
+    precioUnitarioBs: string,
+    tasaBcv: string
+  ) => {
+    const precioBs = parseFloat(precioUnitarioBs);
+    const tasa = parseFloat(tasaBcv);
+
+    if (!isNaN(precioBs) && !isNaN(tasa) && tasa !== 0) {
+      const result = precioBs / tasa;
+      return result.toFixed(2); // round to 2 decimal places
+    }
+
+    return "";
+  };
+
+  const calculatePrecioUnitarioBs = (
+    precioUnitarioUsd: string,
+    tasaBcv: string
+  ) => {
+    const precioUsd = parseFloat(precioUnitarioUsd);
+    const tasa = parseFloat(tasaBcv);
+
+    if (!isNaN(precioUsd) && !isNaN(tasa)) {
+      const result = precioUsd * tasa;
+      return result.toFixed(2); // round to 2 decimal places
+    }
+
+    return "";
   };
 
   return (
@@ -350,9 +381,19 @@ export const PaymentForm = ({ initialValues, onChange }) => {
               error={!!errors.precioUnitarioBs}
               helperText={errors.precioUnitarioBs?.message}
               onChange={(event) => {
-                field.onChange(event); // update field value
-                trigger("precioUnitarioBs"); // validate field
-                setValues({ ...values, precioUnitarioBs: event.target.value }); // update local state
+                field.onChange(event);
+                trigger("precioUnitarioBs");
+                const newPrecioUnitarioBs = event.target.value;
+                const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
+                  newPrecioUnitarioBs,
+                  values.tasaBcv
+                );
+                setValues({
+                  ...values,
+                  precioUnitarioBs: newPrecioUnitarioBs,
+                  precioUnitarioUsd: newPrecioUnitarioUsd,
+                });
+                setValue("precioUnitarioUsd", newPrecioUnitarioUsd); // update precioUnitarioUsd field
               }}
             />
           )}
@@ -370,7 +411,17 @@ export const PaymentForm = ({ initialValues, onChange }) => {
               onChange={(event) => {
                 field.onChange(event);
                 trigger("tasaBcv");
-                setValues({ ...values, tasaBcv: event.target.value }); // update local state
+                const newTasaBcv = event.target.value;
+                const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
+                  values.precioUnitarioBs,
+                  newTasaBcv
+                );
+                setValues({
+                  ...values,
+                  tasaBcv: newTasaBcv,
+                  precioUnitarioUsd: newPrecioUnitarioUsd,
+                });
+                setValue("precioUnitarioUsd", newPrecioUnitarioUsd); // update precioUnitarioUsd field
               }}
             />
           )}
@@ -386,12 +437,19 @@ export const PaymentForm = ({ initialValues, onChange }) => {
               error={!!errors.precioUnitarioUsd}
               helperText={errors.precioUnitarioUsd?.message}
               onChange={(event) => {
-                field.onChange(event); // update field value
-                trigger("precioUnitarioUsd"); // validate field
+                field.onChange(event);
+                trigger("precioUnitarioUsd");
+                const newPrecioUnitarioUsd = event.target.value;
+                const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
+                  newPrecioUnitarioUsd,
+                  values.tasaBcv
+                );
                 setValues({
                   ...values,
-                  precioUnitarioUsd: event.target.value,
-                }); // update local state
+                  precioUnitarioUsd: newPrecioUnitarioUsd,
+                  precioUnitarioBs: newPrecioUnitarioBs,
+                });
+                setValue("precioUnitarioBs", newPrecioUnitarioBs); // update precioUnitarioBs field
               }}
             />
           )}
