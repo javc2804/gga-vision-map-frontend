@@ -52,6 +52,9 @@ export const RegisterPurchase = () => {
     },
   ]);
 
+  const [totalFactUsd, setTotalFactUsd] = useState(0);
+  const [totalFactBs, setTotalFactBs] = useState(0);
+
   const handleAddClick = () => {
     setForms([
       ...forms,
@@ -118,7 +121,6 @@ export const RegisterPurchase = () => {
   const handleInputChange = (id) => (newValues, newErrors) => {
     const newForms = forms.map((form) => {
       if (form.id === id) {
-        // Solo actualiza si los nuevos valores son diferentes a los actuales
         if (
           JSON.stringify(form.input) !== JSON.stringify(newValues) ||
           JSON.stringify(form.errors) !== JSON.stringify(newErrors)
@@ -138,7 +140,6 @@ export const RegisterPurchase = () => {
     setForms((prevForms) => {
       const newForms = prevForms.map((form) => {
         if (form.id === id) {
-          // Solo actualiza si los nuevos valores son diferentes a los actuales
           if (
             JSON.stringify(form.payment) !== JSON.stringify(newValues) ||
             JSON.stringify(form.errors) !== JSON.stringify(newErrors)
@@ -148,8 +149,25 @@ export const RegisterPurchase = () => {
         }
         return form;
       });
+      const totalUsd = newForms.reduce(
+        (sum, form) =>
+          sum +
+          (form.payment?.montoTotalUsd
+            ? parseFloat(form.payment.montoTotalUsd)
+            : 0),
+        0
+      );
+      const totalBs = newForms.reduce(
+        (sum, form) =>
+          sum +
+          (form.payment?.montoTotalBs
+            ? parseFloat(form.payment.montoTotalBs)
+            : 0),
+        0
+      );
+      setTotalFactUsd(totalUsd);
+      setTotalFactBs(totalBs);
 
-      console.log(newForms); // Aquí está el console.log
       return newForms;
     });
   };
@@ -206,8 +224,20 @@ export const RegisterPurchase = () => {
         </Box>
       ))}
       <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2, mr: 3.7 }}>
-        <TextField label="Total factura $" variant="outlined" sx={{ mr: 1 }} />
-        <TextField label="Total factura Bs" variant="outlined" sx={{ mr: 1 }} />
+        <TextField
+          label="Total factura $"
+          variant="outlined"
+          sx={{ mr: 1 }}
+          value={totalFactUsd}
+          onChange={(e) => setTotalFactUsd(e.target.value)}
+        />
+        <TextField
+          label="Total factura Bs"
+          variant="outlined"
+          sx={{ mr: 1 }}
+          value={totalFactBs}
+          onChange={(e) => setTotalFactBs(e.target.value)}
+        />
         <Button variant="contained" color="primary" onClick={handleSaveClick}>
           Guardar
         </Button>
