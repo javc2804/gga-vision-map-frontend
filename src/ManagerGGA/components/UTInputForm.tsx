@@ -9,7 +9,12 @@ type InitialValuesType = {
   eje: string;
   subeje: string;
 };
-export const InputForm = ({ initialValues = [], disabled, onChange }) => {
+export const InputForm = ({
+  initialValues = [],
+  fleets,
+  disabled,
+  onChange,
+}) => {
   const [values, setValues] = useState({
     ut: initialValues.length > 0 ? initialValues[0].ut : "",
     marcaModelo: initialValues.length > 0 ? initialValues[0].marcaModelo : "",
@@ -33,7 +38,7 @@ export const InputForm = ({ initialValues = [], disabled, onChange }) => {
   };
 
   const handleAutoCompleteChange = (field) => (event, newValue) => {
-    const selectedUt = initialValues.find((item) => item.ut === newValue);
+    const selectedUt = fleets.find((item) => item.ut === newValue);
     setValues({
       ...values,
       [field]: newValue,
@@ -43,7 +48,7 @@ export const InputForm = ({ initialValues = [], disabled, onChange }) => {
     });
   };
 
-  const utOptions = initialValues.map((item) => item.ut);
+  const utOptions = fleets.map((item) => item.ut);
 
   return (
     <Box component="form" noValidate autoComplete="off">

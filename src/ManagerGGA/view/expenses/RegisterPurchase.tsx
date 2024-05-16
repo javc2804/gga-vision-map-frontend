@@ -120,10 +120,8 @@ export const RegisterPurchase = () => {
       };
     });
 
-    console.log(combinedForms);
     let errorField = null;
     const hasErrors = forms.some((form) => {
-      // Asegúrate de que los campos requeridos no estén vacíos o sean nulos
       const requiredFields = [
         "facNDE",
         "proveedor",
@@ -137,7 +135,6 @@ export const RegisterPurchase = () => {
         "repuesto",
         "descripcionRepuesto",
         "fechaOcOs",
-        "ut",
       ];
 
       return requiredFields.some((field) => {
@@ -156,6 +153,25 @@ export const RegisterPurchase = () => {
       );
       return;
     }
+    const hasErrorsUt = forms.some((form) => {
+      const requiredFields = ["ut"];
+
+      return requiredFields.some((field) => {
+        const hasError = !form.input[field] || form.input[field] === null;
+        if (hasError) {
+          errorField = field;
+        }
+        return hasError;
+      });
+    });
+
+    if (hasErrorsUt) {
+      handleSnackbarOpen(
+        `Error al guardar, verifica el campo ${errorField}`,
+        "error"
+      );
+      return;
+    }
 
     if (facNDE === "0" || "") {
       handleSnackbarOpen(
@@ -166,6 +182,7 @@ export const RegisterPurchase = () => {
     }
 
     handleSnackbarOpen("Guardado con éxito", "success");
+    console.log(combinedForms);
   };
 
   const handleInputChange = (id) => (newValues, newErrors) => {
@@ -283,7 +300,8 @@ export const RegisterPurchase = () => {
           }}
         >
           <InputForm
-            initialValues={fleets}
+            initialValues={form.input}
+            fleets={fleets}
             disabled={false}
             onChange={handleInputChange(form.id)}
           />

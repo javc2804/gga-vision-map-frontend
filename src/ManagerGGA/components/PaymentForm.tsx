@@ -340,10 +340,17 @@ export const PaymentForm = ({
                   )}
                   onChange={(_, data) => {
                     field.onChange(data); // Esto es necesario para que react-hook-form rastree los cambios
-                    setValues({
-                      ...values,
-                      repuesto: data.type,
-                    });
+                    if (data) {
+                      setValues({
+                        ...values,
+                        repuesto: data.type,
+                      });
+                    } else {
+                      setValues({
+                        ...values,
+                        repuesto: null,
+                      });
+                    }
                   }}
                 />
               )}
@@ -372,10 +379,17 @@ export const PaymentForm = ({
                   )}
                   onChange={(_, data) => {
                     field.onChange(data); // Esto es necesario para que react-hook-form rastree los cambios
-                    setValues({
-                      ...values,
-                      descripcionRepuesto: data.variant,
-                    });
+                    if (data) {
+                      setValues({
+                        ...values,
+                        descripcionRepuesto: data.variant,
+                      });
+                    } else {
+                      setValues({
+                        ...values,
+                        descripcionRepuesto: null,
+                      });
+                    }
                   }}
                 />
               )}
