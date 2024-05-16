@@ -217,10 +217,16 @@ export const PaymentForm = ({
   useEffect(() => {
     if (typeof onChange === "function") {
       if (JSON.stringify(values) !== JSON.stringify(initialValues)) {
-        onChange(values);
+        onChange(values, errors);
       }
     }
   }, [values, onChange, initialValues]);
+
+  useEffect(() => {
+    if (typeof onChange === "function") {
+      onChange(values, errors);
+    }
+  }, [values, onChange]);
 
   const onSubmit = (data) => {
     if (typeof onChange === "function") {
