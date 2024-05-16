@@ -110,11 +110,8 @@ export const RegisterPurchase = () => {
 
   const handleSaveClick = () => {
     const combinedForms = forms.map((form) => {
-      // Asegúrate de que el campo 'precioUnitarioBs' no esté vacío
-      if (!form.payment.precioUnitarioBs) {
-        form.errors.precioUnitarioBs = "El campo precio no puede estar vacío";
-      }
-
+      form.payment.facNDE = facNDE;
+      form.payment.proveedor = proveedor;
       return {
         id: form.id,
         ...form.input,
@@ -123,21 +120,50 @@ export const RegisterPurchase = () => {
       };
     });
 
-    const hasErrors = combinedForms.some((form) => {
-      form.facNDE = facNDE;
-      if (proveedor) {
-        form.proveedor = proveedor.name;
-      }
+    console.log(combinedForms);
+    let errorField = null;
+    const hasErrors = forms.some((form) => {
+      // Asegúrate de que los campos requeridos no estén vacíos o sean nulos
+      const requiredFields = [
+        "facNDE",
+        "proveedor",
+        "cantidad",
+        "montoTotalBs",
+        "montoTotalUsd",
+        "numeroOrdenPago",
+        "precioUnitarioBs",
+        "precioUnitarioUsd",
+        "tasaBcv",
+        "repuesto",
+        "descripcionRepuesto",
+        "fechaOcOs",
+        "ut",
+      ];
 
-      return form.errors && Object.keys(form.errors).length > 0;
+      return requiredFields.some((field) => {
+        const hasError = !form.payment[field] || form.payment[field] === null;
+        if (hasError) {
+          errorField = field;
+        }
+        return hasError;
+      });
     });
 
     if (hasErrors) {
-      handleSnackbarOpen("Error al guardar, verifica el formulario", "error");
+      handleSnackbarOpen(
+        `Error al guardar, verifica el campo ${errorField}`,
+        "error"
+      );
       return;
     }
 
-    console.log(combinedForms);
+    if (facNDE === "0" || "") {
+      handleSnackbarOpen(
+        `Error al guardar, Fac/NDE debe estar lleno y distinto a 0`,
+        "error"
+      );
+      return;
+    }
 
     handleSnackbarOpen("Guardado con éxito", "success");
   };
