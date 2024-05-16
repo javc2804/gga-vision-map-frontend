@@ -12,7 +12,7 @@ type InitialValuesType = {
 export const InputForm = ({ initialValues = [], disabled, onChange }) => {
   const [values, setValues] = useState({
     ut: initialValues.length > 0 ? initialValues[0].ut : "",
-    marca: initialValues.length > 0 ? initialValues[0].marcaModelo : "",
+    marcaModelo: initialValues.length > 0 ? initialValues[0].marcaModelo : "",
     eje: initialValues.length > 0 ? initialValues[0].eje : "",
     subeje: initialValues.length > 0 ? initialValues[0].subeje : "",
   });
@@ -37,7 +37,7 @@ export const InputForm = ({ initialValues = [], disabled, onChange }) => {
     setValues({
       ...values,
       [field]: newValue,
-      marca: selectedUt ? selectedUt.marcaModelo : "",
+      marcaModelo: selectedUt ? selectedUt.marcaModelo : "",
       eje: selectedUt ? selectedUt.eje : "",
       subeje: selectedUt ? selectedUt.subeje : "",
     });
@@ -68,10 +68,10 @@ export const InputForm = ({ initialValues = [], disabled, onChange }) => {
         </Grid>
         <Grid item>
           <TextField
-            id="marca"
+            id="marcaModelo"
             label="Marca/Model"
             variant="outlined"
-            value={values.marca}
+            value={values.marcaModelo}
             onChange={handleChange}
             disabled={true}
             fullWidth

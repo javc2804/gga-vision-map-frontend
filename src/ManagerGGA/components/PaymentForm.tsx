@@ -8,6 +8,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Grid } from "@mui/material";
+import { format } from "date-fns";
 
 const schema = yup.object().shape({
   precioUnitarioBs: yup
@@ -174,10 +175,23 @@ const schema = yup.object().shape({
     .integer("OC/OS debe ser un número entero")
     .required("OC/OS es requerido"),
   numeroOrdenPago: yup
-    .number()
-    .typeError("N de Orden de Pago debe ser un número entero")
-    .integer("N de Orden de Pago debe ser un número entero")
-    .required("N de Orden de Pago es requerido"),
+    .string()
+    .required("El número orden de pago es requerida")
+    .test(
+      "is-number",
+      "La cantidad debe ser un número entero",
+      (value) => !isNaN(Number(value)) && Number.isInteger(Number(value))
+    )
+    .test(
+      "is-positive",
+      "número orden de pago debe ser un número positivo",
+      (value) => Number(value) > 0
+    )
+    .test(
+      "no-decimal-point",
+      "No puede contener un punto decimal",
+      (value) => !value.includes(".")
+    ),
   fechaOcOs: yup.date().required("Fecha de OC/OS es requerido"),
 });
 
@@ -236,7 +250,7 @@ export const PaymentForm = ({
     if (isNaN(montoTotalBs) || isNaN(cantidad) || cantidad === 0) {
       return 0;
     }
-    return montoTotalBs / cantidad;
+    return (montoTotalBs / cantidad).toFixed(2);
   };
 
   const calculateMontoTotalBs = (
@@ -286,7 +300,7 @@ export const PaymentForm = ({
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} sx={{}}>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -297,7 +311,6 @@ export const PaymentForm = ({
         autoComplete="off"
       >
         <Grid container spacing={2} style={{ width: "40%" }}>
-          {" "}
           <Grid item xs={12} sm={6} md={4}>
             <Controller
               name="repuesto"
@@ -319,7 +332,13 @@ export const PaymentForm = ({
                       fullWidth
                     />
                   )}
-                  onChange={(_, data) => field.onChange(data)}
+                  onChange={(_, data) => {
+                    field.onChange(data); // Esto es necesario para que react-hook-form rastree los cambios
+                    setValues({
+                      ...values,
+                      repuesto: data.type,
+                    });
+                  }}
                 />
               )}
             />
@@ -345,7 +364,13 @@ export const PaymentForm = ({
                       fullWidth
                     />
                   )}
-                  onChange={(_, data) => field.onChange(data)}
+                  onChange={(_, data) => {
+                    field.onChange(data); // Esto es necesario para que react-hook-form rastree los cambios
+                    setValues({
+                      ...values,
+                      descripcionRepuesto: data.variant,
+                    });
+                  }}
                 />
               )}
             />
@@ -593,6 +618,13 @@ export const PaymentForm = ({
               variant="outlined"
               error={!!errors.ocOs}
               helperText={errors.ocOs?.message}
+              onChange={(event) => {
+                field.onChange(event); // Esto es necesario para que react-hook-form rastree los cambios
+                setValues({
+                  ...values,
+                  ocOs: event.target.value,
+                });
+              }}
             />
           )}
         />
@@ -605,7 +637,13 @@ export const PaymentForm = ({
               id="fechaOcOs"
               label="Fecha OC/OS"
               value={value}
-              onChange={onChange}
+              onChange={(date) => {
+                onChange(date); // Esto es necesario para que react-hook-form rastree los cambios
+                setValues({
+                  ...values,
+                  fechaOcOs: format(date, "yyyy-MM-dd"), // Formatea la fecha en el formato 'yyyy-MM-dd'
+                });
+              }}
               format="dd/MM/yyyy"
               components={{
                 textField: TextField,
@@ -625,6 +663,15 @@ export const PaymentForm = ({
               variant="outlined"
               error={!!errors.numeroOrdenPago}
               helperText={errors.numeroOrdenPago?.message}
+              onChange={(event) => {
+                field.onChange(event); // Esto es necesario para que react-hook-form rastree los cambios
+                trigger("numeroOrdenPago"); // valida el campo
+                const newNumeroOrdenPago = event.target.value;
+                setValues({
+                  ...values,
+                  numeroOrdenPago: newNumeroOrdenPago,
+                });
+              }}
             />
           )}
         />
@@ -641,6 +688,14 @@ export const PaymentForm = ({
               rows={4}
               error={!!errors.observacion}
               helperText={errors.observacion?.message}
+              onChange={(event) => {
+                field.onChange(event); // Esto es necesario para que react-hook-form rastree los cambios
+                const newObservacion = event.target.value;
+                setValues({
+                  ...values,
+                  observacion: newObservacion,
+                });
+              }}
             />
           )}
         />

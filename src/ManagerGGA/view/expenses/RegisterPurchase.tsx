@@ -9,6 +9,7 @@ import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
 import { startGetPurchase } from "../../../store/purchase/purchaseThunks";
 import Autocomplete from "@mui/material/Autocomplete";
+import { Controller, useForm } from "react-hook-form";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
   return <MuiAlert elevation={6} variant="filled" ref={ref} {...props} />;
@@ -24,8 +25,7 @@ export const RegisterPurchase = () => {
     purchaseData.purchase?.response?.sparePartVariants || []; // Accedemos a la propiedad fleets
   const initialValuesInput = {
     ut: "",
-    marca: "",
-    modelo: "",
+    marcaModelo: "",
     eje: "",
     subeje: "",
   };
@@ -46,11 +46,14 @@ export const RegisterPurchase = () => {
     numeroOrdenPago: "",
     observacion: "",
     facNDE: 0,
+    proveedor: null,
   };
 
   useEffect(() => {
     dispatch(startGetPurchase());
   }, [dispatch]);
+
+  const { control } = useForm();
 
   const [open, setOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -69,6 +72,7 @@ export const RegisterPurchase = () => {
   const [totalFactUsd, setTotalFactUsd] = useState(0);
   const [totalFactBs, setTotalFactBs] = useState(0);
   const [facNDE, setFacNDE] = useState(0);
+  const [proveedor, setProveedor] = useState(null);
 
   const handleAddClick = () => {
     setForms([
@@ -121,6 +125,10 @@ export const RegisterPurchase = () => {
 
     const hasErrors = combinedForms.some((form) => {
       form.facNDE = facNDE;
+      if (proveedor) {
+        form.proveedor = proveedor.name;
+      }
+
       return form.errors && Object.keys(form.errors).length > 0;
     });
 
@@ -206,17 +214,31 @@ export const RegisterPurchase = () => {
           value={facNDE || ""}
           onChange={(e) => setFacNDE(e.target.value)}
         />
-        <Autocomplete
-          id="provider"
-          options={providers}
-          getOptionLabel={(option) => option.name}
-          sx={{ flexGrow: 0.15 }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Registro Proveedor"
-              variant="outlined"
-              fullWidth
+        <Controller
+          name="proveedor"
+          control={control}
+          defaultValue={null} // Asegúrate de que el valor inicial no sea `undefined`
+          render={({ field }) => (
+            <Autocomplete
+              id="proveedor"
+              options={providers}
+              getOptionLabel={(option) => option.name}
+              isOptionEqualToValue={(option, value) => option.id === value.id} // Asegúrate de que las opciones se comparan correctamente
+              sx={{ flexGrow: 0.15 }}
+              onChange={(event, value) => {
+                field.onChange(value);
+                // Actualiza el estado del proveedor con el valor seleccionado
+                setProveedor(value);
+              }}
+              value={field.value}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Registro Proveedor"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
             />
           )}
         />
