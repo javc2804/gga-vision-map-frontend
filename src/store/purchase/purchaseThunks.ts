@@ -7,20 +7,19 @@ import {
 import { purchaseService } from "../../api/purchaseService";
 import { AppThunk } from "../../store/store";
 
-export const startGetPurchase =
-  (): AppThunk => async (dispatch: AppDispatch) => {
-    dispatch(getPurchaseStart());
-    try {
-      const purchaseData = await purchaseService.getPurchase();
-      dispatch(getPurchaseSuccess(purchaseData));
-    } catch (error: any) {
-      if (error instanceof Error) {
-        dispatch(getPurchaseFailure(error.message));
-      } else {
-        dispatch(getPurchaseFailure("An unknown error occurred."));
-      }
+export const startGetPurchase = (): any => async (dispatch: AppDispatch) => {
+  dispatch(getPurchaseStart());
+  try {
+    const purchaseData = await purchaseService.getPurchase();
+    dispatch(getPurchaseSuccess(purchaseData));
+  } catch (error: any) {
+    if (error instanceof Error) {
+      dispatch(getPurchaseFailure(error.message));
+    } else {
+      dispatch(getPurchaseFailure("An unknown error occurred."));
     }
-  };
+  }
+};
 
 export const startSavePurchase =
   (purchaseData: any): AppThunk =>
