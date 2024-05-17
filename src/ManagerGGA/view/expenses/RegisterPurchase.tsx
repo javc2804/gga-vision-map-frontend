@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState as StoreRootState } from "../../../store/store";
 import { Controller, useForm } from "react-hook-form";
@@ -20,6 +20,8 @@ import {
   selectUt,
 } from "../../../store/purchase/purchaseSlice";
 
+import useMultipleForm from "../../hooks/useMultipleForm";
+
 interface RootState {
   purchase: {
     purchase: {
@@ -40,22 +42,63 @@ interface ResponseType {
   sparePartVariants?: any[];
 }
 
-export const RegisterPurchase = () => {
-  const { SnackbarComponent, openSnackbar } = useSnackbar();
+const initialValuesInput = {
+  ut: "",
+  marcaModelo: "",
+  eje: "",
+  subeje: "",
+};
 
+const initialValuesPayment = {
+  repuesto: null,
+  descripcionRepuesto: null,
+  formaPago: "Contado",
+  descripcion: "",
+  cantidad: "",
+  precioUnitarioBs: "",
+  tasaBcv: "",
+  precioUnitarioUsd: "",
+  montoTotalUsd: "",
+  montoTotalBs: "",
+  ocOs: "",
+  fechaOcOs: null,
+  numeroOrdenPago: "",
+  observacion: "",
+  facNDE: 0,
+  proveedor: null,
+};
+
+export const RegisterPurchase = () => {
   const dispatch = useDispatch();
+
+  const { control } = useForm();
+
+  const [formState, setFormState] = useState({ facNDE: 0, proveedor: null });
+
+  const { SnackbarComponent, openSnackbar } = useSnackbar();
+  const {
+    forms,
+    handleAddClick,
+    handleRemoveClick,
+    handleInputChange,
+    handlePaymentChange,
+    totalFactUsd,
+    totalFactBs,
+    setTotalFactUsd,
+    setTotalFactBs,
+    handleSaveClick,
+  } = useMultipleForm(
+    initialValuesInput,
+    initialValuesPayment,
+    openSnackbar,
+    formState.facNDE,
+    formState.proveedor,
+    ErrorOutline,
+    CheckCircle
+  );
   const purchase = useSelector(
     (state: StoreRootState) => state.purchase.purchase
   );
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
-  const saveStatus = useSelector(selectSaveStatus);
-  const deliveryDate = useSelector(selectDeliveryDate);
-  const paymentDate = useSelector(selectPaymentDate);
-  const orderDate = useSelector(selectOrderDate);
-  const repuestos = useSelector(selectRepuestos);
-  const formaDePago = useSelector(selectFormaDePago);
-  const ut = useSelector(selectUt);
 
   const response: ResponseType = purchase ? purchase.response : {};
 
@@ -66,190 +109,9 @@ export const RegisterPurchase = () => {
     sparePartVariants = [],
   } = response;
 
-  const initialValuesInput = {
-    ut: "",
-    marcaModelo: "",
-    eje: "",
-    subeje: "",
-  };
-
-  const initialValuesPayment = {
-    repuesto: null,
-    descripcionRepuesto: null,
-    formaPago: "Contado",
-    descripcion: "",
-    cantidad: "",
-    precioUnitarioBs: "",
-    tasaBcv: "",
-    precioUnitarioUsd: "",
-    montoTotalUsd: "",
-    montoTotalBs: "",
-    ocOs: "",
-    fechaOcOs: null,
-    numeroOrdenPago: "",
-    observacion: "",
-    facNDE: 0,
-    proveedor: null,
-  };
-
   useEffect(() => {
     dispatch(startGetPurchase());
   }, [dispatch]);
-
-  const { control } = useForm();
-
-  const [nextId, setNextId] = useState(1);
-  const [forms, setForms] = useState([
-    {
-      id: 0,
-      input: initialValuesInput,
-      payment: initialValuesPayment,
-      errors: {},
-    },
-  ]);
-
-  const [totalFactUsd, setTotalFactUsd] = useState(0);
-  const [totalFactBs, setTotalFactBs] = useState(0);
-  const [facNDE, setFacNDE] = useState(0);
-  const [proveedor, setProveedor] = useState(null);
-
-  const handleAddClick = () => {
-    setForms([
-      ...forms,
-      {
-        id: nextId,
-        input: initialValuesInput,
-        payment: initialValuesPayment,
-        errors: {},
-      },
-    ]);
-    setNextId(nextId + 1);
-  };
-
-  const handleRemoveClick = (id) => {
-    const list = forms.filter((form) => form.id !== id);
-    setForms(list);
-  };
-
-  const handleSaveClick = () => {
-    const combinedForms = forms.map((form) => {
-      form.payment.facNDE = facNDE;
-      form.payment.proveedor = proveedor;
-      return {
-        id: form.id,
-        ...form.input,
-        ...form.payment,
-        errors: form.errors,
-      };
-    });
-
-    let errorField = null;
-    const hasErrors = forms.some((form) => {
-      const requiredFields = [
-        "facNDE",
-        "proveedor",
-        "cantidad",
-        "montoTotalBs",
-        "montoTotalUsd",
-        "numeroOrdenPago",
-        "precioUnitarioBs",
-        "precioUnitarioUsd",
-        "tasaBcv",
-        "repuesto",
-        "descripcionRepuesto",
-        "fechaOcOs",
-      ];
-
-      return requiredFields.some((field) => {
-        const hasError = !form.payment[field] || form.payment[field] === null;
-        if (hasError) {
-          errorField = field;
-        }
-        return hasError;
-      });
-    });
-
-    if (hasErrors) {
-      openSnackbar(
-        `Error al guardar, verifica el campo ${errorField}`,
-        "error",
-        ErrorOutline
-      );
-      return;
-    }
-    const hasErrorsUt = forms.some((form) => {
-      const requiredFields = ["ut"];
-
-      return requiredFields.some((field) => {
-        const hasError = !form.input[field] || form.input[field] === null;
-        if (hasError) {
-          errorField = field;
-        }
-        return hasError;
-      });
-    });
-
-    if (hasErrorsUt) {
-      openSnackbar(
-        `Error al guardar, verifica el campo ${errorField}`,
-        "error",
-        ErrorOutline
-      );
-      return;
-    }
-
-    if (facNDE === "0" || "") {
-      openSnackbar(
-        `Error al guardar, Fac/NDE debe estar lleno y distinto a 0`,
-        "error",
-        ErrorOutline
-      );
-      return;
-    }
-
-    openSnackbar("Guardado exitosamente", "success", CheckCircle);
-    console.log(combinedForms);
-  };
-
-  const handleInputChange = useCallback(
-    (id) => (newValues, newErrors) => {
-      setForms((prevForms) =>
-        prevForms.map((form) =>
-          form.id === id
-            ? { ...form, input: newValues, errors: newErrors }
-            : form
-        )
-      );
-    },
-    [setForms]
-  );
-
-  const handlePaymentChange = useCallback(
-    (id) => (newValues, newErrors) => {
-      setForms((prevForms) => {
-        let totalUsd = 0;
-        let totalBs = 0;
-
-        const newForms = prevForms.map((form) => {
-          if (form.id === id) {
-            totalUsd += parseFloat(newValues.montoTotalUsd);
-            totalBs += parseFloat(newValues.montoTotalBs);
-            return { ...form, payment: newValues, errors: newErrors };
-          } else {
-            totalUsd += parseFloat(form.payment.montoTotalUsd);
-            totalBs += parseFloat(form.payment.montoTotalBs);
-            return form;
-          }
-        });
-
-        setTotalFactUsd(totalUsd);
-        setTotalFactBs(totalBs);
-
-        return newForms;
-      });
-    },
-    [setForms]
-  );
 
   return (
     <>
@@ -266,8 +128,13 @@ export const RegisterPurchase = () => {
           label="No Fac/NDE"
           variant="outlined"
           sx={{ mr: 1 }}
-          value={facNDE || ""}
-          onChange={(e) => setFacNDE(e.target.value)}
+          value={formState.facNDE || ""}
+          onChange={(e) =>
+            setFormState((prevState) => ({
+              ...prevState,
+              facNDE: Number(e.target.value),
+            }))
+          }
         />
         <Controller
           name="proveedor"
@@ -282,7 +149,10 @@ export const RegisterPurchase = () => {
               sx={{ flexGrow: 0.15 }}
               onChange={(event, value) => {
                 field.onChange(value);
-                setProveedor(value);
+                setFormState((prevState) => ({
+                  ...prevState,
+                  proveedor: value,
+                }));
               }}
               value={field.value}
               renderInput={(params) => (
