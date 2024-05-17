@@ -6,6 +6,7 @@ import { UTInputForm, PaymentForm } from "../../components/";
 import { startGetPurchase } from "../../../store/purchase/purchaseThunks";
 import { useSnackbar } from "../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
+import InvoiceTotals from "../../components/InvoiceTotals";
 
 interface RootState {
   purchase: {
@@ -320,25 +321,13 @@ export const RegisterPurchase = () => {
           </Box>
         </Box>
       ))}
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2, mr: 3.7 }}>
-        <TextField
-          label="Total factura $"
-          variant="outlined"
-          sx={{ mr: 1 }}
-          value={totalFactUsd}
-          onChange={(e) => setTotalFactUsd(e.target.value)}
-        />
-        <TextField
-          label="Total factura Bs"
-          variant="outlined"
-          sx={{ mr: 1 }}
-          value={totalFactBs}
-          onChange={(e) => setTotalFactBs(e.target.value)}
-        />
-        <Button variant="contained" color="primary" onClick={handleSaveClick}>
-          Guardar
-        </Button>
-      </Box>
+      <InvoiceTotals
+        totalFactUsd={totalFactUsd}
+        totalFactBs={totalFactBs}
+        setTotalFactUsd={setTotalFactUsd}
+        setTotalFactBs={setTotalFactBs}
+        handleSaveClick={handleSaveClick}
+      />
       {SnackbarComponent}
     </>
   );
