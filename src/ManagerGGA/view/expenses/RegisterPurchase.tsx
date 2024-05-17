@@ -1,21 +1,16 @@
 import React, { useState, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Controller, useForm } from "react-hook-form";
+import { Button, Box, TextField, Autocomplete } from "@mui/material";
 import UTInputForm from "../../components/UTInputForm";
 import PaymentForm from "../../components/PaymentForm";
-import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import { useDispatch, useSelector } from "react-redux";
 import { startGetPurchase } from "../../../store/purchase/purchaseThunks";
-import Autocomplete from "@mui/material/Autocomplete";
-import { Controller, useForm } from "react-hook-form";
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
-  return <MuiAlert elevation={6} variant="filled" ref={ref} {...props} />;
-});
+import { useSnackbar } from "../../../hooks/useSnackBar"; // Asegúrate de que la ruta de importación sea correcta
+import { ErrorOutline, CheckCircle } from "@mui/icons-material"; // Importa el icono que desees usar
 
 export const RegisterPurchase = () => {
+  const { SnackbarComponent, openSnackbar } = useSnackbar();
+
   const dispatch = useDispatch();
   const purchaseData = useSelector((state) => state.purchase); // Reemplaza 'purchase' con el nombre de la rebanada de estado que contiene los datos de la compra
   const fleets = purchaseData.purchase?.response?.fleets || []; // Accedemos a la propiedad fleets
@@ -56,8 +51,6 @@ export const RegisterPurchase = () => {
   const { control } = useForm();
 
   const [open, setOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const [nextId, setNextId] = useState(1);
   const [forms, setForms] = useState([
@@ -90,22 +83,6 @@ export const RegisterPurchase = () => {
   const handleRemoveClick = (id) => {
     const list = forms.filter((form) => form.id !== id);
     setForms(list);
-  };
-  const handleSnackbarOpen = (message, severity) => {
-    setSnackbarMessage(message);
-    setSnackbarSeverity(severity);
-    setOpen(true);
-  };
-
-  const handleSnackbarClose = (
-    event?: React.SyntheticEvent,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
   };
 
   const handleSaveClick = () => {
@@ -147,9 +124,10 @@ export const RegisterPurchase = () => {
     });
 
     if (hasErrors) {
-      handleSnackbarOpen(
+      openSnackbar(
         `Error al guardar, verifica el campo ${errorField}`,
-        "error"
+        "error",
+        ErrorOutline
       );
       return;
     }
@@ -166,22 +144,24 @@ export const RegisterPurchase = () => {
     });
 
     if (hasErrorsUt) {
-      handleSnackbarOpen(
+      openSnackbar(
         `Error al guardar, verifica el campo ${errorField}`,
-        "error"
+        "error",
+        ErrorOutline
       );
       return;
     }
 
     if (facNDE === "0" || "") {
-      handleSnackbarOpen(
+      openSnackbar(
         `Error al guardar, Fac/NDE debe estar lleno y distinto a 0`,
-        "error"
+        "error",
+        ErrorOutline
       );
       return;
     }
 
-    handleSnackbarOpen("Guardado con éxito", "success");
+    openSnackbar("Guardado exitosamente", "success", CheckCircle);
     console.log(combinedForms);
   };
 
@@ -339,20 +319,7 @@ export const RegisterPurchase = () => {
           Guardar
         </Button>
       </Box>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert
-          onClose={handleSnackbarClose}
-          severity={snackbarSeverity}
-          sx={{ width: "100%" }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      {SnackbarComponent}
     </>
   );
 };
