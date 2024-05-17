@@ -1,26 +1,41 @@
-import { useEffect, useState, useRef, memo } from "react";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Autocomplete from "@mui/material/Autocomplete";
-import Grid from "@mui/material/Grid";
+import { useEffect, useRef, memo } from "react";
+import { TextField, Box, Autocomplete, Grid } from "@mui/material";
+import useForm from "../hooks/useFormUT";
+
 type InitialValuesType = {
   ut: string;
   marcaModelo: string;
   eje: string;
   subeje: string;
 };
-const UTInputForm = ({
+
+type UTInputFormProps = {
+  initialValues?: InitialValuesType[];
+  fleets?: InitialValuesType[];
+  disabled?: boolean;
+  onChange?: (values: InitialValuesType) => void;
+};
+
+const UTInputForm: React.FC<UTInputFormProps> = ({
   initialValues = [],
   fleets = [],
-  disabled,
+  disabled = false,
   onChange,
 }) => {
-  const [values, setValues] = useState({
-    ut: initialValues.length > 0 ? initialValues[0].ut : "",
-    marcaModelo: initialValues.length > 0 ? initialValues[0].marcaModelo : "",
-    eje: initialValues.length > 0 ? initialValues[0].eje : "",
-    subeje: initialValues.length > 0 ? initialValues[0].subeje : "",
-  });
+  const initialValuesObject: InitialValuesType =
+    initialValues.length > 0
+      ? initialValues[0]
+      : {
+          ut: "",
+          marcaModelo: "",
+          eje: "",
+          subeje: "",
+        };
+
+  const { values, handleChange, handleAutoCompleteChange } = useForm(
+    initialValuesObject,
+    fleets
+  );
 
   const lastValuesRef = useRef(values);
 
@@ -30,24 +45,6 @@ const UTInputForm = ({
       lastValuesRef.current = values;
     }
   }, [values, onChange]);
-
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.id]: event.target.value,
-    });
-  };
-
-  const handleAutoCompleteChange = (field) => (event, newValue) => {
-    const selectedUt = fleets.find((item) => item.ut === newValue);
-    setValues({
-      ...values,
-      [field]: newValue,
-      marcaModelo: selectedUt ? selectedUt.marcaModelo : "",
-      eje: selectedUt ? selectedUt.eje : "",
-      subeje: selectedUt ? selectedUt.subeje : "",
-    });
-  };
 
   const utOptions = fleets.map((item) => item.ut);
 
