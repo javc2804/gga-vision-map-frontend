@@ -1,23 +1,22 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
 import { Button, Box, TextField, Autocomplete } from "@mui/material";
-import UTInputForm from "../../components/UTInputForm";
-import PaymentForm from "../../components/PaymentForm";
+import { UTInputForm, PaymentForm } from "../../components/";
 import { startGetPurchase } from "../../../store/purchase/purchaseThunks";
-import { useSnackbar } from "../../../hooks/useSnackBar"; // Asegúrate de que la ruta de importación sea correcta
-import { ErrorOutline, CheckCircle } from "@mui/icons-material"; // Importa el icono que desees usar
+import { useSnackbar } from "../../../hooks/useSnackBar";
+import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
 export const RegisterPurchase = () => {
   const { SnackbarComponent, openSnackbar } = useSnackbar();
 
   const dispatch = useDispatch();
-  const purchaseData = useSelector((state) => state.purchase); // Reemplaza 'purchase' con el nombre de la rebanada de estado que contiene los datos de la compra
-  const fleets = purchaseData.purchase?.response?.fleets || []; // Accedemos a la propiedad fleets
-  const providers = purchaseData.purchase?.response?.providers || []; // Accedemos a la propiedad fleets
-  const spareParts = purchaseData.purchase?.response?.spareParts || []; // Accedemos a la propiedad fleets
+  const purchaseData = useSelector((state) => state.purchase);
+  const fleets = purchaseData.purchase?.response?.fleets || [];
+  const providers = purchaseData.purchase?.response?.providers || [];
+  const spareParts = purchaseData.purchase?.response?.spareParts || [];
   const sparePartVariants =
-    purchaseData.purchase?.response?.sparePartVariants || []; // Accedemos a la propiedad fleets
+    purchaseData.purchase?.response?.sparePartVariants || [];
   const initialValuesInput = {
     ut: "",
     marcaModelo: "",
@@ -226,17 +225,16 @@ export const RegisterPurchase = () => {
         <Controller
           name="proveedor"
           control={control}
-          defaultValue={null} // Asegúrate de que el valor inicial no sea `undefined`
+          defaultValue={null}
           render={({ field }) => (
             <Autocomplete
               id="proveedor"
               options={providers}
               getOptionLabel={(option) => option.name}
-              isOptionEqualToValue={(option, value) => option.id === value.id} // Asegúrate de que las opciones se comparan correctamente
+              isOptionEqualToValue={(option, value) => option.id === value.id}
               sx={{ flexGrow: 0.15 }}
               onChange={(event, value) => {
                 field.onChange(value);
-                // Actualiza el estado del proveedor con el valor seleccionado
                 setProveedor(value);
               }}
               value={field.value}

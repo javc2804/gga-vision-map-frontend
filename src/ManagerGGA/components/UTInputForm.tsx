@@ -16,7 +16,7 @@ type UTInputFormProps = {
   onChange?: (values: InitialValuesType) => void;
 };
 
-const UTInputForm: React.FC<UTInputFormProps> = ({
+export const UTInputForm: React.FC<UTInputFormProps> = ({
   initialValues = [],
   fleets = [],
   disabled = false,
