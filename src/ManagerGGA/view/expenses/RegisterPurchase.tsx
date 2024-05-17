@@ -7,16 +7,40 @@ import { startGetPurchase } from "../../../store/purchase/purchaseThunks";
 import { useSnackbar } from "../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
+interface RootState {
+  purchase: {
+    purchase: {
+      response: {
+        fleets: any[];
+        providers: any[];
+        spareParts: any[];
+        sparePartVariants: any[];
+      };
+    };
+  };
+}
+
+interface ResponseType {
+  fleets?: any[];
+  providers?: any[];
+  spareParts?: any[];
+  sparePartVariants?: any[];
+}
+
 export const RegisterPurchase = () => {
   const { SnackbarComponent, openSnackbar } = useSnackbar();
 
   const dispatch = useDispatch();
-  const purchaseData = useSelector((state) => state.purchase);
-  const fleets = purchaseData.purchase?.response?.fleets || [];
-  const providers = purchaseData.purchase?.response?.providers || [];
-  const spareParts = purchaseData.purchase?.response?.spareParts || [];
-  const sparePartVariants =
-    purchaseData.purchase?.response?.sparePartVariants || [];
+  const { purchase } = useSelector((state: RootState) => state.purchase);
+  const response: ResponseType = purchase ? purchase.response : {};
+
+  const {
+    fleets = [],
+    providers = [],
+    spareParts = [],
+    sparePartVariants = [],
+  } = response;
+
   const initialValuesInput = {
     ut: "",
     marcaModelo: "",
@@ -48,8 +72,6 @@ export const RegisterPurchase = () => {
   }, [dispatch]);
 
   const { control } = useForm();
-
-  const [open, setOpen] = useState(false);
 
   const [nextId, setNextId] = useState(1);
   const [forms, setForms] = useState([
