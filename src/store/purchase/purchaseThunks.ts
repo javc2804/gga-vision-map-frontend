@@ -1,4 +1,3 @@
-// purchaseThunks.ts
 import { AppDispatch } from "../store";
 import {
   getPurchaseStart,
@@ -6,7 +5,7 @@ import {
   getPurchaseFailure,
 } from "./purchaseSlice";
 import { purchaseService } from "../../api/purchaseService";
-import { AppThunk } from "../../store/purchase/purchaseSlice";
+import { AppThunk } from "../../store/store";
 
 export const startGetPurchase =
   (): AppThunk => async (dispatch: AppDispatch) => {
@@ -14,8 +13,12 @@ export const startGetPurchase =
     try {
       const purchaseData = await purchaseService.getPurchase();
       dispatch(getPurchaseSuccess(purchaseData));
-    } catch (error) {
-      dispatch(getPurchaseFailure(error.message));
+    } catch (error: any) {
+      if (error instanceof Error) {
+        dispatch(getPurchaseFailure(error.message));
+      } else {
+        dispatch(getPurchaseFailure("An unknown error occurred."));
+      }
     }
   };
 
@@ -30,7 +33,11 @@ export const startSavePurchase =
       } else {
         throw new Error(result.response);
       }
-    } catch (error) {
-      dispatch(getPurchaseFailure(error.message));
+    } catch (error: any) {
+      if (error instanceof Error) {
+        dispatch(getPurchaseFailure(error.message));
+      } else {
+        dispatch(getPurchaseFailure("An unknown error occurred."));
+      }
     }
   };

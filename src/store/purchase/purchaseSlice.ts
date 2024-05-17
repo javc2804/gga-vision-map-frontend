@@ -1,4 +1,3 @@
-// purchaseSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
@@ -7,6 +6,12 @@ interface PurchaseState {
   error: string | null;
   purchase: any | null;
   saveStatus: "idle" | "loading" | "succeeded" | "failed";
+  deliveryDate: string;
+  paymentDate: string;
+  orderDate: string;
+  repuestos: string;
+  formaDePago: string;
+  ut: string;
 }
 
 const initialState: PurchaseState = {
@@ -14,6 +19,12 @@ const initialState: PurchaseState = {
   error: null,
   purchase: null,
   saveStatus: "idle",
+  deliveryDate: new Date().toISOString(),
+  paymentDate: new Date().toISOString(),
+  orderDate: new Date().toISOString(),
+  repuestos: "",
+  formaDePago: "",
+  ut: "",
 };
 
 export const purchaseSlice = createSlice({
@@ -42,6 +53,24 @@ export const purchaseSlice = createSlice({
       state.saveStatus = "failed";
       state.error = action.payload;
     },
+    setDeliveryDate: (state, action: PayloadAction<string>) => {
+      state.deliveryDate = action.payload;
+    },
+    setPaymentDate: (state, action: PayloadAction<string>) => {
+      state.paymentDate = action.payload;
+    },
+    setOrderDate: (state, action: PayloadAction<string>) => {
+      state.orderDate = action.payload;
+    },
+    setRepuestos: (state, action: PayloadAction<string>) => {
+      state.repuestos = action.payload;
+    },
+    setFormaDePago: (state, action: PayloadAction<string>) => {
+      state.formaDePago = action.payload;
+    },
+    setUt: (state, action: PayloadAction<string>) => {
+      state.ut = action.payload;
+    },
   },
 });
 
@@ -52,11 +81,26 @@ export const {
   savePurchaseStart,
   savePurchaseSuccess,
   savePurchaseFailure,
+  setDeliveryDate,
+  setPaymentDate,
+  setOrderDate,
+  setRepuestos,
+  setFormaDePago,
+  setUt,
 } = purchaseSlice.actions;
 
 export const selectPurchase = (state: RootState) => state.purchase.purchase;
 export const selectLoading = (state: RootState) => state.purchase.loading;
 export const selectError = (state: RootState) => state.purchase.error;
 export const selectSaveStatus = (state: RootState) => state.purchase.saveStatus;
+export const selectDeliveryDate = (state: RootState) =>
+  state.purchase.deliveryDate;
+export const selectPaymentDate = (state: RootState) =>
+  state.purchase.paymentDate;
+export const selectOrderDate = (state: RootState) => state.purchase.orderDate;
+export const selectRepuestos = (state: RootState) => state.purchase.repuestos;
+export const selectFormaDePago = (state: RootState) =>
+  state.purchase.formaDePago;
+export const selectUt = (state: RootState) => state.purchase.ut;
 
 export default purchaseSlice.reducer;

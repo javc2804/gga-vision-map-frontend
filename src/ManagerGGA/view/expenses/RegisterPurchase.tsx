@@ -1,12 +1,24 @@
 import { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState as StoreRootState } from "../../../store/store";
 import { Controller, useForm } from "react-hook-form";
 import { Button, Box, TextField, Autocomplete } from "@mui/material";
-import { UTInputForm, PaymentForm } from "../../components/";
+import { UTInputForm, PaymentForm, InvoiceTotals } from "../../components/";
 import { startGetPurchase } from "../../../store/purchase/purchaseThunks";
 import { useSnackbar } from "../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
-import InvoiceTotals from "../../components/InvoiceTotals";
+import {
+  selectPurchase,
+  selectLoading,
+  selectError,
+  selectSaveStatus,
+  selectDeliveryDate,
+  selectPaymentDate,
+  selectOrderDate,
+  selectRepuestos,
+  selectFormaDePago,
+  selectUt,
+} from "../../../store/purchase/purchaseSlice";
 
 interface RootState {
   purchase: {
@@ -32,7 +44,19 @@ export const RegisterPurchase = () => {
   const { SnackbarComponent, openSnackbar } = useSnackbar();
 
   const dispatch = useDispatch();
-  const { purchase } = useSelector((state: RootState) => state.purchase);
+  const purchase = useSelector(
+    (state: StoreRootState) => state.purchase.purchase
+  );
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+  const saveStatus = useSelector(selectSaveStatus);
+  const deliveryDate = useSelector(selectDeliveryDate);
+  const paymentDate = useSelector(selectPaymentDate);
+  const orderDate = useSelector(selectOrderDate);
+  const repuestos = useSelector(selectRepuestos);
+  const formaDePago = useSelector(selectFormaDePago);
+  const ut = useSelector(selectUt);
+
   const response: ResponseType = purchase ? purchase.response : {};
 
   const {

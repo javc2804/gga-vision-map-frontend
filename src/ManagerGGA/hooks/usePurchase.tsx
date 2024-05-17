@@ -1,16 +1,32 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectPurchase } from "../../store/purchase/purchaseSlice";
+import { RootState } from "../../store/store";
+import {
+  selectPurchase,
+  setDeliveryDate,
+  setPaymentDate,
+  setOrderDate,
+  setRepuestos,
+  setFormaDePago,
+  setUt,
+} from "../../store/purchase/purchaseSlice";
 
 export const usePurchase = () => {
-  const [deliveryDate, setDeliveryDate] = useState(new Date());
-  const [paymentDate, setPaymentDate] = useState(new Date());
-  const [orderDate, setOrderDate] = useState(new Date());
-  const [repuestos, setRepuestos] = useState("");
-  const [formaDePago, setFormaDePago] = useState("");
-  const [ut, setUt] = useState("");
-
   const dispatch = useDispatch();
+
+  const deliveryDate = useSelector(
+    (state: RootState) => state.purchase.deliveryDate
+  );
+  const paymentDate = useSelector(
+    (state: RootState) => state.purchase.paymentDate
+  );
+  const orderDate = useSelector((state: RootState) => state.purchase.orderDate);
+  const repuestos = useSelector((state: RootState) => state.purchase.repuestos);
+  const formaDePago = useSelector(
+    (state: RootState) => state.purchase.formaDePago
+  );
+  const ut = useSelector((state: RootState) => state.purchase.ut);
+
   const purchase = useSelector(selectPurchase);
 
   // useEffect(() => {
@@ -26,6 +42,48 @@ export const usePurchase = () => {
   const handleClear = useCallback(() => {
     console.log("limpiar clicked");
   }, []);
+
+  const handleSetDeliveryDate = useCallback(
+    (date: Date) => {
+      dispatch(setDeliveryDate(date));
+    },
+    [dispatch]
+  );
+
+  const handleSetPaymentDate = useCallback(
+    (date: Date) => {
+      dispatch(setPaymentDate(date));
+    },
+    [dispatch]
+  );
+
+  const handleSetOrderDate = useCallback(
+    (date: Date) => {
+      dispatch(setOrderDate(date));
+    },
+    [dispatch]
+  );
+
+  const handleSetRepuestos = useCallback(
+    (repuestos: string) => {
+      dispatch(setRepuestos(repuestos));
+    },
+    [dispatch]
+  );
+
+  const handleSetFormaDePago = useCallback(
+    (formaDePago: string) => {
+      dispatch(setFormaDePago(formaDePago));
+    },
+    [dispatch]
+  );
+
+  const handleSetUt = useCallback(
+    (ut: string) => {
+      dispatch(setUt(ut));
+    },
+    [dispatch]
+  );
 
   return {
     deliveryDate,
