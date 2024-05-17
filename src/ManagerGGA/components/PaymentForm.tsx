@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -214,20 +214,17 @@ export const PaymentForm = ({
 
   const [values, setValues] = useState(initialValues);
 
-  useEffect(() => {
-    if (typeof onChange === "function") {
-      if (JSON.stringify(values) !== JSON.stringify(initialValues)) {
-        onChange(values, errors);
-      }
-    }
-  }, [values, onChange, initialValues]);
+  const lastValuesRef = useRef(values);
 
   useEffect(() => {
-    if (typeof onChange === "function") {
+    if (
+      typeof onChange === "function" &&
+      JSON.stringify(values) !== JSON.stringify(lastValuesRef.current)
+    ) {
       onChange(values, errors);
+      lastValuesRef.current = values;
     }
-  }, [values, onChange]);
-
+  }, [values, onChange, errors]);
   const onSubmit = (data) => {
     if (typeof onChange === "function") {
       onChange(data, errors);

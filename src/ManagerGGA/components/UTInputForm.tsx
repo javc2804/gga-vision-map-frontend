@@ -1,7 +1,7 @@
+import { useEffect, useState, useRef, memo } from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 type InitialValuesType = {
   ut: string;
@@ -9,9 +9,9 @@ type InitialValuesType = {
   eje: string;
   subeje: string;
 };
-export const InputForm = ({
+const UTInputForm = ({
   initialValues = [],
-  fleets,
+  fleets = [],
   disabled,
   onChange,
 }) => {
@@ -22,13 +22,14 @@ export const InputForm = ({
     subeje: initialValues.length > 0 ? initialValues[0].subeje : "",
   });
 
+  const lastValuesRef = useRef(values);
+
   useEffect(() => {
-    if (typeof onChange === "function") {
-      if (JSON.stringify(values) !== JSON.stringify(initialValues)) {
-        onChange(values);
-      }
+    if (typeof onChange === "function" && values !== lastValuesRef.current) {
+      onChange(values);
+      lastValuesRef.current = values;
     }
-  }, [values, onChange, initialValues]);
+  }, [values, onChange]);
 
   const handleChange = (event) => {
     setValues({
@@ -110,4 +111,4 @@ export const InputForm = ({
   );
 };
 
-export default InputForm;
+export default memo(UTInputForm);

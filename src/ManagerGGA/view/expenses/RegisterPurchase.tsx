@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import InputForm from "../../components/UTInputForm";
+import React, { useState, useCallback, useEffect } from "react";
+import UTInputForm from "../../components/UTInputForm";
 import PaymentForm from "../../components/PaymentForm";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
@@ -185,59 +185,45 @@ export const RegisterPurchase = () => {
     console.log(combinedForms);
   };
 
-  const handleInputChange = (id) => (newValues, newErrors) => {
-    const newForms = forms.map((form) => {
-      if (form.id === id) {
-        if (
-          JSON.stringify(form.input) !== JSON.stringify(newValues) ||
-          JSON.stringify(form.errors) !== JSON.stringify(newErrors)
-        ) {
-          return { ...form, input: newValues, errors: newErrors };
-        }
-      }
-      return form;
-    });
+  const handleInputChange = useCallback(
+    (id) => (newValues, newErrors) => {
+      setForms((prevForms) =>
+        prevForms.map((form) =>
+          form.id === id
+            ? { ...form, input: newValues, errors: newErrors }
+            : form
+        )
+      );
+    },
+    [setForms]
+  );
 
-    if (JSON.stringify(forms) !== JSON.stringify(newForms)) {
-      setForms(newForms);
-    }
-  };
+  const handlePaymentChange = useCallback(
+    (id) => (newValues, newErrors) => {
+      setForms((prevForms) => {
+        let totalUsd = 0;
+        let totalBs = 0;
 
-  const handlePaymentChange = (id) => (newValues, newErrors) => {
-    setForms((prevForms) => {
-      const newForms = prevForms.map((form) => {
-        if (form.id === id) {
-          if (
-            JSON.stringify(form.payment) !== JSON.stringify(newValues) ||
-            JSON.stringify(form.errors) !== JSON.stringify(newErrors)
-          ) {
+        const newForms = prevForms.map((form) => {
+          if (form.id === id) {
+            totalUsd += parseFloat(newValues.montoTotalUsd);
+            totalBs += parseFloat(newValues.montoTotalBs);
             return { ...form, payment: newValues, errors: newErrors };
+          } else {
+            totalUsd += parseFloat(form.payment.montoTotalUsd);
+            totalBs += parseFloat(form.payment.montoTotalBs);
+            return form;
           }
-        }
-        return form;
-      });
-      const totalUsd = newForms.reduce(
-        (sum, form) =>
-          sum +
-          (form.payment?.montoTotalUsd
-            ? parseFloat(form.payment.montoTotalUsd)
-            : 0),
-        0
-      );
-      const totalBs = newForms.reduce(
-        (sum, form) =>
-          sum +
-          (form.payment?.montoTotalBs
-            ? parseFloat(form.payment.montoTotalBs)
-            : 0),
-        0
-      );
-      setTotalFactUsd(totalUsd);
-      setTotalFactBs(totalBs);
+        });
 
-      return newForms;
-    });
-  };
+        setTotalFactUsd(totalUsd);
+        setTotalFactBs(totalBs);
+
+        return newForms;
+      });
+    },
+    [setForms]
+  );
 
   return (
     <>
@@ -299,7 +285,7 @@ export const RegisterPurchase = () => {
             boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.45)",
           }}
         >
-          <InputForm
+          <UTInputForm
             initialValues={form.input}
             fleets={fleets}
             disabled={false}
