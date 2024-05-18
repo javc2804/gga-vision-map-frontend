@@ -14,9 +14,14 @@ import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 import useMultipleForm from "../../hooks/useMultipleForm";
 import InvoiceProviders from "../../components/InvoiceProviders";
 
+interface Provider {
+  id: string;
+  name: string;
+}
+
 interface ResponseType {
   fleets?: any[];
-  providers?: any[];
+  providers?: Provider[];
   spareParts?: any[];
   sparePartVariants?: any[];
 }
@@ -62,7 +67,10 @@ export const RegisterPurchase = () => {
 
   const { control } = useForm();
 
-  const [formState, setFormState] = useState({ facNDE: 0, proveedor: null });
+  const [formState, setFormState] = useState<{
+    facNDE: number;
+    proveedor: Provider | null;
+  }>({ facNDE: 0, proveedor: null });
 
   const { SnackbarComponent, openSnackbar } = useSnackbar();
   const {
@@ -104,7 +112,11 @@ export const RegisterPurchase = () => {
 
   return (
     <>
-      <InvoiceProviders control={control} providers={providers} />
+      <InvoiceProviders
+        control={control}
+        providers={providers}
+        setFormState={setFormState}
+      />
       {forms.map((form, index) => (
         <Box key={index} sx={boxStyles}>
           <UTInputForm
