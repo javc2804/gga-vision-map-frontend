@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, TextField, Autocomplete } from "@mui/material";
 import { Controller, Control } from "react-hook-form";
 
@@ -20,9 +20,14 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
   providers,
   setFormState,
 }) => {
+  const [facNDE, setFacNDE] = useState<number>(0);
+
   const handleFacNDEChange = (e: any) => {
-    const newFacNDE = Number(e.target.value);
-    setFormState((prevState) => ({ ...prevState, facNDE: newFacNDE }));
+    setFacNDE(Number(e.target.value));
+  };
+
+  const handleFacNDEBlur = () => {
+    setFormState((prevState) => ({ ...prevState, facNDE: facNDE }));
   };
 
   const handleProviderChange = (field: any, _: any, value: any) => {
@@ -37,6 +42,7 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
           label="Fac NDE"
           variant="outlined"
           onChange={handleFacNDEChange}
+          onBlur={handleFacNDEBlur}
           fullWidth
         />
       </Grid>

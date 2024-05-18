@@ -14,20 +14,22 @@ const useForm = (
   const [values, setValues] = useState(initialValues);
 
   const handleChange = (event: any) => {
-    setValues({
-      ...values,
+    setValues((prevValues) => ({
+      ...prevValues,
       [event.target.id]: event.target.value,
-    });
+    }));
   };
 
   const handleAutoCompleteChange = (field: any) => (_: any, newValue: any) => {
-    const selectedUt = fleets.find((item) => item.ut === newValue);
-    setValues({
-      ...values,
-      [field]: newValue,
-      marcaModelo: selectedUt ? selectedUt.marcaModelo : "",
-      eje: selectedUt ? selectedUt.eje : "",
-      subeje: selectedUt ? selectedUt.subeje : "",
+    setValues((prevValues) => {
+      const selectedUt = fleets.find((item) => item.ut === newValue);
+      return {
+        ...prevValues,
+        [field]: newValue,
+        marcaModelo: selectedUt ? selectedUt.marcaModelo : "",
+        eje: selectedUt ? selectedUt.eje : "",
+        subeje: selectedUt ? selectedUt.subeje : "",
+      };
     });
   };
 
