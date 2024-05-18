@@ -9,7 +9,7 @@ interface SparePartsProps {
   sparePartVariants: any;
 }
 
-export const SpareParts = ({
+export const SparePartsAndDescriptions = ({
   control,
   setValues,
   values,
@@ -117,4 +117,4 @@ export const SpareParts = ({
   );
 };
 
-export default SpareParts;
+export default SparePartsAndDescriptions;
