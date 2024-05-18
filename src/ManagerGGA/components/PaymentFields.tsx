@@ -56,8 +56,8 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
             error={!!errors.cantidad}
             helperText={errors.cantidad?.message}
             onChange={(event) => {
-              field.onChange(event); // update field value
-              trigger("cantidad"); // validate field
+              field.onChange(event);
+              trigger("cantidad");
               const newCantidad = Number(event.target.value);
               const newMontoTotalBs = calculateMontoTotalBs(
                 newCantidad,
@@ -73,8 +73,8 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 montoTotalBs: newMontoTotalBs,
                 montoTotalUsd: newMontoTotalUsd,
               });
-              setValue("montoTotalBs", newMontoTotalBs); // update montoTotalBs field
-              setValue("montoTotalUsd", newMontoTotalUsd); // update montoTotalUsd field
+              setValue("montoTotalBs", newMontoTotalBs);
+              setValue("montoTotalUsd", newMontoTotalUsd);
             }}
           />
         )}
@@ -112,9 +112,9 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 montoTotalBs: newMontoTotalBs,
                 montoTotalUsd: newMontoTotalUsd,
               });
-              setValue("precioUnitarioUsd", newPrecioUnitarioUsd); // update precioUnitarioUsd field
-              setValue("montoTotalBs", newMontoTotalBs); // update montoTotalBs field
-              setValue("montoTotalUsd", newMontoTotalUsd); // update montoTotalUsd field
+              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+              setValue("montoTotalBs", newMontoTotalBs);
+              setValue("montoTotalUsd", newMontoTotalUsd);
             }}
           />
         )}
@@ -142,7 +142,7 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 tasaBcv: newTasaBcv,
                 precioUnitarioUsd: newPrecioUnitarioUsd,
               });
-              setValue("precioUnitarioUsd", newPrecioUnitarioUsd); // update precioUnitarioUsd field
+              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
             }}
           />
         )}
@@ -158,8 +158,8 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
             error={!!errors.precioUnitarioUsd}
             helperText={errors.precioUnitarioUsd?.message}
             onChange={(event) => {
-              field.onChange(event); // update field value
-              trigger("precioUnitarioUsd"); // validate field
+              field.onChange(event);
+              trigger("precioUnitarioUsd");
               const newPrecioUnitarioUsd = Number(event.target.value);
               const newPrecioUnitarioBs =
                 Number(values.tasaBcv) * newPrecioUnitarioUsd;
@@ -168,7 +168,7 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 precioUnitarioUsd: newPrecioUnitarioUsd.toString(),
                 precioUnitarioBs: newPrecioUnitarioBs.toString(),
               });
-              setValue("precioUnitarioBs", newPrecioUnitarioBs); // update precioUnitarioBs field
+              setValue("precioUnitarioBs", newPrecioUnitarioBs);
             }}
           />
         )}
@@ -184,8 +184,8 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
             error={!!errors.montoTotalBs}
             helperText={errors.montoTotalBs?.message}
             onChange={(event) => {
-              field.onChange(event); // update field value
-              trigger("montoTotalBs"); // validate field
+              field.onChange(event);
+              trigger("montoTotalBs");
               const newMontoTotalBs = Number(event.target.value);
               const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
                 newMontoTotalBs,
@@ -200,9 +200,9 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 montoTotalBs: newMontoTotalBs,
                 precioUnitarioBs: newPrecioUnitarioBs,
                 tasaBcv: newTasaBcv,
-              }); // update local state
-              setValue("precioUnitarioBs", newPrecioUnitarioBs); // update precioUnitarioBs field
-              setValue("tasaBcv", newTasaBcv); // update tasaBcv field
+              });
+              setValue("precioUnitarioBs", newPrecioUnitarioBs);
+              setValue("tasaBcv", newTasaBcv);
             }}
           />
         )}
@@ -218,8 +218,8 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
             error={!!errors.montoTotalUsd}
             helperText={errors.montoTotalUsd?.message}
             onChange={(event) => {
-              field.onChange(event); // update field value
-              trigger("montoTotalUsd"); // validate field
+              field.onChange(event);
+              trigger("montoTotalUsd");
               const newMontoTotalUsd = Number(event.target.value);
               const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
                 newMontoTotalUsd,
@@ -234,9 +234,9 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 montoTotalUsd: newMontoTotalUsd,
                 precioUnitarioUsd: newPrecioUnitarioUsd,
                 tasaBcv: newTasaBcv,
-              }); // update local state
-              setValue("precioUnitarioUsd", newPrecioUnitarioUsd); // update precioUnitarioUsd field
-              setValue("tasaBcv", newTasaBcv); // update tasaBcv field
+              });
+              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+              setValue("tasaBcv", newTasaBcv);
             }}
           />
         )}
@@ -264,7 +264,7 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 tasaBcv: newTasaBcv,
                 precioUnitarioUsd: newPrecioUnitarioUsd,
               });
-              setValue("precioUnitarioUsd", newPrecioUnitarioUsd); // update precioUnitarioUsd field
+              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
             }}
           />
         )}
