@@ -5,3 +5,4 @@ export * from "./PaymentForm";
 export * from "./InvoiceTotals";
 export * from "./Orders";
 export * from "./SparePartsAndDescriptions";
+export * from "./PaymentFields";

@@ -2,16 +2,13 @@ import { useCallback } from "react";
 
 export const useCalculations = () => {
   const calculatePrecioUnitarioUsd = useCallback(
-    (precioUnitarioBs: string, tasaBcv: string) => {
-      const precioBs = parseFloat(precioUnitarioBs);
-      const tasa = parseFloat(tasaBcv);
-
-      if (!isNaN(precioBs) && !isNaN(tasa) && tasa !== 0) {
-        const result = precioBs / tasa;
-        return result.toFixed(2); // round to 2 decimal places
+    (precioUnitarioBs: number, tasaBcv: number) => {
+      if (!isNaN(precioUnitarioBs) && !isNaN(tasaBcv) && tasaBcv !== 0) {
+        const result = precioUnitarioBs / tasaBcv;
+        return Number(result.toFixed(2)); // round to 2 decimal places and convert to number
       }
 
-      return "";
+      return 0;
     },
     []
   );
@@ -21,37 +18,31 @@ export const useCalculations = () => {
       if (isNaN(montoTotalBs) || isNaN(cantidad) || cantidad === 0) {
         return 0;
       }
-      return (montoTotalBs / cantidad).toFixed(2);
+      return Number((montoTotalBs / cantidad).toFixed(2));
     },
     []
   );
 
   const calculateMontoTotalBs = useCallback(
-    (cantidad: string, precioUnitarioBs: string) => {
-      const cantidadNum = parseFloat(cantidad);
-      const precioBs = parseFloat(precioUnitarioBs);
-
-      if (!isNaN(cantidadNum) && !isNaN(precioBs)) {
-        const result = cantidadNum * precioBs;
-        return result.toFixed(2); // round to 2 decimal places
+    (cantidad: number, precioUnitarioBs: number) => {
+      if (!isNaN(cantidad) && !isNaN(precioUnitarioBs)) {
+        const result = cantidad * precioUnitarioBs;
+        return Number(result.toFixed(2)); // round to 2 decimal places and convert to number
       }
 
-      return "";
+      return 0; // return 0 instead of empty string
     },
     []
   );
 
   const calculateMontoTotalUsd = useCallback(
-    (cantidad: string, precioUnitarioUsd: string) => {
-      const cantidadNum = parseFloat(cantidad);
-      const precioUsd = parseFloat(precioUnitarioUsd);
-
-      if (!isNaN(cantidadNum) && !isNaN(precioUsd)) {
-        const result = cantidadNum * precioUsd;
-        return result.toFixed(2); // round to 2 decimal places
+    (cantidad: number, precioUnitarioUsd: number) => {
+      if (!isNaN(cantidad) && !isNaN(precioUnitarioUsd)) {
+        const result = cantidad * precioUnitarioUsd;
+        return Number(result.toFixed(2)); // round to 2 decimal places and convert to number
       }
 
-      return "";
+      return 0;
     },
     []
   );
@@ -67,7 +58,7 @@ export const useCalculations = () => {
         return 0;
       }
 
-      return (precioUnitarioBs / precioUnitarioUsd).toFixed(2);
+      return Number((precioUnitarioBs / precioUnitarioUsd).toFixed(2));
     },
     []
   );
