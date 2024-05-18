@@ -9,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Grid } from "@mui/material";
 import { format } from "date-fns";
 import { schema } from "../../helpers/validationsPaymentForm";
+import { useCalculations } from "../hooks/useCalculations";
 
 export const PaymentForm = ({
   initialValues,
@@ -27,6 +28,14 @@ export const PaymentForm = ({
     defaultValues: initialValues,
   });
 
+  const {
+    calculatePrecioUnitarioUsd,
+    calculatePrecioUnitarioBs,
+    calculateMontoTotalBs,
+    calculateMontoTotalUsd,
+    calculateTasaBcv,
+  } = useCalculations();
+
   const [values, setValues] = useState(initialValues);
 
   const lastValuesRef = useRef(values);
@@ -44,77 +53,6 @@ export const PaymentForm = ({
     if (typeof onChange === "function") {
       onChange(data, errors);
     }
-  };
-
-  const calculatePrecioUnitarioUsd = (
-    precioUnitarioBs: string,
-    tasaBcv: string
-  ) => {
-    const precioBs = parseFloat(precioUnitarioBs);
-    const tasa = parseFloat(tasaBcv);
-
-    if (!isNaN(precioBs) && !isNaN(tasa) && tasa !== 0) {
-      const result = precioBs / tasa;
-      return result.toFixed(2); // round to 2 decimal places
-    }
-
-    return "";
-  };
-
-  const calculatePrecioUnitarioBs = (
-    montoTotalBs: number,
-    cantidad: number
-  ) => {
-    if (isNaN(montoTotalBs) || isNaN(cantidad) || cantidad === 0) {
-      return 0;
-    }
-    return (montoTotalBs / cantidad).toFixed(2);
-  };
-
-  const calculateMontoTotalBs = (
-    cantidad: string,
-    precioUnitarioBs: string
-  ) => {
-    const cantidadNum = parseFloat(cantidad);
-    const precioBs = parseFloat(precioUnitarioBs);
-
-    if (!isNaN(cantidadNum) && !isNaN(precioBs)) {
-      const result = cantidadNum * precioBs;
-      return result.toFixed(2); // round to 2 decimal places
-    }
-
-    return "";
-  };
-
-  const calculateMontoTotalUsd = (
-    cantidad: string,
-    precioUnitarioUsd: string
-  ) => {
-    const cantidadNum = parseFloat(cantidad);
-    const precioUsd = parseFloat(precioUnitarioUsd);
-
-    if (!isNaN(cantidadNum) && !isNaN(precioUsd)) {
-      const result = cantidadNum * precioUsd;
-      return result.toFixed(2); // round to 2 decimal places
-    }
-
-    return "";
-  };
-
-  const calculateTasaBcv = (
-    precioUnitarioBs: number,
-    precioUnitarioUsd: number
-  ) => {
-    const epsilon = 0.0001; // or some small value
-    if (
-      isNaN(precioUnitarioBs) ||
-      isNaN(precioUnitarioUsd) ||
-      Math.abs(precioUnitarioUsd) < epsilon
-    ) {
-      return 0;
-    }
-
-    return (precioUnitarioBs / precioUnitarioUsd).toFixed(2);
   };
 
   return (
