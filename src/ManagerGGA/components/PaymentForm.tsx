@@ -1,22 +1,26 @@
 import { useEffect, useRef, useState } from "react";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Autocomplete from "@mui/material/Autocomplete";
+import { TextField, Box, Grid, Autocomplete } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Grid } from "@mui/material";
 import { format } from "date-fns";
 import { schema } from "../../helpers/validationsPaymentForm";
 import { useCalculations } from "../hooks/useCalculations";
+
+interface PaymentFormProps {
+  initialValues: any;
+  spareParts: any;
+  sparePartVariants: any;
+  onChange: any;
+}
 
 export const PaymentForm = ({
   initialValues,
   spareParts,
   sparePartVariants,
   onChange,
-}) => {
+}: PaymentFormProps) => {
   const {
     handleSubmit,
     control,
@@ -49,7 +53,7 @@ export const PaymentForm = ({
       lastValuesRef.current = values;
     }
   }, [values, onChange, errors]);
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     if (typeof onChange === "function") {
       onChange(data, errors);
     }
