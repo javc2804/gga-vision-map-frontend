@@ -3,8 +3,6 @@ import { useCallback } from "react";
 export const useCalculations = () => {
   const calculatePrecioUnitarioUsd = useCallback(
     (precioUnitarioBs: number, tasaBcv: number) => {
-      console.log(precioUnitarioBs);
-      console.log(tasaBcv);
       if (precioUnitarioBs === 0 || tasaBcv === 0 || !tasaBcv) {
         return 0;
       }

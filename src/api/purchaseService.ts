@@ -12,11 +12,8 @@ export const purchaseService = {
   },
 
   savePurchase: (purchaseData: any) => {
-    console.log(purchaseData.invoices);
     return API_URL.post("transaction", purchaseData.invoices)
       .then((response) => {
-        console.log(response);
-
         return { ok: true, response: response.data };
       })
       .catch((error) => {

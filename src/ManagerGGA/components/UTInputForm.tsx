@@ -47,7 +47,6 @@ export const UTInputForm: React.FC<UTInputFormProps> = ({
   }, [values, onChange]);
 
   const utOptions = fleets.map((item) => item.ut);
-  console.log("first");
   return (
     <Box component="form" noValidate autoComplete="off">
       <Grid container spacing={2}>
