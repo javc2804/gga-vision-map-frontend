@@ -110,10 +110,10 @@ export const SpartsCompromise: React.FC<CompromiseProviderProps> = ({
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Contado"
+                label="Crédito"
                 variant="outlined"
                 fullWidth
-                defaultValue="Contado"
+                defaultValue="credito"
                 disabled
               />
             )}
