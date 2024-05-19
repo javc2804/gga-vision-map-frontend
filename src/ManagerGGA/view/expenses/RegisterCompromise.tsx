@@ -5,6 +5,8 @@ import {
   PayCompromise,
   DetailCompromise,
 } from "../../components/registerCompromise/";
+import { useSelector } from "react-redux";
+import { RootState as StoreRootState } from "../../../store/store";
 
 interface RegisterCompromiseProps {
   selectedValueProp: string;
@@ -18,20 +20,23 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
   };
 
   const [selectedValue, setSelectedValue] = useState(selectedValueProp || "");
+  const combinedData = useSelector(
+    (state: StoreRootState) => state.purchase.purchase
+  );
 
   let Component;
   switch (selectedValue) {
     case "new":
-      Component = NewCompromise;
+      Component = <NewCompromise combinedData={combinedData} />;
       break;
     case "pay":
-      Component = PayCompromise;
+      Component = <PayCompromise combinedData={combinedData} />;
       break;
     case "detail":
-      Component = DetailCompromise;
+      Component = <DetailCompromise combinedData={combinedData} />;
       break;
     default:
-      Component = () => null;
+      Component = null;
   }
 
   return (
@@ -42,7 +47,7 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
         <MenuItem value={"pay"}>Pagar Compromiso</MenuItem>
         <MenuItem value={"detail"}>Detalle Compromiso</MenuItem>
       </Select>
-      <Component />
+      {Component}
     </div>
   );
 };
