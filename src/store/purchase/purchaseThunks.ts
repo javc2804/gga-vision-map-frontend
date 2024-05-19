@@ -22,7 +22,7 @@ export const startGetPurchase = (): any => async (dispatch: AppDispatch) => {
 };
 
 export const startSavePurchase =
-  (purchaseData: any): AppThunk =>
+  (purchaseData: any): any =>
   async (dispatch: AppDispatch) => {
     dispatch(getPurchaseStart());
     try {

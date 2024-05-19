@@ -1,4 +1,6 @@
 import { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { startSavePurchase } from "../../store/purchase/purchaseThunks";
 
 const useMultipleForm = (
   initialValuesInput: any,
@@ -9,6 +11,8 @@ const useMultipleForm = (
   ErrorOutline: any,
   CheckCircle: any
 ) => {
+  const dispatch = useDispatch();
+
   const [forms, setForms] = useState([
     {
       id: 0,
@@ -80,6 +84,7 @@ const useMultipleForm = (
   );
 
   const handleSaveClick = () => {
+    const userEmail = localStorage.getItem("email");
     const combinedForms = forms.map((form) => {
       form.payment.facNDE = facNDE;
       form.payment.proveedor = proveedor;
@@ -87,6 +92,7 @@ const useMultipleForm = (
         id: form.id,
         ...form.input,
         ...form.payment,
+        user_rel: userEmail,
         errors: form.errors,
       };
     });
@@ -154,9 +160,8 @@ const useMultipleForm = (
       );
       return;
     }
-
+    dispatch(startSavePurchase(combinedForms));
     openSnackbar("Guardado exitosamente", "success", CheckCircle);
-    console.log(combinedForms);
   };
 
   return {

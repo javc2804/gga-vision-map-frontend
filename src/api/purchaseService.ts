@@ -12,7 +12,8 @@ export const purchaseService = {
   },
 
   savePurchase: (purchaseData: any) => {
-    return API_URL.post("transaction", purchaseData.invoices)
+    console.log(purchaseData);
+    return API_URL.post("transaction", purchaseData)
       .then((response) => {
         return { ok: true, response: response.data };
       })

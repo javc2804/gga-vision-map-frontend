@@ -32,7 +32,7 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
 
   const handleProviderChange = (field: any, _: any, value: any) => {
     field.onChange(value);
-    setFormState((prevState) => ({ ...prevState, proveedor: value }));
+    setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
   };
 
   return (

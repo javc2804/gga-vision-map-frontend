@@ -97,8 +97,12 @@ export const RegisterPurchase = () => {
     (state: StoreRootState) => state.purchase.purchase
   );
 
-  const response: ResponseType = purchase ? purchase.response : {};
+  // const response: ResponseType = purchase ? purchase.response : {};
+  let response: ResponseType = {};
 
+  if (purchase && purchase.response) {
+    response = purchase.response;
+  }
   const {
     fleets = [],
     providers = [],
