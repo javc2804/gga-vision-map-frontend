@@ -14,14 +14,12 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
     setSelectedValue(event.target.value);
   };
 
-  // Proporciona un valor predeterminado para selectedValue en caso de que selectedValueProp sea undefined
-  const [selectedValue, setSelectedValue] = useState(
-    selectedValueProp || "new"
-  );
+  const [selectedValue, setSelectedValue] = useState(selectedValueProp || "");
 
   return (
     <div>
-      <Select value={selectedValue} onChange={handleChange}>
+      <Select displayEmpty value={selectedValue} onChange={handleChange}>
+        <MenuItem value="">Selecciona tipo</MenuItem>
         <MenuItem value={"new"}>Registrar nuevo</MenuItem>
         <MenuItem value={"pay"}>Pagar Compromiso</MenuItem>
         <MenuItem value={"detail"}>Detalle Compromiso</MenuItem>
