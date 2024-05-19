@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import {
+  NewCompromise,
+  PayCompromise,
+  DetailCompromise,
+} from "../../components/registerCompromise/";
 
 interface RegisterCompromiseProps {
   selectedValueProp: string;
@@ -16,6 +21,21 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
 
   const [selectedValue, setSelectedValue] = useState(selectedValueProp || "");
 
+  let Component;
+  switch (selectedValue) {
+    case "new":
+      Component = NewCompromise;
+      break;
+    case "pay":
+      Component = PayCompromise;
+      break;
+    case "detail":
+      Component = DetailCompromise;
+      break;
+    default:
+      Component = () => null;
+  }
+
   return (
     <div>
       <Select displayEmpty value={selectedValue} onChange={handleChange}>
@@ -24,6 +44,7 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
         <MenuItem value={"pay"}>Pagar Compromiso</MenuItem>
         <MenuItem value={"detail"}>Detalle Compromiso</MenuItem>
       </Select>
+      <Component />
     </div>
   );
 };
