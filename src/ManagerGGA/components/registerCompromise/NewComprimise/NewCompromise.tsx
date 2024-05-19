@@ -8,14 +8,12 @@ interface NewCompromiseProps {
 export const NewCompromise: React.FC<NewCompromiseProps> = ({
   combinedData,
 }) => {
-  const { providers, fleets, spareParts, sparePartVariants } =
-    combinedData.response;
+  const { providers, spareParts, sparePartVariants } = combinedData.response;
 
   return (
     <>
       <CompromiseProvider proveedor={providers} />
       <DataCompromises
-        fleets={fleets}
         spareParts={spareParts}
         sparePartVariants={sparePartVariants}
       />
