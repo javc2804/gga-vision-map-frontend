@@ -30,13 +30,15 @@ export const startSavePurchase =
       if (result.ok) {
         dispatch(getPurchaseSuccess(result.response));
       } else {
-        throw new Error(result.response);
+        dispatch(getPurchaseFailure(result.response));
       }
+      return result; // Asegúrate de que estás devolviendo el resultado aquí
     } catch (error: any) {
       if (error instanceof Error) {
         dispatch(getPurchaseFailure(error.message));
       } else {
         dispatch(getPurchaseFailure("An unknown error occurred."));
       }
+      return { ok: false, response: error.message }; // Y aquí
     }
   };

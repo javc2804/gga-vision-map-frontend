@@ -83,7 +83,7 @@ const useMultipleForm = (
     [setForms]
   );
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     const userEmail = localStorage.getItem("email");
     const combinedForms = forms.map((form) => {
       form.payment.facNDE = facNDE;
@@ -160,8 +160,17 @@ const useMultipleForm = (
       );
       return;
     }
-    dispatch(startSavePurchase(combinedForms));
-    openSnackbar("Guardado exitosamente", "success", CheckCircle);
+    const result = await dispatch(startSavePurchase(combinedForms));
+    console.log(result);
+    if (result.ok) {
+      openSnackbar("Guardado exitosamente", "success", CheckCircle);
+    } else {
+      openSnackbar(
+        `Error al guardar: ${result.response}`,
+        "error",
+        ErrorOutline
+      );
+    }
   };
 
   return {
