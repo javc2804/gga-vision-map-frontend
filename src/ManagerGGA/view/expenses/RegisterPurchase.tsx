@@ -12,7 +12,7 @@ import { useSnackbar } from "../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
 import useMultipleForm from "../../hooks/useMultipleForm";
-import InvoiceProviders from "../../components/registerPurchase/InvoiceProviders";
+import InvoiceProviders from "../../components/registerPurchase/payments/invoices/InvoiceProviders";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
