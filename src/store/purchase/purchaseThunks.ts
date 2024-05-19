@@ -5,12 +5,12 @@ import {
   getPurchaseFailure,
 } from "./purchaseSlice";
 import { purchaseService } from "../../api/purchaseService";
-import { AppThunk } from "../../store/store";
+// import { AppThunk } from "../../store/store";
 
 export const startGetPurchase = (): any => async (dispatch: AppDispatch) => {
   dispatch(getPurchaseStart());
   try {
-    const purchaseData = await purchaseService.getPurchase();
+    const purchaseData = await purchaseService.getCombinedData();
     dispatch(getPurchaseSuccess(purchaseData));
   } catch (error: any) {
     if (error instanceof Error) {

@@ -1,7 +1,7 @@
 import { API_URL } from "./index";
 
 export const purchaseService = {
-  getPurchase: () => {
+  getCombinedData: () => {
     return API_URL.get("combinedData")
       .then((response) => {
         return { ok: true, response: response.data };
