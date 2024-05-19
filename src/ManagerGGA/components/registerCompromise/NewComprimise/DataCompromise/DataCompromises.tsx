@@ -17,7 +17,6 @@ export const DataCompromises: React.FC<CompromiseProviderProps> = ({
         sparePartVariants={sparePartVariants}
       />
       <PricesCompromises />
-      <OrdersCompromises />
     </>
   );
 };
