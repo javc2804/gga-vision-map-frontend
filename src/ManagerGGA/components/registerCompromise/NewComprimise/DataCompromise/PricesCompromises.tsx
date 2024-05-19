@@ -1,6 +1,18 @@
 import { TextField } from "@mui/material";
+import { useState, useEffect } from "react";
 
 export const PricesCompromises = () => {
+  const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState("");
+  const [total, setTotal] = useState("");
+
+  useEffect(() => {
+    if (quantity && price) {
+      const totalValue = (parseFloat(quantity) * parseFloat(price)).toFixed(2);
+      setTotal(totalValue);
+    }
+  }, [quantity, price]);
+
   return (
     <div>
       <TextField
@@ -14,6 +26,8 @@ export const PricesCompromises = () => {
         variant="outlined"
         margin="normal"
         type="number"
+        value={quantity}
+        onChange={(e) => setQuantity(e.target.value)}
         style={{ marginRight: "20px" }}
       />
       <TextField
@@ -21,19 +35,17 @@ export const PricesCompromises = () => {
         variant="outlined"
         margin="normal"
         type="number"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
         style={{ marginRight: "20px" }}
       />
       <TextField
-        label="Montotal en $ deuda"
+        label="Monto total en $ deuda"
         variant="outlined"
         margin="normal"
         type="number"
-        style={{ marginRight: "20px" }}
-      />
-      <TextField
-        label="OC/OS"
-        variant="outlined"
-        margin="normal"
+        value={total}
+        onChange={(e) => setTotal(e.target.value)}
         style={{ marginRight: "20px" }}
       />
       <TextField
