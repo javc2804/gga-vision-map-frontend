@@ -59,21 +59,15 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
               field.onChange(event);
               trigger("cantidad");
               const newCantidad = Number(event.target.value);
-              const newMontoTotalBs = calculateMontoTotalBs(
-                newCantidad,
-                values.precioUnitarioBs
-              );
               const newMontoTotalUsd = calculateMontoTotalUsd(
-                newCantidad,
-                values.precioUnitarioUsd
+                values.precioUnitarioUsd,
+                newCantidad
               );
               setValues({
                 ...values,
                 cantidad: newCantidad,
-                montoTotalBs: newMontoTotalBs,
                 montoTotalUsd: newMontoTotalUsd,
               });
-              setValue("montoTotalBs", newMontoTotalBs);
               setValue("montoTotalUsd", newMontoTotalUsd);
             }}
           />
@@ -137,12 +131,18 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 values.precioUnitarioBs,
                 newTasaBcv
               );
+              const newMontoTotalUsd = calculateMontoTotalUsd(
+                newPrecioUnitarioUsd,
+                values.cantidad
+              );
               setValues({
                 ...values,
                 tasaBcv: newTasaBcv,
                 precioUnitarioUsd: newPrecioUnitarioUsd,
+                montoTotalUsd: newMontoTotalUsd,
               });
               setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+              setValue("montoTotalUsd", newMontoTotalUsd);
             }}
           />
         )}
@@ -237,34 +237,6 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
               });
               setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
               setValue("tasaBcv", newTasaBcv);
-            }}
-          />
-        )}
-      />
-      <Controller
-        name="tasaBcv"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Tasa BCV"
-            variant="outlined"
-            error={!!errors.tasaBcv}
-            helperText={errors.tasaBcv?.message}
-            onChange={(event) => {
-              field.onChange(event);
-              trigger("tasaBcv");
-              const newTasaBcv = Number(event.target.value);
-              const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
-                values.precioUnitarioBs,
-                newTasaBcv
-              );
-              setValues({
-                ...values,
-                tasaBcv: newTasaBcv,
-                precioUnitarioUsd: newPrecioUnitarioUsd,
-              });
-              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
             }}
           />
         )}

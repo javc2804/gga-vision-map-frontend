@@ -3,6 +3,11 @@ import { useCallback } from "react";
 export const useCalculations = () => {
   const calculatePrecioUnitarioUsd = useCallback(
     (precioUnitarioBs: number, tasaBcv: number) => {
+      console.log(precioUnitarioBs);
+      console.log(tasaBcv);
+      if (precioUnitarioBs === 0 || tasaBcv === 0 || !tasaBcv) {
+        return 0;
+      }
       if (!isNaN(precioUnitarioBs) && !isNaN(tasaBcv) && tasaBcv !== 0) {
         const result = precioUnitarioBs / tasaBcv;
         return Number(result.toFixed(2)); // round to 2 decimal places and convert to number
@@ -25,6 +30,10 @@ export const useCalculations = () => {
 
   const calculateMontoTotalBs = useCallback(
     (cantidad: number, precioUnitarioBs: number) => {
+      if (cantidad === 0) {
+        return 0;
+      }
+
       if (!isNaN(cantidad) && !isNaN(precioUnitarioBs)) {
         const result = cantidad * precioUnitarioBs;
         return Number(result.toFixed(2)); // round to 2 decimal places and convert to number
@@ -37,6 +46,9 @@ export const useCalculations = () => {
 
   const calculateMontoTotalUsd = useCallback(
     (cantidad: number, precioUnitarioUsd: number) => {
+      if (cantidad === 0) {
+        return 0;
+      }
       if (!isNaN(cantidad) && !isNaN(precioUnitarioUsd)) {
         const result = cantidad * precioUnitarioUsd;
         return Number(result.toFixed(2)); // round to 2 decimal places and convert to number
