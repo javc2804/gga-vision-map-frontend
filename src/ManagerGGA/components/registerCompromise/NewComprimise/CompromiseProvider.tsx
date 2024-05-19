@@ -1,5 +1,5 @@
 import { Autocomplete, Grid, TextField } from "@mui/material";
-import { Controller, Control, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 interface CompromiseProviderProps {
   proveedor: any;
@@ -10,7 +10,6 @@ export const CompromiseProvider: React.FC<CompromiseProviderProps> = ({
 }) => {
   const { control } = useForm();
 
-  console.log(proveedor);
   return (
     <Grid container spacing={2} justifyContent="flex-end">
       <Grid item xs={2}>
