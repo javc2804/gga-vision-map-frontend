@@ -1,3 +1,4 @@
+import { CompromiseProvider } from "../NewComprimise/CompromiseProvider";
 interface NewCompromiseProps {
   combinedData: any;
 }
@@ -5,9 +6,15 @@ interface NewCompromiseProps {
 export const NewCompromise: React.FC<NewCompromiseProps> = ({
   combinedData,
 }) => {
-  console.log(combinedData);
+  // console.log(combinedData);
+  const { providers, fleets, spareParts, sparePartVariants } =
+    combinedData.response;
 
-  return <div>NewCompromise</div>;
+  return (
+    <>
+      <CompromiseProvider proveedor={providers} />
+    </>
+  );
 };
 
 export default NewCompromise;
