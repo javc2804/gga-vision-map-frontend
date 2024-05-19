@@ -14,6 +14,11 @@ import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 import useMultipleForm from "../../hooks/useMultipleForm";
 import InvoiceProviders from "../../components/InvoiceProviders";
 
+interface RegisterPurchaseProps {
+  selectedValue: string;
+  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
 interface Provider {
   id: string;
   name: string;
@@ -62,7 +67,7 @@ const boxStyles = {
   boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.45)",
 };
 
-export const RegisterPurchase = () => {
+export const RegisterPurchase: React.FC<RegisterPurchaseProps> = () => {
   const dispatch = useAppDispatch();
 
   const { control } = useForm();

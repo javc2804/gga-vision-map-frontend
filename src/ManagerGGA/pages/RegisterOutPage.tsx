@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ManagerGGALayout from "../layout/ManagerGGALayout";
 import { RegisterPurchase, RegisterCompromise } from "../view/expenses/index";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
 
 export const RegisterOutPage = () => {
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState("purchase");
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setSelectedValue(event.target.value);
   };
 
