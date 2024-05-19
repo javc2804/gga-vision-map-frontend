@@ -8,12 +8,10 @@ import {
 
 interface RegisterCompromiseProps {
   selectedValueProp: string;
-  setSelectedValueProp: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
   selectedValueProp,
-  setSelectedValueProp,
 }) => {
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSelectedValue(event.target.value);
