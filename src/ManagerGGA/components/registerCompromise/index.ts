@@ -1,3 +1,3 @@
-export * from "./NewCompromise";
-export * from "./PayCompromise";
-export * from "./DetailCompromise";
+export * from "./NewComprimise/NewCompromise";
+export * from "./PayCompromise/PayCompromise";
+export * from "./DetailCompromise/DetailCompromise";
