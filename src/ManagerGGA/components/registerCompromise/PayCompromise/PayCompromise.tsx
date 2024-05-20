@@ -1,14 +1,21 @@
+import DatosPayCompromise from "./DatosPayCompromise";
+import TotalPayCompromise from "./TotalPayCompromise";
+import ViewCompromise from "./ViewCompromise";
+
 interface PayCompromiseProps {
-  combinedData: any; // Reemplaza 'any' con el tipo de datos correcto
+  combinedData: any;
 }
 
 export const PayCompromise: React.FC<PayCompromiseProps> = ({
   combinedData,
 }) => {
-  // Ahora puedes usar combinedData en tu componente
-  // console.log(combinedData);
-
-  return <div>PayCompromise</div>;
+  return (
+    <>
+      <ViewCompromise combinedData={combinedData} />
+      <DatosPayCompromise combinedData={combinedData} />
+      <TotalPayCompromise />
+    </>
+  );
 };
 
 export default PayCompromise;

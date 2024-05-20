@@ -8,7 +8,7 @@ interface CompromiseProviderProps {
   sparePartVariants: any;
 }
 
-export const SpartsCompromise: React.FC<CompromiseProviderProps> = ({
+export const SpartsPayCompromise: React.FC<CompromiseProviderProps> = ({
   spareParts,
   sparePartVariants,
 }) => {
@@ -124,4 +124,4 @@ export const SpartsCompromise: React.FC<CompromiseProviderProps> = ({
   );
 };
 
-export default SpartsCompromise;
+export default SpartsPayCompromise;
