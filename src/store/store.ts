@@ -1,15 +1,17 @@
 import { configureStore, Store, Action } from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
 import { authSlice } from "./auth/authSlice";
-import purchaseReducer from "./purchase/purchaseSlice"; // Import the purchase reducer
-import noteInvoicesReducer from "./notes/noteInvoicesSlice"; // Import the noteInvoices reducer
+import purchaseReducer from "./purchase/purchaseSlice";
+import noteInvoicesReducer from "./notes/noteInvoicesSlice";
 import { useDispatch as useReduxDispatch } from "react-redux";
+import { newCompromisesSlice } from "./compromises/newCompromisesSlices";
 
 export const store: Store = configureStore({
   reducer: {
     auth: authSlice.reducer,
-    purchase: purchaseReducer, // Add the purchase reducer
-    noteInvoices: noteInvoicesReducer, // Add the noteInvoices reducer
+    purchase: purchaseReducer,
+    noteInvoices: noteInvoicesReducer,
+    compromises: newCompromisesSlice.reducer,
   },
 });
 
