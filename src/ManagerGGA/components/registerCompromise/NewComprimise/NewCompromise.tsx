@@ -54,7 +54,7 @@ const initialValuesPayment = {
   fechaOcOs: null,
   numeroOrdenPago: "",
   observacion: "",
-  facNDE: 0,
+  nde: 0,
   proveedor: null,
 };
 
@@ -74,27 +74,23 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
   const { control } = useForm();
 
   const [formState, setFormState] = useState<{
-    facNDE: number;
+    nde: number;
     proveedor: Provider | null;
-  }>({ facNDE: 0, proveedor: null });
+  }>({ nde: 0, proveedor: null });
 
   const { SnackbarComponent, openSnackbar } = useSnackbar();
   const {
     forms,
     handleAddClick,
     handleRemoveClick,
-    handleInputChange,
     handlePaymentChange,
     totalFactUsd,
-    totalFactBs,
     setTotalFactUsd,
-    setTotalFactBs,
     handleSaveClick,
   } = useMultipleFormCompromise(
-    initialValuesInput,
     initialValuesPayment,
     openSnackbar,
-    formState.facNDE,
+    formState.nde,
     formState.proveedor,
     ErrorOutline,
     CheckCircle

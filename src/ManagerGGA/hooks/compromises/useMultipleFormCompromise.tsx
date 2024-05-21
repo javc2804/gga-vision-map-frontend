@@ -5,7 +5,7 @@ import { startSavePurchase } from "../../../store/purchase/purchaseThunks";
 const useMultipleFormCompromise = (
   initialValuesPayment: any,
   openSnackbar: any,
-  facNDE: any,
+  nde: any,
   proveedor: any,
   ErrorOutline: any,
   CheckCircle: any
@@ -21,7 +21,6 @@ const useMultipleFormCompromise = (
   ]);
   const [nextId, setNextId] = useState(1);
   const [totalFactUsd, setTotalFactUsd] = useState(0); // Agregado
-  const [totalFactBs, setTotalFactBs] = useState(0); // Agregado
 
   const handleAddClick = () => {
     setForms([
@@ -72,7 +71,6 @@ const useMultipleFormCompromise = (
         });
 
         setTotalFactUsd(totalUsd);
-        setTotalFactBs(totalBs);
 
         return newForms;
       });
@@ -83,7 +81,7 @@ const useMultipleFormCompromise = (
   const handleSaveClick = async () => {
     const userEmail = localStorage.getItem("email");
     const combinedForms = forms.map((form) => {
-      form.payment.facNDE = facNDE;
+      form.payment.nde = nde;
       form.payment.proveedor = proveedor;
       return {
         id: form.id,
@@ -96,15 +94,12 @@ const useMultipleFormCompromise = (
     let errorField = null;
     const hasErrors = forms.some((form) => {
       const requiredFields = [
-        "facNDE",
+        "nde",
         "proveedor",
         "cantidad",
-        "montoTotalBs",
         "montoTotalUsd",
         "numeroOrdenPago",
-        "precioUnitarioBs",
         "precioUnitarioUsd",
-        "tasaBcv",
         "repuesto",
         "descripcionRepuesto",
         "fechaOcOs",
@@ -128,16 +123,15 @@ const useMultipleFormCompromise = (
       return;
     }
 
-    if (facNDE === "0" || "") {
+    if (nde === "0" || "") {
       openSnackbar(
-        `Error al guardar, Fac/NDE debe estar lleno y distinto a 0`,
+        `Error al guardar, NDE debe estar lleno y distinto a 0`,
         "error",
         ErrorOutline
       );
       return;
     }
     const result = await dispatch(startSavePurchase(combinedForms));
-    console.log(result);
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
     } else {
@@ -156,9 +150,7 @@ const useMultipleFormCompromise = (
     handleInputChange,
     handlePaymentChange,
     totalFactUsd,
-    totalFactBs,
     setTotalFactUsd,
-    setTotalFactBs,
     handleSaveClick,
   };
 };
