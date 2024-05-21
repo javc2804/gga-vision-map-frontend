@@ -15,6 +15,7 @@ import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 import useMultipleForm from "../../../hooks/useMultipleForm";
 import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
 import InvoiceTotalsCompromises from "./InvoiceTotalsCompromises";
+import CompromiseProviders from "./invoices/CompromiseProviders";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -117,7 +118,7 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
 
   return (
     <>
-      <InvoiceProviders
+      <CompromiseProviders
         control={control}
         providers={providers}
         setFormState={setFormState}
@@ -155,9 +156,7 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
       ))}
       <InvoiceTotalsCompromises
         totalFactUsd={totalFactUsd}
-        totalFactBs={totalFactBs}
         setTotalFactUsd={setTotalFactUsd}
-        setTotalFactBs={setTotalFactBs}
         handleSaveClick={handleSaveClick}
       />
       {SnackbarComponent}
