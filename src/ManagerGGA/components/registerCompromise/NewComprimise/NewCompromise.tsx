@@ -6,13 +6,15 @@ import {
 } from "../../../../store/store";
 import { useForm } from "react-hook-form";
 import { Button, Box } from "@mui/material";
-import { UTInputForm, PaymentForm, InvoiceTotals } from "../../../components/";
+
+import { PaymentForm } from "../../../components/";
 import { startGetPurchase } from "../../../../store/purchase/purchaseThunks";
 import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
 import useMultipleForm from "../../../hooks/useMultipleForm";
 import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
+import InvoiceTotalsCompromises from "./InvoiceTotalsCompromises";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -25,7 +27,6 @@ interface Provider {
 }
 
 interface ResponseType {
-  fleets?: any[];
   providers?: Provider[];
   spareParts?: any[];
   sparePartVariants?: any[];
@@ -108,12 +109,7 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
   if (purchase && purchase.response) {
     response = purchase.response;
   }
-  const {
-    fleets = [],
-    providers = [],
-    spareParts = [],
-    sparePartVariants = [],
-  } = response;
+  const { providers = [], spareParts = [], sparePartVariants = [] } = response;
 
   useEffect(() => {
     dispatch(startGetPurchase());
@@ -128,12 +124,6 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
       />
       {forms.map((form, index) => (
         <Box key={index} sx={boxStyles}>
-          <UTInputForm
-            initialValues={form.input}
-            fleets={fleets}
-            disabled={false}
-            onChange={(values: any) => handleInputChange(form.id)(values, {})}
-          />
           <PaymentForm
             initialValues={form.payment}
             onChange={handlePaymentChange(form.id)}
@@ -163,7 +153,7 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
           </Box>
         </Box>
       ))}
-      <InvoiceTotals
+      <InvoiceTotalsCompromises
         totalFactUsd={totalFactUsd}
         totalFactBs={totalFactBs}
         setTotalFactUsd={setTotalFactUsd}
