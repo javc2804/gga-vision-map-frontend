@@ -7,16 +7,14 @@ import {
 import { useForm } from "react-hook-form";
 import { Button, Box } from "@mui/material";
 
-import { PaymentForm } from "../../../components/";
 import { startGetPurchase } from "../../../../store/purchase/purchaseThunks";
 import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
-import useMultipleForm from "../../../hooks/useMultipleForm";
-import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
 import InvoiceTotalsCompromises from "./InvoiceTotalsCompromises";
 import CompromiseProviders from "./invoices/CompromiseProviders";
 import PaymentFormCompromise from "./PaymentFormCompromise";
+import useMultipleFormCompromise from "../../../hooks/compromises/useMultipleFormCompromise";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -92,7 +90,7 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
     setTotalFactUsd,
     setTotalFactBs,
     handleSaveClick,
-  } = useMultipleForm(
+  } = useMultipleFormCompromise(
     initialValuesInput,
     initialValuesPayment,
     openSnackbar,

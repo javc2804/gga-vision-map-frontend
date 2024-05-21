@@ -4,9 +4,9 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../../../../helpers/validationsPaymentForm";
 import { useCalculations } from "../../../hooks/useCalculations";
-import { SparePartsAndDescriptions } from "../..";
 import PaymentFieldsCompromise from "./PaymentFieldsCompromise";
 import OrdersCompromise from "./OrdersCompromise";
+import SparePartsAndDescriptionsCompromise from "./SparePartsAndDescriptionsCompromise";
 
 interface PaymentFormProps {
   initialValues: any;
@@ -69,7 +69,7 @@ export const PaymentFormCompromise = ({
       noValidate
       autoComplete="off"
     >
-      <SparePartsAndDescriptions
+      <SparePartsAndDescriptionsCompromise
         control={control}
         setValues={setValues}
         values={values}
