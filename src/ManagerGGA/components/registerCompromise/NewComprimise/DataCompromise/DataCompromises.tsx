@@ -2,7 +2,8 @@ import { Paper, Button } from "@mui/material";
 import { useState } from "react";
 import SpartsCompromise from "./SpartsCompromise";
 import PricesCompromises from "./PricesCompromises";
-
+import { addCompromise } from "../../../../../store/compromises/newCompromisesSlices";
+import { useDispatch } from "react-redux";
 interface CompromiseProviderProps {
   spareParts: any;
   sparePartVariants: any;
@@ -12,9 +13,38 @@ export const DataCompromises: React.FC<CompromiseProviderProps> = ({
   spareParts,
   sparePartVariants,
 }) => {
+  const dispatch = useDispatch();
+
   const [papers, setPapers] = useState([{ id: Math.random() }]);
+  const [formState, setFormState] = useState({
+    quantity: "",
+    price: "",
+    total: "",
+    description: "",
+    orderNumber: "",
+    date: "",
+    observation: "",
+  });
+  const [pricesCompromisesState, setPricesCompromisesState] = useState({
+    quantity: "",
+    price: "",
+    total: "",
+    description: "",
+    orderNumber: "",
+    date: "",
+    observation: "",
+  });
 
   const addPaper = () => {
+    const newCompromise = {
+      ...formState,
+      ...pricesCompromisesState,
+      date: pricesCompromisesState.date
+        ? new Date(pricesCompromisesState.date).toISOString()
+        : "",
+    };
+
+    dispatch(addCompromise(newCompromise));
     setPapers((prev) => [...prev, { id: Math.random() }]);
   };
 
@@ -38,7 +68,10 @@ export const DataCompromises: React.FC<CompromiseProviderProps> = ({
             spareParts={spareParts}
             sparePartVariants={sparePartVariants}
           />
-          <PricesCompromises />
+          <PricesCompromises
+            pricesCompromisesState={pricesCompromisesState}
+            setPricesCompromisesState={setPricesCompromisesState}
+          />
           <div style={{ position: "absolute", bottom: "20px", right: "20px" }}>
             {paper === papers[papers.length - 1] && (
               <Button
