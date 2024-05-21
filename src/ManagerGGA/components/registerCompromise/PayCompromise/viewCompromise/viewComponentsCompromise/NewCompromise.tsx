@@ -6,14 +6,15 @@ import {
 } from "../../../../store/store";
 import { useForm } from "react-hook-form";
 import { Button, Box } from "@mui/material";
-import { PaymentForm, InvoiceTotals } from "../../../components/";
+
 import { startGetPurchase } from "../../../../store/purchase/purchaseThunks";
 import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
-import useMultipleForm from "../../../hooks/useMultipleForm";
-import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
-import ViewCompromise from "./viewCompromise/ViewCompromise";
+import InvoiceTotalsCompromises from "./InvoiceTotalsCompromises";
+import CompromiseProviders from "./invoices/CompromiseProvidersView";
+import PaymentFormCompromise from "./PaymentFormCompromiseView";
+import useMultipleFormCompromise from "../../../hooks/compromises/useMultipleFormCompromise";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -26,36 +27,26 @@ interface Provider {
 }
 
 interface ResponseType {
-  fleets?: any[];
   providers?: Provider[];
   spareParts?: any[];
   sparePartVariants?: any[];
 }
 
-const initialValuesInput = {
-  ut: "",
-  marcaModelo: "",
-  eje: "",
-  subeje: "",
-};
-
 const initialValuesPayment = {
   repuesto: null,
   descripcionRepuesto: null,
-  formaPago: "Contado",
+  formaPago: "Credito",
   descripcion: "",
   cantidad: "",
-  precioUnitarioBs: "",
-  tasaBcv: "",
   precioUnitarioUsd: "",
   montoTotalUsd: "",
-  montoTotalBs: "",
   ocOs: "",
   fechaOcOs: null,
   numeroOrdenPago: "",
   observacion: "",
-  facNDE: 0,
+  nde: 0,
   proveedor: null,
+  compromiso: "",
 };
 
 const boxStyles = {
@@ -68,34 +59,32 @@ const boxStyles = {
   boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.45)",
 };
 
-export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
+export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
   const dispatch = useAppDispatch();
 
   const { control } = useForm();
 
   const [formState, setFormState] = useState<{
-    facNDE: number;
+    nde: number;
+    compromiso: string;
     proveedor: Provider | null;
-  }>({ facNDE: 0, proveedor: null });
+  }>({ nde: 0, compromiso: "", proveedor: null });
 
   const { SnackbarComponent, openSnackbar } = useSnackbar();
   const {
     forms,
     handleAddClick,
     handleRemoveClick,
-    handleInputChange,
     handlePaymentChange,
     totalFactUsd,
-    totalFactBs,
     setTotalFactUsd,
-    setTotalFactBs,
     handleSaveClick,
-  } = useMultipleForm(
-    initialValuesInput,
+  } = useMultipleFormCompromise(
     initialValuesPayment,
     openSnackbar,
-    formState.facNDE,
+    formState.nde,
     formState.proveedor,
+    formState.compromiso,
     ErrorOutline,
     CheckCircle
   );
@@ -109,12 +98,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
   if (purchase && purchase.response) {
     response = purchase.response;
   }
-  const {
-    fleets = [],
-    providers = [],
-    spareParts = [],
-    sparePartVariants = [],
-  } = response;
+  const { providers = [], spareParts = [], sparePartVariants = [] } = response;
 
   useEffect(() => {
     dispatch(startGetPurchase());
@@ -122,15 +106,14 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
 
   return (
     <>
-      <ViewCompromise />
+      <CompromiseProviders
+        control={control}
+        providers={providers}
+        setFormState={setFormState}
+      />
       {forms.map((form, index) => (
         <Box key={index} sx={boxStyles}>
-          <InvoiceProviders
-            control={control}
-            providers={providers}
-            setFormState={setFormState}
-          />
-          <PaymentForm
+          <PaymentFormCompromise
             initialValues={form.payment}
             onChange={handlePaymentChange(form.id)}
             spareParts={spareParts}
@@ -159,11 +142,9 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
           </Box>
         </Box>
       ))}
-      <InvoiceTotals
+      <InvoiceTotalsCompromises
         totalFactUsd={totalFactUsd}
-        totalFactBs={totalFactBs}
         setTotalFactUsd={setTotalFactUsd}
-        setTotalFactBs={setTotalFactBs}
         handleSaveClick={handleSaveClick}
       />
       {SnackbarComponent}
@@ -171,4 +152,4 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
   );
 };
 
-export default PayCompromise;
+export default NewCompromise;
