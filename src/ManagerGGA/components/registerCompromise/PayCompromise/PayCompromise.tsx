@@ -13,7 +13,7 @@ import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
 import useMultipleForm from "../../../hooks/useMultipleForm";
 import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
-import ViewCompromise from "./ViewCompromise";
+import ViewCompromise from "./viewCompromise/ViewCompromise";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
