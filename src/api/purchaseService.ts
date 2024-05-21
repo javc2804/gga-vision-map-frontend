@@ -22,7 +22,7 @@ export const purchaseService = {
       });
   },
   saveCompromise: (compromiseData: any) => {
-    return API_URL.post("transaction", compromiseData)
+    return API_URL.post("transaction/new-compromise", compromiseData)
       .then((response) => {
         return { ok: true, response: response.data };
       })

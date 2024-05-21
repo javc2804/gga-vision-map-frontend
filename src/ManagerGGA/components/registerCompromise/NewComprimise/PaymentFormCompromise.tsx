@@ -34,7 +34,6 @@ export const PaymentFormCompromise = ({
 
   const {
     calculatePrecioUnitarioUsd,
-    calculatePrecioUnitarioBs,
     calculateMontoTotalBs,
     calculateMontoTotalUsd,
     calculateTasaBcv,
@@ -100,11 +99,7 @@ export const PaymentFormCompromise = ({
         values={values}
         setValues={setValues}
         setValue={setValue}
-        calculateMontoTotalBs={calculateMontoTotalBs}
         calculateMontoTotalUsd={calculateMontoTotalUsd}
-        calculatePrecioUnitarioUsd={calculatePrecioUnitarioUsd}
-        calculatePrecioUnitarioBs={calculatePrecioUnitarioBs}
-        calculateTasaBcv={calculateTasaBcv}
       />
       <OrdersCompromise
         control={control}
