@@ -16,6 +16,7 @@ import useMultipleForm from "../../../hooks/useMultipleForm";
 import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
 import InvoiceTotalsCompromises from "./InvoiceTotalsCompromises";
 import CompromiseProviders from "./invoices/CompromiseProviders";
+import PaymentFormCompromise from "./PaymentFormCompromise";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -125,7 +126,7 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
       />
       {forms.map((form, index) => (
         <Box key={index} sx={boxStyles}>
-          <PaymentForm
+          <PaymentFormCompromise
             initialValues={form.payment}
             onChange={handlePaymentChange(form.id)}
             spareParts={spareParts}
