@@ -11,7 +11,11 @@ interface InvoiceProvidersProps {
   control: Control;
   providers: Provider[];
   setFormState: React.Dispatch<
-    React.SetStateAction<{ nde: number; proveedor: Provider | null }>
+    React.SetStateAction<{
+      nde: number;
+      compromiso: string;
+      proveedor: Provider | null;
+    }>
   >;
 }
 
@@ -21,13 +25,20 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
   setFormState,
 }) => {
   const [nde, setnde] = useState<number>(0);
+  const [compromiso, setCompromiso] = useState("");
 
   const handlendeChange = (e: any) => {
     setnde(Number(e.target.value));
   };
+  const handleCompromisoChange = (e: any) => {
+    setCompromiso(e.target.value);
+  };
 
   const handlendeBlur = () => {
     setFormState((prevState) => ({ ...prevState, nde: nde }));
+  };
+  const handleCompromisoBlur = () => {
+    setFormState((prevState) => ({ ...prevState, compromiso: compromiso }));
   };
 
   const handleProviderChange = (field: any, _: any, value: any) => {
@@ -50,8 +61,8 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
         <TextField
           label="Compromiso"
           variant="outlined"
-          onChange={handlendeChange}
-          onBlur={handlendeBlur}
+          onChange={handleCompromisoChange}
+          onBlur={handleCompromisoBlur}
           fullWidth
         />
       </Grid>

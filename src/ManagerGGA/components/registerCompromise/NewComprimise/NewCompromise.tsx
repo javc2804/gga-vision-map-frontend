@@ -32,30 +32,21 @@ interface ResponseType {
   sparePartVariants?: any[];
 }
 
-const initialValuesInput = {
-  ut: "",
-  marcaModelo: "",
-  eje: "",
-  subeje: "",
-};
-
 const initialValuesPayment = {
   repuesto: null,
   descripcionRepuesto: null,
-  formaPago: "Contado",
+  formaPago: "Credito",
   descripcion: "",
   cantidad: "",
-  precioUnitarioBs: "",
-  tasaBcv: "",
   precioUnitarioUsd: "",
   montoTotalUsd: "",
-  montoTotalBs: "",
   ocOs: "",
   fechaOcOs: null,
   numeroOrdenPago: "",
   observacion: "",
   nde: 0,
   proveedor: null,
+  compromiso: "",
 };
 
 const boxStyles = {
@@ -75,8 +66,9 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
 
   const [formState, setFormState] = useState<{
     nde: number;
+    compromiso: string;
     proveedor: Provider | null;
-  }>({ nde: 0, proveedor: null });
+  }>({ nde: 0, compromiso: "", proveedor: null });
 
   const { SnackbarComponent, openSnackbar } = useSnackbar();
   const {
@@ -92,6 +84,7 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
     openSnackbar,
     formState.nde,
     formState.proveedor,
+    formState.compromiso,
     ErrorOutline,
     CheckCircle
   );

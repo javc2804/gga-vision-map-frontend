@@ -1,12 +1,13 @@
 import { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { startSavePurchase } from "../../../store/purchase/purchaseThunks";
+import { startSaveCompromise } from "../../../store/purchase/purchaseThunks";
 
 const useMultipleFormCompromise = (
   initialValuesPayment: any,
   openSnackbar: any,
   nde: any,
   proveedor: any,
+  compromiso: any,
   ErrorOutline: any,
   CheckCircle: any
 ) => {
@@ -83,6 +84,8 @@ const useMultipleFormCompromise = (
     const combinedForms = forms.map((form) => {
       form.payment.nde = nde;
       form.payment.proveedor = proveedor;
+      form.payment.compromiso = compromiso;
+
       return {
         id: form.id,
         ...form.payment,
@@ -93,8 +96,10 @@ const useMultipleFormCompromise = (
 
     let errorField = null;
     const hasErrors = forms.some((form) => {
+      console.log(form);
       const requiredFields = [
         "nde",
+        "compromiso",
         "proveedor",
         "cantidad",
         "montoTotalUsd",
@@ -131,7 +136,7 @@ const useMultipleFormCompromise = (
       );
       return;
     }
-    const result = await dispatch(startSavePurchase(combinedForms));
+    const result = await dispatch(startSaveCompromise(combinedForms));
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
     } else {
