@@ -6,13 +6,14 @@ import {
 } from "../../../../store/store";
 import { useForm } from "react-hook-form";
 import { Button, Box } from "@mui/material";
-import { UTInputForm, PaymentForm, InvoiceTotals } from "../../../components/";
+import { PaymentForm, InvoiceTotals } from "../../../components/";
 import { startGetPurchase } from "../../../../store/purchase/purchaseThunks";
 import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
 import useMultipleForm from "../../../hooks/useMultipleForm";
 import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
+import ViewCompromise from "./ViewCompromise";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -121,6 +122,9 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
 
   return (
     <>
+      <Box sx={boxStyles}>
+        <ViewCompromise />
+      </Box>
       {forms.map((form, index) => (
         <Box key={index} sx={boxStyles}>
           <InvoiceProviders
