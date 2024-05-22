@@ -89,7 +89,7 @@ export const NotesAdmin = () => {
                   color="primary"
                   aria-label="view"
                   onClick={() =>
-                    navigate("/register-purchase", { state: { invoice } })
+                    navigate("/notes-store", { state: { invoice } })
                   }
                 >
                   <VisibilityIcon />

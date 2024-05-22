@@ -1,11 +1,12 @@
 import ManagerGGALayout from "../layout/ManagerGGALayout";
+import DetailsCompromise from "../view/expenses/DetailsCompromise";
 
-export const DetailPurchasePage = () => {
+export const DetailCompromisePage = () => {
   return (
     <ManagerGGALayout>
-      <DetailPurchasePage />
+      <DetailsCompromise />
     </ManagerGGALayout>
   );
 };
 
-export default DetailPurchasePage;
+export default DetailCompromisePage;

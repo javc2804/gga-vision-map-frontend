@@ -1,4 +1,4 @@
 export * from "./ListPurchase";
 export * from "./RegisterPurchase";
 export * from "./RegisterCompromise";
-export * from "./DetailsPurchase";
+export * from "./DetailsCompromise";

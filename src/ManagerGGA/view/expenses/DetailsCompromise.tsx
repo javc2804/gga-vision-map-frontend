@@ -19,7 +19,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import UTData from "../../components/UTData";
 import CostData from "../../components/CostData";
 
-const RegisterPurchase = () => {
+const DetailsCompromise = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -151,4 +151,4 @@ const RegisterPurchase = () => {
   );
 };
 
-export default RegisterPurchase;
+export default DetailsCompromise;
