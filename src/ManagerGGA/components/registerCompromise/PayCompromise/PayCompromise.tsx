@@ -81,7 +81,6 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
   }, [dispatch, id]);
   const resp = useSelector((state: any) => state.compromises);
   const { compromise } = resp;
-  console.log(compromise);
   const { control } = useForm();
 
   const [formState, setFormState] = useState<{

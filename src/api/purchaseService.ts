@@ -19,9 +19,17 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  getPurchase: (id: any) => {
+    return API_URL.post("transaction/get-transaction", { id })
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
 
   savePurchase: (purchaseData: any) => {
-    console.log(purchaseData);
     return API_URL.post("transaction", purchaseData)
       .then((response) => {
         return { ok: true, response: response.data };

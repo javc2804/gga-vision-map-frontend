@@ -5,8 +5,11 @@ import {
   getPurchaseFailure,
 } from "./purchaseSlice";
 import { purchaseService } from "../../api/purchaseService";
-// import { AppThunk } from "../../store/store";
-
+import {
+  ClearCompromise,
+  getCompromise,
+} from "../compromises/compromisesSlices";
+//TODO: cambiar nombre de la funcion
 export const startGetPurchase = (): any => async (dispatch: AppDispatch) => {
   dispatch(getPurchaseStart());
   try {
@@ -20,6 +23,22 @@ export const startGetPurchase = (): any => async (dispatch: AppDispatch) => {
     }
   }
 };
+export const startGetPurchaseTrans =
+  (id: any): any =>
+  async (dispatch: AppDispatch) => {
+    dispatch(getPurchaseStart());
+    try {
+      const purchaseData = await purchaseService.getPurchase(id);
+      dispatch(ClearCompromise());
+      dispatch(getCompromise(purchaseData));
+    } catch (error: any) {
+      if (error instanceof Error) {
+        dispatch(getPurchaseFailure(error.message));
+      } else {
+        dispatch(getPurchaseFailure("An unknown error occurred."));
+      }
+    }
+  };
 export const startGetCompromise =
   (id: any): any =>
   async (dispatch: AppDispatch) => {

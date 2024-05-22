@@ -8,7 +8,10 @@ export const compromisesSlice = createSlice({
     getCompromise: (state, { payload }) => {
       state.compromise = payload;
     },
+    ClearCompromise: (state) => {
+      state.compromise = {};
+    },
   },
 });
 
-export const { getCompromise } = compromisesSlice.actions;
+export const { getCompromise, ClearCompromise } = compromisesSlice.actions;
