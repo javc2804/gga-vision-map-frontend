@@ -12,7 +12,7 @@ const UTData = ({
   style,
 }) => {
   return (
-    <Paper elevation={3} style={style}>
+    <>
       <Box>Numero de registro: 1</Box>
       <Grid container spacing={5}>
         <Grid item xs={4}>
@@ -71,7 +71,7 @@ const UTData = ({
           </Box>
         </Grid>
       </Grid>
-    </Paper>
+    </>
   );
 };
 
