@@ -3,28 +3,38 @@ import { Box, TextField, Button } from "@mui/material";
 
 interface InvoiceTotalsProps {
   totalFactUsd: number;
+  totalFactBs: number;
   setTotalFactUsd: (value: number) => void;
+  setTotalFactBs: (value: number) => void;
   handleSaveClick: () => void;
 }
 
-export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
+export const InvoiceTotals: React.FC<InvoiceTotalsProps> = ({
   totalFactUsd,
+  totalFactBs,
   setTotalFactUsd,
+  setTotalFactBs,
   handleSaveClick,
 }) => (
   <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2, mr: 3.7 }}>
     <TextField
-      label="Total deuda $"
+      label="Total factura $"
       variant="outlined"
       sx={{ mr: 1 }}
       value={totalFactUsd.toString()}
       onChange={(e) => setTotalFactUsd(Number(e.target.value))}
     />
-
+    <TextField
+      label="Total factura Bs"
+      variant="outlined"
+      sx={{ mr: 1 }}
+      value={totalFactBs.toString()}
+      onChange={(e) => setTotalFactBs(Number(e.target.value))}
+    />
     <Button variant="contained" color="primary" onClick={handleSaveClick}>
       Guardar
     </Button>
   </Box>
 );
 
-export default InvoiceTotalsCompromisesPay;
+export default InvoiceTotals;

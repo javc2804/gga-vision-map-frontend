@@ -15,7 +15,7 @@ import { useParams } from "react-router-dom";
 import useMultipleForm from "../../../hooks/useMultipleForm";
 import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
 import ViewCompromise from "./viewCompromise/ViewCompromise";
-import InvoiceTotalsCompromises from "../NewComprimise/InvoiceTotalsCompromises";
+import InvoiceTotalsCompromisesPay from "./viewCompromise/viewComponentsCompromise/InvoiceTotalsCompromisesPay";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -165,7 +165,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
           </Box>
         </Box>
       ))}
-      <InvoiceTotalsCompromises
+      <InvoiceTotalsCompromisesPay
         totalFactUsd={totalFactUsd}
         totalFactBs={totalFactBs}
         setTotalFactUsd={setTotalFactUsd}
