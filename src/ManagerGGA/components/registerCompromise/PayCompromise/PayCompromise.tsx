@@ -12,7 +12,7 @@ import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 
-import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
+import InvoiceProviderPay from "../../../components/registerCompromise/PayCompromise/viewCompromise/viewComponentsCompromise/invoices/InvoiceProviderPay";
 import ViewCompromise from "./viewCompromise/ViewCompromise";
 import InvoiceTotalsCompromisesPay from "./viewCompromise/viewComponentsCompromise/InvoiceTotalsCompromisesPay";
 import useMultipleFormCompromisePay from "../../../hooks/compromises/pay/useMultipleFormCompromisePay";
@@ -131,7 +131,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
       <ViewCompromise compromise={compromise.response} />
       {forms.map((form, index) => (
         <Box key={index} sx={boxStyles}>
-          <InvoiceProviders
+          <InvoiceProviderPay
             control={control}
             providers={providers}
             setFormState={setFormState}
