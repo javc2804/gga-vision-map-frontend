@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { startSavePurchase } from "../../../../store/purchase/purchaseThunks";
+import { startSaveTransCompromise } from "../../../../store/purchase/purchaseThunks";
 
 const useMultipleFormCompromisePay = (
   initialValuesInput: any,
@@ -144,7 +144,7 @@ const useMultipleFormCompromisePay = (
       );
       return;
     }
-    const result = await dispatch(startSavePurchase(combinedForms));
+    const result = await dispatch(startSaveTransCompromise(combinedForms));
     console.log(result);
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
