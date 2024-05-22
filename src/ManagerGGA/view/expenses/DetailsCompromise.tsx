@@ -22,7 +22,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import UTData from "../../components/detailsCompromise/UTData";
 import CostData from "../../components/detailsCompromise/CostData";
-import ViewCompromise from "../../components/registerCompromise/PayCompromise/viewCompromise/ViewCompromise";
+import ViewDetailCompromise from "../../components/registerCompromise/DetailCompromise/ViewDetailCompromise";
 
 const DetailsCompromise = () => {
   const dispatch = useDispatch();
@@ -104,7 +104,7 @@ const DetailsCompromise = () => {
 
   return (
     <>
-      <ViewCompromise compromise={compromise.response} />
+      <ViewDetailCompromise compromise={compromise.response} />
 
       <Box style={{ overflow: "auto", maxHeight: "90vh" }}>
         <Grid container direction="column">
