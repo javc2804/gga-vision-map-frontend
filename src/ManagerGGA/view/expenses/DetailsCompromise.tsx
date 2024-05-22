@@ -92,13 +92,14 @@ const DetailsCompromise = () => {
         setSnackbarOpen(true);
       });
   };
-
   return (
     <Box style={{ overflow: "auto", maxHeight: "90vh" }}>
-      <Box>Numero de Nota de entrega: 1</Box>
       <Grid container direction="column">
         <Grid item>
-          <Paper elevation={3} style={{ width: "97%", marginLeft: "1%" }}>
+          <Paper
+            elevation={3}
+            style={{ width: "97%", marginLeft: "1%", marginBottom: "20px" }}
+          >
             <Grid container spacing={2} direction={matches ? "column" : "row"}>
               {invoice.invoices.map((invoiceData, index) => (
                 <React.Fragment key={index}>
@@ -122,7 +123,7 @@ const DetailsCompromise = () => {
                     </Box>
                   </Grid>
                   {index < invoice.invoices.length - 1 && (
-                    <Divider style={{ width: "100%", margin: "5% 0" }} />
+                    <Divider style={{ width: "100%", margin: "1% 0" }} />
                   )}
                 </React.Fragment>
               ))}
