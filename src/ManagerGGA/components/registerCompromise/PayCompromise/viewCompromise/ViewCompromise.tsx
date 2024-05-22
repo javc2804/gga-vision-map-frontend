@@ -15,7 +15,6 @@ const ViewCompromise = ({ compromise }: any) => {
   if (!compromise) {
     return null;
   }
-  console.log(compromise);
   return (
     <Box sx={boxStyles}>
       <Box sx={title}>
@@ -90,7 +89,7 @@ const ViewCompromise = ({ compromise }: any) => {
 
       <TextField
         label="OC/OS"
-        value={compromise.ocOs}
+        value={compromise.OcOs}
         InputProps={{ readOnly: true }}
         InputLabelProps={{ shrink: true }}
         style={{ marginRight: "10px", marginBottom: "10px" }}

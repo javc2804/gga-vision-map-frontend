@@ -7,7 +7,7 @@ interface InvoiceTotalsProps {
   handleSaveClick: () => void;
 }
 
-export const InvoiceTotalsCompromises: React.FC<InvoiceTotalsProps> = ({
+export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
   totalFactUsd,
   setTotalFactUsd,
   handleSaveClick,
@@ -27,4 +27,4 @@ export const InvoiceTotalsCompromises: React.FC<InvoiceTotalsProps> = ({
   </Box>
 );
 
-export default InvoiceTotalsCompromises;
+export default InvoiceTotalsCompromisesPay;

@@ -6,7 +6,7 @@ import {
 } from "../../../../store/store";
 import { useForm } from "react-hook-form";
 import { Button, Box } from "@mui/material";
-import { PaymentForm, InvoiceTotals } from "../../../components/";
+import { PaymentForm } from "../../../components/";
 import { startGetCompromise } from "../../../../store/compromises/compromisesThunk";
 import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 import useMultipleForm from "../../../hooks/useMultipleForm";
 import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
 import ViewCompromise from "./viewCompromise/ViewCompromise";
+import InvoiceTotalsCompromises from "../NewComprimise/InvoiceTotalsCompromises";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -164,7 +165,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
           </Box>
         </Box>
       ))}
-      <InvoiceTotals
+      <InvoiceTotalsCompromises
         totalFactUsd={totalFactUsd}
         totalFactBs={totalFactBs}
         setTotalFactUsd={setTotalFactUsd}

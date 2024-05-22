@@ -3,18 +3,18 @@ import { useSelector } from "react-redux";
 import {
   RootState as StoreRootState,
   useAppDispatch,
-} from "../../../../store/store";
+} from "../../../../../../store/store";
 import { useForm } from "react-hook-form";
 import { Button, Box } from "@mui/material";
 
-import { startGetPurchase } from "../../../../store/purchase/purchaseThunks";
-import { useSnackbar } from "../../../../hooks/useSnackBar";
+import { startGetPurchase } from "../../../../../../store/purchase/purchaseThunks";
+import { useSnackbar } from "../../../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
-import InvoiceTotalsCompromises from "./InvoiceTotalsCompromises";
+import { InvoiceTotalsCompromisesPay } from "./InvoiceTotalsCompromisesPay";
 import CompromiseProviders from "./invoices/CompromiseProvidersView";
 import PaymentFormCompromise from "./PaymentFormCompromiseView";
-import useMultipleFormCompromise from "../../../hooks/compromises/useMultipleFormCompromise";
+import useMultipleFormCompromise from "../../../../../hooks/compromises/useMultipleFormCompromise";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -142,7 +142,7 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
           </Box>
         </Box>
       ))}
-      <InvoiceTotalsCompromises
+      <InvoiceTotalsCompromisesPay
         totalFactUsd={totalFactUsd}
         setTotalFactUsd={setTotalFactUsd}
         handleSaveClick={handleSaveClick}
