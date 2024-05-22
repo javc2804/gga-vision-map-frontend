@@ -30,6 +30,16 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  savePurchaseUpdateComprimise: (purchaseData: any) => {
+    console.log(purchaseData);
+    return API_URL.post("transaction/trans-compromise", purchaseData)
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
   saveCompromise: (compromiseData: any) => {
     return API_URL.post("transaction/new-compromise", compromiseData)
       .then((response) => {

@@ -9,7 +9,8 @@ const useMultipleFormCompromisePay = (
   facNDE: any,
   proveedor: any,
   ErrorOutline: any,
-  CheckCircle: any
+  CheckCircle: any,
+  compromise: any
 ) => {
   const dispatch = useDispatch();
 
@@ -88,6 +89,8 @@ const useMultipleFormCompromisePay = (
     const combinedForms = forms.map((form) => {
       form.payment.facNDE = facNDE;
       form.payment.proveedor = proveedor;
+      form.payment.compromiso = compromise.response.compromiso;
+      form.payment.id = compromise.response.id;
       return {
         id: form.id,
         ...form.input,
