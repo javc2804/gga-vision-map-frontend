@@ -168,6 +168,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
       <InvoiceTotalsCompromisesPay
         totalFactUsd={totalFactUsd}
         totalFactBs={totalFactBs}
+        compromise={compromise}
         setTotalFactUsd={setTotalFactUsd}
         setTotalFactBs={setTotalFactBs}
         handleSaveClick={handleSaveClick}
