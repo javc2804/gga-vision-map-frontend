@@ -12,10 +12,10 @@ import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 
-import useMultipleForm from "../../../hooks/useMultipleForm";
 import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
 import ViewCompromise from "./viewCompromise/ViewCompromise";
 import InvoiceTotalsCompromisesPay from "./viewCompromise/viewComponentsCompromise/InvoiceTotalsCompromisesPay";
+import useMultipleFormCompromisePay from "../../../hooks/compromises/pay/useMultipleFormCompromisePay";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -100,7 +100,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     setTotalFactUsd,
     setTotalFactBs,
     handleSaveClick,
-  } = useMultipleForm(
+  } = useMultipleFormCompromisePay(
     initialValuesInput,
     initialValuesPayment,
     openSnackbar,
