@@ -6,7 +6,6 @@ import {
 } from "../../../../store/store";
 import { useForm } from "react-hook-form";
 import { Button, Box } from "@mui/material";
-import { PaymentForm } from "../../../components/";
 import { startGetCompromise } from "../../../../store/compromises/compromisesThunk";
 import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
@@ -16,6 +15,7 @@ import InvoiceProviderPay from "../../../components/registerCompromise/PayCompro
 import ViewCompromise from "./viewCompromise/ViewCompromise";
 import InvoiceTotalsCompromisesPay from "./viewCompromise/viewComponentsCompromise/InvoiceTotalsCompromisesPay";
 import useMultipleFormCompromisePay from "../../../hooks/compromises/pay/useMultipleFormCompromisePay";
+import PaymentFormCompromisePay from "./PaymentFormCompromisePay";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -136,7 +136,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
             providers={providers}
             setFormState={setFormState}
           />
-          <PaymentForm
+          <PaymentFormCompromisePay
             initialValues={form.payment}
             onChange={handlePaymentChange(form.id)}
             spareParts={spareParts}
