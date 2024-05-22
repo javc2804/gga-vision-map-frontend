@@ -4,14 +4,14 @@ import { authSlice } from "./auth/authSlice";
 import purchaseReducer from "./purchase/purchaseSlice";
 import noteInvoicesReducer from "./notes/noteInvoicesSlice";
 import { useDispatch as useReduxDispatch } from "react-redux";
-import { newCompromisesSlice } from "./compromises/newCompromisesSlices";
+import { compromisesSlice } from "./compromises/compromisesSlices";
 
 export const store: Store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     purchase: purchaseReducer,
     noteInvoices: noteInvoicesReducer,
-    compromises: newCompromisesSlice.reducer,
+    compromises: compromisesSlice.reducer,
   },
 });
 

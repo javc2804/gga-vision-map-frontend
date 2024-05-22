@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ManagerGGALayout from "../layout/ManagerGGALayout";
 import { RegisterPurchase, RegisterCompromise } from "../view/expenses/index";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -6,8 +6,15 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { useParams } from "react-router-dom";
 
 export const RegisterOutPage = () => {
+  const { id } = useParams<{ id?: string }>();
+
+  useEffect(() => {
+    // console.log(id);
+  }, [id]);
+
   const [selectedValue, setSelectedValue] = useState("purchase");
 
   const handleChange = (event: any) => {

@@ -7,9 +7,10 @@ import {
 import { useForm } from "react-hook-form";
 import { Button, Box } from "@mui/material";
 import { PaymentForm, InvoiceTotals } from "../../../components/";
-import { startGetPurchase } from "../../../../store/purchase/purchaseThunks";
+import { startGetCompromise } from "../../../../store/compromises/compromisesThunk";
 import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
+import { useParams } from "react-router-dom";
 
 import useMultipleForm from "../../../hooks/useMultipleForm";
 import InvoiceProviders from "../../../components/registerPurchase/payments/invoices/InvoiceProviders";
@@ -70,7 +71,15 @@ const boxStyles = {
 
 export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
   const dispatch = useAppDispatch();
+  const { id } = useParams<{ id: string }>();
 
+  useEffect(() => {
+    if (id) {
+      dispatch(startGetCompromise(id));
+    }
+  }, [dispatch, id]);
+  const resp = useSelector((state: any) => state.compromises);
+  const { compromise } = resp;
   const { control } = useForm();
 
   const [formState, setFormState] = useState<{
@@ -116,13 +125,9 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     sparePartVariants = [],
   } = response;
 
-  useEffect(() => {
-    dispatch(startGetPurchase());
-  }, [dispatch]);
-
   return (
     <>
-      <ViewCompromise />
+      <ViewCompromise compromise={compromise.response} />
       {forms.map((form, index) => (
         <Box key={index} sx={boxStyles}>
           <InvoiceProviders

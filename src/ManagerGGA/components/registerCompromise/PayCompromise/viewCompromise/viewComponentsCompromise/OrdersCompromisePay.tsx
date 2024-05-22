@@ -13,7 +13,7 @@ interface Props {
   trigger: (name: string) => void;
 }
 
-export const OrdersCompromise: React.FC<Props> = ({
+export const OrdersCompromisePay: React.FC<Props> = ({
   control,
   errors,
   values,
@@ -119,4 +119,4 @@ export const OrdersCompromise: React.FC<Props> = ({
   );
 };
 
-export default OrdersCompromise;
+export default OrdersCompromisePay;

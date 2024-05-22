@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../../../../../../helpers/validationsPaymentForm";
 import { useCalculations } from "../../../../../hooks/useCalculations";
 import PaymentFieldsCompromise from "./PaymentFieldsCompromise";
-import OrdersCompromise from "./OrdersCompromise";
+import { OrdersCompromisePay } from "./OrdersCompromisePay";
 import SparePartsAndDescriptionsCompromise from "./SparePartsAndDescriptionsCompromise";
 
 interface PaymentFormProps {
@@ -101,7 +101,7 @@ export const PaymentFormCompromiseView = ({
         setValue={setValue}
         calculateMontoTotalUsd={calculateMontoTotalUsd}
       />
-      <OrdersCompromise
+      <OrdersCompromisePay
         control={control}
         errors={errors}
         values={values}
