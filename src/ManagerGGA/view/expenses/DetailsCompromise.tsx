@@ -158,6 +158,9 @@ const DetailsCompromise = () => {
           totalFactUsd={0}
           totalFactBs={0}
           handleSave={handleSave}
+          compromise={compromise.response}
+          costData={costData}
+          invoice={invoice}
         />
         <Snackbar
           open={snackbarOpen}
