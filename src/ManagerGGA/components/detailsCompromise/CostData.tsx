@@ -4,7 +4,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import React, { useEffect, useMemo, useCallback } from "react";
 
 const CostData = React.memo(
-  ({ compromise, invoice, onValuesChangeProp, invoiceData }) => {
+  ({
+    compromise,
+    invoice,
+    onValuesChangeProp,
+    invoiceData,
+    showFields = { modoPago },
+  }) => {
     const { precioUnitarioBs, precioUnitarioUsd } = compromise || {};
     const { quantity } = invoice || {};
 
@@ -30,21 +36,39 @@ const CostData = React.memo(
       },
       [onValuesChangeProp]
     );
+
     useEffect(() => {
-      if (precioUnitarioBs && precioUnitarioUsd && quantity) {
-        const newValues = {
-          precioUnitarioBs,
-          montoTotalBs,
-          precioUnitarioUsd,
-          montoTotalUsd,
-        };
+      if (showFields) {
+        if (precioUnitarioUsd && quantity) {
+          const newValues = {
+            precioUnitarioUsd,
+            montoTotalUsd,
+          };
 
-        const valuesChanged = Object.keys(newValues).some(
-          (key) => newValues[key] !== invoiceData[key]
-        );
+          const valuesChanged = Object.keys(newValues).some(
+            (key) => newValues[key] !== invoiceData[key]
+          );
 
-        if (valuesChanged) {
-          onValuesChange({ ...invoiceData, ...newValues });
+          if (valuesChanged) {
+            onValuesChange({ ...invoiceData, ...newValues });
+          }
+        }
+      } else {
+        if (precioUnitarioBs && precioUnitarioUsd && quantity) {
+          const newValues = {
+            precioUnitarioBs,
+            montoTotalBs,
+            precioUnitarioUsd,
+            montoTotalUsd,
+          };
+
+          const valuesChanged = Object.keys(newValues).some(
+            (key) => newValues[key] !== invoiceData[key]
+          );
+
+          if (valuesChanged) {
+            onValuesChange({ ...invoiceData, ...newValues });
+          }
         }
       }
     }, [
@@ -55,29 +79,34 @@ const CostData = React.memo(
       montoTotalUsd,
       onValuesChange,
       invoiceData,
+      showFields,
     ]);
 
     return (
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Grid container spacing={1}>
-          <Grid item xs={3}>
-            <TextField
-              label="Precio Unitario Bs"
-              value={compromise ? compromise.precioUnitarioBs : ""}
-              fullWidth
-              style={{ marginBottom: "20px" }}
-              disabled
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              label="Monto Total Bs"
-              value={montoTotalBs || ""}
-              fullWidth
-              style={{ marginBottom: "20px" }}
-              disabled
-            />
-          </Grid>
+          {!showFields && (
+            <>
+              <Grid item xs={3}>
+                <TextField
+                  label="Precio Unitario Bs"
+                  value={compromise ? compromise.precioUnitarioBs : ""}
+                  fullWidth
+                  style={{ marginBottom: "20px" }}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  label="Monto Total Bs"
+                  value={montoTotalBs || ""}
+                  fullWidth
+                  style={{ marginBottom: "20px" }}
+                  disabled
+                />
+              </Grid>
+            </>
+          )}
           <Grid item xs={3}>
             <TextField
               label="Precio Unitario $"

@@ -8,6 +8,7 @@ interface InvoiceTotalsProps {
   compromise: any;
   costData: any;
   invoice: any;
+  showFields: boolean;
 }
 
 export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
@@ -17,6 +18,7 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
   compromise,
   costData,
   invoice,
+  showFields,
 }) => {
   let sumQuantity = invoice.invoices.reduce(
     (sum: any, cost: any) => sum + cost.quantity,
@@ -50,7 +52,7 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
         value={totalQuantity}
       />
       <TextField
-        label="Por asignar"
+        label={showFields ? "Deuda" : "Por asignar"}
         variant="outlined"
         value={montoTotalUsd}
         sx={{ mr: 1 }}

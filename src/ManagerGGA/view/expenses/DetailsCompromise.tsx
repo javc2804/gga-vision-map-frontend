@@ -56,7 +56,6 @@ const DetailsCompromise = () => {
 
   const handleSave = () => {
     const userEmail = { user_rel: localStorage.getItem("email") };
-    console.log(compromise.response);
     const {
       id,
       fechaOcOs,
@@ -69,8 +68,9 @@ const DetailsCompromise = () => {
       descripcionRepuesto,
       repuesto,
       formaPago,
+      compromiso = null,
     } = compromise.response;
-
+    console.log(compromise.response);
     const updatedInvoices = invoice.invoices.map((inv, index) => {
       const { fleet, ...restInv } = inv; // Extraer fleet y el resto de las propiedades de inv
       const updatedInvoice = {
@@ -92,6 +92,7 @@ const DetailsCompromise = () => {
         descripcionRepuesto,
         repuesto,
         formaPago,
+        compromiso,
       };
 
       return updatedInvoice;
@@ -101,7 +102,6 @@ const DetailsCompromise = () => {
       invoices: updatedInvoices,
       idTransaction: id,
     };
-    console.log(updatedInvoice);
     dispatch(startSavePurchaseAsing(updatedInvoice))
       .then(() => {
         setSnackbarMessage("Guardado con éxito");
@@ -120,10 +120,21 @@ const DetailsCompromise = () => {
 
   const resp = useSelector((state: any) => state.compromises);
   const { compromise } = resp;
+  const [modoPago, setModoPago] = useState(false);
+  useEffect(() => {
+    if (compromise.response?.formaPago === "Contado") {
+      setModoPago(false);
+    } else {
+      setModoPago(true);
+    }
+  }, [compromise.response?.formaPago]);
 
   return (
     <>
-      <ViewDetailCompromise compromise={compromise.response} />
+      <ViewDetailCompromise
+        showFields={modoPago}
+        compromise={compromise.response}
+      />
 
       <Box style={{ overflow: "auto", maxHeight: "90vh" }}>
         <Grid container direction="column">
@@ -153,6 +164,7 @@ const DetailsCompromise = () => {
                           onValuesChangeProp={(newCostData) =>
                             handleCostDataChange(index, newCostData)
                           }
+                          showFields={modoPago}
                           style={{ width: "97%", height: "525px" }}
                         />
                       </Box>
@@ -178,6 +190,7 @@ const DetailsCompromise = () => {
           compromise={compromise.response}
           costData={costData}
           invoice={invoice}
+          showFields={modoPago}
         />
         <Snackbar
           open={snackbarOpen}
