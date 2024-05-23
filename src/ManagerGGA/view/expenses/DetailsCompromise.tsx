@@ -56,17 +56,52 @@ const DetailsCompromise = () => {
 
   const handleSave = () => {
     const userEmail = { user_rel: localStorage.getItem("email") };
+    console.log(compromise.response);
+    const {
+      id,
+      fechaOcOs,
+      facNDE,
+      tasaBcv,
+      numeroOrdenPago,
+      ocOs,
+      observacion,
+      proveedor,
+      descripcionRepuesto,
+      repuesto,
+      formaPago,
+    } = compromise.response;
 
-    const updatedInvoices = invoice.invoices.map((inv, index) => ({
-      ...inv,
-      ...userEmail,
-      ...costData[index],
-    }));
+    const updatedInvoices = invoice.invoices.map((inv, index) => {
+      const { fleet, ...restInv } = inv; // Extraer fleet y el resto de las propiedades de inv
+      const updatedInvoice = {
+        ...restInv, // Propiedades de inv sin fleet
+        ...userEmail,
+        ...costData[index],
+        facNDE,
+        tasaBcv,
+        numeroOrdenPago,
+        ocOs,
+        observacion,
+        proveedor,
+        cantidad: inv.quantity,
+        fechaOcOs,
+        ut: fleet.ut,
+        eje: fleet.eje,
+        subeje: fleet.subeje,
+        marcaModelo: fleet.marcaModelo,
+        descripcionRepuesto,
+        repuesto,
+        formaPago,
+      };
 
-    console.log(updatedInvoices);
-
-    const updatedInvoice = { ...invoice, invoices: updatedInvoices };
-    // return;
+      return updatedInvoice;
+    });
+    const updatedInvoice = {
+      ...invoice,
+      invoices: updatedInvoices,
+      idTransaction: id,
+    };
+    console.log(updatedInvoice);
     dispatch(startSavePurchaseAsing(updatedInvoice))
       .then(() => {
         setSnackbarMessage("Guardado con éxito");
