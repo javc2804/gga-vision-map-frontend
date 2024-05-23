@@ -62,7 +62,7 @@ export const NotesAdmin = () => {
         </TableHead>
         <TableBody>
           {noteInvoices.length > 0 ? (
-            noteInvoices.map((invoice, index) => (
+            noteInvoices.map((invoice: any, index: any) => (
               <TableRow key={index}>
                 <TableCell>{invoice.note_number}</TableCell>
                 <TableCell>
