@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "../../../store/store";
 import {
   selectPurchase,
   setDeliveryDate,
@@ -9,7 +9,7 @@ import {
   setRepuestos,
   setFormaDePago,
   setUt,
-} from "../../store/purchase/purchaseSlice";
+} from "../../../store/purchase/purchaseSlice";
 
 export const usePurchase = () => {
   const dispatch = useDispatch();

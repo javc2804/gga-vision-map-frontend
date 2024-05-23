@@ -12,8 +12,8 @@ import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
 import InvoiceTotalsCompromises from "./InvoiceTotalsCompromises";
-import CompromiseProviders from "./invoices/CompromiseProviders";
-import PaymentFormCompromise from "./PaymentFormCompromise";
+import CompromiseProviders from "./CompromiseProviders";
+import PaymentFormCompromise from "./DataPay/PaymentFormCompromise";
 import useMultipleFormCompromise from "../../../hooks/compromises/useMultipleFormCompromise";
 
 interface RegisterPurchaseProps {

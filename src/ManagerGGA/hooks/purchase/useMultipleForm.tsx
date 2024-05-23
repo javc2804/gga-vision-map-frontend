@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { startSavePurchase } from "../../store/purchase/purchaseThunks";
+import { startSavePurchase } from "../../../store/purchase/purchaseThunks";
 
 const useMultipleForm = (
   initialValuesInput: any,

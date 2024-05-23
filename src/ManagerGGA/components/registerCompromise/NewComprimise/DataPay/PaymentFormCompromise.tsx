@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { TextField, Box } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "../../../../../../helpers/validationsPaymentForm";
-import { useCalculations } from "../../../../../hooks/useCalculations";
+import { schema } from "../../../../../helpers/validationsPaymentForm";
+import { useCalculations } from "../../../../hooks/purchase/useCalculations";
 import PaymentFieldsCompromise from "./PaymentFieldsCompromise";
-import { OrdersCompromisePay } from "./OrdersCompromisePay";
+import OrdersCompromise from "./OrdersCompromise";
 import SparePartsAndDescriptionsCompromise from "./SparePartsAndDescriptionsCompromise";
 
 interface PaymentFormProps {
@@ -15,7 +15,7 @@ interface PaymentFormProps {
   onChange: any;
 }
 
-export const PaymentFormCompromiseView = ({
+export const PaymentFormCompromise = ({
   initialValues,
   spareParts,
   sparePartVariants,
@@ -101,7 +101,7 @@ export const PaymentFormCompromiseView = ({
         setValue={setValue}
         calculateMontoTotalUsd={calculateMontoTotalUsd}
       />
-      <OrdersCompromisePay
+      <OrdersCompromise
         control={control}
         errors={errors}
         values={values}
@@ -112,4 +112,4 @@ export const PaymentFormCompromiseView = ({
   );
 };
 
-export default PaymentFormCompromiseView;
+export default PaymentFormCompromise;

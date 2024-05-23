@@ -11,8 +11,8 @@ import { startGetPurchase } from "../../../store/purchase/purchaseThunks";
 import { useSnackbar } from "../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 
-import useMultipleForm from "../../hooks/useMultipleForm";
-import InvoiceProviders from "../../components/registerPurchase/payments/invoices/InvoiceProviders";
+import useMultipleForm from "../../hooks/purchase/useMultipleForm";
+import InvoiceProviders from "../../components/registerPurchase/invoices/InvoiceProviders";
 
 interface RegisterPurchaseProps {
   selectedValue: string;

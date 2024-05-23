@@ -11,11 +11,11 @@ import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 
-import InvoiceProviderPay from "../../../components/registerCompromise/PayCompromise/viewCompromise/viewComponentsCompromise/invoices/InvoiceProviderPay";
+import InvoiceProviderPay from "./viewCompromise/viewComponentsCompromise/InvoiceProviderPay";
 import ViewCompromise from "./viewCompromise/ViewCompromise";
 import InvoiceTotalsCompromisesPay from "./viewCompromise/viewComponentsCompromise/InvoiceTotalsCompromisesPay";
 import useMultipleFormCompromisePay from "../../../hooks/compromises/pay/useMultipleFormCompromisePay";
-import PaymentFormCompromisePay from "./PaymentFormCompromisePay";
+import PaymentFormCompromisePay from "./payment/PaymentFormCompromisePay";
 
 interface RegisterPurchaseProps {
   selectedValue: string;

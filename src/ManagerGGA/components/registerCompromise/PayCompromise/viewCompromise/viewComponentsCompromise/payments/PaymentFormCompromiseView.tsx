@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { TextField, Box } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "../../../../helpers/validationsPaymentForm";
-import { useCalculations } from "../../../hooks/useCalculations";
+import { schema } from "../../../../../../../helpers/validationsPaymentForm";
+import { useCalculations } from "../../../../../../hooks/purchase/useCalculations";
 import PaymentFieldsCompromise from "./PaymentFieldsCompromise";
-import OrdersCompromise from "./OrdersCompromise";
-import SparePartsAndDescriptionsCompromise from "./SparePartsAndDescriptionsCompromise";
+import { OrdersCompromisePay } from "../OrdersCompromisePay";
+import SparePartsAndDescriptionsCompromise from "../SparePartsAndDescriptionsCompromise";
 
 interface PaymentFormProps {
   initialValues: any;
@@ -15,7 +15,7 @@ interface PaymentFormProps {
   onChange: any;
 }
 
-export const PaymentFormCompromise = ({
+export const PaymentFormCompromiseView = ({
   initialValues,
   spareParts,
   sparePartVariants,
@@ -101,7 +101,7 @@ export const PaymentFormCompromise = ({
         setValue={setValue}
         calculateMontoTotalUsd={calculateMontoTotalUsd}
       />
-      <OrdersCompromise
+      <OrdersCompromisePay
         control={control}
         errors={errors}
         values={values}
@@ -112,4 +112,4 @@ export const PaymentFormCompromise = ({
   );
 };
 
-export default PaymentFormCompromise;
+export default PaymentFormCompromiseView;
