@@ -97,7 +97,7 @@ export const NotesAdmin = () => {
           ) : (
             <TableRow>
               <TableCell colSpan={4} align="center">
-                No hay notas de entrada en este momento
+                No hay notas de entrega en este momento
               </TableCell>
             </TableRow>
           )}
