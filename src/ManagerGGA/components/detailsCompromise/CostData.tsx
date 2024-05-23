@@ -1,6 +1,7 @@
 import { Grid, TextField } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { useEffect } from "react";
 
 export const CostData = ({
   compromise,
@@ -20,13 +21,24 @@ export const CostData = ({
 
   const handleInputChange = (field) => (event) => {
     const newValues = { ...invoiceData };
-    if (field === "observacion" || field === "estatus") {
-      newValues[field] = event.target.value;
-    } else if (!isNaN(event.target.value)) {
-      newValues[field] = event.target.value;
-    }
+    newValues[field] = event.target.value;
     onValuesChange(newValues);
   };
+
+  useEffect(() => {
+    if (compromise && invoice) {
+      const newValues = { ...invoiceData };
+      newValues["precioUnitarioBs"] = compromise.precioUnitarioBs;
+      newValues["montoTotalBs"] = parseFloat(
+        (compromise.precioUnitarioBs * invoice.quantity).toFixed(2)
+      );
+      newValues["precioUnitarioUsd"] = compromise.precioUnitarioUsd;
+      newValues["montoTotalUsd"] = parseFloat(
+        (compromise.precioUnitarioUsd * invoice.quantity).toFixed(2)
+      );
+      onValuesChange(newValues); // Esto llamará a handleCostDataChange en el componente padre
+    }
+  }, [compromise, invoice, onValuesChange]); // Asegúrate de incluir onValuesChange en la lista de dependencias
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

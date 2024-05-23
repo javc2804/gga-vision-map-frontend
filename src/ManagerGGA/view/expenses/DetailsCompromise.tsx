@@ -49,24 +49,12 @@ const DetailsCompromise = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleCostDataChange = (index, newCostData) => {
-    setCostData(costData.map((item, i) => (i === index ? newCostData : item)));
+    setCostData((prevCostData) =>
+      prevCostData.map((item, i) => (i === index ? newCostData : item))
+    );
   };
 
   const handleSave = () => {
-    for (let i = 0; i < costData.length; i++) {
-      for (let field in costData[i]) {
-        if (!costData[i][field]) {
-          setSnackbarMessage(
-            `El campo ${field} está vacío en la factura ${
-              i + 1
-            }. Por favor, rellénelo antes de guardar.`
-          );
-          setSnackbarType("error");
-          setSnackbarOpen(true);
-          return;
-        }
-      }
-    }
     const userEmail = { user_rel: localStorage.getItem("email") };
 
     const updatedInvoices = invoice.invoices.map((inv, index) => ({
@@ -75,9 +63,6 @@ const DetailsCompromise = () => {
       ...costData[index],
     }));
 
-    console.log(invoice);
-    console.log(costData);
-    return;
     const updatedInvoice = { ...invoice, invoices: updatedInvoices };
     dispatch(startSavePurchaseAsing(updatedInvoice))
       .then(() => {
