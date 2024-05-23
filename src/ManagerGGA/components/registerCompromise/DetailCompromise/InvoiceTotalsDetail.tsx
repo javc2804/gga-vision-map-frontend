@@ -55,7 +55,12 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
         value={montoTotalUsd}
         sx={{ mr: 1 }}
       />
-      <Button variant="contained" color="primary" onClick={handleSave}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSave}
+        disabled={invoice.status === true}
+      >
         Guardar
       </Button>
     </Box>
