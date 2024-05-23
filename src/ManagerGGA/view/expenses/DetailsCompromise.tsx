@@ -141,10 +141,7 @@ const DetailsCompromise = () => {
                   <React.Fragment key={index}>
                     <Grid item xs={12} sm={6}>
                       <Box height="100%" style={{ marginLeft: "1%" }}>
-                        <UTData
-                          {...invoiceData}
-                          style={{ width: "97%", height: "540px" }}
-                        />
+                        {invoiceData && <UTData invoiceData={invoiceData} />}
                       </Box>
                     </Grid>
                     <Grid item xs={12} sm={6}>

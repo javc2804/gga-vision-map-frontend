@@ -1,14 +1,8 @@
-import { TextField, Box, Grid, Paper } from "@mui/material";
+import { TextField, Box, Grid } from "@mui/material";
 
-const UTData = ({
-  eje,
-  subeje,
-  marcaModelo,
-  quantity,
-  ut,
-  style,
-  createdAt,
-}) => {
+const UTData = ({ invoiceData }: any) => {
+  const { quantity, createdAt } = invoiceData;
+  const { ut, marcaModelo, eje, subeje } = invoiceData.fleet;
   return (
     <>
       <Grid container spacing={1}>
