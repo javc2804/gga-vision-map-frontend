@@ -38,19 +38,12 @@ const DetailsCompromise = () => {
   const [snackbarType, setSnackbarType] = useState("");
   const [costData, setCostData] = useState(
     invoice.invoices.map(() => ({
-      precioUnitarioDivisas: "",
-      montoTotalPagoBolivares: "",
-      montoTotalDivisasDeuda: "",
-      precioUnitarioDivisasS: "",
-      montoTotalPagoDivisas: "",
-      fechaEntrega: "",
-      fechaPago: "",
-      ordenPagoNumero: "",
-      ordenCompraServicio: "",
-      ordenCompraServicioFecha: "",
-      notaEntregaNumero: "",
-      estatus: "",
-      observacion: "",
+      precioUnitarioDivisas: 0,
+      montoTotalPagoBolivares: 0,
+      montoTotalDivisasDeuda: 0,
+      precioUnitarioDivisasS: 0,
+      // montoTotalPagoDivisas: 0,
+      // fechaEntrega: "",
     }))
   );
 
@@ -83,7 +76,8 @@ const DetailsCompromise = () => {
     }));
 
     const updatedInvoice = { ...invoice, invoices: updatedInvoices };
-
+    console.log(updatedInvoice);
+    return;
     dispatch(startSavePurchase(updatedInvoice))
       .then(() => {
         setSnackbarMessage("Guardado con éxito");
