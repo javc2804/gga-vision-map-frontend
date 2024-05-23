@@ -161,7 +161,6 @@ const useMultipleForm = (
       return;
     }
     const result = await dispatch(startSavePurchase(combinedForms));
-    console.log(result);
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
     } else {

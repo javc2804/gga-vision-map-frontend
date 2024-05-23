@@ -47,7 +47,7 @@ export const NotesAdmin = () => {
   useEffect(() => {
     setIsLoading(true);
     dispatch(fetchNoteInvoices()).finally(() => {
-      setIsLoading(true);
+      setIsLoading(false);
     });
   }, [dispatch]);
 
