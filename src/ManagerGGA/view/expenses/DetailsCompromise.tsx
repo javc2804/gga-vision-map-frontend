@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  startSavePurchase,
+  startSavePurchaseAsing,
   startGetPurchaseTrans,
 } from "../../../store/purchase/purchaseThunks";
 
@@ -38,12 +38,10 @@ const DetailsCompromise = () => {
   const [snackbarType, setSnackbarType] = useState("");
   const [costData, setCostData] = useState(
     invoice.invoices.map(() => ({
-      precioUnitarioDivisas: 0,
-      montoTotalPagoBolivares: 0,
-      montoTotalDivisasDeuda: 0,
-      precioUnitarioDivisasS: 0,
-      // montoTotalPagoDivisas: 0,
-      // fechaEntrega: "",
+      precioUnitarioBs: 0,
+      montoTotalBs: 0,
+      precioUnitarioUsd: 0,
+      montoTotalUsd: 0,
     }))
   );
 
@@ -69,16 +67,19 @@ const DetailsCompromise = () => {
         }
       }
     }
+    const userEmail = { user_rel: localStorage.getItem("email") };
 
     const updatedInvoices = invoice.invoices.map((inv, index) => ({
       ...inv,
+      ...userEmail,
       ...costData[index],
     }));
 
-    const updatedInvoice = { ...invoice, invoices: updatedInvoices };
-    console.log(updatedInvoice);
+    console.log(invoice);
+    console.log(costData);
     return;
-    dispatch(startSavePurchase(updatedInvoice))
+    const updatedInvoice = { ...invoice, invoices: updatedInvoices };
+    dispatch(startSavePurchaseAsing(updatedInvoice))
       .then(() => {
         setSnackbarMessage("Guardado con éxito");
         setSnackbarType("success");
@@ -126,7 +127,9 @@ const DetailsCompromise = () => {
                     <Grid item xs={12} sm={6}>
                       <Box height="100%">
                         <CostData
+                          compromise={compromise.response}
                           invoiceData={costData[index]}
+                          invoice={invoice.invoices[index]}
                           onValuesChange={(newCostData) =>
                             handleCostDataChange(index, newCostData)
                           }

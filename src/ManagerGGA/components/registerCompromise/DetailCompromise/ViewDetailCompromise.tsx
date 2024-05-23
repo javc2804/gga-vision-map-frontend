@@ -15,7 +15,6 @@ const ViewDetailCompromise = ({ compromise }: any) => {
   if (!compromise) {
     return null;
   }
-  console.log(compromise);
   return (
     <Box sx={boxStyles}>
       <Box sx={title}>

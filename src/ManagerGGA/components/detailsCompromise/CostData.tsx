@@ -1,9 +1,23 @@
-import React from "react";
-import { Box, Grid, Paper, TextField } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 
-export const CostData = ({ invoiceData, onValuesChange, style }) => {
+export const CostData = ({
+  compromise,
+  invoiceData,
+  invoice,
+  onValuesChange,
+  style,
+}) => {
+  const montoTotalBs =
+    compromise && invoice
+      ? (compromise.precioUnitarioBs * invoice.quantity).toFixed(2)
+      : 0;
+  const montoTotalUsd =
+    compromise && invoice
+      ? (compromise.precioUnitarioUsd * invoice.quantity).toFixed(2)
+      : 0;
+
   const handleInputChange = (field) => (event) => {
     const newValues = { ...invoiceData };
     if (field === "observacion" || field === "estatus") {
@@ -14,50 +28,47 @@ export const CostData = ({ invoiceData, onValuesChange, style }) => {
     onValuesChange(newValues);
   };
 
-  const handleDateChange = (field) => (newValue) => {
-    const newValues = { ...invoiceData };
-    if (!isNaN(newValue)) {
-      newValues[field] = newValue;
-      onValuesChange(newValues);
-    }
-  };
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Grid container spacing={1}>
         <Grid item xs={3}>
           <TextField
             label="Precio Unitario Bs"
-            value={invoiceData.precioUnitarioDivisas || ""}
-            onChange={handleInputChange("precioUnitarioDivisas")}
+            value={compromise ? compromise.precioUnitarioBs : ""}
+            onChange={handleInputChange("precioUnitarioBs")}
             fullWidth
             style={{ marginBottom: "20px" }}
+            disabled
           />
         </Grid>
         <Grid item xs={3}>
           <TextField
             label="Monto Total Bs"
-            value={invoiceData.montoTotalPagoBolivares || ""}
-            onChange={handleInputChange("montoTotalPagoBolivares")}
+            value={montoTotalBs || ""}
+            onChange={handleInputChange("montoTotalBs")}
             fullWidth
             style={{ marginBottom: "20px" }}
+            disabled
           />
         </Grid>
         <Grid item xs={3}>
           <TextField
             label="Precio Unitario $"
-            value={invoiceData.precioUnitarioDivisasS || ""}
-            onChange={handleInputChange("precioUnitarioDivisasS")}
+            value={compromise ? compromise.precioUnitarioUsd : ""}
+            onChange={handleInputChange("precioUnitarioUsd")}
             fullWidth
             style={{ marginBottom: "20px" }}
+            disabled
           />
         </Grid>
         <Grid item xs={3}>
           <TextField
             label="Monto Total $"
-            value={invoiceData.montoTotalDivisasDeuda || ""}
-            onChange={handleInputChange("montoTotalDivisasDeuda")}
+            value={montoTotalUsd || ""}
+            onChange={handleInputChange("montoTotalUsd")}
             fullWidth
             style={{ marginBottom: "20px" }}
+            disabled
           />
         </Grid>
       </Grid>

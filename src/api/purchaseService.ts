@@ -38,6 +38,15 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  savePurchaseAsing: (purchaseData: any) => {
+    return API_URL.post("transaction/asing", purchaseData)
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
   savePurchaseUpdateComprimise: (purchaseData: any) => {
     console.log(purchaseData);
     return API_URL.post("transaction/trans-compromise", purchaseData)

@@ -76,6 +76,27 @@ export const startSavePurchase =
       return { ok: false, response: error.message }; // Y aquí
     }
   };
+export const startSavePurchaseAsing =
+  (purchaseData: any): any =>
+  async (dispatch: AppDispatch) => {
+    dispatch(getPurchaseStart());
+    try {
+      const result = await purchaseService.savePurchaseAsing(purchaseData);
+      if (result.ok) {
+        dispatch(getPurchaseSuccess(result.response));
+      } else {
+        dispatch(getPurchaseFailure(result.response));
+      }
+      return result; // Asegúrate de que estás devolviendo el resultado aquí
+    } catch (error: any) {
+      if (error instanceof Error) {
+        dispatch(getPurchaseFailure(error.message));
+      } else {
+        dispatch(getPurchaseFailure("An unknown error occurred."));
+      }
+      return { ok: false, response: error.message }; // Y aquí
+    }
+  };
 export const startSaveCompromise =
   (purchaseData: any): any =>
   async (dispatch: AppDispatch) => {
