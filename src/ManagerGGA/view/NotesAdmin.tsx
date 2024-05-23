@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import WarningIcon from "@mui/icons-material/Warning";
@@ -19,6 +19,7 @@ import { RootState } from "../../store/store";
 import { keyframes } from "@emotion/react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import styled from "@emotion/styled";
+import Loading from "../../components/Loading";
 
 export const NotesAdmin = () => {
   const blink = keyframes`
@@ -40,6 +41,19 @@ export const NotesAdmin = () => {
   useEffect(() => {
     dispatch(fetchNoteInvoices());
   }, [dispatch]);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(fetchNoteInvoices()).finally(() => {
+      setIsLoading(true);
+    });
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <TableContainer component={Paper}>
