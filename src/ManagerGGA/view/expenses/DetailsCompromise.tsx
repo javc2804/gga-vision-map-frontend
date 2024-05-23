@@ -23,6 +23,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import UTData from "../../components/detailsCompromise/UTData";
 import CostData from "../../components/detailsCompromise/CostData";
 import ViewDetailCompromise from "../../components/registerCompromise/DetailCompromise/ViewDetailCompromise";
+import InvoiceTotalsDetail from "../../components/registerCompromise/DetailCompromise/InvoiceTotalsDetail";
 
 const DetailsCompromise = () => {
   const dispatch = useDispatch();
@@ -148,11 +149,16 @@ const DetailsCompromise = () => {
             </Paper>
           </Grid>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={handleSave}>
+            {/* <Button variant="contained" color="primary" onClick={handleSave}>
               Guardar
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
+        <InvoiceTotalsDetail
+          totalFactUsd={0}
+          totalFactBs={0}
+          handleSave={handleSave}
+        />
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={6000}
