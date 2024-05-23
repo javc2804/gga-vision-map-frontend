@@ -19,12 +19,6 @@ export const CostData = ({
       ? (compromise.precioUnitarioUsd * invoice.quantity).toFixed(2)
       : 0;
 
-  const handleInputChange = (field) => (event) => {
-    const newValues = { ...invoiceData };
-    newValues[field] = event.target.value;
-    onValuesChange(newValues);
-  };
-
   useEffect(() => {
     if (compromise && invoice) {
       const newValues = { ...invoiceData };
@@ -47,7 +41,6 @@ export const CostData = ({
           <TextField
             label="Precio Unitario Bs"
             value={compromise ? compromise.precioUnitarioBs : ""}
-            onChange={handleInputChange("precioUnitarioBs")}
             fullWidth
             style={{ marginBottom: "20px" }}
             disabled
@@ -57,7 +50,6 @@ export const CostData = ({
           <TextField
             label="Monto Total Bs"
             value={montoTotalBs || ""}
-            onChange={handleInputChange("montoTotalBs")}
             fullWidth
             style={{ marginBottom: "20px" }}
             disabled
@@ -67,7 +59,6 @@ export const CostData = ({
           <TextField
             label="Precio Unitario $"
             value={compromise ? compromise.precioUnitarioUsd : ""}
-            onChange={handleInputChange("precioUnitarioUsd")}
             fullWidth
             style={{ marginBottom: "20px" }}
             disabled
@@ -77,7 +68,6 @@ export const CostData = ({
           <TextField
             label="Monto Total $"
             value={montoTotalUsd || ""}
-            onChange={handleInputChange("montoTotalUsd")}
             fullWidth
             style={{ marginBottom: "20px" }}
             disabled
