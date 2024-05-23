@@ -1,16 +1,6 @@
 import { TextField, Box, Grid, Paper } from "@mui/material";
 
-const UTData = ({
-  note_number,
-  delivered_by,
-  quantity,
-  observation,
-  spare_part,
-  spare_part_variant,
-  provider,
-  ut,
-  style,
-}) => {
+const UTData = ({ eje, subeje, marcaModelo, quantity, ut, style }) => {
   return (
     <>
       <Grid container spacing={1}>
@@ -21,17 +11,22 @@ const UTData = ({
         </Grid>
         <Grid item xs={2}>
           <Box mb={2}>
-            <TextField label="Marca/Modelo" value={ut} disabled fullWidth />
+            <TextField
+              label="Marca/Modelo"
+              value={marcaModelo}
+              disabled
+              fullWidth
+            />
           </Box>
         </Grid>
         <Grid item xs={2}>
           <Box mb={2}>
-            <TextField label="Eje" value={ut} disabled fullWidth />
+            <TextField label="Eje" value={eje} disabled fullWidth />
           </Box>
         </Grid>
         <Grid item xs={2}>
           <Box mb={2}>
-            <TextField label="Sub-Eje" value={ut} disabled fullWidth />
+            <TextField label="Sub-Eje" value={subeje} disabled fullWidth />
           </Box>
         </Grid>
         <Grid item xs={2}>
