@@ -1,81 +1,105 @@
 import { Grid, TextField } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { useEffect } from "react";
+import React, { useEffect, useMemo, useCallback } from "react";
 
-export const CostData = ({
-  compromise,
-  invoiceData,
-  invoice,
-  onValuesChange,
-  style,
-}) => {
-  const montoTotalBs =
-    compromise && invoice
-      ? (compromise.precioUnitarioBs * invoice.quantity).toFixed(2)
-      : 0;
-  const montoTotalUsd =
-    compromise && invoice
-      ? (compromise.precioUnitarioUsd * invoice.quantity).toFixed(2)
-      : 0;
+const CostData = React.memo(
+  ({ compromise, invoice, onValuesChangeProp, invoiceData }) => {
+    const { precioUnitarioBs, precioUnitarioUsd } = compromise || {};
+    const { quantity } = invoice || {};
 
-  useEffect(() => {
-    if (compromise && invoice) {
-      const newValues = { ...invoiceData };
-      newValues["precioUnitarioBs"] = compromise.precioUnitarioBs;
-      newValues["montoTotalBs"] = parseFloat(
-        (compromise.precioUnitarioBs * invoice.quantity).toFixed(2)
-      );
-      newValues["precioUnitarioUsd"] = compromise.precioUnitarioUsd;
-      newValues["montoTotalUsd"] = parseFloat(
-        (compromise.precioUnitarioUsd * invoice.quantity).toFixed(2)
-      );
-      onValuesChange(newValues); // Esto llamará a handleCostDataChange en el componente padre
-    }
-  }, [compromise, invoice, onValuesChange]); // Asegúrate de incluir onValuesChange en la lista de dependencias
+    const montoTotalBs = useMemo(() => {
+      return compromise && invoice
+        ? parseFloat(
+            (compromise.precioUnitarioBs * invoice.quantity).toFixed(2)
+          )
+        : 0;
+    }, [compromise, invoice]);
 
-  return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Grid container spacing={1}>
-        <Grid item xs={3}>
-          <TextField
-            label="Precio Unitario Bs"
-            value={compromise ? compromise.precioUnitarioBs : ""}
-            fullWidth
-            style={{ marginBottom: "20px" }}
-            disabled
-          />
+    const montoTotalUsd = useMemo(() => {
+      return compromise && invoice
+        ? parseFloat(
+            (compromise.precioUnitarioUsd * invoice.quantity).toFixed(2)
+          )
+        : 0;
+    }, [compromise, invoice]);
+
+    const onValuesChange = useCallback(
+      (newValues) => {
+        onValuesChangeProp(newValues);
+      },
+      [onValuesChangeProp]
+    );
+    useEffect(() => {
+      if (precioUnitarioBs && precioUnitarioUsd && quantity) {
+        const newValues = {
+          precioUnitarioBs,
+          montoTotalBs,
+          precioUnitarioUsd,
+          montoTotalUsd,
+        };
+
+        const valuesChanged = Object.keys(newValues).some(
+          (key) => newValues[key] !== invoiceData[key]
+        );
+
+        if (valuesChanged) {
+          onValuesChange({ ...invoiceData, ...newValues });
+        }
+      }
+    }, [
+      precioUnitarioBs,
+      precioUnitarioUsd,
+      quantity,
+      montoTotalBs,
+      montoTotalUsd,
+      onValuesChange,
+      invoiceData,
+    ]);
+
+    return (
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Grid container spacing={1}>
+          <Grid item xs={3}>
+            <TextField
+              label="Precio Unitario Bs"
+              value={compromise ? compromise.precioUnitarioBs : ""}
+              fullWidth
+              style={{ marginBottom: "20px" }}
+              disabled
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              label="Monto Total Bs"
+              value={montoTotalBs || ""}
+              fullWidth
+              style={{ marginBottom: "20px" }}
+              disabled
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              label="Precio Unitario $"
+              value={compromise ? compromise.precioUnitarioUsd : ""}
+              fullWidth
+              style={{ marginBottom: "20px" }}
+              disabled
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              label="Monto Total $"
+              value={montoTotalUsd || ""}
+              fullWidth
+              style={{ marginBottom: "20px" }}
+              disabled
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <TextField
-            label="Monto Total Bs"
-            value={montoTotalBs || ""}
-            fullWidth
-            style={{ marginBottom: "20px" }}
-            disabled
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            label="Precio Unitario $"
-            value={compromise ? compromise.precioUnitarioUsd : ""}
-            fullWidth
-            style={{ marginBottom: "20px" }}
-            disabled
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            label="Monto Total $"
-            value={montoTotalUsd || ""}
-            fullWidth
-            style={{ marginBottom: "20px" }}
-            disabled
-          />
-        </Grid>
-      </Grid>
-    </LocalizationProvider>
-  );
-};
+      </LocalizationProvider>
+    );
+  }
+);
 
 export default CostData;

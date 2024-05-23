@@ -63,7 +63,10 @@ const DetailsCompromise = () => {
       ...costData[index],
     }));
 
+    console.log(updatedInvoices);
+
     const updatedInvoice = { ...invoice, invoices: updatedInvoices };
+    // return;
     dispatch(startSavePurchaseAsing(updatedInvoice))
       .then(() => {
         setSnackbarMessage("Guardado con éxito");
@@ -115,7 +118,7 @@ const DetailsCompromise = () => {
                           compromise={compromise.response}
                           invoiceData={costData[index]}
                           invoice={invoice.invoices[index]}
-                          onValuesChange={(newCostData) =>
+                          onValuesChangeProp={(newCostData) =>
                             handleCostDataChange(index, newCostData)
                           }
                           style={{ width: "97%", height: "525px" }}

@@ -38,7 +38,6 @@ export const NotesAdmin = () => {
   const noteInvoices = useSelector(
     (state: RootState) => state.noteInvoices.noteInvoices
   ); // Get the noteInvoices from the state
-  console.log(noteInvoices);
   const navigate = useNavigate();
 
   useEffect(() => {
