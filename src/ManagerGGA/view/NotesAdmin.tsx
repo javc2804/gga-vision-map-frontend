@@ -1,5 +1,3 @@
-// NotesAdmin.tsx
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,13 +14,12 @@ import {
   IconButton,
   Box,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchNoteInvoices } from "../../store/notes/noteInvoicesThunks"; // Import the fetchNoteInvoices action
-import { RootState } from "../../store/store"; // Import the RootState type
+import { fetchNoteInvoices } from "../../store/notes/noteInvoicesThunks";
+import { RootState } from "../../store/store";
 import { keyframes } from "@emotion/react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import styled from "@emotion/styled";
+
 export const NotesAdmin = () => {
   const blink = keyframes`
   0% { opacity: 1; }
@@ -37,11 +34,11 @@ export const NotesAdmin = () => {
   const dispatch = useDispatch();
   const noteInvoices = useSelector(
     (state: RootState) => state.noteInvoices.noteInvoices
-  ); // Get the noteInvoices from the state
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchNoteInvoices()); // Fetch the noteInvoices when the component mounts
+    dispatch(fetchNoteInvoices());
   }, [dispatch]);
 
   return (
@@ -64,38 +61,46 @@ export const NotesAdmin = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {noteInvoices.map((invoice, index) => (
-            <TableRow key={index}>
-              <TableCell>{invoice.note_number}</TableCell>
-              <TableCell>
-                {new Date(invoice.createdAt).toLocaleDateString()}
-              </TableCell>
-              <TableCell>
-                {invoice.status ? (
-                  <Box display="flex" alignItems="center">
-                    Completado
-                    <CheckCircleIcon sx={{ color: "green" }} />
-                  </Box>
-                ) : (
-                  <Box display="flex" alignItems="center">
-                    Pendiente
-                    <BlinkingWarningIcon />
-                  </Box>
-                )}
-              </TableCell>
-              <TableCell>
-                <IconButton
-                  color="primary"
-                  aria-label="view"
-                  onClick={() =>
-                    navigate("/notes-store", { state: { invoice } })
-                  }
-                >
-                  <VisibilityIcon />
-                </IconButton>
+          {noteInvoices.length > 0 ? (
+            noteInvoices.map((invoice, index) => (
+              <TableRow key={index}>
+                <TableCell>{invoice.note_number}</TableCell>
+                <TableCell>
+                  {new Date(invoice.createdAt).toLocaleDateString()}
+                </TableCell>
+                <TableCell>
+                  {invoice.status ? (
+                    <Box display="flex" alignItems="center">
+                      Completado
+                      <CheckCircleIcon sx={{ color: "green" }} />
+                    </Box>
+                  ) : (
+                    <Box display="flex" alignItems="center">
+                      Pendiente
+                      <BlinkingWarningIcon />
+                    </Box>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    color="primary"
+                    aria-label="view"
+                    onClick={() =>
+                      navigate("/notes-store", { state: { invoice } })
+                    }
+                  >
+                    <VisibilityIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4} align="center">
+                No hay notas de entrada en este momento
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </TableContainer>
