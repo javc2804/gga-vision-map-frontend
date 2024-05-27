@@ -82,7 +82,7 @@ export const RegisterPurchase: React.FC<RegisterPurchaseProps> = () => {
     forms,
     handleAddClick,
     handleRemoveClick,
-    handleInputChange,
+    // handleInputChange,
     handlePaymentChange,
     totalFactUsd,
     totalFactBs,
@@ -128,12 +128,12 @@ export const RegisterPurchase: React.FC<RegisterPurchaseProps> = () => {
       />
       {forms.map((form, index) => (
         <Box key={index} sx={boxStyles}>
-          <UTInputForm
+          {/* <UTInputForm
             initialValues={form.input}
             fleets={fleets}
             disabled={false}
             onChange={(values: any) => handleInputChange(form.id)(values, {})}
-          />
+          /> */}
           <PaymentForm
             initialValues={form.payment}
             onChange={handlePaymentChange(form.id)}

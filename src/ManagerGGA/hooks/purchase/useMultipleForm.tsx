@@ -43,18 +43,18 @@ const useMultipleForm = (
     setForms(list);
   };
 
-  const handleInputChange = useCallback(
-    (id: any) => (newValues: any, newErrors: any) => {
-      setForms((prevForms) =>
-        prevForms.map((form) =>
-          form.id === id
-            ? { ...form, input: newValues, errors: newErrors }
-            : form
-        )
-      );
-    },
-    [setForms]
-  );
+  // const handleInputChange = useCallback(
+  //   (id: any) => (newValues: any, newErrors: any) => {
+  //     setForms((prevForms) =>
+  //       prevForms.map((form) =>
+  //         form.id === id
+  //           ? { ...form, input: newValues, errors: newErrors }
+  //           : form
+  //       )
+  //     );
+  //   },
+  //   [setForms]
+  // );
 
   const handlePaymentChange = useCallback(
     (id: any) => (newValues: any, newErrors: any) => {
@@ -131,26 +131,26 @@ const useMultipleForm = (
       );
       return;
     }
-    const hasErrorsUt = forms.some((form) => {
-      const requiredFields = ["ut"];
+    // const hasErrorsUt = forms.some((form) => {
+    //   const requiredFields = ["ut"];
 
-      return requiredFields.some((field) => {
-        const hasError = !form.input[field] || form.input[field] === null;
-        if (hasError) {
-          errorField = field;
-        }
-        return hasError;
-      });
-    });
+    //   return requiredFields.some((field) => {
+    //     const hasError = !form.input[field] || form.input[field] === null;
+    //     if (hasError) {
+    //       errorField = field;
+    //     }
+    //     return hasError;
+    //   });
+    // });
 
-    if (hasErrorsUt) {
-      openSnackbar(
-        `Error al guardar, verifica el campo ${errorField}`,
-        "error",
-        ErrorOutline
-      );
-      return;
-    }
+    // if (hasErrorsUt) {
+    //   openSnackbar(
+    //     `Error al guardar, verifica el campo ${errorField}`,
+    //     "error",
+    //     ErrorOutline
+    //   );
+    //   return;
+    // }
 
     if (facNDE === "0" || "") {
       openSnackbar(
@@ -176,7 +176,7 @@ const useMultipleForm = (
     forms,
     handleAddClick,
     handleRemoveClick,
-    handleInputChange,
+    // handleInputChange,
     handlePaymentChange,
     totalFactUsd,
     totalFactBs,
