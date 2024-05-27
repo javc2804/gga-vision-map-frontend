@@ -84,7 +84,7 @@ const CostData = React.memo(
 
     return (
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Grid container spacing={1}>
+        <Grid container spacing={1} sx={{ p: 3 }}>
           {!showFields && (
             <>
               <Grid item xs={3}>

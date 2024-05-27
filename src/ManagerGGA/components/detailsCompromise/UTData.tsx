@@ -5,7 +5,7 @@ const UTData = ({ invoiceData }: any) => {
   const { ut, marcaModelo, eje, subeje } = invoiceData.fleet;
   return (
     <>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} sx={{ p: 3 }}>
         <Grid item xs={2}>
           <Box mb={2}>
             <TextField

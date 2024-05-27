@@ -143,6 +143,9 @@ const DetailsCompromise = () => {
               elevation={3}
               style={{ width: "97%", marginLeft: "1%", marginBottom: "20px" }}
             >
+              <Box sx={{ p: 4, mr: 4, mt: 2, ml: 2 }}>
+                <h3>Asignación</h3>
+              </Box>
               <Grid
                 container
                 spacing={2}
