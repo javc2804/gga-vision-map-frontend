@@ -80,7 +80,11 @@ export const NotesAdmin = () => {
               <TableRow key={index}>
                 <TableCell>{invoice.note_number}</TableCell>
                 <TableCell>
-                  {new Date(invoice.createdAt).toLocaleDateString()}
+                  {new Date(invoice.createdAt).toLocaleDateString("es-ES", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
                 </TableCell>
                 <TableCell>
                   {invoice.status ? (
