@@ -7,6 +7,7 @@ import {
   TablePagination,
   TableHead, // Añade esto
   TableRow,
+  TextField,
 } from "@mui/material";
 import useTableList from "../../hooks/useTableList";
 import { SortableTableHeader } from "../../components/ListPurchase/SortableTableHeader";
@@ -100,6 +101,21 @@ export const ListPurchase = () => {
     },
   ]);
 
+  const [filters, setFilters] = useState({});
+
+  const updateFilter = (field: any, value: any) => {
+    setFilters({
+      ...filters,
+      [field]: value,
+    });
+  };
+
+  const filteredData = data.filter((row: any) =>
+    Object.entries(filters).every(([field, value]) =>
+      value ? String(row[field]).includes(String(value)) : true
+    )
+  );
+
   const {
     sortedData,
     order,
@@ -109,10 +125,19 @@ export const ListPurchase = () => {
     handleSortRequest,
     handleChangePage,
     handleChangeRowsPerPage,
-  } = useTableList(data);
+  } = useTableList(filteredData);
 
   return (
     <TableContainer component={Paper}>
+      <div>
+        {headers.map((header) => (
+          <TextField
+            label={`Filter by ${header}`}
+            value={filters[header] || ""}
+            onChange={(e) => updateFilter(header, e.target.value)}
+          />
+        ))}
+      </div>
       <Table>
         <TableHead>
           <TableRow>
@@ -137,7 +162,7 @@ export const ListPurchase = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={data.length}
+        count={filteredData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
