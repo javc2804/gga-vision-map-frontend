@@ -1,21 +1,18 @@
+import { useState } from "react";
 import {
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Paper,
-  TableSortLabel,
-  IconButton,
-  Tooltip,
   TablePagination,
+  TableHead, // Añade esto
+  TableRow,
 } from "@mui/material";
-import { useState, useMemo } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import useTableList from "../../hooks/useTableList";
-interface IRow {
+import { SortableTableHeader } from "../../components/ListPurchase/SortableTableHeader";
+import { TableRowData } from "../../components/ListPurchase/TableRowData";
+
+export interface IRow {
   ID: number;
   Fecha: string;
   UT: string;
@@ -32,65 +29,6 @@ interface IRow {
   "Deuda $": number;
   [key: string]: string | number;
 }
-
-type TableRowDataProps = {
-  row: IRow;
-  headers: string[];
-};
-
-const ActionButtons = () => (
-  <>
-    <Tooltip title="Editar">
-      <IconButton>
-        <EditIcon />
-      </IconButton>
-    </Tooltip>
-    <Tooltip title="Eliminar">
-      <IconButton>
-        <DeleteIcon />
-      </IconButton>
-    </Tooltip>
-  </>
-);
-
-type SortableTableHeaderProps = {
-  header: string;
-  orderBy: string;
-  order: "asc" | "desc";
-  onSortRequest: (header: string) => void;
-};
-
-const SortableTableHeader: React.FC<SortableTableHeaderProps> = ({
-  header,
-  orderBy,
-  order,
-  onSortRequest,
-}) => (
-  <TableCell key={header}>
-    <TableSortLabel
-      active={orderBy === header}
-      direction={orderBy === header ? order : "asc"}
-      onClick={() => onSortRequest(header)}
-      style={{ color: "black", fontWeight: "bold" }}
-    >
-      {header}
-    </TableSortLabel>
-  </TableCell>
-);
-
-const TableRowData: React.FC<TableRowDataProps> = ({ row, headers }) => (
-  <TableRow key={row.ID}>
-    {headers.map((header) =>
-      header !== "Acciones" ? (
-        <TableCell>{row[header]}</TableCell>
-      ) : (
-        <TableCell>
-          <ActionButtons />
-        </TableCell>
-      )
-    )}
-  </TableRow>
-);
 
 export const ListPurchase = () => {
   const headers = [
