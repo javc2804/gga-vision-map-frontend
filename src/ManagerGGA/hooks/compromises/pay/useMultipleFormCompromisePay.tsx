@@ -100,8 +100,6 @@ const useMultipleFormCompromisePay = (
       };
     });
 
-    console.log(combinedForms);
-
     let errorField = null;
     const hasErrors = forms.some((form) => {
       const requiredFields = [
@@ -144,8 +142,35 @@ const useMultipleFormCompromisePay = (
       );
       return;
     }
+
+    const totalCantidad = forms.reduce(
+      (sum, form) => sum + form.payment.cantidad,
+      0
+    );
+
+    if (totalCantidad > compromise.response.cantidad) {
+      openSnackbar(
+        `Error al guardar, la cantidad asignada es mayor a la disponible`,
+        "error",
+        ErrorOutline
+      );
+      return;
+    }
+    const totalMontoTotalUsd = forms.reduce(
+      (sum, form) => sum + form.payment.montoTotalUsd,
+      0
+    );
+
+    if (totalMontoTotalUsd > compromise.response.montoTotalUsd) {
+      openSnackbar(
+        `Error al guardar, el monto total USD asignado es mayor al disponible`,
+        "error",
+        ErrorOutline
+      );
+      return;
+    }
+
     const result = await dispatch(startSaveTransCompromise(combinedForms));
-    console.log(result);
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
     } else {
