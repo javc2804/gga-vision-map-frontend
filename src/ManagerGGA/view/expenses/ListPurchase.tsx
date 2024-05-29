@@ -14,7 +14,7 @@ import {
 import { useState, useMemo } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
+import useTableList from "../../hooks/useTableList";
 interface IRow {
   ID: number;
   Fecha: string;
@@ -111,10 +111,6 @@ export const ListPurchase = () => {
     "Acciones",
   ];
 
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
-  const [orderBy, setOrderBy] = useState("");
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState([
     {
       ID: 1,
@@ -166,34 +162,16 @@ export const ListPurchase = () => {
     },
   ]);
 
-  const handleSortRequest = (property: string) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const sortedData = useMemo(() => {
-    return [...data].sort((a: IRow, b: IRow) => {
-      if (a[orderBy] < b[orderBy]) {
-        return order === "asc" ? -1 : 1;
-      }
-      if (a[orderBy] > b[orderBy]) {
-        return order === "asc" ? 1 : -1;
-      }
-      return 0;
-    });
-  }, [data, orderBy, order]);
+  const {
+    sortedData,
+    order,
+    orderBy,
+    page,
+    rowsPerPage,
+    handleSortRequest,
+    handleChangePage,
+    handleChangeRowsPerPage,
+  } = useTableList(data);
 
   return (
     <TableContainer component={Paper}>
