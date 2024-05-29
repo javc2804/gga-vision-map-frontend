@@ -64,12 +64,20 @@ const useMultipleForm = (
 
         const newForms = prevForms.map((form) => {
           if (form.id === id) {
-            totalUsd += parseFloat(newValues.montoTotalUsd);
-            totalBs += parseFloat(newValues.montoTotalBs);
+            totalUsd += isNaN(parseFloat(newValues.montoTotalUsd))
+              ? 0
+              : parseFloat(newValues.montoTotalUsd);
+            totalBs += isNaN(parseFloat(newValues.montoTotalBs))
+              ? 0
+              : parseFloat(newValues.montoTotalBs);
             return { ...form, payment: newValues, errors: newErrors };
           } else {
-            totalUsd += parseFloat(form.payment.montoTotalUsd);
-            totalBs += parseFloat(form.payment.montoTotalBs);
+            totalUsd += isNaN(parseFloat(form.payment.montoTotalUsd))
+              ? 0
+              : parseFloat(form.payment.montoTotalUsd);
+            totalBs += isNaN(parseFloat(form.payment.montoTotalBs))
+              ? 0
+              : parseFloat(form.payment.montoTotalBs);
             return form;
           }
         });
