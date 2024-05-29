@@ -141,7 +141,13 @@ const DetailsCompromise = () => {
           <Grid item>
             <Paper
               elevation={3}
-              style={{ width: "97%", marginLeft: "1%", marginBottom: "20px" }}
+              style={{
+                width: "97%",
+                marginLeft: "1%",
+                marginBottom: "20px",
+                height: "400px", // Ajuste este valor según sus necesidades
+                overflowY: "auto", // Esto habilitará el desplazamiento vertical cuando el contenido exceda la altura fija
+              }}
             >
               <Box sx={{ p: 4, mr: 4, mt: 2, ml: 2 }}>
                 <h3>Asignación</h3>
@@ -154,12 +160,15 @@ const DetailsCompromise = () => {
                 {invoice.invoices.map((invoiceData, index) => (
                   <React.Fragment key={index}>
                     <Grid item xs={12} sm={6}>
-                      <Box height="100%" style={{ marginLeft: "1%" }}>
+                      <Box
+                        height="100%"
+                        style={{ marginLeft: "1%", overflowY: "auto" }}
+                      >
                         {invoiceData && <UTData invoiceData={invoiceData} />}
                       </Box>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <Box height="100%">
+                      <Box height="100%" style={{ overflowY: "auto" }}>
                         <CostData
                           compromise={compromise.response}
                           invoiceData={costData[index]}

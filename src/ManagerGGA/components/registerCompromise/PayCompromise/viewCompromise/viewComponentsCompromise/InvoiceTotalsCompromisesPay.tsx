@@ -21,50 +21,29 @@ export const InvoiceTotalsComrpomisesPay: React.FC<InvoiceTotalsProps> = ({
     compromise && compromise.response ? compromise.response.montoTotalUsd : 0;
 
   return (
-    <Box
-      sx={{
-        mt: 2,
-        mr: 3.7,
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "flex-start",
-      }}
-    >
-      <Box sx={{ display: "flex", flexDirection: "column", mr: 1 }}>
-        <TextField
-          label="Total factura $"
-          variant="outlined"
-          sx={{ mb: 2 }}
-          value={totalFactUsd.toString()}
-          onChange={(e) => setTotalFactUsd(Number(e.target.value))}
-        />
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <TextField
-            label="Total deuda $ "
-            variant="outlined"
-            value={(totalDeuda - totalFactUsd).toString()}
-            onChange={(e) => setTotalFactBs(Number(e.target.value))}
-          />
-          <Button variant="contained" color="primary" onClick={handleSaveClick}>
-            Guardar
-          </Button>
-        </Box>
-      </Box>
+    <>
+      <TextField
+        label="Total factura $"
+        variant="outlined"
+        value={totalFactUsd.toString()}
+        onChange={(e) => setTotalFactUsd(Number(e.target.value))}
+      />
+      <TextField
+        label="Total deuda $ "
+        variant="outlined"
+        value={(totalDeuda - totalFactUsd).toString()}
+        onChange={(e) => setTotalFactBs(Number(e.target.value))}
+      />
+      <Button variant="contained" color="primary" onClick={handleSaveClick}>
+        Guardar
+      </Button>
       <TextField
         label="Total factura Bs"
         variant="outlined"
-        sx={{ mr: 1 }}
         value={totalFactBs.toString()}
         onChange={(e) => setTotalFactBs(Number(e.target.value))}
       />
-    </Box>
+    </>
   );
 };
 

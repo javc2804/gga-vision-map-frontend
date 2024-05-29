@@ -4,7 +4,7 @@ const UTData = ({ invoiceData }: any) => {
   const { quantity, createdAt } = invoiceData;
   const { ut, marcaModelo, eje, subeje } = invoiceData.fleet;
   return (
-    <>
+    <div style={{ maxHeight: "100%", overflowY: "auto" }}>
       <Grid container spacing={1} sx={{ p: 3 }}>
         <Grid item xs={2}>
           <Box mb={2}>
@@ -49,7 +49,7 @@ const UTData = ({ invoiceData }: any) => {
           </Box>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };
 
