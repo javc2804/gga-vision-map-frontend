@@ -1,5 +1,3 @@
-// Loading.tsx
-
 import { keyframes } from "@emotion/react";
 import Box from "@mui/material/Box";
 

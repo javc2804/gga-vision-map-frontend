@@ -12,6 +12,8 @@ import { SortableTableHeader } from "../../components/ListPurchase/SortableTable
 import { TableRowData } from "../../components/ListPurchase/TableRowData";
 import { Filters } from "../../components/filters/Filters";
 import { usePurchaseList } from "../../hooks/usePurchaseList";
+import { useSelector } from "react-redux";
+import Loading from "../../../components/Loading";
 
 export interface IRow {
   ID: number;
@@ -72,45 +74,53 @@ export const ListPurchase = () => {
     handleChangeRowsPerPage,
   } = useTableList(filteredData);
 
+  const loading = useSelector((state: any) => state.purchase.loading);
+
   return (
-    <TableContainer component={Paper}>
-      <Filters
-        headers={headers}
-        filters={filters}
-        updateFilter={updateFilter}
-      />
-      <Table>
-        <TableHead>
-          <TableRow>
-            {headers.map((header) => (
-              <SortableTableHeader
-                key={header}
-                header={header}
-                orderBy={orderBy}
-                order={order}
-                onSortRequest={handleSortRequest}
-              />
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filteredData
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row: any) => (
-              <TableRowData key={row.id} row={row} headers={headers} />
-            ))}
-        </TableBody>
-      </Table>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={filteredData.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </TableContainer>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <TableContainer component={Paper}>
+          <Filters
+            headers={headers}
+            filters={filters}
+            updateFilter={updateFilter}
+          />
+          <Table>
+            <TableHead>
+              <TableRow>
+                {headers.map((header) => (
+                  <SortableTableHeader
+                    key={header}
+                    header={header}
+                    orderBy={orderBy}
+                    order={order}
+                    onSortRequest={handleSortRequest}
+                  />
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row: any) => (
+                  <TableRowData key={row.id} row={row} headers={headers} />
+                ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={filteredData.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer>
+      )}
+    </>
   );
 };
 
