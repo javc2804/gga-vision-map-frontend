@@ -56,7 +56,7 @@ export const ListPurchase = () => {
   const [data, setData] = useState([
     {
       ID: 1,
-      Fecha: "2022-01-01",
+      Fecha: "2024-05-01",
       UT: "UT1",
       Eje: "Eje1",
       "Sub-eje": "Sub-eje1",
@@ -72,7 +72,7 @@ export const ListPurchase = () => {
     },
     {
       ID: 2,
-      Fecha: "2022-02-01",
+      Fecha: "2024-02-01",
       UT: "UT2",
       Eje: "Eje2",
       "Sub-eje": "Sub-eje2",
@@ -88,7 +88,7 @@ export const ListPurchase = () => {
     },
     {
       ID: 3,
-      Fecha: "2022-03-01",
+      Fecha: "2024-03-01",
       UT: "UT3",
       Eje: "Eje3",
       "Sub-eje": "Sub-eje3",
@@ -119,7 +119,11 @@ export const ListPurchase = () => {
   };
   // ...
 
-  const [dateRange, setDateRange] = React.useState([new Date(0), new Date()]);
+  const currentYear = new Date().getFullYear();
+  const [dateRange, setDateRange] = React.useState([
+    new Date(currentYear, 0, 1),
+    new Date(),
+  ]);
   const filteredRows = data.filter((row: any) => {
     const date = new Date(row.Fecha);
     return date >= new Date(dateRange[0]) && date <= new Date(dateRange[1]);
