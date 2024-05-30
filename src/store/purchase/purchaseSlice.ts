@@ -71,6 +71,10 @@ export const purchaseSlice = createSlice({
     setUt: (state, action: PayloadAction<string>) => {
       state.ut = action.payload;
     },
+    getListPurchase: (state, action: PayloadAction<any>) => {
+      state.loading = false;
+      state.purchase = action.payload;
+    },
   },
 });
 
@@ -87,6 +91,7 @@ export const {
   setRepuestos,
   setFormaDePago,
   setUt,
+  getListPurchase,
 } = purchaseSlice.actions;
 
 export const selectPurchase = (state: RootState) => state.purchase.purchase;

@@ -3,6 +3,7 @@ import {
   getPurchaseStart,
   getPurchaseSuccess,
   getPurchaseFailure,
+  getListPurchase,
 } from "./purchaseSlice";
 import { purchaseService } from "../../api/purchaseService";
 import {
@@ -132,6 +133,28 @@ export const startSaveTransCompromise =
         dispatch(getPurchaseFailure(result.response));
       }
       return result; // Asegúrate de que estás devolviendo el resultado aquí
+    } catch (error: any) {
+      if (error instanceof Error) {
+        dispatch(getPurchaseFailure(error.message));
+      } else {
+        dispatch(getPurchaseFailure("An unknown error occurred."));
+      }
+      return { ok: false, response: error.message }; // Y aquí
+    }
+  };
+export const startGetListPurchase =
+  (purchaseData: any): any =>
+  async (dispatch: AppDispatch) => {
+    dispatch(getPurchaseStart());
+
+    try {
+      const result = await purchaseService.getListPurchase(purchaseData);
+      if (result.ok) {
+        dispatch(getListPurchase(result.response));
+      } else {
+        dispatch(getPurchaseFailure(result.response));
+      }
+      return result;
     } catch (error: any) {
       if (error instanceof Error) {
         dispatch(getPurchaseFailure(error.message));

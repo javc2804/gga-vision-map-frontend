@@ -66,4 +66,13 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  getListPurchase: (compromiseData: any) => {
+    return API_URL.post("transaction/list", compromiseData)
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
 };

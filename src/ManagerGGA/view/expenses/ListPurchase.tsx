@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -15,6 +15,8 @@ import { SortableTableHeader } from "../../components/ListPurchase/SortableTable
 import { TableRowData } from "../../components/ListPurchase/TableRowData";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { useDispatch, useSelector } from "react-redux";
+import { startGetListPurchase } from "../../../store/purchase/purchaseThunks";
 
 export interface IRow {
   ID: number;
@@ -36,77 +38,63 @@ export interface IRow {
 
 export const ListPurchase = () => {
   const headers = [
-    "ID",
-    "Fecha",
-    "UT",
-    "Eje",
-    "Sub-eje",
-    "NDE(a)",
-    "FacProv",
-    "Proveedor",
-    "Compromiso",
-    "Repuesto",
-    "Cantidad",
-    "Total Bs",
-    "Total $",
-    "Deuda $",
-    "Acciones",
+    "cantidad",
+    "compromiso",
+    "createdAt",
+    "descripcion",
+    "descripcionRepuesto",
+    "eje",
+    "facNDE",
+    "fechaOcOs",
+    "formaPago",
+    "id",
+    "marcaModelo",
+    "montoTotalBs",
+    "montoTotalUsd",
+    "numeroOrdenPago",
+    "observacion",
+    "ocOs",
+    "precioUnitarioBs",
+    "precioUnitarioUsd",
+    "proveedor",
+    "repuesto",
+    "subeje",
+    "tasaBcv",
+    "updatedAt",
+    "user_rel",
+    "ut",
   ];
 
-  const [data, setData] = useState([
-    {
-      ID: 1,
-      Fecha: "2024-05-01",
-      UT: "UT1",
-      Eje: "Eje1",
-      "Sub-eje": "Sub-eje1",
-      "NDE(a)": "NDE1",
-      FacProv: "FacProv1",
-      Proveedor: "Proveedor1",
-      Compromiso: "Compromiso1",
-      Repuesto: "Repuesto1",
-      Cantidad: 10,
-      "Total Bs": 100,
-      "Total $": 50,
-      "Deuda $": 25,
-    },
-    {
-      ID: 2,
-      Fecha: "2024-02-01",
-      UT: "UT2",
-      Eje: "Eje2",
-      "Sub-eje": "Sub-eje2",
-      "NDE(a)": "NDE2",
-      FacProv: "FacProv2",
-      Proveedor: "Proveedor2",
-      Compromiso: "Compromiso2",
-      Repuesto: "Repuesto2",
-      Cantidad: 20,
-      "Total Bs": 200,
-      "Total $": 100,
-      "Deuda $": 50,
-    },
-    {
-      ID: 3,
-      Fecha: "2024-03-01",
-      UT: "UT3",
-      Eje: "Eje3",
-      "Sub-eje": "Sub-eje3",
-      "NDE(a)": "NDE3",
-      FacProv: "FacProv3",
-      Proveedor: "Proveedor3",
-      Compromiso: "Compromiso3",
-      Repuesto: "Repuesto3",
-      Cantidad: 30,
-      "Total Bs": 300,
-      "Total $": 150,
-      "Deuda $": 75,
-    },
+  const dispatch = useDispatch();
+
+  const [data, setData] = useState([{}]);
+
+  const currentYear = new Date().getFullYear();
+  const [dateRange, setDateRange] = React.useState([
+    new Date(currentYear, 0, 1),
+    new Date(),
   ]);
 
-  const [filters, setFilters] = useState({});
+  const startDate = new Date(dateRange[0]).toISOString();
+  const endDate = new Date(dateRange[1]).toISOString();
 
-  // ...
+  const dataDate = {
+    startDate,
+    endDate,
+  };
+
+  useEffect(() => {
+    dispatch(startGetListPurchase(dataDate));
+  }, []);
+
+  const resp = useSelector((state: any) => state.purchase);
+  const purchaseData = resp.purchase;
+
+  useEffect(() => {
+    setData(purchaseData);
+  }, [purchaseData]);
+
+  const [filters, setFilters] = useState({});
   const updateFilter = (field: any, value: any) => {
     if (field === "Fecha") {
       setDateRange(value);
@@ -117,17 +105,14 @@ export const ListPurchase = () => {
       });
     }
   };
-  // ...
 
-  const currentYear = new Date().getFullYear();
-  const [dateRange, setDateRange] = React.useState([
-    new Date(currentYear, 0, 1),
-    new Date(),
-  ]);
-  const filteredRows = data.filter((row: any) => {
-    const date = new Date(row.Fecha);
-    return date >= new Date(dateRange[0]) && date <= new Date(dateRange[1]);
-  });
+  let filteredRows: any = [];
+  if (data) {
+    filteredRows = data.filter((row: any) => {
+      const date = new Date(row.createdAt);
+      return date >= dateRange[0] && date <= dateRange[1];
+    });
+  }
   const filteredData = filteredRows.filter((row: any) =>
     Object.entries(filters).every(([field, value]) => {
       if (field !== "Fecha") {
@@ -138,9 +123,6 @@ export const ListPurchase = () => {
       return true;
     })
   );
-
-  const startDate = new Date(dateRange[0]);
-  const endDate = new Date(dateRange[1]);
 
   const {
     sortedData,
@@ -200,8 +182,8 @@ export const ListPurchase = () => {
         <TableBody>
           {filteredData
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row) => (
-              <TableRowData key={row.ID} row={row} headers={headers} />
+            .map((row: any) => (
+              <TableRowData key={row.id} row={row} headers={headers} />
             ))}
         </TableBody>
       </Table>
