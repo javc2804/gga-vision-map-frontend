@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,10 +8,13 @@ import {
   TableHead, // Añade esto
   TableRow,
   TextField,
+  Box,
 } from "@mui/material";
 import useTableList from "../../hooks/useTableList";
 import { SortableTableHeader } from "../../components/ListPurchase/SortableTableHeader";
 import { TableRowData } from "../../components/ListPurchase/TableRowData";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 export interface IRow {
   ID: number;
@@ -103,18 +106,37 @@ export const ListPurchase = () => {
 
   const [filters, setFilters] = useState({});
 
+  // ...
   const updateFilter = (field: any, value: any) => {
-    setFilters({
-      ...filters,
-      [field]: value,
-    });
+    if (field === "Fecha") {
+      setDateRange(value);
+    } else {
+      setFilters({
+        ...filters,
+        [field]: value,
+      });
+    }
   };
+  // ...
 
-  const filteredData = data.filter((row: any) =>
-    Object.entries(filters).every(([field, value]) =>
-      String(row[field]).toLowerCase().includes(String(value).toLowerCase())
-    )
+  const [dateRange, setDateRange] = React.useState([new Date(0), new Date()]);
+  const filteredRows = data.filter((row: any) => {
+    const date = new Date(row.Fecha);
+    return date >= new Date(dateRange[0]) && date <= new Date(dateRange[1]);
+  });
+  const filteredData = filteredRows.filter((row: any) =>
+    Object.entries(filters).every(([field, value]) => {
+      if (field !== "Fecha") {
+        return String(row[field])
+          .toLowerCase()
+          .includes(String(value).toLowerCase());
+      }
+      return true;
+    })
   );
+
+  const startDate = new Date(dateRange[0]);
+  const endDate = new Date(dateRange[1]);
 
   const {
     sortedData,
@@ -130,19 +152,39 @@ export const ListPurchase = () => {
   return (
     <TableContainer component={Paper}>
       <div>
-        {headers.map((header) => (
-          <TextField
-            label={`Filter by ${header}`}
-            value={filters[header] || ""}
-            onChange={(e) => updateFilter(header, e.target.value)}
+        {headers.map((header) =>
+          header !== "Fecha" ? (
+            <TextField
+              key={header}
+              label={`Filter by ${header}`}
+              value={filters[header] || ""}
+              onChange={(e) => updateFilter(header, e.target.value)}
+            />
+          ) : null
+        )}
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            label="Start date"
+            value={dateRange[0]}
+            onChange={(newValue) =>
+              updateFilter("Fecha", [newValue, dateRange[1]])
+            }
           />
-        ))}
+          <DatePicker
+            label="End date"
+            value={dateRange[1]}
+            onChange={(newValue) =>
+              updateFilter("Fecha", [dateRange[0], newValue])
+            }
+          />
+        </LocalizationProvider>
       </div>
       <Table>
         <TableHead>
           <TableRow>
             {headers.map((header) => (
               <SortableTableHeader
+                key={header}
                 header={header}
                 orderBy={orderBy}
                 order={order}
@@ -152,10 +194,10 @@ export const ListPurchase = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedData
+          {filteredData
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row) => (
-              <TableRowData row={row} headers={headers} />
+              <TableRowData key={row.ID} row={row} headers={headers} />
             ))}
         </TableBody>
       </Table>

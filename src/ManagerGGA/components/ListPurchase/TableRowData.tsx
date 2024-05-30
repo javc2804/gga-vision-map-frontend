@@ -6,14 +6,13 @@ type TableRowDataProps = {
   row: IRow;
   headers: string[];
 };
-
 export const TableRowData: React.FC<TableRowDataProps> = ({ row, headers }) => (
   <TableRow key={row.ID}>
-    {headers.map((header) =>
+    {headers.map((header, index) =>
       header !== "Acciones" ? (
-        <TableCell>{row[header]}</TableCell>
+        <TableCell key={`${row.ID}-${index}`}>{row[header]}</TableCell>
       ) : (
-        <TableCell>
+        <TableCell key={`${row.ID}-actions`}>
           <ActionButtons />
         </TableCell>
       )
