@@ -7,14 +7,16 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import useTableList from "../../hooks/useTableList";
+import { useSelector } from "react-redux";
+
+import { Filters } from "../../components/filters/Filters";
 import { SortableTableHeader } from "../../components/ListPurchase/SortableTableHeader";
 import { TableRowData } from "../../components/ListPurchase/TableRowData";
-import { Filters } from "../../components/filters/Filters";
-import { usePurchaseList } from "../../hooks/usePurchaseList";
-import { useSelector } from "react-redux";
-import Loading from "../../../components/Loading";
 
+import useTableList from "../../hooks/useTableList";
+import { usePurchaseList } from "../../hooks/usePurchaseList";
+
+import Loading from "../../../components/Loading";
 export interface IRow {
   ID: number;
   Fecha: string;
