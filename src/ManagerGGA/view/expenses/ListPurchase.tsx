@@ -60,8 +60,7 @@ export const ListPurchase = () => {
     "ut",
   ];
 
-  const { data, dateRange, filters, updateFilter, filteredData } =
-    usePurchaseList();
+  const { filters, updateFilter, filteredData } = usePurchaseList();
 
   const {
     order,
