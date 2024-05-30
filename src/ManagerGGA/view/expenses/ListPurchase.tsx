@@ -112,7 +112,7 @@ export const ListPurchase = () => {
 
   const filteredData = data.filter((row: any) =>
     Object.entries(filters).every(([field, value]) =>
-      value ? String(row[field]).includes(String(value)) : true
+      String(row[field]).toLowerCase().includes(String(value).toLowerCase())
     )
   );
 
