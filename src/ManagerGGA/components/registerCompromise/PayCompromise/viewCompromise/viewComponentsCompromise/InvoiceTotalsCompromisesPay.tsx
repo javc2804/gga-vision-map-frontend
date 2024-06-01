@@ -4,9 +4,12 @@ import { Box, TextField, Button, Grid } from "@mui/material";
 interface InvoiceTotalsProps {
   totalFactUsd: number;
   totalFactBs: number;
+  totalCantidad: number;
   compromise: any;
   setTotalFactUsd: (value: number) => void;
+  setTotalCantidad: (value: number) => void;
   setTotalFactBs: (value: number) => void;
+  totalCantidad: (value: number) => void;
   handleSaveClick: () => void;
 }
 export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
@@ -16,9 +19,13 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
   setTotalFactUsd,
   setTotalFactBs,
   handleSaveClick,
+  setTotalCantidad,
+  totalCantidad,
 }) => {
   const totalDeuda =
     compromise && compromise.response ? compromise.response.montoTotalUsd : 0;
+  const cantidadTotal =
+    compromise && compromise.response ? compromise.response.cantidad : 0;
 
   return (
     <Grid
@@ -62,7 +69,8 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
             <TextField
               label="Cantidad Deuda"
               variant="outlined"
-              // Asegúrate de agregar el estado y el manejador de eventos para este campo
+              value={(cantidadTotal - totalCantidad).toString()}
+              onChange={(e) => setTotalCantidad(Number(e.target.value))}
             />
           </Grid>
         </Grid>

@@ -25,6 +25,7 @@ const useMultipleFormCompromisePay = (
   const [nextId, setNextId] = useState(1);
   const [totalFactUsd, setTotalFactUsd] = useState(0); // Agregado
   const [totalFactBs, setTotalFactBs] = useState(0); // Agregado
+  const [totalCantidad, setTotalCantidad] = useState(0); // Agregado
 
   const handleAddClick = () => {
     setForms([
@@ -62,21 +63,27 @@ const useMultipleFormCompromisePay = (
       setForms((prevForms) => {
         let totalUsd = 0;
         let totalBs = 0;
+        let totalCantidad = 0;
 
         const newForms = prevForms.map((form) => {
+          console.log(form);
           if (form.id === id) {
             totalUsd += parseFloat(newValues.montoTotalUsd);
             totalBs += parseFloat(newValues.montoTotalBs);
+            totalCantidad += newValues.cantidad;
             return { ...form, payment: newValues, errors: newErrors };
           } else {
             totalUsd += parseFloat(form.payment.montoTotalUsd);
             totalBs += parseFloat(form.payment.montoTotalBs);
+            totalBs += parseFloat(form.payment.montoTotalBs);
+            totalCantidad += form.payment.cantidad;
             return form;
           }
         });
 
         setTotalFactUsd(totalUsd);
         setTotalFactBs(totalBs);
+        setTotalCantidad(totalCantidad);
 
         return newForms;
       });
@@ -192,6 +199,8 @@ const useMultipleFormCompromisePay = (
     totalFactBs,
     setTotalFactUsd,
     setTotalFactBs,
+    setTotalCantidad,
+    totalCantidad,
     handleSaveClick,
   };
 };
