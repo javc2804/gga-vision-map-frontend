@@ -19,6 +19,7 @@ import {
   FormHelperText,
   MenuItem,
   Box,
+  SelectChangeEvent,
 } from "@mui/material";
 
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -46,7 +47,14 @@ export const Register = () => {
   const { snackbar } = useSelector((state: RootState) => state.auth);
   const createUser = useCreateUser();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
+  const onRoleChange = (event: SelectChangeEvent<string>) => {
+    onInputChange({
+      target: {
+        name: "role",
+        value: event.target.value,
+      },
+    } as React.ChangeEvent<HTMLInputElement>);
+  };
   const formData = {
     email: "",
     password: "",
@@ -162,7 +170,7 @@ export const Register = () => {
                     id="role"
                     value={role}
                     label="Rol"
-                    onChange={onInputChange}
+                    onChange={onRoleChange}
                     name="role"
                     error={!!errors.role}
                   >

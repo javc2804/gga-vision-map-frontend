@@ -6,7 +6,6 @@ import {
   setToken,
 } from "./authSlice";
 import { authService } from "../../api/authService";
-import { AppThunk } from "../store/store";
 
 interface UserCredentials {
   email: string;
@@ -22,10 +21,10 @@ interface LoginCredentials {
 }
 
 export const startLogin =
-  (loginCredentials: UserCredentials): AppThunk =>
-  async (dispatch) => {
-    dispatch(checkingCredentials());
+  (loginCredentials: UserCredentials): any =>
+  async (dispatch: any) => {
     const { email, password } = loginCredentials;
+    dispatch(checkingCredentials());
 
     try {
       const userData = await authService.login(email, password);
@@ -49,7 +48,7 @@ export const startLogin =
         dispatch(login(userData.response.user));
         return { wasSuccessful: true, messageType: "success" };
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch(logout(error.message));
       dispatch(showSnackbar({ message: error.message, type: "error" }));
       return { wasSuccessful: false, messageType: "error" };
@@ -57,13 +56,11 @@ export const startLogin =
   };
 
 export const startCreatingUser =
-  (userCredentials: UserCredentials): AppThunk =>
-  async (dispatch) => {
-    dispatch(checkingCredentials());
-
+  (userCredentials: UserCredentials): any =>
+  async (dispatch: any) => {
     const { email, password, name, lastName, role } = userCredentials;
 
-    const { ok, uid, response } = await authService.register(
+    const { ok, response } = await authService.register(
       email,
       password,
       name,
@@ -77,7 +74,6 @@ export const startCreatingUser =
       return { wasSuccessful: false, messageType: "error" };
     }
 
-    dispatch(login({ uid, email, name, lastName, role }));
     dispatch(
       showSnackbar({ message: "Usuario registrado con éxito", type: "success" })
     );

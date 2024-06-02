@@ -39,15 +39,16 @@ export const useCreateUser = () => {
     try {
       await formSchema.validate(userDetails, { abortEarly: false });
       const response = await dispatch(startCreatingUser(userDetails));
+
       if (response.wasSuccessful) {
         setTimeout(() => {
           navigate("/auth/login");
         }, 4000);
         return { wasSuccessful: true, errors: {} };
       }
-    } catch (error) {
+    } catch (error: any) {
       const errors = error.inner.reduce(
-        (acc, curr) => ({ ...acc, [curr.path]: curr.message }),
+        (acc: any, curr: any) => ({ ...acc, [curr.path]: curr.message }),
         {}
       );
       return { wasSuccessful: false, errors };

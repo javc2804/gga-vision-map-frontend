@@ -12,7 +12,6 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useNavigate } from "react-router-dom";
 import {
   StyledButton,
-  ForgotText,
   GridItem,
   GridContainer,
   InputContainer,
@@ -26,9 +25,9 @@ export const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { snackbar } = useSelector((state) => state.auth);
+  const { snackbar } = useSelector((state: any) => state.auth);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const result = await dispatch(startLogin({ email, password }));
     if (result.wasSuccessful) {
