@@ -16,6 +16,7 @@ import ViewCompromise from "./viewCompromise/ViewCompromise";
 import InvoiceTotalsCompromisesPay from "./viewCompromise/viewComponentsCompromise/InvoiceTotalsCompromisesPay";
 import useMultipleFormCompromisePay from "../../../hooks/compromises/pay/useMultipleFormCompromisePay";
 import PaymentFormCompromisePay from "./payment/PaymentFormCompromisePay";
+import Loading from "../../../../components/Loading";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
@@ -80,6 +81,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     }
   }, [dispatch, id]);
   const resp = useSelector((state: any) => state.compromises);
+  const isLoading = useSelector((state: any) => state.compromises.loading);
   const { compromise } = resp;
   const { control } = useForm();
   const [formState, setFormState] = useState<{
@@ -130,54 +132,60 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
 
   return (
     <>
-      <ViewCompromise compromise={compromise.response} />
-      {forms.map((form, index) => (
-        <Box key={index} sx={boxStyles}>
-          <InvoiceProviderPay
-            control={control}
-            providers={providers}
-            setFormState={setFormState}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <ViewCompromise compromise={compromise.response} />
+          {forms.map((form, index) => (
+            <Box key={index} sx={boxStyles}>
+              <InvoiceProviderPay
+                control={control}
+                providers={providers}
+                setFormState={setFormState}
+              />
+              <PaymentFormCompromisePay
+                initialValues={form.payment}
+                onChange={handlePaymentChange(form.id)}
+                spareParts={spareParts}
+                sparePartVariants={sparePartVariants}
+              />
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                {forms.length > 1 && (
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleRemoveClick(form.id)}
+                    sx={{ mr: 1 }}
+                  >
+                    Borrar
+                  </Button>
+                )}
+                {index === forms.length - 1 && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleAddClick}
+                  >
+                    Agregar
+                  </Button>
+                )}
+              </Box>
+            </Box>
+          ))}
+          <InvoiceTotalsCompromisesPay
+            totalFactUsd={totalFactUsd}
+            totalFactBs={totalFactBs}
+            totalCantidad={totalCantidad}
+            compromise={compromise}
+            setTotalFactUsd={setTotalFactUsd}
+            setTotalFactBs={setTotalFactBs}
+            setTotalCantidad={setTotalCantidad}
+            handleSaveClick={handleSaveClick}
           />
-          <PaymentFormCompromisePay
-            initialValues={form.payment}
-            onChange={handlePaymentChange(form.id)}
-            spareParts={spareParts}
-            sparePartVariants={sparePartVariants}
-          />
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            {forms.length > 1 && (
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => handleRemoveClick(form.id)}
-                sx={{ mr: 1 }}
-              >
-                Borrar
-              </Button>
-            )}
-            {index === forms.length - 1 && (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleAddClick}
-              >
-                Agregar
-              </Button>
-            )}
-          </Box>
-        </Box>
-      ))}
-      <InvoiceTotalsCompromisesPay
-        totalFactUsd={totalFactUsd}
-        totalFactBs={totalFactBs}
-        totalCantidad={totalCantidad}
-        compromise={compromise}
-        setTotalFactUsd={setTotalFactUsd}
-        setTotalFactBs={setTotalFactBs}
-        setTotalCantidad={setTotalCantidad}
-        handleSaveClick={handleSaveClick}
-      />
-      {SnackbarComponent}
+          {SnackbarComponent}
+        </>
+      )}
     </>
   );
 };

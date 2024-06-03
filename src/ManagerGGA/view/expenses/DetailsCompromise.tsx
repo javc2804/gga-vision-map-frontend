@@ -29,7 +29,7 @@ const DetailsCompromise = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const invoice = location.state.invoice;
+  const invoice = location.state?.invoice || {};
   useEffect(() => {
     dispatch(startGetPurchaseTrans(invoice.note_number));
   }, []);

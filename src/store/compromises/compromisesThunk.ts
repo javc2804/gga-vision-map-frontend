@@ -1,10 +1,11 @@
 import { AppDispatch } from "../store";
-import { getCompromise } from "./compromisesSlices";
+import { getCompromise, getCompromiseLoading } from "./compromisesSlices";
 import { purchaseService } from "../../api/purchaseService";
 
 export const startGetCompromise =
   (id: any): any =>
   async (dispatch: AppDispatch) => {
+    dispatch(getCompromiseLoading());
     try {
       const purchaseData = await purchaseService.getCompromise(id);
       dispatch(getCompromise(purchaseData));
