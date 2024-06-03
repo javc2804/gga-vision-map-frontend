@@ -22,7 +22,7 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
   setTotalCantidad,
   totalCantidad,
 }) => {
-  console.log(totalFactUsd);
+  // console.log(totalFactUsd);
   const totalDeuda =
     compromise && compromise.response ? compromise.response.montoTotalUsd : 0;
   const cantidadTotal =

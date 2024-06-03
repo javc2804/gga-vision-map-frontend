@@ -1,5 +1,8 @@
 import { Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+
 interface PaymentFieldsProps {
   control: any;
   errors: any;
@@ -45,7 +48,19 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
   calculateTasaBcv,
   compromise,
 }) => {
-  console.log(compromise);
+  // console.log(compromise);
+  const { watch } = useForm();
+  const cantidad = watch("cantidad");
+
+  useEffect(() => {
+    if (cantidad) {
+      const newMontoTotalUsd = calculateMontoTotalUsd(
+        values.precioUnitarioUsd,
+        cantidad
+      );
+      // Haz algo con newMontoTotalUsd aquí
+    }
+  }, [cantidad, values.precioUnitarioUsd, calculateMontoTotalUsd]);
   return (
     <>
       <Controller
@@ -98,20 +113,20 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
                 values.cantidad,
                 newPrecioUnitarioBs
               );
-              const newMontoTotalUsd = calculateMontoTotalUsd(
-                values.cantidad,
-                newPrecioUnitarioUsd
-              );
+              // const newMontoTotalUsd = calculateMontoTotalUsd(
+              //   values.cantidad,
+              //   newPrecioUnitarioUsd
+              // );
               setValues({
                 ...values,
                 precioUnitarioBs: newPrecioUnitarioBs,
                 precioUnitarioUsd: newPrecioUnitarioUsd,
                 montoTotalBs: newMontoTotalBs,
-                montoTotalUsd: newMontoTotalUsd,
+                // montoTotalUsd: newMontoTotalUsd,
               });
               setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
               setValue("montoTotalBs", newMontoTotalBs);
-              setValue("montoTotalUsd", newMontoTotalUsd);
+              // setValue("montoTotalUsd", newMontoTotalUsd);
             }}
           />
         )}
