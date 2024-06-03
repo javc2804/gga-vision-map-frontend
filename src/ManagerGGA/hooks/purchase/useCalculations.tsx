@@ -28,32 +28,28 @@ export const useCalculations = () => {
 
   const calculateMontoTotalBs = useCallback(
     (cantidad: number, precioUnitarioBs: number) => {
-      console.log("pas");
-      console.log(cantidad);
-      if (cantidad === 0) {
+      if (
+        cantidad === 0 ||
+        precioUnitarioBs === 0 ||
+        isNaN(cantidad) ||
+        isNaN(precioUnitarioBs)
+      ) {
         return 0;
       }
 
-      if (!isNaN(cantidad) && !isNaN(precioUnitarioBs)) {
-        const result = cantidad * precioUnitarioBs;
-        console.log(result);
-        return Number(result.toFixed(2)); // round to 2 decimal places and convert to number
-      }
-      return 0; // return 0 instead of empty string
+      const result = cantidad * precioUnitarioBs;
+      return Number(result.toFixed(2)); // round to 2 decimal places and convert to number
     },
     []
   );
 
   const calculateMontoTotalUsd = useCallback(
     (cantidad: number, precioUnitarioUsd: number) => {
-      console.log("USD");
-      console.log(cantidad);
       if (cantidad === 0) {
         return 0;
       }
       if (!isNaN(cantidad) && !isNaN(precioUnitarioUsd)) {
         const result = cantidad * precioUnitarioUsd;
-        console.log(result);
 
         return Number(result.toFixed(2)); // round to 2 decimal places and convert to number
       }

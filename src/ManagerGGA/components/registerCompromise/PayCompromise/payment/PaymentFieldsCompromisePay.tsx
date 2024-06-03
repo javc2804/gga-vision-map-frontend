@@ -49,18 +49,6 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
   compromise,
 }) => {
   // console.log(compromise);
-  const { watch } = useForm();
-  const cantidad = watch("cantidad");
-
-  useEffect(() => {
-    if (cantidad) {
-      const newMontoTotalUsd = calculateMontoTotalUsd(
-        values.precioUnitarioUsd,
-        cantidad
-      );
-      // Haz algo con newMontoTotalUsd aquí
-    }
-  }, [cantidad, values.precioUnitarioUsd, calculateMontoTotalUsd]);
   return (
     <>
       <Controller
@@ -78,8 +66,8 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
               trigger("cantidad");
               const newCantidad = Number(event.target.value);
               const newMontoTotalUsd = calculateMontoTotalUsd(
-                values.precioUnitarioUsd,
-                newCantidad
+                newCantidad,
+                compromise?.response?.precioUnitarioUsd
               );
               setValues({
                 ...values,

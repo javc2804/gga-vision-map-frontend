@@ -63,7 +63,7 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
             <TextField
               label="Total factura Bs"
               variant="outlined"
-              value={totalFactBs.toString()}
+              value={isNaN(totalFactBs) ? "0" : totalFactBs.toString()}
               onChange={(e) => setTotalFactBs(Number(e.target.value))}
             />
           </Grid>
@@ -71,7 +71,11 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
             <TextField
               label="Cantidad Deuda"
               variant="outlined"
-              value={(cantidadTotal - totalCantidad).toString()}
+              value={
+                isNaN(cantidadTotal) || isNaN(totalCantidad)
+                  ? "0"
+                  : (cantidadTotal - totalCantidad).toString()
+              }
               onChange={(e) => setTotalCantidad(Number(e.target.value))}
             />
           </Grid>
