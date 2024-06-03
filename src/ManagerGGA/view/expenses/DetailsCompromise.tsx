@@ -164,7 +164,7 @@ const DetailsCompromise = () => {
                     spacing={2}
                     direction={matches ? "column" : "row"}
                   >
-                    {invoice.invoices.map((invoiceData, index) => (
+                    {invoice.invoices.map((invoiceData: any, index: any) => (
                       <React.Fragment key={index}>
                         <Grid item xs={12} sm={6}>
                           <Box
@@ -182,7 +182,7 @@ const DetailsCompromise = () => {
                               compromise={compromise.response}
                               invoiceData={costData[index]}
                               invoice={invoice.invoices[index]}
-                              onValuesChangeProp={(newCostData) =>
+                              onValuesChangeProp={(newCostData: any) =>
                                 handleCostDataChange(index, newCostData)
                               }
                               showFields={modoPago}
