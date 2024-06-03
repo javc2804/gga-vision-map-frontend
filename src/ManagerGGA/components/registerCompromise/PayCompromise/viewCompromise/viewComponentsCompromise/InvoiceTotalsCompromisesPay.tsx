@@ -9,7 +9,7 @@ interface InvoiceTotalsProps {
   setTotalFactUsd: (value: number) => void;
   setTotalCantidad: (value: number) => void;
   setTotalFactBs: (value: number) => void;
-  totalCantidad: (value: number) => void;
+  // totalCantidad: (value: number) => void;
   handleSaveClick: () => void;
 }
 export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
@@ -22,6 +22,7 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
   setTotalCantidad,
   totalCantidad,
 }) => {
+  console.log(totalFactUsd);
   const totalDeuda =
     compromise && compromise.response ? compromise.response.montoTotalUsd : 0;
   const cantidadTotal =
@@ -42,7 +43,6 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
               label="Total factura $"
               variant="outlined"
               value={totalFactUsd.toString()}
-              onChange={(e) => setTotalFactUsd(Number(e.target.value))}
             />
           </Grid>
           <Grid item style={{ marginTop: "20px" }}>
@@ -50,7 +50,9 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
               label="Total deuda $ "
               variant="outlined"
               value={(totalDeuda - totalFactUsd).toString()}
-              onChange={(e) => setTotalFactBs(Number(e.target.value))}
+              onChange={(e) =>
+                setTotalFactUsd(totalDeuda - Number(e.target.value))
+              }
             />
           </Grid>
         </Grid>

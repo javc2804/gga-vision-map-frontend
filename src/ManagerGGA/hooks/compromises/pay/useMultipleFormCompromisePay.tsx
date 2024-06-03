@@ -66,7 +66,6 @@ const useMultipleFormCompromisePay = (
         let totalCantidad = 0;
 
         const newForms = prevForms.map((form) => {
-          console.log(form);
           if (form.id === id) {
             totalUsd += parseFloat(newValues.montoTotalUsd);
             totalBs += parseFloat(newValues.montoTotalBs);
@@ -75,12 +74,10 @@ const useMultipleFormCompromisePay = (
           } else {
             totalUsd += parseFloat(form.payment.montoTotalUsd);
             totalBs += parseFloat(form.payment.montoTotalBs);
-            totalBs += parseFloat(form.payment.montoTotalBs);
             totalCantidad += form.payment.cantidad;
             return form;
           }
         });
-
         setTotalFactUsd(totalUsd);
         setTotalFactBs(totalBs);
         setTotalCantidad(totalCantidad);

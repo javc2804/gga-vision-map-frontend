@@ -149,6 +149,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
                 onChange={handlePaymentChange(form.id)}
                 spareParts={spareParts}
                 sparePartVariants={sparePartVariants}
+                compromise={compromise}
               />
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                 {forms.length > 1 && (
