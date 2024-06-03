@@ -9,6 +9,7 @@ import { purchaseService } from "../../api/purchaseService";
 import {
   ClearCompromise,
   getCompromise,
+  getCompromiseLoading,
 } from "../compromises/compromisesSlices";
 //TODO: cambiar nombre de la funcion
 export const startGetPurchase = (): any => async (dispatch: AppDispatch) => {
@@ -27,7 +28,7 @@ export const startGetPurchase = (): any => async (dispatch: AppDispatch) => {
 export const startGetPurchaseTrans =
   (id: any): any =>
   async (dispatch: AppDispatch) => {
-    dispatch(getPurchaseStart());
+    dispatch(getCompromiseLoading());
     try {
       const purchaseData = await purchaseService.getPurchase(id);
       dispatch(ClearCompromise());

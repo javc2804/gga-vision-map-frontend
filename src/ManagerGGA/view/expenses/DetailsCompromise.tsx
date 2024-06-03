@@ -9,7 +9,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
   Grid,
-  Button,
   Divider,
   Box,
   useMediaQuery,
@@ -24,6 +23,7 @@ import UTData from "../../components/detailsCompromise/UTData";
 import CostData from "../../components/detailsCompromise/CostData";
 import ViewDetailCompromise from "../../components/registerCompromise/DetailCompromise/ViewDetailCompromise";
 import InvoiceTotalsDetail from "../../components/registerCompromise/DetailCompromise/InvoiceTotalsDetail";
+import Loading from "../../../components/Loading";
 
 const DetailsCompromise = () => {
   const dispatch = useDispatch();
@@ -48,9 +48,11 @@ const DetailsCompromise = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const handleCostDataChange = (index, newCostData) => {
-    setCostData((prevCostData) =>
-      prevCostData.map((item, i) => (i === index ? newCostData : item))
+  const handleCostDataChange = (index: any, newCostData: any) => {
+    setCostData((prevCostData: any) =>
+      prevCostData.map((item: any, i: any) =>
+        i === index ? newCostData : item
+      )
     );
   };
 
@@ -70,8 +72,7 @@ const DetailsCompromise = () => {
       formaPago,
       compromiso = null,
     } = compromise.response;
-    console.log(compromise.response);
-    const updatedInvoices = invoice.invoices.map((inv, index) => {
+    const updatedInvoices = invoice.invoices.map((inv: any, index: any) => {
       const { fleet, ...restInv } = inv; // Extraer fleet y el resto de las propiedades de inv
       const updatedInvoice = {
         ...restInv, // Propiedades de inv sin fleet
@@ -119,7 +120,9 @@ const DetailsCompromise = () => {
   };
 
   const resp = useSelector((state: any) => state.compromises);
+  const isLoading = useSelector((state: any) => state.compromises.loading);
   const { compromise } = resp;
+  console.log(compromise);
   const [modoPago, setModoPago] = useState(false);
   useEffect(() => {
     if (compromise.response?.formaPago === "Contado") {
@@ -131,95 +134,103 @@ const DetailsCompromise = () => {
 
   return (
     <>
-      <ViewDetailCompromise
-        showFields={modoPago}
-        compromise={compromise.response}
-      />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <ViewDetailCompromise
+            showFields={modoPago}
+            compromise={compromise.response}
+          />
 
-      <Box style={{ overflow: "auto", maxHeight: "90vh" }}>
-        <Grid container direction="column">
-          <Grid item>
-            <Paper
-              elevation={3}
-              style={{
-                width: "97%",
-                marginLeft: "1%",
-                marginBottom: "20px",
-                height: "400px", // Ajuste este valor según sus necesidades
-                overflowY: "auto", // Esto habilitará el desplazamiento vertical cuando el contenido exceda la altura fija
-              }}
-            >
-              <Box sx={{ p: 4, mr: 4, mt: 2, ml: 2 }}>
-                <h3>Asignación</h3>
-              </Box>
-              <Grid
-                container
-                spacing={2}
-                direction={matches ? "column" : "row"}
-              >
-                {invoice.invoices.map((invoiceData, index) => (
-                  <React.Fragment key={index}>
-                    <Grid item xs={12} sm={6}>
-                      <Box
-                        height="100%"
-                        style={{ marginLeft: "1%", overflowY: "auto" }}
-                      >
-                        {invoiceData && <UTData invoiceData={invoiceData} />}
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box height="100%" style={{ overflowY: "auto" }}>
-                        <CostData
-                          compromise={compromise.response}
-                          invoiceData={costData[index]}
-                          invoice={invoice.invoices[index]}
-                          onValuesChangeProp={(newCostData) =>
-                            handleCostDataChange(index, newCostData)
-                          }
-                          showFields={modoPago}
-                          style={{ width: "97%", height: "525px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    {index < invoice.invoices.length - 1 && (
-                      <Divider style={{ width: "100%", margin: "1% 0" }} />
-                    )}
-                  </React.Fragment>
-                ))}
+          <Box style={{ overflow: "auto", maxHeight: "90vh" }}>
+            <Grid container direction="column">
+              <Grid item>
+                <Paper
+                  elevation={3}
+                  style={{
+                    width: "97%",
+                    marginLeft: "1%",
+                    marginBottom: "20px",
+                    height: "400px", // Ajuste este valor según sus necesidades
+                    overflowY: "auto", // Esto habilitará el desplazamiento vertical cuando el contenido exceda la altura fija
+                  }}
+                >
+                  <Box sx={{ p: 4, mr: 4, mt: 2, ml: 2 }}>
+                    <h3>Asignación</h3>
+                  </Box>
+                  <Grid
+                    container
+                    spacing={2}
+                    direction={matches ? "column" : "row"}
+                  >
+                    {invoice.invoices.map((invoiceData, index) => (
+                      <React.Fragment key={index}>
+                        <Grid item xs={12} sm={6}>
+                          <Box
+                            height="100%"
+                            style={{ marginLeft: "1%", overflowY: "auto" }}
+                          >
+                            {invoiceData && (
+                              <UTData invoiceData={invoiceData} />
+                            )}
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box height="100%" style={{ overflowY: "auto" }}>
+                            <CostData
+                              compromise={compromise.response}
+                              invoiceData={costData[index]}
+                              invoice={invoice.invoices[index]}
+                              onValuesChangeProp={(newCostData) =>
+                                handleCostDataChange(index, newCostData)
+                              }
+                              showFields={modoPago}
+                              style={{ width: "97%", height: "525px" }}
+                            />
+                          </Box>
+                        </Grid>
+                        {index < invoice.invoices.length - 1 && (
+                          <Divider style={{ width: "100%", margin: "1% 0" }} />
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </Grid>
+                </Paper>
               </Grid>
-            </Paper>
-          </Grid>
-          <Grid item>
-            {/* <Button variant="contained" color="primary" onClick={handleSave}>
-              Guardar
-            </Button> */}
-          </Grid>
-        </Grid>
-        <InvoiceTotalsDetail
-          totalFactUsd={0}
-          totalFactBs={0}
-          handleSave={handleSave}
-          compromise={compromise.response}
-          costData={costData}
-          invoice={invoice}
-          showFields={modoPago}
-        />
-        <Snackbar
-          open={snackbarOpen}
-          autoHideDuration={6000}
-          onClose={() => setSnackbarOpen(false)}
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        >
-          <Alert
-            severity={snackbarType}
-            icon={
-              snackbarType === "success" ? <CheckCircleIcon /> : <ErrorIcon />
-            }
-          >
-            {snackbarMessage}
-          </Alert>
-        </Snackbar>
-      </Box>
+              <Grid item></Grid>
+            </Grid>
+            <InvoiceTotalsDetail
+              totalFactUsd={0}
+              totalFactBs={0}
+              handleSave={handleSave}
+              compromise={compromise.response}
+              costData={costData}
+              invoice={invoice}
+              showFields={modoPago}
+            />
+            <Snackbar
+              open={snackbarOpen}
+              autoHideDuration={6000}
+              onClose={() => setSnackbarOpen(false)}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+              <Alert
+                severity={snackbarType}
+                icon={
+                  snackbarType === "success" ? (
+                    <CheckCircleIcon />
+                  ) : (
+                    <ErrorIcon />
+                  )
+                }
+              >
+                {snackbarMessage}
+              </Alert>
+            </Snackbar>
+          </Box>
+        </>
+      )}
     </>
   );
 };
