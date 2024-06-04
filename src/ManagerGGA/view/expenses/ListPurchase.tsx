@@ -37,31 +37,31 @@ export interface IRow {
 
 export const ListPurchase = () => {
   const headers = [
-    "cantidad",
-    "compromiso",
-    "createdAt",
-    "descripcion",
-    "descripcionRepuesto",
-    "eje",
-    "facNDE",
-    "fechaOcOs",
-    "formaPago",
     "id",
+    "createdAt",
+    // "facNDE",
+    "proveedor",
+    "ut",
     "marcaModelo",
+    "eje",
+    // "subeje",
+    "cantidad",
+    "formaPago",
+    // "compromiso",
+    // "descripcion",
+    "repuesto",
+    "descripcionRepuesto",
     "montoTotalBs",
     "montoTotalUsd",
-    "numeroOrdenPago",
-    "observacion",
-    "ocOs",
-    "precioUnitarioBs",
-    "precioUnitarioUsd",
-    "proveedor",
-    "repuesto",
-    "subeje",
-    "tasaBcv",
-    "updatedAt",
-    "user_rel",
-    "ut",
+    // "tasaBcv",
+    // "fechaOcOs",
+    // "numeroOrdenPago",
+    // "observacion",
+    // "ocOs",
+    // "precioUnitarioBs",
+    // "precioUnitarioUsd",
+    // "updatedAt",
+    // "user_rel",
   ];
 
   const { filters, updateFilter, filteredData } = usePurchaseList();
@@ -77,7 +77,6 @@ export const ListPurchase = () => {
   } = useTableList(filteredData);
 
   const loading = useSelector((state: any) => state.purchase.loading);
-
   return (
     <>
       {loading ? (
@@ -89,28 +88,30 @@ export const ListPurchase = () => {
             filters={filters}
             updateFilter={updateFilter}
           />
-          <Table>
-            <TableHead>
-              <TableRow>
-                {headers.map((header) => (
-                  <SortableTableHeader
-                    key={header}
-                    header={header}
-                    orderBy={orderBy}
-                    order={order}
-                    onSortRequest={handleSortRequest}
-                  />
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredData
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row: any) => (
-                  <TableRowData key={row.id} row={row} headers={headers} />
-                ))}
-            </TableBody>
-          </Table>
+          <div style={{ maxHeight: "60vh", overflow: "auto" }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {headers.map((header) => (
+                    <SortableTableHeader
+                      key={header}
+                      header={header}
+                      orderBy={orderBy}
+                      order={order}
+                      onSortRequest={handleSortRequest}
+                    />
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredData
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row: any) => (
+                    <TableRowData key={row.id} row={row} headers={headers} />
+                  ))}
+              </TableBody>
+            </Table>
+          </div>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"

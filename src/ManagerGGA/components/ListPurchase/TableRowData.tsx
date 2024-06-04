@@ -1,4 +1,4 @@
-import { TableRow, TableCell } from "@mui/material";
+import { TableRow, TableCell, Box } from "@mui/material";
 import { IRow } from "../../view/expenses/ListPurchase";
 import { ActionButtons } from "./AcctionButtons";
 
