@@ -83,6 +83,7 @@ export const ListPurchase = () => {
         <Loading />
       ) : (
         <TableContainer component={Paper}>
+          <h2>Registro de transacciones</h2>
           <Filters
             headers={headers}
             filters={filters}
