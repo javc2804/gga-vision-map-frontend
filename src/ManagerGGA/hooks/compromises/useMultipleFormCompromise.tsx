@@ -21,7 +21,8 @@ const useMultipleFormCompromise = (
     },
   ]);
   const [nextId, setNextId] = useState(1);
-  const [totalFactUsd, setTotalFactUsd] = useState(0); // Agregado
+  const [totalFactUsd, setTotalFactUsd] = useState(0);
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
 
   const handleAddClick = () => {
     setForms([
@@ -140,6 +141,7 @@ const useMultipleFormCompromise = (
     const result = await dispatch(startSaveCompromise(combinedForms));
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
+      setIsSaveButtonDisabled(true);
     } else {
       openSnackbar(
         `Error al guardar: ${result.response}`,
@@ -158,6 +160,8 @@ const useMultipleFormCompromise = (
     totalFactUsd,
     setTotalFactUsd,
     handleSaveClick,
+    setIsSaveButtonDisabled,
+    isSaveButtonDisabled,
   };
 };
 

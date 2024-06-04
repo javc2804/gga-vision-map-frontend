@@ -5,12 +5,16 @@ interface InvoiceTotalsProps {
   totalFactUsd: number;
   setTotalFactUsd: (value: number) => void;
   handleSaveClick: () => void;
+  setIsSaveButtonDisabled: any;
+  isSaveButtonDisabled: any;
 }
 
 export const InvoiceTotalsCompromises: React.FC<InvoiceTotalsProps> = ({
   totalFactUsd,
   setTotalFactUsd,
   handleSaveClick,
+  setIsSaveButtonDisabled,
+  isSaveButtonDisabled,
 }) => (
   <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2, mr: 3.7 }}>
     <TextField
@@ -21,7 +25,12 @@ export const InvoiceTotalsCompromises: React.FC<InvoiceTotalsProps> = ({
       onChange={(e) => setTotalFactUsd(Number(e.target.value))}
     />
 
-    <Button variant="contained" color="primary" onClick={handleSaveClick}>
+    <Button
+      variant="contained"
+      disabled={isSaveButtonDisabled}
+      color="primary"
+      onClick={handleSaveClick}
+    >
       Guardar
     </Button>
   </Box>

@@ -75,6 +75,9 @@ export const purchaseSlice = createSlice({
       state.loading = false;
       state.purchase = action.payload;
     },
+    loadingClosePurchase: (state) => {
+      state.loading = false;
+    },
   },
 });
 

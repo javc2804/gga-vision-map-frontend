@@ -24,6 +24,7 @@ const useMultipleForm = (
   const [nextId, setNextId] = useState(1);
   const [totalFactUsd, setTotalFactUsd] = useState(0); // Agregado
   const [totalFactBs, setTotalFactBs] = useState(0); // Agregado
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
 
   const handleAddClick = () => {
     setForms([
@@ -42,19 +43,6 @@ const useMultipleForm = (
     const list = forms.filter((form) => form.id !== id);
     setForms(list);
   };
-
-  // const handleInputChange = useCallback(
-  //   (id: any) => (newValues: any, newErrors: any) => {
-  //     setForms((prevForms) =>
-  //       prevForms.map((form) =>
-  //         form.id === id
-  //           ? { ...form, input: newValues, errors: newErrors }
-  //           : form
-  //       )
-  //     );
-  //   },
-  //   [setForms]
-  // );
 
   const handlePaymentChange = useCallback(
     (id: any) => (newValues: any, newErrors: any) => {
@@ -171,6 +159,7 @@ const useMultipleForm = (
     const result = await dispatch(startSavePurchase(combinedForms));
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
+      setIsSaveButtonDisabled(true);
     } else {
       openSnackbar(
         `Error al guardar: ${result.response}`,
@@ -184,13 +173,14 @@ const useMultipleForm = (
     forms,
     handleAddClick,
     handleRemoveClick,
-    // handleInputChange,
     handlePaymentChange,
     totalFactUsd,
     totalFactBs,
     setTotalFactUsd,
     setTotalFactBs,
     handleSaveClick,
+    setIsSaveButtonDisabled,
+    isSaveButtonDisabled,
   };
 };
 

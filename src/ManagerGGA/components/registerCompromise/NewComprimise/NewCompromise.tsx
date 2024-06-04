@@ -79,6 +79,8 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
     totalFactUsd,
     setTotalFactUsd,
     handleSaveClick,
+    isSaveButtonDisabled,
+    setIsSaveButtonDisabled,
   } = useMultipleFormCompromise(
     initialValuesPayment,
     openSnackbar,
@@ -146,6 +148,8 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
         totalFactUsd={totalFactUsd}
         setTotalFactUsd={setTotalFactUsd}
         handleSaveClick={handleSaveClick}
+        setIsSaveButtonDisabled={setIsSaveButtonDisabled}
+        isSaveButtonDisabled={isSaveButtonDisabled}
       />
       {SnackbarComponent}
     </>

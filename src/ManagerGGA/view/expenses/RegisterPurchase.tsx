@@ -89,6 +89,8 @@ export const RegisterPurchase: React.FC<RegisterPurchaseProps> = () => {
     setTotalFactUsd,
     setTotalFactBs,
     handleSaveClick,
+    setIsSaveButtonDisabled,
+    isSaveButtonDisabled,
   } = useMultipleForm(
     initialValuesInput,
     initialValuesPayment,
@@ -169,6 +171,8 @@ export const RegisterPurchase: React.FC<RegisterPurchaseProps> = () => {
         setTotalFactUsd={setTotalFactUsd}
         setTotalFactBs={setTotalFactBs}
         handleSaveClick={handleSaveClick}
+        setIsSaveButtonDisabled={setIsSaveButtonDisabled}
+        isSaveButtonDisabled={isSaveButtonDisabled}
       />
       {SnackbarComponent}
     </>
