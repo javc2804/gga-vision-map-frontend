@@ -6,6 +6,7 @@ interface InvoiceTotalsProps {
   totalFactBs: number;
   totalCantidad: number;
   compromise: any;
+  isSaveButtonDisabled: any;
   setTotalFactUsd: (value: number) => void;
   setTotalCantidad: (value: number) => void;
   setTotalFactBs: (value: number) => void;
@@ -21,6 +22,7 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
   handleSaveClick,
   setTotalCantidad,
   totalCantidad,
+  isSaveButtonDisabled,
 }) => {
   // console.log(totalFactUsd);
   const totalDeuda =
@@ -82,7 +84,12 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
         </Grid>
       </Grid>
       <Grid item xs={12} container justifyContent="flex-end">
-        <Button variant="contained" color="primary" onClick={handleSaveClick}>
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={isSaveButtonDisabled}
+          onClick={handleSaveClick}
+        >
           Guardar
         </Button>
       </Grid>

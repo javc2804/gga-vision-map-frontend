@@ -103,6 +103,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     handleSaveClick,
     setTotalCantidad,
     totalCantidad,
+    isSaveButtonDisabled,
   } = useMultipleFormCompromisePay(
     initialValuesInput,
     initialValuesPayment,
@@ -183,6 +184,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
             setTotalFactBs={setTotalFactBs}
             setTotalCantidad={setTotalCantidad}
             handleSaveClick={handleSaveClick}
+            isSaveButtonDisabled={isSaveButtonDisabled}
           />
           {SnackbarComponent}
         </>

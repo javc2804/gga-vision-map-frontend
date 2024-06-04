@@ -26,7 +26,7 @@ const useMultipleFormCompromisePay = (
   const [totalFactUsd, setTotalFactUsd] = useState(0); // Agregado
   const [totalFactBs, setTotalFactBs] = useState(0); // Agregado
   const [totalCantidad, setTotalCantidad] = useState(0); // Agregado
-
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false); // Agregado
   const handleAddClick = () => {
     setForms([
       ...forms,
@@ -177,6 +177,7 @@ const useMultipleFormCompromisePay = (
     const result = await dispatch(startSaveTransCompromise(combinedForms));
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
+      setIsSaveButtonDisabled(true);
     } else {
       openSnackbar(
         `Error al guardar: ${result.response}`,
@@ -199,6 +200,7 @@ const useMultipleFormCompromisePay = (
     setTotalCantidad,
     totalCantidad,
     handleSaveClick,
+    isSaveButtonDisabled,
   };
 };
 
