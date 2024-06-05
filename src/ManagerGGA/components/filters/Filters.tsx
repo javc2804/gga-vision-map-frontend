@@ -48,7 +48,7 @@ export const Filters: React.FC<FiltersProps> = ({
                 onChange={(e) => updateFilter(header, e.target.value)}
                 style={{ marginRight: "10px", marginBottom: "10px" }}
               >
-                <MenuItem value="credito">Credito</MenuItem>
+                <MenuItem value="credito">Crédito</MenuItem>
                 <MenuItem value="contado">Contado</MenuItem>
               </Select>
             )
