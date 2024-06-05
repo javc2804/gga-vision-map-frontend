@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { useDispatch } from "react-redux";
+import { startGetListPurchase } from "../../../store/purchase/purchaseThunks";
 
 interface FiltersProps {
   headers: string[];
@@ -14,6 +16,29 @@ export const Filters: React.FC<FiltersProps> = ({
   filters,
   updateFilter,
 }) => {
+  const dispatch = useDispatch();
+
+  const currentYear = new Date().getFullYear();
+  const [dateRange, setDateRange] = useState([
+    new Date(currentYear, 0, 1),
+    new Date(),
+  ]);
+
+  const startDate = new Date(dateRange[0]).toISOString();
+  const endDate = new Date(dateRange[1]).toISOString();
+
+  const handleSearch = useCallback(() => {
+    const purchaseData = {
+      filters,
+      page: 0,
+      limit: 5,
+      startDate,
+      endDate,
+    };
+
+    dispatch(startGetListPurchase(purchaseData));
+  }, [dispatch, filters]);
+
   return (
     <>
       <div>
@@ -55,6 +80,14 @@ export const Filters: React.FC<FiltersProps> = ({
           )
         )}
       </div>
+      <Button
+        variant="contained"
+        color="primary"
+        style={{ marginRight: "10px" }}
+        onClick={handleSearch}
+      >
+        Buscar
+      </Button>
       <div
         style={{
           display: "flex",
