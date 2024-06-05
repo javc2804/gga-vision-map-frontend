@@ -75,15 +75,14 @@ export const ListPurchase = () => {
     handleChangeRowsPerPage,
   } = useTableList([]);
 
-  const { data, dateRange, filters, updateFilter, filteredData } =
-    usePurchaseList(page, rowsPerPage);
+  const { data, filters, updateFilter } = usePurchaseList(page, rowsPerPage);
 
   if (!Array.isArray(data.rows)) {
     console.error("data.rows no es un array:", data.rows);
     // Proporcionar un valor predeterminado o manejar el error de alguna otra manera
     data.rows = [];
   }
-  const [pageSize, setPageSize] = useState(10); // puedes cambiar 10 a cualquier valor inicial que desees
+  const [pageSize, setPageSize] = useState(5); // puedes cambiar 10 a cualquier valor inicial que desees
 
   const loading = useSelector((state: any) => state.purchase.loading);
   return (
@@ -125,7 +124,7 @@ export const ListPurchase = () => {
             component="div"
             count={data.count || 0}
             rowsPerPage={rowsPerPage}
-            page={Math.max(0, page - 1)} // Asegúrate de que la página nunca sea menor que 0
+            page={page} // no need to subtract 1 here
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />

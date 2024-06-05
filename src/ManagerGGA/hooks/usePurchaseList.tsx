@@ -6,8 +6,10 @@ interface DataType {
   rows?: any[];
 }
 export const usePurchaseList = (page: number, limit: number) => {
+  // console.log(page, limit);
   const dispatch = useDispatch();
   const [filters, setFilters] = useState({});
+  const [offset, setOffset] = useState(0);
 
   const [data, setData] = useState<DataType>({ count: 0, rows: [] });
   const currentYear = new Date().getFullYear();
@@ -25,6 +27,7 @@ export const usePurchaseList = (page: number, limit: number) => {
     page,
     limit,
     filters,
+    offset,
   };
 
   useEffect(() => {

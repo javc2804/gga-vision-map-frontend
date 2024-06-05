@@ -44,6 +44,7 @@ const useTableList = (initialData: IRow[]) => {
     endDate,
     page: 0,
     limit: 5,
+    offset,
     filters: {},
   });
 
@@ -76,9 +77,9 @@ const useTableList = (initialData: IRow[]) => {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log(newPage);
-    setPage(newPage + 1);
-    // setOffset(newPage * rowsPerPage); // Ahora puedes usar setOffset aquí
+    setPage(newPage);
+    const newOffset = newPage * rowsPerPage; // no need to add 1 here
+    setOffset(newOffset); // Now you can use setOffset here
     setDataDate({ ...dataDate, page: newPage });
   };
 
