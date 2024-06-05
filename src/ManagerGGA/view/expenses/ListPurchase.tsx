@@ -17,6 +17,7 @@ import useTableList from "../../hooks/useTableList";
 import { usePurchaseList } from "../../hooks/usePurchaseList";
 
 import Loading from "../../../components/Loading";
+import { useState } from "react";
 export interface IRow {
   ID: number;
   Fecha: string;
@@ -64,8 +65,6 @@ export const ListPurchase = () => {
     // "user_rel",
   ];
 
-  const { filters, updateFilter, filteredData } = usePurchaseList();
-
   const {
     order,
     orderBy,
@@ -74,7 +73,13 @@ export const ListPurchase = () => {
     handleSortRequest,
     handleChangePage,
     handleChangeRowsPerPage,
-  } = useTableList(filteredData);
+  } = useTableList([]);
+
+  const { filters, updateFilter, filteredData } = usePurchaseList(
+    page,
+    rowsPerPage
+  );
+  const [pageSize, setPageSize] = useState(10); // puedes cambiar 10 a cualquier valor inicial que desees
 
   const loading = useSelector((state: any) => state.purchase.loading);
   return (
@@ -106,7 +111,10 @@ export const ListPurchase = () => {
               </TableHead>
               <TableBody>
                 {filteredData
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .slice(
+                    Math.max(0, (page - 1) * rowsPerPage),
+                    Math.max(0, (page - 1) * rowsPerPage) + rowsPerPage
+                  )
                   .map((row: any) => (
                     <TableRowData key={row.id} row={row} headers={headers} />
                   ))}
@@ -117,7 +125,7 @@ export const ListPurchase = () => {
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
             count={filteredData.length}
-            rowsPerPage={rowsPerPage}
+            rowsPerPage={pageSize}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
