@@ -85,6 +85,12 @@ export const ListPurchase = () => {
   const [pageSize, setPageSize] = useState(5); // puedes cambiar 10 a cualquier valor inicial que desees
 
   const loading = useSelector((state: any) => state.purchase.loading);
+
+  const currentYear = new Date().getFullYear();
+  const [dateRange, setDateRange] = useState([
+    new Date(currentYear, 0, 1),
+    new Date(),
+  ]);
   return (
     <>
       {loading ? (
@@ -95,6 +101,8 @@ export const ListPurchase = () => {
           <Filters
             headers={headers}
             filters={filters}
+            dateRange={dateRange}
+            setDateRange={setDateRange}
             updateFilter={updateFilter}
           />
           <div style={{ maxHeight: "60vh", overflow: "auto" }}>

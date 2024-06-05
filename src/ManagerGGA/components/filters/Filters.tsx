@@ -11,32 +11,26 @@ import {
 interface FiltersProps {
   headers: string[];
   filters: any;
+  dateRange: any;
+  setDateRange: any;
   updateFilter: (field: any, value: any) => void;
 }
 
 export const Filters: React.FC<FiltersProps> = ({
   headers,
   filters,
+  dateRange,
+  setDateRange,
   updateFilter,
 }) => {
   const dispatch = useDispatch();
 
-  const currentYear = new Date().getFullYear();
-  const [dateRange, setDateRange] = useState([
-    new Date(currentYear, 0, 1),
-    new Date(),
-  ]);
-
-  const startDate = new Date(dateRange[0]).toISOString();
-  const endDate = new Date(dateRange[1]).toISOString();
-
   const handleSearch = useCallback(
     (page = 0) => {
-      dispatch(startHandleSearch(filters, startDate, endDate, page, 5));
+      dispatch(startHandleSearch(filters, dateRange[0], dateRange[1], page, 5));
     },
-    [dispatch, filters, startDate, endDate]
+    [dispatch, filters, dateRange]
   );
-
   return (
     <>
       <div>
@@ -57,13 +51,14 @@ export const Filters: React.FC<FiltersProps> = ({
               <DatePicker
                 label="Fecha inicial"
                 format="dd/MM/yyyy"
-                value={new Date(startDate)}
+                value={dateRange[0]}
+                onChange={(newValue) => setDateRange([newValue, dateRange[1]])}
               />
-
               <DatePicker
                 label="Fecha final"
                 format="dd/MM/yyyy"
-                value={new Date(endDate)}
+                value={dateRange[1]}
+                onChange={(newValue) => setDateRange([dateRange[0], newValue])}
               />
             </LocalizationProvider>
           )
