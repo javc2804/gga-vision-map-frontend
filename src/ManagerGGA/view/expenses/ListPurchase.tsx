@@ -54,6 +54,7 @@ export const ListPurchase = () => {
     "descripcionRepuesto",
     "montoTotalBs",
     "montoTotalUsd",
+    "deudaTotalUsd",
     // "tasaBcv",
     // "fechaOcOs",
     // "numeroOrdenPago",

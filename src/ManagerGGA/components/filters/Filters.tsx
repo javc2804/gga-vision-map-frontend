@@ -34,13 +34,42 @@ export const Filters: React.FC<FiltersProps> = ({
         {headers.map((header) =>
           header !== "createdAt" ? (
             header !== "formaPago" ? (
-              <TextField
-                key={header}
-                label={`Filter by ${header}`}
-                value={filters[header] || ""}
-                onChange={(e) => updateFilter(header, e.target.value)}
-                style={{ marginRight: "10px", marginBottom: "10px" }}
-              />
+              header !== "deudaTotalUsd" ? (
+                <TextField
+                  key={header}
+                  label={`Filter by ${header}`}
+                  value={filters[header] || ""}
+                  onChange={(e) => updateFilter(header, e.target.value)}
+                  style={{ marginRight: "10px", marginBottom: "10px" }}
+                />
+              ) : (
+                <>
+                  <TextField
+                    key={`${header}Min`}
+                    label={`Deuda mínima`}
+                    value={filters[header]?.min || ""}
+                    onChange={(e) =>
+                      updateFilter(header, {
+                        ...filters[header],
+                        min: e.target.value,
+                      })
+                    }
+                    style={{ marginRight: "10px", marginBottom: "10px" }}
+                  />
+                  <TextField
+                    key={`${header}Max`}
+                    label={`Deuda máxima`}
+                    value={filters[header]?.max || ""}
+                    onChange={(e) =>
+                      updateFilter(header, {
+                        ...filters[header],
+                        max: e.target.value,
+                      })
+                    }
+                    style={{ marginRight: "10px", marginBottom: "10px" }}
+                  />
+                </>
+              )
             ) : (
               <Select
                 label="Forma de Pago"
