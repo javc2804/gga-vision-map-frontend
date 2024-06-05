@@ -73,6 +73,7 @@ export const usePurchaseList = (page: number, limit: number) => {
     });
   } else {
     console.error("data.rows is not an array:", data);
+    filteredRows = []; // Add this line to ensure filteredRows is always an array
   }
 
   const filteredData = filteredRows.filter((row: any) =>

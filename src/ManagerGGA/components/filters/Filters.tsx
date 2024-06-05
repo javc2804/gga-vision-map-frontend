@@ -3,7 +3,10 @@ import { TextField, Button } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useDispatch } from "react-redux";
-import { startGetListPurchase } from "../../../store/purchase/purchaseThunks";
+import {
+  startGetListPurchase,
+  startHandleSearch,
+} from "../../../store/purchase/purchaseThunks";
 
 interface FiltersProps {
   headers: string[];
@@ -27,17 +30,12 @@ export const Filters: React.FC<FiltersProps> = ({
   const startDate = new Date(dateRange[0]).toISOString();
   const endDate = new Date(dateRange[1]).toISOString();
 
-  const handleSearch = useCallback(() => {
-    const purchaseData = {
-      filters,
-      page: 0,
-      limit: 5,
-      startDate,
-      endDate,
-    };
-
-    dispatch(startGetListPurchase(purchaseData));
-  }, [dispatch, filters]);
+  const handleSearch = useCallback(
+    (page = 0) => {
+      dispatch(startHandleSearch(filters, startDate, endDate, page, 5));
+    },
+    [dispatch, filters, startDate, endDate]
+  );
 
   return (
     <>

@@ -4,6 +4,7 @@ import {
   getPurchaseSuccess,
   getPurchaseFailure,
   getListPurchase,
+  getFilters,
 } from "./purchaseSlice";
 import { purchaseService } from "../../api/purchaseService";
 import {
@@ -179,4 +180,27 @@ export const startGetListPurchase =
       }
       return { ok: false, response: error.message };
     }
+  };
+
+export const startHandleSearch =
+  (
+    filters: any,
+    startDate: string,
+    endDate: string,
+    page: number = 0,
+    limit: number = 5
+  ): any =>
+  async (dispatch: AppDispatch) => {
+    console.log(filters);
+
+    const purchaseData = {
+      filters,
+      page,
+      limit,
+      startDate,
+      endDate,
+    };
+
+    dispatch(startGetListPurchase(purchaseData));
+    dispatch(getFilters(filters));
   };

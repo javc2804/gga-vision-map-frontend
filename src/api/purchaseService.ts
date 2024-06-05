@@ -75,7 +75,7 @@ export const purchaseService = {
     return API_URL.get(`transaction/list`, {
       params: {
         ...compromiseData,
-        offset,
+        offset: offset || 0,
         limit,
       },
     })

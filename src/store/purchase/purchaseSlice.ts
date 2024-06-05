@@ -12,6 +12,7 @@ interface PurchaseState {
   repuestos: string;
   formaDePago: string;
   ut: string;
+  filters: any;
 }
 
 const initialState: PurchaseState = {
@@ -25,6 +26,7 @@ const initialState: PurchaseState = {
   repuestos: "",
   formaDePago: "",
   ut: "",
+  filters: {},
 };
 
 export const purchaseSlice = createSlice({
@@ -78,6 +80,9 @@ export const purchaseSlice = createSlice({
     loadingClosePurchase: (state) => {
       state.loading = false;
     },
+    getFilters: (state, { payload }) => {
+      state.filters = payload;
+    },
   },
 });
 
@@ -95,6 +100,7 @@ export const {
   setFormaDePago,
   setUt,
   getListPurchase,
+  getFilters,
 } = purchaseSlice.actions;
 
 export const selectPurchase = (state: RootState) => state.purchase.purchase;

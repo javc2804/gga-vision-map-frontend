@@ -1,7 +1,10 @@
 // useTableList.tsx
 import { useState, useMemo, useEffect } from "react";
-import { startGetListPurchase } from "../../store/purchase/purchaseThunks";
-import { useDispatch } from "react-redux";
+import {
+  startGetListPurchase,
+  startHandleSearch,
+} from "../../store/purchase/purchaseThunks";
+import { useDispatch, useSelector } from "react-redux";
 
 interface IRow {
   ID: number;
@@ -48,6 +51,8 @@ const useTableList = (initialData: IRow[]) => {
     filters: {},
   });
 
+  const [filters, setFilters] = useState({}); // Define filters state
+
   useEffect(() => {
     setDataDate({
       ...dataDate,
@@ -72,15 +77,36 @@ const useTableList = (initialData: IRow[]) => {
 
     fetchData();
   }, [dataDate]);
+  const filtersState = useSelector((state: any) => state.purchase.filters);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
+    newPage = Number(newPage); // Convert newPage to a number
+    if (isNaN(newPage) || isNaN(rowsPerPage)) {
+      console.error("Invalid page number or rows per page");
+      return;
+    }
     setPage(newPage);
     const newOffset = newPage * rowsPerPage; // no need to add 1 here
     setOffset(newOffset); // Now you can use setOffset here
-    setDataDate({ ...dataDate, page: newPage });
+    const newDataDate = {
+      ...dataDate,
+      page: newPage,
+      offset: newOffset,
+      filters: filtersState,
+    }; // Update dataDate with filters
+    setDataDate(newDataDate);
+    dispatch(
+      startHandleSearch(
+        filtersState, // Use the current filters
+        newDataDate.startDate,
+        newDataDate.endDate,
+        newPage,
+        newDataDate.limit
+      )
+    );
   };
 
   const handleSortRequest = (property: string) => {
@@ -97,7 +123,12 @@ const useTableList = (initialData: IRow[]) => {
     setPage(0);
     setDataDate({ ...dataDate, limit: newRowsPerPage });
     dispatch(
-      startGetListPurchase({ ...dataDate, page: 0, limit: newRowsPerPage })
+      startGetListPurchase({
+        ...dataDate,
+        page: 0,
+        limit: newRowsPerPage,
+        filtersState,
+      })
     );
   };
 
