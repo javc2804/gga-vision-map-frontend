@@ -57,24 +57,13 @@ export const Filters: React.FC<FiltersProps> = ({
               <DatePicker
                 label="Fecha inicial"
                 format="dd/MM/yyyy"
-                value={filters["Fecha"] ? filters["Fecha"][0] : null}
-                // onChange={(newValue) =>
-                //   updateFilter("Fecha", [
-                //     newValue,
-                //     filters["Fecha"] ? filters["Fecha"][1] : null,
-                //   ])
-                // }
+                value={new Date(startDate)}
               />
+
               <DatePicker
                 label="Fecha final"
                 format="dd/MM/yyyy"
-                value={filters["Fecha"] ? filters["Fecha"][1] : null}
-                // onChange={(newValue) =>
-                // updateFilter("Fecha", [
-                //   filters["Fecha"] ? filters["Fecha"][0] : null,
-                //   newValue,
-                // ])
-                // }
+                value={new Date(endDate)}
               />
             </LocalizationProvider>
           )
