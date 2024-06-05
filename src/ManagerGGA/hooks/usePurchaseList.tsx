@@ -31,14 +31,18 @@ export const usePurchaseList = (page: number, limit: number) => {
     const fetchData = async () => {
       const result = await dispatch(startGetListPurchase(dataDate));
       if (result.ok) {
-        // Actualiza `data` con el resultado de `getListPurchase`
-        setData(result.response);
+        // Check if response is not null and has a rows property
+        if (result.response && Array.isArray(result.response.rows)) {
+          setData(result.response);
+        } else {
+          console.error("Unexpected response format:", result.response);
+          setData({ count: 0, rows: [] }); // Set default data
+        }
       }
     };
 
     fetchData();
   }, [dateRange, page, limit]);
-
   const resp = useSelector((state: any) => state.purchase);
   const purchaseData = resp.purchase;
 

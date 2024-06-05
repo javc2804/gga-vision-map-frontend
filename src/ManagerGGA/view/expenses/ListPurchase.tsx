@@ -128,9 +128,9 @@ export const ListPurchase = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={data.count} // Usa `data.count` para el conteo en `TablePagination`
+            count={data.count || 0}
             rowsPerPage={rowsPerPage}
-            page={page}
+            page={Math.max(0, page - 1)} // Asegúrate de que la página nunca sea menor que 0
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
