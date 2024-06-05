@@ -1,12 +1,9 @@
-import React, { useCallback, useState } from "react";
-import { TextField, Button } from "@mui/material";
+import React, { useCallback } from "react";
+import { TextField, Button, Select, MenuItem } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useDispatch } from "react-redux";
-import {
-  startGetListPurchase,
-  startHandleSearch,
-} from "../../../store/purchase/purchaseThunks";
+import { startHandleSearch } from "../../../store/purchase/purchaseThunks";
 
 interface FiltersProps {
   headers: string[];
@@ -36,13 +33,25 @@ export const Filters: React.FC<FiltersProps> = ({
       <div>
         {headers.map((header) =>
           header !== "createdAt" ? (
-            <TextField
-              key={header}
-              label={`Filter by ${header}`}
-              value={filters[header] || ""}
-              onChange={(e) => updateFilter(header, e.target.value)}
-              style={{ marginRight: "10px", marginBottom: "10px" }}
-            />
+            header !== "formaPago" ? (
+              <TextField
+                key={header}
+                label={`Filter by ${header}`}
+                value={filters[header] || ""}
+                onChange={(e) => updateFilter(header, e.target.value)}
+                style={{ marginRight: "10px", marginBottom: "10px" }}
+              />
+            ) : (
+              <Select
+                label="Forma de Pago"
+                value={filters[header] || ""}
+                onChange={(e) => updateFilter(header, e.target.value)}
+                style={{ marginRight: "10px", marginBottom: "10px" }}
+              >
+                <MenuItem value="credito">Credito</MenuItem>
+                <MenuItem value="contado">Contado</MenuItem>
+              </Select>
+            )
           ) : (
             <LocalizationProvider
               dateAdapter={AdapterDateFns}
