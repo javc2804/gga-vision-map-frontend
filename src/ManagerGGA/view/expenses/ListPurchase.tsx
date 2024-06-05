@@ -114,14 +114,9 @@ export const ListPurchase = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredData
-                  .slice(
-                    Math.max(0, (page - 1) * rowsPerPage),
-                    Math.max(0, (page - 1) * rowsPerPage) + rowsPerPage
-                  )
-                  .map((row: any) => (
-                    <TableRowData key={row.id} row={row} headers={headers} />
-                  ))}
+                {data.rows.map((row) => (
+                  <TableRowData key={row.id} row={row} headers={headers} />
+                ))}
               </TableBody>
             </Table>
           </div>

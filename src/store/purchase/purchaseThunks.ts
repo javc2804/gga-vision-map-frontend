@@ -158,10 +158,12 @@ export const startGetListPurchase =
     dispatch(getPurchaseStart());
 
     try {
+      const offset = page * limit;
       const result = await purchaseService.getListPurchase(
         compromiseData,
         page,
-        limit
+        limit,
+        offset
       );
       if (result.ok) {
         dispatch(getListPurchase(result.response));

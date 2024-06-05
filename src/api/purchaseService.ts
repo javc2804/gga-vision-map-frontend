@@ -66,9 +66,18 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
-  getListPurchase: (compromiseData: any, page: number, limit: number) => {
-    return API_URL.get(`transaction/list?page=${page}&limit=${limit}`, {
-      params: compromiseData,
+  getListPurchase: (
+    compromiseData: any,
+    page: number,
+    limit: number,
+    offset: number
+  ) => {
+    return API_URL.get(`transaction/list`, {
+      params: {
+        ...compromiseData,
+        offset,
+        limit,
+      },
     })
       .then((response) => {
         return { ok: true, response: response.data };

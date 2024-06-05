@@ -28,10 +28,20 @@ const useTableList = (initialData: IRow[]) => {
   const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [data, setData] = useState({ count: 0, rows: [] });
+
+  const currentYear = new Date().getFullYear();
+  const [dateRange, setDateRange] = useState([
+    new Date(currentYear, 0, 1),
+    new Date(),
+  ]);
+  const [offset, setOffset] = useState(0);
+  const startDate = new Date(dateRange[0]).toISOString();
+  const endDate = new Date(dateRange[1]).toISOString();
 
   const [dataDate, setDataDate] = useState({
-    startDate: new Date().toISOString(),
-    endDate: new Date().toISOString(),
+    startDate,
+    endDate,
     page: 0,
     limit: 5,
     filters: {},
@@ -45,13 +55,31 @@ const useTableList = (initialData: IRow[]) => {
     });
   }, [page, rowsPerPage]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await dispatch(startGetListPurchase(dataDate));
+      if (result.ok) {
+        // Check if response is not null and has a rows property
+        if (result.response && Array.isArray(result.response.rows)) {
+          setData(result.response); // Update data with the response
+        } else {
+          console.error("Unexpected response format:", result.response);
+          setData({ count: 0, rows: [] }); // Set default data
+        }
+      }
+    };
+
+    fetchData();
+  }, [dataDate]);
+
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    setPage(Math.max(0, newPage + 1)); // Asegúrate de que la página nunca sea menor que 0
+    console.log(newPage);
+    setPage(newPage + 1);
+    // setOffset(newPage * rowsPerPage); // Ahora puedes usar setOffset aquí
     setDataDate({ ...dataDate, page: newPage });
-    dispatch(startGetListPurchase({ ...dataDate, page: newPage }));
   };
 
   const handleSortRequest = (property: string) => {
