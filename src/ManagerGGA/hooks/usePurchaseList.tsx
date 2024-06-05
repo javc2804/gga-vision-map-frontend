@@ -7,6 +7,7 @@ interface DataType {
 }
 export const usePurchaseList = (page: number, limit: number) => {
   const dispatch = useDispatch();
+  const [filters, setFilters] = useState({});
 
   const [data, setData] = useState<DataType>({ count: 0, rows: [] });
   const currentYear = new Date().getFullYear();
@@ -23,10 +24,19 @@ export const usePurchaseList = (page: number, limit: number) => {
     endDate,
     page,
     limit,
+    filters,
   };
 
   useEffect(() => {
-    dispatch(startGetListPurchase(dataDate));
+    const fetchData = async () => {
+      const result = await dispatch(startGetListPurchase(dataDate));
+      if (result.ok) {
+        // Actualiza `data` con el resultado de `getListPurchase`
+        setData(result.response);
+      }
+    };
+
+    fetchData();
   }, [dateRange, page, limit]);
 
   const resp = useSelector((state: any) => state.purchase);
@@ -36,7 +46,6 @@ export const usePurchaseList = (page: number, limit: number) => {
     setData(purchaseData);
   }, [purchaseData]);
 
-  const [filters, setFilters] = useState({});
   const updateFilter = (field: any, value: any) => {
     if (field === "Fecha") {
       setDateRange(value);

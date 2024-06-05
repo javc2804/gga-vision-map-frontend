@@ -146,10 +146,23 @@ export const startSaveTransCompromise =
 export const startGetListPurchase =
   (purchaseData: any): any =>
   async (dispatch: AppDispatch) => {
+    const { filters, page, limit, startDate, endDate } = purchaseData;
+
+    // Agrega los filtros y las fechas de inicio y fin a compromiseData
+    const compromiseData = {
+      ...filters,
+      startDate,
+      endDate,
+    };
+
     dispatch(getPurchaseStart());
 
     try {
-      const result = await purchaseService.getListPurchase(purchaseData);
+      const result = await purchaseService.getListPurchase(
+        compromiseData,
+        page,
+        limit
+      );
       if (result.ok) {
         dispatch(getListPurchase(result.response));
       } else {
@@ -162,6 +175,6 @@ export const startGetListPurchase =
       } else {
         dispatch(getPurchaseFailure("An unknown error occurred."));
       }
-      return { ok: false, response: error.message }; // Y aquí
+      return { ok: false, response: error.message };
     }
   };

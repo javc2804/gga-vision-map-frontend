@@ -75,10 +75,14 @@ export const ListPurchase = () => {
     handleChangeRowsPerPage,
   } = useTableList([]);
 
-  const { filters, updateFilter, filteredData } = usePurchaseList(
-    page,
-    rowsPerPage
-  );
+  const { data, dateRange, filters, updateFilter, filteredData } =
+    usePurchaseList(page, rowsPerPage);
+
+  if (!Array.isArray(data.rows)) {
+    console.error("data.rows no es un array:", data.rows);
+    // Proporcionar un valor predeterminado o manejar el error de alguna otra manera
+    data.rows = [];
+  }
   const [pageSize, setPageSize] = useState(10); // puedes cambiar 10 a cualquier valor inicial que desees
 
   const loading = useSelector((state: any) => state.purchase.loading);
@@ -124,8 +128,8 @@ export const ListPurchase = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={filteredData.length}
-            rowsPerPage={pageSize}
+            count={data.count} // Usa `data.count` para el conteo en `TablePagination`
+            rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
