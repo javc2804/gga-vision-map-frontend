@@ -41,7 +41,7 @@ export const Filters: React.FC<FiltersProps> = ({
     <>
       <div>
         {headers.map((header) =>
-          header !== "Fecha" ? (
+          header !== "createdAt" ? (
             <TextField
               key={header}
               label={`Filter by ${header}`}
@@ -55,24 +55,26 @@ export const Filters: React.FC<FiltersProps> = ({
               style={{ marginRight: "10px", marginBottom: "10px" }}
             >
               <DatePicker
-                label="Start date"
+                label="Fecha inicial"
+                format="dd/MM/yyyy"
                 value={filters["Fecha"] ? filters["Fecha"][0] : null}
-                onChange={(newValue) =>
-                  updateFilter("Fecha", [
-                    newValue,
-                    filters["Fecha"] ? filters["Fecha"][1] : null,
-                  ])
-                }
+                // onChange={(newValue) =>
+                //   updateFilter("Fecha", [
+                //     newValue,
+                //     filters["Fecha"] ? filters["Fecha"][1] : null,
+                //   ])
+                // }
               />
               <DatePicker
-                label="End date"
+                label="Fecha final"
+                format="dd/MM/yyyy"
                 value={filters["Fecha"] ? filters["Fecha"][1] : null}
-                onChange={(newValue) =>
-                  updateFilter("Fecha", [
-                    filters["Fecha"] ? filters["Fecha"][0] : null,
-                    newValue,
-                  ])
-                }
+                // onChange={(newValue) =>
+                // updateFilter("Fecha", [
+                //   filters["Fecha"] ? filters["Fecha"][0] : null,
+                //   newValue,
+                // ])
+                // }
               />
             </LocalizationProvider>
           )

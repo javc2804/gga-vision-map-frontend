@@ -72,7 +72,7 @@ export const usePurchaseList = (page: number, limit: number) => {
       return date >= dateRange[0] && date <= dateRange[1];
     });
   } else {
-    console.error("data.rows is not an array:", data);
+    console.error("data.rows is not an array:", data.rows);
     filteredRows = []; // Add this line to ensure filteredRows is always an array
   }
 
