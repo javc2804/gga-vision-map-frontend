@@ -124,9 +124,10 @@ export const ListPurchase = () => {
             component="div"
             count={data.count || 0}
             rowsPerPage={rowsPerPage}
-            page={page} // no need to subtract 1 here
+            page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="Filas por página" // Cambia "Rows per page" a "Filas por página"
           />
         </TableContainer>
       )}
