@@ -119,6 +119,13 @@ export const Filters: React.FC<FiltersProps> = ({
       >
         Buscar
       </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        style={{ marginRight: "10px" }}
+      >
+        Limpiar Filtros
+      </Button>
       <div
         style={{
           display: "flex",
@@ -131,10 +138,18 @@ export const Filters: React.FC<FiltersProps> = ({
           color="primary"
           style={{ marginRight: "10px" }}
           onClick={handleExport}
+          style={{
+            backgroundColor: "#00dde9",
+            color: "#fff",
+            marginRight: "1%",
+          }}
         >
           Exportar
         </Button>
-        <Button variant="contained" color="secondary">
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "#f5447a", color: "#fff" }}
+        >
           Importar
         </Button>
       </div>
