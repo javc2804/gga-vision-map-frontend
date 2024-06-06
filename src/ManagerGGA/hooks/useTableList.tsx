@@ -120,16 +120,30 @@ const useTableList = (initialData: IRow[]) => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const newRowsPerPage = parseInt(event.target.value, 10);
+    if (isNaN(newRowsPerPage)) {
+      console.error("Invalid rows per page");
+      return;
+    }
     setRowsPerPage(newRowsPerPage);
     setPage(0);
-    setDataDate({ ...dataDate, limit: newRowsPerPage });
+    const newOffset = 0; // Reset offset when changing rows per page
+    setOffset(newOffset);
+    const newDataDate = {
+      ...dataDate,
+      page: 0,
+      offset: newOffset,
+      limit: newRowsPerPage,
+      filters: filtersState,
+    };
+    setDataDate(newDataDate);
     dispatch(
-      startGetListPurchase({
-        ...dataDate,
-        page: 0,
-        limit: newRowsPerPage,
+      startHandleSearch(
         filtersState,
-      })
+        newDataDate.startDate,
+        newDataDate.endDate,
+        0,
+        newRowsPerPage
+      )
     );
   };
 
