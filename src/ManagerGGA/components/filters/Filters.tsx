@@ -40,19 +40,20 @@ export const Filters: React.FC<FiltersProps> = ({
   return (
     <>
       <div>
-        {headers.map((header) =>
+        {headers.map((header, index) =>
           header !== "createdAt" ? (
             header !== "formaPago" ? (
               header !== "deudaTotalUsd" ? (
                 <TextField
-                  key={header}
+                  key={`${header}-${index}`} // Añade un índice a la key
                   label={`Filter by ${header}`}
                   value={filters[header] || ""}
                   onChange={(e) => updateFilter(header, e.target.value)}
                   style={{ marginRight: "10px", marginBottom: "10px" }}
                 />
               ) : (
-                <>
+                <div key={`${header}-${index}`}>
+                  {" "}
                   <TextField
                     key={`${header}Min`}
                     label={`Deuda mínima`}
@@ -77,10 +78,11 @@ export const Filters: React.FC<FiltersProps> = ({
                     }
                     style={{ marginRight: "10px", marginBottom: "10px" }}
                   />
-                </>
+                </div>
               )
             ) : (
               <Select
+                key={`${header}-${index}`} // Añade un índice a la key
                 label="Forma de Pago"
                 value={filters[header] || ""}
                 onChange={(e) => updateFilter(header, e.target.value)}
@@ -92,6 +94,7 @@ export const Filters: React.FC<FiltersProps> = ({
             )
           ) : (
             <LocalizationProvider
+              key={`datePicker-${index}`} // Añade un índice a la key
               dateAdapter={AdapterDateFns}
               style={{ marginRight: "10px", marginBottom: "10px" }}
             >
@@ -136,7 +139,6 @@ export const Filters: React.FC<FiltersProps> = ({
         <Button
           variant="contained"
           color="primary"
-          style={{ marginRight: "10px" }}
           onClick={handleExport}
           style={{
             backgroundColor: "#00dde9",

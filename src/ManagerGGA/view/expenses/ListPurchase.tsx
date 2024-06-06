@@ -178,7 +178,7 @@ export const ListPurchase = () => {
             <Paper elevation={3} style={boxStyle}>
               <Box position="relative">
                 <IconButton style={iconButtonStyle2}>
-                  <AttachMoneyIcon style={{ fontSize: 60 }} />
+                  <MoneyOffIcon style={{ fontSize: 60 }} />
                 </IconButton>
               </Box>
               <Box
@@ -202,7 +202,7 @@ export const ListPurchase = () => {
             <Paper elevation={3} style={boxStyle}>
               <Box position="relative">
                 <IconButton style={iconButtonStyle3}>
-                  <MoneyOffIcon style={{ fontSize: 60 }} />
+                  <AttachMoneyIcon style={{ fontSize: 60 }} />
                 </IconButton>
               </Box>
               <Box
