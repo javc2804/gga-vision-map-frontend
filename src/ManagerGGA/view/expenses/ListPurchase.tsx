@@ -165,7 +165,7 @@ export const ListPurchase = () => {
                 height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
               >
                 <h1>Cantidad</h1>
-                <h1>{totalCantidad}</h1>
+                <h1>{totalCantidad.toLocaleString("de-DE")}</h1>{" "}
               </Box>
             </Paper>
             <Paper elevation={3} style={boxStyle}>
@@ -182,7 +182,12 @@ export const ListPurchase = () => {
                 height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
               >
                 <h1>Monto total Bs</h1>
-                <h1>{totalMontoBs}</h1>
+                <h1>
+                  {totalMontoBs.toLocaleString("de-DE", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </h1>
               </Box>
             </Paper>
             <Paper elevation={3} style={boxStyle}>
@@ -199,7 +204,12 @@ export const ListPurchase = () => {
                 height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
               >
                 <h1>Monto Total $</h1>
-                <h1>{totalMontoUsd}</h1>
+                <h1>
+                  {totalMontoUsd.toLocaleString("de-DE", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </h1>
               </Box>
             </Paper>
             <Paper elevation={3} style={boxStyle}>
@@ -216,7 +226,12 @@ export const ListPurchase = () => {
                 height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
               >
                 <h1>Deuda Total $</h1>
-                <h1>{totalDeuda}</h1>
+                <h1>
+                  {totalDeuda.toLocaleString("de-DE", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </h1>
               </Box>
             </Paper>
           </Box>
