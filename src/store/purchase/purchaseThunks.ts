@@ -205,3 +205,16 @@ export const startHandleSearch =
     dispatch(getFilters(filters));
     // dispatch(getSummary());
   };
+export const startExport =
+  (filters: any, startDate: string, endDate: string): any =>
+  async (dispatch: AppDispatch) => {
+    const dataFilters = {
+      filters,
+      startDate,
+      endDate,
+    };
+    try {
+      const purchaseData = await purchaseService.getExportPurchase(dataFilters);
+      // dispatch(getPurchaseSuccess(purchaseData));
+    } catch (error) {}
+  };

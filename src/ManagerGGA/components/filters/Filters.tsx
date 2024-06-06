@@ -3,7 +3,10 @@ import { TextField, Button, Select, MenuItem } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useDispatch } from "react-redux";
-import { startHandleSearch } from "../../../store/purchase/purchaseThunks";
+import {
+  startExport,
+  startHandleSearch,
+} from "../../../store/purchase/purchaseThunks";
 
 interface FiltersProps {
   headers: string[];
@@ -22,12 +25,18 @@ export const Filters: React.FC<FiltersProps> = ({
 }) => {
   const dispatch = useDispatch();
 
+  const handleExport = () => {
+    console.log(filters, dateRange[0], dateRange[1]);
+    dispatch(startExport(filters, dateRange[0], dateRange[1]));
+  };
+
   const handleSearch = useCallback(
     (page = 0) => {
       dispatch(startHandleSearch(filters, dateRange[0], dateRange[1], page, 5));
     },
     [dispatch, filters, dateRange]
   );
+
   return (
     <>
       <div>
@@ -121,6 +130,7 @@ export const Filters: React.FC<FiltersProps> = ({
           variant="contained"
           color="primary"
           style={{ marginRight: "10px" }}
+          onClick={handleExport}
         >
           Exportar
         </Button>

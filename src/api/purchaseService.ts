@@ -86,4 +86,24 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  getExportPurchase: (dataFilters: any) => {
+    return API_URL.get(`transaction/export`, {
+      params: {
+        dataFilters,
+      },
+      responseType: "blob", // tell axios to download the response as a blob
+    })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "reporte.xls");
+        document.body.appendChild(link);
+        link.click();
+        return { ok: true };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
 };
