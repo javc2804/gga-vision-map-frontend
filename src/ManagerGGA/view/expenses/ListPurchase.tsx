@@ -18,6 +18,15 @@ import { usePurchaseList } from "../../hooks/usePurchaseList";
 
 import Loading from "../../../components/Loading";
 import { useState } from "react";
+import { Box } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Icon from "@mui/material/Icon";
+import { he } from "date-fns/locale";
+import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import MoneyOffIcon from "@mui/icons-material/MoneyOff";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+
 export interface IRow {
   ID: number;
   Fecha: string;
@@ -37,6 +46,45 @@ export interface IRow {
 }
 
 export const ListPurchase = () => {
+  const boxStyle = {
+    padding: "10px",
+    margin: "10px",
+    backgroundColor: "white",
+    width: "15%",
+    height: "200px", // Cambia la altura a 500px
+    marginBottom: "5%",
+  };
+  const iconButtonStyle = {
+    color: "white",
+    position: "absolute",
+    left: 0,
+    top: -60,
+    width: "120px",
+    height: 100,
+    backgroundColor: "#ffa523",
+    borderRadius: 0,
+    boxShadow: "3px 3px 5px 0px rgba(0,0,0,0.75)",
+  };
+
+  const iconButtonStyle1 = {
+    ...iconButtonStyle,
+    backgroundColor: "#ffa523",
+  };
+
+  const iconButtonStyle2 = {
+    ...iconButtonStyle,
+    backgroundColor: "#4ca750",
+  };
+
+  const iconButtonStyle3 = {
+    ...iconButtonStyle,
+    backgroundColor: "#13b9cd",
+  };
+
+  const iconButtonStyle4 = {
+    ...iconButtonStyle,
+    backgroundColor: "#ea4541",
+  };
   const headers = [
     "id",
     "createdAt",
@@ -99,6 +147,76 @@ export const ListPurchase = () => {
       ) : (
         <TableContainer component={Paper}>
           <h2>Registro de transacciones</h2>
+          <Box display="flex" justifyContent="center" flexWrap="wrap">
+            <Paper elevation={3} style={boxStyle}>
+              <Box position="relative">
+                <IconButton style={iconButtonStyle1}>
+                  <InsertChartOutlinedIcon style={{ fontSize: 60 }} />
+                </IconButton>
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
+              >
+                <h1>Cantidad</h1>
+                <h1>50</h1>
+              </Box>
+            </Paper>
+            <Paper elevation={3} style={boxStyle}>
+              <Box position="relative">
+                <IconButton style={iconButtonStyle2}>
+                  <AttachMoneyIcon style={{ fontSize: 60 }} />
+                </IconButton>
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
+              >
+                <h1>Monto total Bs</h1>
+                <h1>5000</h1>
+              </Box>
+            </Paper>
+            <Paper elevation={3} style={boxStyle}>
+              <Box position="relative">
+                <IconButton style={iconButtonStyle3}>
+                  <MoneyOffIcon style={{ fontSize: 60 }} />
+                </IconButton>
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
+              >
+                <h1>Monto Total $</h1>
+                <h1>50</h1>
+              </Box>
+            </Paper>
+            <Paper elevation={3} style={boxStyle}>
+              <Box position="relative">
+                <IconButton style={iconButtonStyle4}>
+                  <AccountBalanceIcon style={{ fontSize: 60 }} />
+                </IconButton>
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
+              >
+                <h1>Deuda Total $</h1>
+                <h1>50</h1>
+              </Box>
+            </Paper>
+          </Box>
           <Filters
             headers={headers}
             filters={filters}
