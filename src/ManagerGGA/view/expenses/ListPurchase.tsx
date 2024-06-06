@@ -134,6 +134,9 @@ export const ListPurchase = () => {
   const [pageSize, setPageSize] = useState(5); // puedes cambiar 10 a cualquier valor inicial que desees
 
   const loading = useSelector((state: any) => state.purchase.loading);
+  const summary = useSelector((state: any) => state.purchase.summary);
+
+  const { totalMontoBs, totalDeuda, totalCantidad, totalMontoUsd } = summary;
 
   const currentYear = new Date().getFullYear();
   const [dateRange, setDateRange] = useState([
@@ -162,7 +165,7 @@ export const ListPurchase = () => {
                 height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
               >
                 <h1>Cantidad</h1>
-                <h1>50</h1>
+                <h1>{totalCantidad}</h1>
               </Box>
             </Paper>
             <Paper elevation={3} style={boxStyle}>
@@ -179,7 +182,7 @@ export const ListPurchase = () => {
                 height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
               >
                 <h1>Monto total Bs</h1>
-                <h1>5000</h1>
+                <h1>{totalMontoBs}</h1>
               </Box>
             </Paper>
             <Paper elevation={3} style={boxStyle}>
@@ -196,7 +199,7 @@ export const ListPurchase = () => {
                 height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
               >
                 <h1>Monto Total $</h1>
-                <h1>50</h1>
+                <h1>{totalMontoUsd}</h1>
               </Box>
             </Paper>
             <Paper elevation={3} style={boxStyle}>
@@ -213,7 +216,7 @@ export const ListPurchase = () => {
                 height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
               >
                 <h1>Deuda Total $</h1>
-                <h1>50</h1>
+                <h1>{totalDeuda}</h1>
               </Box>
             </Paper>
           </Box>

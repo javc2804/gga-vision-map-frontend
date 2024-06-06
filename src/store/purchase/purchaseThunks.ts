@@ -5,6 +5,7 @@ import {
   getPurchaseFailure,
   getListPurchase,
   getFilters,
+  getSummary,
 } from "./purchaseSlice";
 import { purchaseService } from "../../api/purchaseService";
 import {
@@ -168,6 +169,7 @@ export const startGetListPurchase =
       );
       if (result.ok) {
         dispatch(getListPurchase(result.response));
+        dispatch(getSummary(result.response));
       } else {
         dispatch(getPurchaseFailure(result.response));
       }
@@ -191,8 +193,6 @@ export const startHandleSearch =
     limit: number = 5
   ): any =>
   async (dispatch: AppDispatch) => {
-    console.log(filters);
-
     const purchaseData = {
       filters,
       page,
@@ -203,4 +203,5 @@ export const startHandleSearch =
 
     dispatch(startGetListPurchase(purchaseData));
     dispatch(getFilters(filters));
+    // dispatch(getSummary());
   };

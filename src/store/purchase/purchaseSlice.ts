@@ -13,6 +13,7 @@ interface PurchaseState {
   formaDePago: string;
   ut: string;
   filters: any;
+  summary: any;
 }
 
 const initialState: PurchaseState = {
@@ -27,6 +28,7 @@ const initialState: PurchaseState = {
   formaDePago: "",
   ut: "",
   filters: {},
+  summary: {},
 };
 
 export const purchaseSlice = createSlice({
@@ -83,6 +85,9 @@ export const purchaseSlice = createSlice({
     getFilters: (state, { payload }) => {
       state.filters = payload;
     },
+    getSummary: (state, { payload }) => {
+      state.summary = payload;
+    },
   },
 });
 
@@ -101,6 +106,7 @@ export const {
   setUt,
   getListPurchase,
   getFilters,
+  getSummary,
 } = purchaseSlice.actions;
 
 export const selectPurchase = (state: RootState) => state.purchase.purchase;

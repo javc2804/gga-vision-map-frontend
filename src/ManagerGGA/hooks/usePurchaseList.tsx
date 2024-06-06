@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startGetListPurchase } from "../../store/purchase/purchaseThunks";
+import { getSummary } from "../../store/purchase/purchaseSlice";
 interface DataType {
   count?: number;
   rows?: any[];

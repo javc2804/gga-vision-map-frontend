@@ -5,6 +5,7 @@ import {
   startHandleSearch,
 } from "../../store/purchase/purchaseThunks";
 import { useDispatch, useSelector } from "react-redux";
+import { getSummary } from "../../store/purchase/purchaseSlice";
 
 interface IRow {
   ID: number;
