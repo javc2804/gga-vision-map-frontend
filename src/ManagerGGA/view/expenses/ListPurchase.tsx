@@ -165,7 +165,14 @@ export const ListPurchase = () => {
                 height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
               >
                 <h1>Cantidad</h1>
-                <h1>{totalCantidad.toLocaleString("de-DE")}</h1>{" "}
+                <h1>
+                  {totalCantidad
+                    ? totalCantidad.toLocaleString("de-DE", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    : "0.00"}
+                </h1>
               </Box>
             </Paper>
             <Paper elevation={3} style={boxStyle}>
@@ -183,10 +190,12 @@ export const ListPurchase = () => {
               >
                 <h1>Monto total Bs</h1>
                 <h1>
-                  {totalMontoBs.toLocaleString("de-DE", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  {totalMontoBs
+                    ? totalMontoBs.toLocaleString("de-DE", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    : "0.00"}
                 </h1>
               </Box>
             </Paper>
@@ -205,10 +214,12 @@ export const ListPurchase = () => {
               >
                 <h1>Monto Total $</h1>
                 <h1>
-                  {totalMontoUsd.toLocaleString("de-DE", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  {totalMontoUsd
+                    ? totalMontoUsd.toLocaleString("de-DE", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    : "0.00"}
                 </h1>
               </Box>
             </Paper>
@@ -227,10 +238,12 @@ export const ListPurchase = () => {
               >
                 <h1>Deuda Total $</h1>
                 <h1>
-                  {totalDeuda.toLocaleString("de-DE", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  {totalDeuda
+                    ? totalDeuda.toLocaleString("de-DE", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    : "0.00"}
                 </h1>
               </Box>
             </Paper>
