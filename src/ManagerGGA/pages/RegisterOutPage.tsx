@@ -9,11 +9,10 @@ import Box from "@mui/material/Box";
 import { useParams } from "react-router-dom";
 
 export const RegisterOutPage = () => {
-  const { id } = useParams<{ id?: string }>();
-
+  const { params } = useParams<{ params?: any }>();
   useEffect(() => {
-    // console.log(id);
-  }, [id]);
+    console.log(params);
+  }, [params]);
 
   const [selectedValue, setSelectedValue] = useState("purchase");
 
@@ -44,7 +43,7 @@ export const RegisterOutPage = () => {
         />
       </RadioGroup>
       <Box sx={{ overflowY: "auto", maxHeight: "calc(100vh - 200px)" }}>
-        {selectedValue === "purchase" ? (
+        {JSON.parse(params).compromiso === null ? (
           <RegisterPurchase
             selectedValue={selectedValue}
             setSelectedValue={setSelectedValue}

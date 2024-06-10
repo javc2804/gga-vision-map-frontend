@@ -24,12 +24,15 @@ const cursor = {
 export const ActionButtons: React.FC<ActionButtonsProps> = ({ id }) => {
   const navigate = useNavigate();
 
-  const handleEdit = (id: any) => {
-    navigate(`/register-out/${id}`);
+  const handleEdit = (data: any) => {
+    console.log(data);
+
+    const dataString = JSON.stringify(data);
+    navigate(`/register-out/${dataString}`);
   };
 
-  const handleDelete = (id: any) => {
-    console.log(id);
+  const handleDelete = (data: any) => {
+    console.log(data);
   };
 
   return (
@@ -53,7 +56,7 @@ export const TableRowData: React.FC<TableRowDataProps> = ({ row, headers }) => {
           <TableCell key={`${row.ID}-${index}`}>{row[dataKey]}</TableCell>
         ) : (
           <TableCell key={`${row.ID}-actions`}>
-            <ActionButtons id={row.id} />
+            <ActionButtons id={row} />
           </TableCell>
         );
       })}
