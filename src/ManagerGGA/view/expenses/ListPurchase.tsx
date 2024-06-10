@@ -229,31 +229,35 @@ export const ListPurchase = () => {
                 <Grid container>
                   <Grid item xs={6}>
                     <h3 style={titles}>
-                      Cauchos: {rubrosCantidad.totalCauchos}
+                      Cauchos: {rubrosCantidad && rubrosCantidad.totalCauchos}
                     </h3>
                     <h3 style={titles}>
-                      Baterias: {rubrosCantidad.totalBaterias}
+                      Baterias: {rubrosCantidad && rubrosCantidad.totalBaterias}
                     </h3>
                     <h3 style={titles}>
-                      Lubricantes: {rubrosCantidad.totalLubricantes}
+                      Lubricantes:{" "}
+                      {rubrosCantidad && rubrosCantidad.totalLubricantes}
                     </h3>
                   </Grid>
                   <Grid item xs={6}>
                     <h3 style={titles}>
-                      Servicios: {rubrosCantidad.totalServicios}
+                      Servicios:{" "}
+                      {rubrosCantidad && rubrosCantidad.totalServicios}
                     </h3>
                     <h3 style={titles}>
-                      Repuestos: {rubrosCantidad.totalRepuestos}
+                      Repuestos:{" "}
+                      {rubrosCantidad && rubrosCantidad.totalRepuestos}
                     </h3>
                     <h3 style={titles}>
-                      Preventivos: {rubrosCantidad.totalPreventivos}
+                      Preventivos:{" "}
+                      {rubrosCantidad && rubrosCantidad.totalPreventivos}
                     </h3>
                   </Grid>
                 </Grid>
                 <h3>
                   Total:
                   <span>
-                    {rubrosCantidad.total
+                    {rubrosCantidad && rubrosCantidad.total
                       ? rubrosCantidad.total.toLocaleString("de-DE", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
@@ -280,24 +284,32 @@ export const ListPurchase = () => {
                 <h2>Montos Bs</h2>
                 <Grid container>
                   <Grid item xs={6}>
-                    <h3 style={titles}>Cauchos: {rubrosBs.totalCauchos}</h3>
-                    <h3 style={titles}>Baterias: {rubrosBs.totalBaterias}</h3>
                     <h3 style={titles}>
-                      Lubricantes: {rubrosBs.totalLubricantes}
+                      Cauchos: {rubrosBs && rubrosBs.totalCauchos}
+                    </h3>
+                    <h3 style={titles}>
+                      Baterias: {rubrosBs && rubrosBs.totalBaterias}
+                    </h3>
+                    <h3 style={titles}>
+                      Lubricantes: {rubrosBs && rubrosBs.totalLubricantes}
                     </h3>
                   </Grid>
                   <Grid item xs={6}>
-                    <h3 style={titles}>Servicios: {rubrosBs.totalServicios}</h3>
-                    <h3 style={titles}>Repuestos: {rubrosBs.totalRepuestos}</h3>
                     <h3 style={titles}>
-                      Preventivos: {rubrosBs.totalPreventivos}
+                      Servicios: {rubrosBs && rubrosBs.totalServicios}
+                    </h3>
+                    <h3 style={titles}>
+                      Repuestos: {rubrosBs && rubrosBs.totalRepuestos}
+                    </h3>
+                    <h3 style={titles}>
+                      Preventivos: {rubrosBs && rubrosBs.totalPreventivos}
                     </h3>
                   </Grid>
                 </Grid>
                 <h3>
                   Total:
                   <span>
-                    {rubrosBs.total
+                    {rubrosBs && rubrosBs.total
                       ? rubrosBs.total.toLocaleString("de-DE", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
@@ -324,28 +336,32 @@ export const ListPurchase = () => {
                 <h2>Montos $</h2>
                 <Grid container>
                   <Grid item xs={6}>
-                    <h3 style={titles}>Cauchos: {rubrosUsd.totalCauchos}</h3>
-                    <h3 style={titles}>Baterias: {rubrosUsd.totalBaterias}</h3>
                     <h3 style={titles}>
-                      Lubricantes: {rubrosUsd.totalLubricantes}
+                      Cauchos: {rubrosUsd && rubrosUsd.totalCauchos}
+                    </h3>
+                    <h3 style={titles}>
+                      Baterias: {rubrosUsd && rubrosUsd.totalBaterias}
+                    </h3>
+                    <h3 style={titles}>
+                      Lubricantes: {rubrosUsd && rubrosUsd.totalLubricantes}
                     </h3>
                   </Grid>
                   <Grid item xs={6}>
                     <h3 style={titles}>
-                      Servicios: {rubrosUsd.totalServicios}
+                      Servicios: {rubrosUsd && rubrosUsd.totalServicios}
                     </h3>
                     <h3 style={titles}>
-                      Repuestos: {rubrosUsd.totalRepuestos}
+                      Repuestos: {rubrosUsd && rubrosUsd.totalRepuestos}
                     </h3>
                     <h3 style={titles}>
-                      Preventivos: {rubrosUsd.totalPreventivos}
+                      Preventivos: {rubrosUsd && rubrosUsd.totalPreventivos}
                     </h3>
                   </Grid>
                 </Grid>
                 <h3>
                   Total:
                   <span>
-                    {rubrosUsd.total
+                    {rubrosUsd && rubrosUsd.total
                       ? rubrosUsd.total.toLocaleString("de-DE", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
@@ -373,30 +389,32 @@ export const ListPurchase = () => {
                 <h2>Deudas $</h2>
                 <Grid container>
                   <Grid item xs={6}>
-                    <h3 style={titles}>Cauchos: {rubrosDeuda.totalCauchos}</h3>
                     <h3 style={titles}>
-                      Baterias: {rubrosDeuda.totalBaterias}
+                      Cauchos: {rubrosDeuda && rubrosDeuda.totalCauchos}
                     </h3>
                     <h3 style={titles}>
-                      Lubricantes: {rubrosDeuda.totalLubricantes}
+                      Baterias: {rubrosDeuda && rubrosDeuda.totalBaterias}
+                    </h3>
+                    <h3 style={titles}>
+                      Lubricantes: {rubrosDeuda && rubrosDeuda.totalLubricantes}
                     </h3>
                   </Grid>
                   <Grid item xs={6}>
                     <h3 style={titles}>
-                      Servicios: {rubrosDeuda.totalServicios}
+                      Servicios: {rubrosDeuda && rubrosDeuda.totalServicios}
                     </h3>
                     <h3 style={titles}>
-                      Repuestos: {rubrosDeuda.totalRepuestos}
+                      Repuestos: {rubrosDeuda && rubrosDeuda.totalRepuestos}
                     </h3>
                     <h3 style={titles}>
-                      Preventivos: {rubrosDeuda.totalPreventivos}
+                      Preventivos: {rubrosDeuda && rubrosDeuda.totalPreventivos}
                     </h3>
                   </Grid>
                 </Grid>
                 <h3>
                   Total:
                   <span>
-                    {rubrosDeuda.total
+                    {rubrosDeuda && rubrosDeuda.total
                       ? rubrosDeuda.total.toLocaleString("de-DE", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
