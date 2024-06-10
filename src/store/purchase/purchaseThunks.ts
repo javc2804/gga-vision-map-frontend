@@ -6,6 +6,9 @@ import {
   getListPurchase,
   getFilters,
   getSummary,
+  loadingClosePurchase,
+  getImportLoading,
+  modalImport,
 } from "./purchaseSlice";
 import { purchaseService } from "../../api/purchaseService";
 import {
@@ -13,6 +16,11 @@ import {
   getCompromise,
   getCompromiseLoading,
 } from "../compromises/compromisesSlices";
+import { ThunkAction } from "redux-thunk";
+import { AnyAction } from "redux";
+
+import { PurchaseActionTypes, START_IMPORT } from "../purchase/purchaseActions";
+
 //TODO: cambiar nombre de la funcion
 export const startGetPurchase = (): any => async (dispatch: AppDispatch) => {
   dispatch(getPurchaseStart());
@@ -217,4 +225,21 @@ export const startExport =
       const purchaseData = await purchaseService.getExportPurchase(dataFilters);
       // dispatch(getPurchaseSuccess(purchaseData));
     } catch (error) {}
+  };
+
+export const startImport =
+  (file: FormData): any =>
+  async (dispatch: any) => {
+    try {
+      dispatch(getImportLoading());
+      const imp = await purchaseService.importPurchase(file);
+
+      if (imp.ok) {
+        dispatch(loadingClosePurchase());
+        dispatch(modalImport(true));
+      }
+      dispatch({ type: START_IMPORT, payload: imp });
+    } catch (error) {
+      console.error(error);
+    }
   };

@@ -106,4 +106,17 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  importPurchase: (file: any) => {
+    return API_URL.post(`/upload/matriz`, file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((response: any) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
 };

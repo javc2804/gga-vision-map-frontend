@@ -125,14 +125,15 @@ export const ListPurchase = () => {
   } = useTableList([]);
 
   const { data, filters, updateFilter } = usePurchaseList(page, rowsPerPage);
-
-  if (!Array.isArray(data.rows)) {
-    console.error("data.rows no es un array:", data.rows);
-    // Proporcionar un valor predeterminado o manejar el error de alguna otra manera
-    data.rows = [];
+  let tempData = data;
+  if (!tempData) {
+    console.error("data es undefined o null");
+    tempData = { rows: [] };
+  } else if (!tempData.rows || !Array.isArray(tempData.rows)) {
+    console.error("data.rows no es un array:", tempData.rows);
+    tempData.rows = [];
   }
   const [pageSize, setPageSize] = useState(5); // puedes cambiar 10 a cualquier valor inicial que desees
-
   const loading = useSelector((state: any) => state.purchase.loading);
   const summary = useSelector((state: any) => state.purchase.summary);
 

@@ -35,7 +35,6 @@ export const usePurchaseList = (page: number, limit: number) => {
     const fetchData = async () => {
       const result = await dispatch(startGetListPurchase(dataDate));
       if (result.ok) {
-        // Check if response is not null and has a rows property
         if (result.response && Array.isArray(result.response.rows)) {
           setData(result.response);
         } else {
@@ -47,6 +46,7 @@ export const usePurchaseList = (page: number, limit: number) => {
 
     fetchData();
   }, [dateRange, page, limit]);
+
   const resp = useSelector((state: any) => state.purchase);
   const purchaseData = resp.purchase;
 
@@ -66,15 +66,17 @@ export const usePurchaseList = (page: number, limit: number) => {
   };
 
   let filteredRows: any = [];
-
-  if (data && data.rows && Array.isArray(data.rows)) {
+  if (data !== null && data.rows !== null && Array.isArray(data.rows)) {
     filteredRows = data.rows.filter((row: any) => {
       const date = new Date(row.createdAt);
       return date >= dateRange[0] && date <= dateRange[1];
     });
   } else {
-    console.error("data.rows is not an array:", data.rows);
-    filteredRows = []; // Add this line to ensure filteredRows is always an array
+    console.error(
+      "data or data.rows is null or data.rows is not an array:",
+      data
+    );
+    setData({ rows: [] }); // Usa setData para actualizar el estado de data
   }
 
   const filteredData = filteredRows.filter((row: any) =>

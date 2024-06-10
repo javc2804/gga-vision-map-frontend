@@ -14,6 +14,7 @@ interface PurchaseState {
   ut: string;
   filters: any;
   summary: any;
+  modal: any;
 }
 
 const initialState: PurchaseState = {
@@ -29,6 +30,7 @@ const initialState: PurchaseState = {
   ut: "",
   filters: {},
   summary: {},
+  modal: false,
 };
 
 export const purchaseSlice = createSlice({
@@ -36,6 +38,10 @@ export const purchaseSlice = createSlice({
   initialState,
   reducers: {
     getPurchaseStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    getImportLoading: (state) => {
       state.loading = true;
       state.error = null;
     },
@@ -88,6 +94,9 @@ export const purchaseSlice = createSlice({
     getSummary: (state, { payload }) => {
       state.summary = payload;
     },
+    modalImport: (state, { payload }) => {
+      state.modal = payload;
+    },
   },
 });
 
@@ -107,6 +116,9 @@ export const {
   getListPurchase,
   getFilters,
   getSummary,
+  loadingClosePurchase,
+  getImportLoading,
+  modalImport,
 } = purchaseSlice.actions;
 
 export const selectPurchase = (state: RootState) => state.purchase.purchase;
