@@ -191,7 +191,11 @@ export const ListPurchase = () => {
       {loading ? (
         <Loading />
       ) : (
-        <TableContainer component={Paper}>
+        <TableContainer
+          component={Paper}
+          style={{ maxHeight: "90vh", overflow: "auto" }}
+        >
+          {" "}
           <h2>Registro de transacciones</h2>
           <Box display="flex" justifyContent="center" flexWrap="wrap">
             <Paper elevation={3} style={boxStyle}>
