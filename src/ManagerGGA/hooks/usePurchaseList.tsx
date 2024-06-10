@@ -66,17 +66,19 @@ export const usePurchaseList = (page: number, limit: number) => {
   };
 
   let filteredRows: any = [];
-  if (data !== null && data.rows !== null && Array.isArray(data.rows)) {
+  if (data && data.rows && Array.isArray(data.rows)) {
     filteredRows = data.rows.filter((row: any) => {
       const date = new Date(row.createdAt);
       return date >= dateRange[0] && date <= dateRange[1];
     });
   } else {
-    console.error(
-      "data or data.rows is null or data.rows is not an array:",
-      data
-    );
+    // console.error(
+    //   "data or data.rows is null or data.rows is not an array:",
+    //   data
+    // );
     setData({ rows: [] }); // Usa setData para actualizar el estado de data
+
+    // No establezcas data a { rows: [] } aquí, ya que podría sobrescribir los datos existentes
   }
 
   const filteredData = filteredRows.filter((row: any) =>

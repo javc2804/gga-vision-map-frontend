@@ -156,7 +156,7 @@ export const ListPurchase = () => {
   const { data, filters, updateFilter } = usePurchaseList(page, rowsPerPage);
   let tempData = data;
   if (!tempData) {
-    console.error("data es undefined o null");
+    // console.error("data es undefined o null");
     tempData = { rows: [] };
   } else if (!tempData.rows || !Array.isArray(tempData.rows)) {
     console.error("data.rows no es un array:", tempData.rows);
@@ -312,7 +312,7 @@ export const ListPurchase = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={data.count || 0}
+            count={data?.count || 0}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
