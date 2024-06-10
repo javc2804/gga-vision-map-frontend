@@ -53,7 +53,11 @@ export const TableRowData: React.FC<TableRowDataProps> = ({ row, headers }) => {
       {headers.map((header, index) => {
         const dataKey = columnToDataKeyMap[header] || header;
         return dataKey !== "acciones" ? (
-          <TableCell key={`${row.ID}-${index}`}>{row[dataKey]}</TableCell>
+          <TableCell key={`${row.ID}-${index}`}>
+            {dataKey === "createdAt"
+              ? new Date(row[dataKey]).toLocaleDateString("en-GB") // Formatear la fecha si la clave de los datos es 'createdAt'
+              : row[dataKey]}
+          </TableCell>
         ) : (
           <TableCell key={`${row.ID}-actions`}>
             <ActionButtons id={row} />

@@ -173,6 +173,19 @@ export const ListPurchase = () => {
     new Date(currentYear, 0, 1),
     new Date(),
   ]);
+
+  const headerDisplayNames = {
+    createdAt: "Creado",
+    formaPago: "Tipo Pago",
+    cantidad: "Cantidad",
+    montoTotalBs: "Total Bs",
+    montoTotalUsd: "Total $",
+    deudaTotalUsd: "Deuda total $",
+    repuesto: "Repuesto",
+    descripcionRepuesto: "Tipo Repuesto",
+    ut: "Ut",
+    eje: "Eje",
+  };
   return (
     <>
       {loading ? (
@@ -292,10 +305,8 @@ export const ListPurchase = () => {
                   {headers.map((header) => (
                     <SortableTableHeader
                       key={header}
-                      header={header}
+                      header={headerDisplayNames[header] || header} // Si el mapeo existe, usa el nombre de visualización, de lo contrario usa el nombre original
                       orderBy={orderBy}
-                      order={order}
-                      onSortRequest={handleSortRequest}
                     />
                   ))}
                 </TableRow>
