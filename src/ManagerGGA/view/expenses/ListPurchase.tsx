@@ -190,6 +190,7 @@ export const ListPurchase = () => {
     ut: "Ut",
     eje: "Eje",
     ndeAlmacen: "NDE(A)",
+    compromiso: "Compromiso",
   };
 
   return (
