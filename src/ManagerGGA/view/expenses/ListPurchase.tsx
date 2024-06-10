@@ -20,8 +20,8 @@ import Loading from "../../../components/Loading";
 import { useState } from "react";
 import { Box } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import Icon from "@mui/material/Icon";
-import { he } from "date-fns/locale";
+// import Icon from "@mui/material/Icon";
+// import { he } from "date-fns/locale";
 import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import MoneyOffIcon from "@mui/icons-material/MoneyOff";
@@ -54,36 +54,64 @@ export const ListPurchase = () => {
     height: "200px", // Cambia la altura a 500px
     marginBottom: "5%",
   };
-  const iconButtonStyle = {
+  // const iconButtonStyle = {
+  //   color: "white",
+  //   position: "absolute",
+  //   left: 0,
+  //   top: -60,
+  //   width: "120px",
+  //   height: 100,
+  //   backgroundColor: "#ffa523",
+  //   borderRadius: 0,
+  //   boxShadow: "3px 3px 5px 0px rgba(0,0,0,0.75)",
+  // };
+
+  const iconButtonStyle1 = {
+    backgroundColor: "#ffa523",
     color: "white",
-    position: "absolute",
+    position: "absolute" as "absolute",
     left: 0,
     top: -60,
     width: "120px",
     height: 100,
-    backgroundColor: "#ffa523",
     borderRadius: 0,
     boxShadow: "3px 3px 5px 0px rgba(0,0,0,0.75)",
   };
 
-  const iconButtonStyle1 = {
-    ...iconButtonStyle,
-    backgroundColor: "#ffa523",
-  };
-
   const iconButtonStyle2 = {
-    ...iconButtonStyle,
     backgroundColor: "#4ca750",
+    color: "white",
+    position: "absolute" as "absolute",
+    left: 0,
+    top: -60,
+    width: "120px",
+    height: 100,
+    borderRadius: 0,
+    boxShadow: "3px 3px 5px 0px rgba(0,0,0,0.75)",
   };
 
   const iconButtonStyle3 = {
-    ...iconButtonStyle,
     backgroundColor: "#13b9cd",
+    color: "white",
+    position: "absolute" as "absolute",
+    left: 0,
+    top: -60,
+    width: "120px",
+    height: 100,
+    borderRadius: 0,
+    boxShadow: "3px 3px 5px 0px rgba(0,0,0,0.75)",
   };
 
   const iconButtonStyle4 = {
-    ...iconButtonStyle,
     backgroundColor: "#ea4541",
+    color: "white",
+    position: "absolute" as "absolute",
+    left: 0,
+    top: -60,
+    width: "120px",
+    height: 100,
+    borderRadius: 0,
+    boxShadow: "3px 3px 5px 0px rgba(0,0,0,0.75)",
   };
   const headers = [
     "id",
@@ -133,7 +161,7 @@ export const ListPurchase = () => {
     console.error("data.rows no es un array:", tempData.rows);
     tempData.rows = [];
   }
-  const [pageSize, setPageSize] = useState(5); // puedes cambiar 10 a cualquier valor inicial que desees
+  // const [pageSize, setPageSize] = useState(5); // puedes cambiar 10 a cualquier valor inicial que desees
   const loading = useSelector((state: any) => state.purchase.loading);
   const summary = useSelector((state: any) => state.purchase.summary);
 
@@ -272,9 +300,11 @@ export const ListPurchase = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.rows.map((row) => (
-                  <TableRowData key={row.id} row={row} headers={headers} />
-                ))}
+                {data &&
+                  data.rows &&
+                  data.rows.map((row) => (
+                    <TableRowData key={row.id} row={row} headers={headers} />
+                  ))}
               </TableBody>
             </Table>
           </div>
