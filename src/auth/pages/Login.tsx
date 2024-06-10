@@ -10,6 +10,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import ErrorIcon from "@mui/icons-material/Error";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useNavigate } from "react-router-dom";
+import { SnackbarCloseReason } from "@mui/material/Snackbar";
 import {
   StyledButton,
   GridItem,
@@ -19,6 +20,11 @@ import {
 } from "./styles";
 
 import { NavLink } from "react-router-dom";
+
+interface ForgotTextProps {
+  to: string;
+  children: React.ReactNode;
+}
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -35,14 +41,21 @@ export const Login = () => {
     }
   };
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = (
+    _: React.SyntheticEvent | Event,
+    reason: SnackbarCloseReason
+  ) => {
     if (reason === "clickaway") {
       return;
     }
     dispatch(hideSnackbar());
   };
 
-  const ForgotText = ({ to, children }) => (
+  const handleAlertClose = (event: React.SyntheticEvent) => {
+    handleClose(event, "clickaway");
+  };
+
+  const ForgotText = ({ to, children }: ForgotTextProps) => (
     <NavLink
       to={to}
       style={{
@@ -112,7 +125,7 @@ export const Login = () => {
               fontSize: "20px",
             }}
             severity={snackbar.type}
-            onClose={handleClose}
+            onClose={handleAlertClose}
             icon={
               snackbar.type === "error" ? (
                 <ErrorIcon style={{ color: "white" }} />

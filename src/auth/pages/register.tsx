@@ -8,7 +8,7 @@ import {
   GridContainer,
   InputContainer,
   StyledTextField,
-  StyledBox,
+  // StyledBox,
 } from "./styles";
 import {
   Snackbar,
@@ -69,12 +69,12 @@ export const Register = () => {
   } = useForm(formData);
 
   const [errors, setErrors] = useState<Errors>({});
-  const onClose = (event: any, reason: any) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    dispatch(hideSnackbar());
-  };
+  // const onClose = (event: any, reason: any) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+  //   dispatch(hideSnackbar());
+  // };
 
   const onSubmit = async (event: any) => {
     event.preventDefault();

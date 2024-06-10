@@ -21,7 +21,7 @@ interface LoginCredentials {
 }
 
 export const startLogin =
-  (loginCredentials: UserCredentials): any =>
+  (loginCredentials: LoginCredentials): any =>
   async (dispatch: any) => {
     const { email, password } = loginCredentials;
     dispatch(checkingCredentials());
@@ -83,6 +83,6 @@ export const startCreatingUser =
 export const startLogout = () => {
   return async (dispatch: any) => {
     localStorage.clear();
-    dispatch(logout());
+    dispatch(logout(false));
   };
 };
