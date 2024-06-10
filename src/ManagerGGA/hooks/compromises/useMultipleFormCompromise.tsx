@@ -97,7 +97,6 @@ const useMultipleFormCompromise = (
 
     let errorField = null;
     const hasErrors = forms.some((form) => {
-      console.log(form);
       const requiredFields = [
         "nde",
         "compromiso",

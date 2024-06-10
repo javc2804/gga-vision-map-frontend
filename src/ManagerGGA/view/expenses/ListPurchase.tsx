@@ -117,9 +117,9 @@ export const ListPurchase = () => {
     "id",
     "createdAt",
     // "facNDE",
-    "proveedor",
+    // "proveedor",
     "ut",
-    "marcaModelo",
+    // "marcaModelo",
     "eje",
     // "subeje",
     "cantidad",
@@ -140,6 +140,7 @@ export const ListPurchase = () => {
     // "precioUnitarioUsd",
     // "updatedAt",
     // "user_rel",
+    "Acciones",
   ];
 
   const {
