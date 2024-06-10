@@ -154,7 +154,10 @@ export const ListPurchase = () => {
     handleChangeRowsPerPage,
   } = useTableList([]);
 
-  const { data, filters, updateFilter } = usePurchaseList(page, rowsPerPage);
+  const { data, filters, updateFilter, clearFilters } = usePurchaseList(
+    page,
+    rowsPerPage
+  );
   let tempData = data;
   if (!tempData) {
     // console.error("data es undefined o null");
@@ -188,6 +191,7 @@ export const ListPurchase = () => {
     eje: "Eje",
     ndeAlmacen: "NDE(A)",
   };
+
   return (
     <>
       {loading ? (
@@ -299,6 +303,7 @@ export const ListPurchase = () => {
           </Box>
           <Filters
             headers={headers}
+            clearFilters={clearFilters}
             filters={filters}
             dateRange={dateRange}
             setDateRange={setDateRange}

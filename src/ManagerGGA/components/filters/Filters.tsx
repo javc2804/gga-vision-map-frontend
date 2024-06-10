@@ -14,6 +14,7 @@ interface FiltersProps {
   filters: any;
   dateRange: any;
   setDateRange: any;
+  clearFilters: any;
   updateFilter: (field: any, value: any) => void;
 }
 
@@ -23,6 +24,7 @@ export const Filters: React.FC<FiltersProps> = ({
   dateRange,
   setDateRange,
   updateFilter,
+  clearFilters,
 }) => {
   const dispatch = useDispatch();
 
@@ -152,6 +154,7 @@ export const Filters: React.FC<FiltersProps> = ({
             variant="contained"
             color="primary"
             style={{ marginRight: "10px" }}
+            onClick={clearFilters}
           >
             Limpiar Filtros
           </Button>

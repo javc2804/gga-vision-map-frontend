@@ -92,11 +92,17 @@ export const usePurchaseList = (page: number, limit: number) => {
     })
   );
 
+  const clearFilters = () => {
+    setFilters({});
+    setDateRange([new Date(currentYear, 0, 1), new Date()]);
+  };
+
   return {
     data,
     dateRange,
     filters,
     updateFilter,
     filteredData,
+    clearFilters,
   };
 };
