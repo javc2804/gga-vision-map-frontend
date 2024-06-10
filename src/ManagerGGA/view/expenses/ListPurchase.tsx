@@ -6,6 +6,7 @@ import {
   TablePagination,
   TableHead,
   TableRow,
+  Grid,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 
@@ -50,9 +51,10 @@ export const ListPurchase = () => {
     padding: "10px",
     margin: "10px",
     backgroundColor: "white",
-    width: "15%",
-    height: "200px", // Cambia la altura a 500px
+    width: "22%",
+    height: "250px", // Aumenta la altura a 500px
     marginBottom: "5%",
+    overflowY: "auto", // Añade desbordamiento de scroll en el eje Y
   };
   // const iconButtonStyle = {
   //   color: "white",
@@ -69,9 +71,9 @@ export const ListPurchase = () => {
   const iconButtonStyle1 = {
     backgroundColor: "#ffa523",
     color: "white",
-    position: "absolute" as "absolute",
+    position: "absolute",
     left: 0,
-    top: -60,
+    top: -20,
     width: "120px",
     height: 100,
     borderRadius: 0,
@@ -83,7 +85,7 @@ export const ListPurchase = () => {
     color: "white",
     position: "absolute" as "absolute",
     left: 0,
-    top: -60,
+    top: -10,
     width: "120px",
     height: 100,
     borderRadius: 0,
@@ -95,7 +97,7 @@ export const ListPurchase = () => {
     color: "white",
     position: "absolute" as "absolute",
     left: 0,
-    top: -60,
+    top: -10,
     width: "120px",
     height: 100,
     borderRadius: 0,
@@ -107,11 +109,15 @@ export const ListPurchase = () => {
     color: "white",
     position: "absolute" as "absolute",
     left: 0,
-    top: -60,
+    top: -10,
     width: "120px",
     height: 100,
     borderRadius: 0,
     boxShadow: "3px 3px 5px 0px rgba(0,0,0,0.75)",
+  };
+
+  const titles = {
+    margin: "0.2em 0",
   };
   const headers = [
     "id",
@@ -145,11 +151,11 @@ export const ListPurchase = () => {
   ];
 
   const {
-    order,
+    // order,
     orderBy,
     page,
     rowsPerPage,
-    handleSortRequest,
+    // handleSortRequest,
     handleChangePage,
     handleChangeRowsPerPage,
   } = useTableList([]);
@@ -171,6 +177,7 @@ export const ListPurchase = () => {
   const summary = useSelector((state: any) => state.purchase.summary);
 
   const { totalMontoBs, totalDeuda, totalCantidad, totalMontoUsd } = summary;
+  const { rubrosBs, rubrosCantidad, rubrosDeuda, rubrosUsd } = summary;
 
   const currentYear = new Date().getFullYear();
   const [dateRange, setDateRange] = useState([
@@ -202,7 +209,6 @@ export const ListPurchase = () => {
           component={Paper}
           style={{ maxHeight: "90vh", overflow: "auto" }}
         >
-          {" "}
           <h2>Registro de transacciones</h2>
           <Box display="flex" justifyContent="center" flexWrap="wrap">
             <Paper elevation={3} style={boxStyle}>
@@ -216,22 +222,50 @@ export const ListPurchase = () => {
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
-                height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
+                height="100%"
+                padding={2} // Añade un poco de padding
               >
-                <h1>Cantidad</h1>
-                <h1>
-                  {totalCantidad
-                    ? totalCantidad.toLocaleString("de-DE", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })
-                    : "0.00"}
-                </h1>
+                <h2>Cantidades</h2>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <h3 style={titles}>
+                      Cauchos: {rubrosCantidad.totalCauchos}
+                    </h3>
+                    <h3 style={titles}>
+                      Baterias: {rubrosCantidad.totalBaterias}
+                    </h3>
+                    <h3 style={titles}>
+                      Lubricantes: {rubrosCantidad.totalLubricantes}
+                    </h3>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <h3 style={titles}>
+                      Servicios: {rubrosCantidad.totalServicios}
+                    </h3>
+                    <h3 style={titles}>
+                      Repuestos: {rubrosCantidad.totalRepuestos}
+                    </h3>
+                    <h3 style={titles}>
+                      Preventivos: {rubrosCantidad.totalPreventivos}
+                    </h3>
+                  </Grid>
+                </Grid>
+                <h3>
+                  Total:
+                  <span>
+                    {rubrosCantidad.total
+                      ? rubrosCantidad.total.toLocaleString("de-DE", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })
+                      : "0.00"}
+                  </span>
+                </h3>
               </Box>
             </Paper>
             <Paper elevation={3} style={boxStyle}>
               <Box position="relative">
-                <IconButton style={iconButtonStyle2}>
+                <IconButton style={iconButtonStyle3}>
                   <MoneyOffIcon style={{ fontSize: 60 }} />
                 </IconButton>
               </Box>
@@ -240,22 +274,42 @@ export const ListPurchase = () => {
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
-                height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
+                height="100%"
+                padding={2} // Añade un poco de padding
               >
-                <h1>Monto total Bs</h1>
-                <h1>
-                  {totalMontoBs
-                    ? totalMontoBs.toLocaleString("de-DE", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })
-                    : "0.00"}
-                </h1>
+                <h2>Montos Bs</h2>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <h3 style={titles}>Cauchos: {rubrosBs.totalCauchos}</h3>
+                    <h3 style={titles}>Baterias: {rubrosBs.totalBaterias}</h3>
+                    <h3 style={titles}>
+                      Lubricantes: {rubrosBs.totalLubricantes}
+                    </h3>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <h3 style={titles}>Servicios: {rubrosBs.totalServicios}</h3>
+                    <h3 style={titles}>Repuestos: {rubrosBs.totalRepuestos}</h3>
+                    <h3 style={titles}>
+                      Preventivos: {rubrosBs.totalPreventivos}
+                    </h3>
+                  </Grid>
+                </Grid>
+                <h3>
+                  Total:
+                  <span>
+                    {rubrosBs.total
+                      ? rubrosBs.total.toLocaleString("de-DE", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })
+                      : "0.00"}
+                  </span>
+                </h3>
               </Box>
             </Paper>
             <Paper elevation={3} style={boxStyle}>
               <Box position="relative">
-                <IconButton style={iconButtonStyle3}>
+                <IconButton style={iconButtonStyle2}>
                   <AttachMoneyIcon style={{ fontSize: 60 }} />
                 </IconButton>
               </Box>
@@ -264,19 +318,44 @@ export const ListPurchase = () => {
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
-                height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
+                height="100%"
+                padding={2} // Añade un poco de padding
               >
-                <h1>Monto Total $</h1>
-                <h1>
-                  {totalMontoUsd
-                    ? totalMontoUsd.toLocaleString("de-DE", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })
-                    : "0.00"}
-                </h1>
+                <h2>Montos $</h2>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <h3 style={titles}>Cauchos: {rubrosUsd.totalCauchos}</h3>
+                    <h3 style={titles}>Baterias: {rubrosUsd.totalBaterias}</h3>
+                    <h3 style={titles}>
+                      Lubricantes: {rubrosUsd.totalLubricantes}
+                    </h3>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <h3 style={titles}>
+                      Servicios: {rubrosUsd.totalServicios}
+                    </h3>
+                    <h3 style={titles}>
+                      Repuestos: {rubrosUsd.totalRepuestos}
+                    </h3>
+                    <h3 style={titles}>
+                      Preventivos: {rubrosUsd.totalPreventivos}
+                    </h3>
+                  </Grid>
+                </Grid>
+                <h3>
+                  Total:
+                  <span>
+                    {rubrosUsd.total
+                      ? rubrosUsd.total.toLocaleString("de-DE", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })
+                      : "0.00"}
+                  </span>
+                </h3>
               </Box>
             </Paper>
+
             <Paper elevation={3} style={boxStyle}>
               <Box position="relative">
                 <IconButton style={iconButtonStyle4}>
@@ -288,17 +367,43 @@ export const ListPurchase = () => {
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
-                height="100%" // Asegúrate de que la caja ocupe toda la altura disponible
+                height="100%"
+                padding={2} // Añade un poco de padding
               >
-                <h1>Deuda Total $</h1>
-                <h1>
-                  {totalDeuda
-                    ? totalDeuda.toLocaleString("de-DE", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })
-                    : "0.00"}
-                </h1>
+                <h2>Deudas $</h2>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <h3 style={titles}>Cauchos: {rubrosDeuda.totalCauchos}</h3>
+                    <h3 style={titles}>
+                      Baterias: {rubrosDeuda.totalBaterias}
+                    </h3>
+                    <h3 style={titles}>
+                      Lubricantes: {rubrosDeuda.totalLubricantes}
+                    </h3>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <h3 style={titles}>
+                      Servicios: {rubrosDeuda.totalServicios}
+                    </h3>
+                    <h3 style={titles}>
+                      Repuestos: {rubrosDeuda.totalRepuestos}
+                    </h3>
+                    <h3 style={titles}>
+                      Preventivos: {rubrosDeuda.totalPreventivos}
+                    </h3>
+                  </Grid>
+                </Grid>
+                <h3>
+                  Total:
+                  <span>
+                    {rubrosDeuda.total
+                      ? rubrosDeuda.total.toLocaleString("de-DE", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })
+                      : "0.00"}
+                  </span>
+                </h3>
               </Box>
             </Paper>
           </Box>
