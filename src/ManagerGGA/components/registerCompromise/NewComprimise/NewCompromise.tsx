@@ -18,6 +18,7 @@ import useMultipleFormCompromise from "../../../hooks/compromises/useMultipleFor
 
 interface RegisterPurchaseProps {
   selectedValue: string;
+  params: any;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -59,7 +60,8 @@ const boxStyles = {
   boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.45)",
 };
 
-export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
+export const NewCompromise: React.FC<RegisterPurchaseProps> = ({ params }) => {
+  console.log(params);
   const dispatch = useAppDispatch();
 
   const { control } = useForm();

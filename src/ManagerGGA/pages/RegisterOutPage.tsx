@@ -16,7 +16,7 @@ export const RegisterOutPage = () => {
   );
 
   useEffect(() => {
-    console.log(params);
+    // console.log(params);
   }, [params]);
 
   const handleChange = (event: any) => {
@@ -82,6 +82,7 @@ export const RegisterOutPage = () => {
               <RegisterCompromise
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
+                params={params}
               />
             );
           } else {

@@ -10,10 +10,12 @@ import { RootState as StoreRootState } from "../../../store/store";
 
 interface RegisterCompromiseProps {
   selectedValueProp: string;
+  params: any;
 }
 
 export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
   selectedValueProp,
+  params,
 }) => {
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSelectedValue(event.target.value);
@@ -27,10 +29,10 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
   let Component;
   switch (selectedValue) {
     case "new":
-      Component = <NewCompromise combinedData={combinedData} />;
+      Component = <NewCompromise combinedData={combinedData} params={params} />;
       break;
     case "pay":
-      Component = <PayCompromise combinedData={combinedData} />;
+      Component = <PayCompromise combinedData={combinedData} params={params} />;
       break;
     // case "detail":
     //   Component = <DetailCompromise combinedData={combinedData} />;
@@ -43,8 +45,10 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
     <div>
       <Select displayEmpty value={selectedValue} onChange={handleChange}>
         <MenuItem value="">Selecciona tipo</MenuItem>
-        <MenuItem value={"new"}>Registrar nuevo</MenuItem>
-        <MenuItem value={"pay"}>Pagar Compromiso</MenuItem>
+        <MenuItem value={"new"}>
+          {!params ? "Registrar nuevo" : "Editar Compromiso"}
+        </MenuItem>
+        {params ? <MenuItem value={"pay"}>Pagar Compromiso</MenuItem> : null}
         {/* <MenuItem value={"detail"}>Detalle Compromiso</MenuItem> */}
       </Select>
       {Component}

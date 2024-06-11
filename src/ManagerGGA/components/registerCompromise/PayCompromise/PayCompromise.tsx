@@ -20,6 +20,7 @@ import Loading from "../../../../components/Loading";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
+  params: any;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -71,7 +72,8 @@ const boxStyles = {
   boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.45)",
 };
 
-export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
+export const PayCompromise: React.FC<RegisterPurchaseProps> = ({ params }) => {
+  console.log(params);
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
 
