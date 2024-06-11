@@ -6,18 +6,22 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const RegisterOutPage = () => {
-  const { params } = useParams<{ params?: any }>();
-  const compromiso = params ? JSON.parse(params).compromiso : null;
-  const [selectedValue, setSelectedValue] = useState(
-    compromiso === null ? "purchase" : "compromise"
-  );
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+  console.log(editPurchase);
+  const compromiso = editPurchase ? editPurchase.compromiso : null;
+  const [selectedValue, setSelectedValue] = useState(() => {
+    if (editPurchase && Object.keys(editPurchase).length !== 0) {
+      return compromiso ? "compromise" : "purchase";
+    }
+    return "purchase";
+  });
 
   useEffect(() => {
-    // console.log(params);
-  }, [params]);
+    console.log(editPurchase);
+  }, [editPurchase]);
 
   const handleChange = (event: any) => {
     setSelectedValue(event.target.value);
@@ -26,7 +30,9 @@ export const RegisterOutPage = () => {
   return (
     <ManagerGGALayout>
       <RadioGroup row value={selectedValue} onChange={handleChange}>
-        {params && !compromiso ? (
+        {editPurchase &&
+        Object.keys(editPurchase).length !== 0 &&
+        !compromiso ? (
           <FormControlLabel
             value="purchase"
             control={<Radio />}
@@ -36,7 +42,7 @@ export const RegisterOutPage = () => {
               </Typography>
             }
           />
-        ) : params && compromiso ? (
+        ) : editPurchase && compromiso ? (
           <FormControlLabel
             value="compromise"
             control={<Radio />}
@@ -71,18 +77,18 @@ export const RegisterOutPage = () => {
       </RadioGroup>
       <Box sx={{ overflowY: "auto", maxHeight: "calc(100vh - 200px)" }}>
         {(() => {
-          if (params) {
+          if (editPurchase && Object.keys(editPurchase).length !== 0) {
             return compromiso === null ? (
               <RegisterPurchase
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
-                params={params}
+                params={editPurchase}
               />
             ) : (
               <RegisterCompromise
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
-                params={params}
+                params={editPurchase}
               />
             );
           } else {

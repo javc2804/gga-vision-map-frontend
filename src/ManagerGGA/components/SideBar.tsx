@@ -30,6 +30,8 @@ import {
 import Logo from "../../assets/logo.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { editPurchaseClear } from "../../store/purchase/purchaseSlice";
 
 export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
   let menu = JSON.parse(localStorage.getItem("menu") || "[]");
@@ -38,11 +40,14 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
   }
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [openSubMenu, setOpenSubMenu] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleClick = (name, route) => {
-    // console.log(name, route);
+    if (name === "Registro") {
+      dispatch(editPurchaseClear());
+    }
     setOpenSubMenu((prevOpenSubMenu) => ({
       ...prevOpenSubMenu,
       [name]: !prevOpenSubMenu[name],

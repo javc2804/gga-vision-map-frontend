@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Grid, TextField, Autocomplete } from "@mui/material";
 import { Controller, Control } from "react-hook-form";
+import { useSelector } from "react-redux";
 
 interface Provider {
   id: string;
@@ -20,7 +21,11 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
   providers,
   setFormState,
 }) => {
-  const [facNDE, setFacNDE] = useState<number>(0);
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+
+  const [facNDE, setFacNDE] = useState<number>(
+    Number(editPurchase.facNDE) || 0
+  );
 
   const handleFacNDEChange = (e: any) => {
     setFacNDE(Number(e.target.value));
@@ -43,6 +48,7 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
           variant="outlined"
           onChange={handleFacNDEChange}
           onBlur={handleFacNDEBlur}
+          value={facNDE}
           fullWidth
         />
       </Grid>
@@ -59,7 +65,13 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
               onChange={(event, value) =>
                 handleProviderChange(field, event, value)
               }
-              value={field.value || null} // Asegúrate de que el valor no sea undefined
+              value={
+                field.value ||
+                providers.find(
+                  (provider) => provider.name === editPurchase.proveedor
+                ) ||
+                null
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}

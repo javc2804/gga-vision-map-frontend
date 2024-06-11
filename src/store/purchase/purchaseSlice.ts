@@ -5,6 +5,7 @@ interface PurchaseState {
   loading: boolean;
   error: string | null;
   purchase: any | null;
+  purchaseEdit: any | null;
   saveStatus: "idle" | "loading" | "succeeded" | "failed";
   deliveryDate: string;
   paymentDate: string;
@@ -21,6 +22,7 @@ const initialState: PurchaseState = {
   loading: false,
   error: null,
   purchase: null,
+  purchaseEdit: {},
   saveStatus: "idle",
   deliveryDate: new Date().toISOString(),
   paymentDate: new Date().toISOString(),
@@ -97,10 +99,18 @@ export const purchaseSlice = createSlice({
     modalImport: (state, { payload }) => {
       state.modal = payload;
     },
+    editPurchase: (state, { payload }) => {
+      state.purchaseEdit = payload;
+    },
+    editPurchaseClear: (state) => {
+      state.purchaseEdit = {};
+    },
   },
 });
 
 export const {
+  editPurchase,
+  editPurchaseClear,
   getPurchaseStart,
   getPurchaseSuccess,
   getPurchaseFailure,

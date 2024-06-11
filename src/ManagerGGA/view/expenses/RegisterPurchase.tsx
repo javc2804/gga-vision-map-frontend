@@ -70,7 +70,7 @@ const boxStyles = {
 export const RegisterPurchase: React.FC<RegisterPurchaseProps> = ({
   params,
 }) => {
-  console.log(params);
+  // console.log(params);
   const dispatch = useAppDispatch();
 
   const { control } = useForm();

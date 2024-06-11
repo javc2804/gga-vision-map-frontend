@@ -3,6 +3,8 @@ import { IRow } from "../../view/expenses/ListPurchase";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { editPurchase } from "../../../store/purchase/purchaseSlice";
 
 type ActionButtonsProps = {
   id: any;
@@ -23,12 +25,10 @@ const cursor = {
 
 export const ActionButtons: React.FC<ActionButtonsProps> = ({ id }) => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleEdit = (data: any) => {
-    console.log(data);
-
-    const dataString = JSON.stringify(data);
-    navigate(`/register-out/${dataString}`);
+    dispatch(editPurchase(data));
+    navigate(`/register-out/`);
   };
 
   const handleDelete = (data: any) => {
