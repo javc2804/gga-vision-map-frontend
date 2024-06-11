@@ -26,24 +26,48 @@ export const RegisterOutPage = () => {
   return (
     <ManagerGGALayout>
       <RadioGroup row value={selectedValue} onChange={handleChange}>
-        <FormControlLabel
-          value="purchase"
-          control={<Radio />}
-          label={
-            <Typography variant="h6" color="textPrimary" fontWeight="800">
-              Registrar Compra
-            </Typography>
-          }
-        />
-        <FormControlLabel
-          value="compromise"
-          control={<Radio />}
-          label={
-            <Typography variant="h6" color="textPrimary" fontWeight="800">
-              Registrar Compromiso
-            </Typography>
-          }
-        />
+        {params && !compromiso ? (
+          <FormControlLabel
+            value="purchase"
+            control={<Radio />}
+            label={
+              <Typography variant="h6" color="textPrimary" fontWeight="800">
+                Editar Compra
+              </Typography>
+            }
+          />
+        ) : params && compromiso ? (
+          <FormControlLabel
+            value="compromise"
+            control={<Radio />}
+            label={
+              <Typography variant="h6" color="textPrimary" fontWeight="800">
+                Editar Compromiso
+              </Typography>
+            }
+          />
+        ) : (
+          <>
+            <FormControlLabel
+              value="purchase"
+              control={<Radio />}
+              label={
+                <Typography variant="h6" color="textPrimary" fontWeight="800">
+                  Registrar Compra
+                </Typography>
+              }
+            />
+            <FormControlLabel
+              value="compromise"
+              control={<Radio />}
+              label={
+                <Typography variant="h6" color="textPrimary" fontWeight="800">
+                  Registrar Compromiso
+                </Typography>
+              }
+            />
+          </>
+        )}
       </RadioGroup>
       <Box sx={{ overflowY: "auto", maxHeight: "calc(100vh - 200px)" }}>
         {(() => {
