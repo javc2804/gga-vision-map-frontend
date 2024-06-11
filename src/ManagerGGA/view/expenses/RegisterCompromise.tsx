@@ -32,9 +32,9 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
     case "pay":
       Component = <PayCompromise combinedData={combinedData} />;
       break;
-    case "detail":
-      Component = <DetailCompromise combinedData={combinedData} />;
-      break;
+    // case "detail":
+    //   Component = <DetailCompromise combinedData={combinedData} />;
+    //   break;
     default:
       Component = null;
   }
@@ -45,7 +45,7 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
         <MenuItem value="">Selecciona tipo</MenuItem>
         <MenuItem value={"new"}>Registrar nuevo</MenuItem>
         <MenuItem value={"pay"}>Pagar Compromiso</MenuItem>
-        <MenuItem value={"detail"}>Detalle Compromiso</MenuItem>
+        {/* <MenuItem value={"detail"}>Detalle Compromiso</MenuItem> */}
       </Select>
       {Component}
     </div>
