@@ -169,7 +169,7 @@ export const ListPurchase = () => {
     // console.error("data es undefined o null");
     tempData = { rows: [] };
   } else if (!tempData.rows || !Array.isArray(tempData.rows)) {
-    console.error("data.rows no es un array:", tempData.rows);
+    // console.error("data.rows no es un array:", tempData.rows);
     tempData.rows = [];
   }
   // const [pageSize, setPageSize] = useState(5); // puedes cambiar 10 a cualquier valor inicial que desees
