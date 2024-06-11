@@ -10,7 +10,7 @@ import {
 type DeleteDialogProps = {
   open: boolean;
   handleClose: () => void;
-  handleConfirm: () => void;
+  handleConfirm: (row: IRow | null) => void;
 };
 
 export const DeleteDialog: React.FC<DeleteDialogProps> = ({
@@ -49,7 +49,7 @@ export const DeleteDialog: React.FC<DeleteDialogProps> = ({
           Cancelar
         </Button>
         <Button
-          onClick={handleConfirm}
+          onClick={() => handleConfirm(null)}
           color="primary"
           autoFocus
           style={{

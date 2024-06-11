@@ -9,8 +9,8 @@ import { editPurchase } from "../../../store/purchase/purchaseSlice";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 
 type ActionButtonsProps = {
-  id: IRow; // Cambiar el tipo de 'id' a 'IRow'
-  handleDelete: () => void;
+  id: IRow;
+  handleDelete: (row: IRow) => void; // Cambiar el tipo de 'handleDelete' a '(row: IRow) => void'
 };
 
 type TableRowDataProps = {
@@ -34,7 +34,6 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   const dispatch = useDispatch();
 
   const handleEdit = (data: IRow) => {
-    // Cambiar el tipo de 'data' a 'IRow'
     dispatch(editPurchase(data));
     navigate(`/register-out/`);
   };
@@ -42,24 +41,31 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   return (
     <Box>
       <EditIcon style={cursor} color="primary" onClick={() => handleEdit(id)} />{" "}
-      <DeleteIcon style={cursor} color="error" onClick={handleDelete} />
+      <DeleteIcon
+        style={cursor}
+        color="error"
+        onClick={() => handleDelete(id)}
+      />
     </Box>
   );
 };
 
 export const TableRowData: React.FC<TableRowDataProps> = ({ row, headers }) => {
   const [open, setOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<IRow | null>(null);
 
-  const handleDelete = () => {
+  const handleDelete = (selectedRow: IRow) => {
+    setSelectedRow(selectedRow);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleConfirm = () => {
-    console.log(row.ID);
+  const handleConfirm = (row: IRow) => {
+    if (row) {
+      console.log(row.ID);
+    }
     setOpen(false);
   };
 
@@ -76,7 +82,7 @@ export const TableRowData: React.FC<TableRowDataProps> = ({ row, headers }) => {
             </TableCell>
           ) : (
             <TableCell key={`${row.ID}-actions`}>
-              <ActionButtons id={row} handleDelete={handleDelete} />
+              <ActionButtons id={row} handleDelete={() => handleDelete(row)} />
             </TableCell>
           );
         })}
@@ -84,7 +90,11 @@ export const TableRowData: React.FC<TableRowDataProps> = ({ row, headers }) => {
       <DeleteDialog
         open={open}
         handleClose={handleClose}
-        handleConfirm={handleConfirm}
+        handleConfirm={() => {
+          if (selectedRow) {
+            handleConfirm(selectedRow);
+          }
+        }}
       />
     </>
   );
