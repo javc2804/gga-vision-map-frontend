@@ -46,10 +46,10 @@ export const InvoiceTotals: React.FC<InvoiceTotalsProps> = ({
       <Button
         variant="contained"
         color="primary"
-        onClick={handleSaveClick}
+        onClick={() => handleSaveClick(Object.keys(editPurchase).length !== 0)}
         disabled={isSaveButtonDisabled}
       >
-        Guardar
+        {Object.keys(editPurchase).length === 0 ? "Guardar" : "Editar"}
       </Button>
     </Box>
   );

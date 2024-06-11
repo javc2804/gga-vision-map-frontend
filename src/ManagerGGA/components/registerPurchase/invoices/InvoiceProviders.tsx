@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Grid, TextField, Autocomplete } from "@mui/material";
 import { Controller, Control } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateEditPurchase } from "../../../../store/purchase/purchaseSlice";
 
 interface Provider {
   id: string;
@@ -21,6 +22,7 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
   providers,
   setFormState,
 }) => {
+  const dispatch = useDispatch();
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
   const [facNDE, setFacNDE] = useState<number>(
@@ -29,6 +31,9 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
 
   const handleFacNDEChange = (e: any) => {
     setFacNDE(Number(e.target.value));
+    dispatch(
+      updateEditPurchase({ ...editPurchase, facNDE: Number(e.target.value) })
+    );
   };
 
   const handleFacNDEBlur = () => {
@@ -38,6 +43,7 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
   const handleProviderChange = (field: any, _: any, value: any) => {
     field.onChange(value);
     setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
+    dispatch(updateEditPurchase({ ...editPurchase, proveedor: value.name })); // Actualiza editPurchase
   };
 
   return (

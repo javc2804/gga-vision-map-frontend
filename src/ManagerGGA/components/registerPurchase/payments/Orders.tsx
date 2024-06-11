@@ -20,7 +20,6 @@ export const Orders: React.FC<Props> = ({
   setValues,
   trigger,
 }) => {
-  console.log(values);
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDateFns}>

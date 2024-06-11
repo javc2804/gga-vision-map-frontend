@@ -1,6 +1,9 @@
 import { useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { startSavePurchase } from "../../../store/purchase/purchaseThunks";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  startEditPurchase,
+  startSavePurchase,
+} from "../../../store/purchase/purchaseThunks";
 
 const useMultipleForm = (
   initialValuesInput: any,
@@ -78,85 +81,79 @@ const useMultipleForm = (
     },
     [setForms]
   );
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
-  const handleSaveClick = async () => {
+  const handleSaveClick = async (isEdit: boolean) => {
+    let result;
+
     const userEmail = localStorage.getItem("email");
-    const combinedForms = forms.map((form) => {
-      form.payment.facNDE = facNDE;
-      form.payment.proveedor = proveedor;
-      return {
-        id: form.id,
-        ...form.input,
-        ...form.payment,
-        user_rel: userEmail,
-        errors: form.errors,
-      };
-    });
-
-    let errorField = null;
-    const hasErrors = forms.some((form) => {
-      const requiredFields = [
-        "facNDE",
-        "proveedor",
-        "cantidad",
-        "montoTotalBs",
-        "montoTotalUsd",
-        "numeroOrdenPago",
-        "precioUnitarioBs",
-        "precioUnitarioUsd",
-        "tasaBcv",
-        "repuesto",
-        "descripcionRepuesto",
-        "fechaOcOs",
-      ];
-
-      return requiredFields.some((field) => {
-        const hasError = !form.payment[field] || form.payment[field] === null;
-        if (hasError) {
-          errorField = field;
-        }
-        return hasError;
+    if (!isEdit) {
+      const combinedForms = forms.map((form) => {
+        form.payment.facNDE = facNDE;
+        form.payment.proveedor = proveedor;
+        return {
+          id: form.id,
+          ...form.input,
+          ...form.payment,
+          user_rel: userEmail,
+          errors: form.errors,
+        };
       });
-    });
 
-    if (hasErrors) {
-      openSnackbar(
-        `Error al guardar, verifica el campo ${errorField}`,
-        "error",
-        ErrorOutline
-      );
-      return;
+      let errorField = null;
+      const hasErrors = forms.some((form) => {
+        const requiredFields = [
+          "facNDE",
+          "proveedor",
+          "cantidad",
+          "montoTotalBs",
+          "montoTotalUsd",
+          "numeroOrdenPago",
+          "precioUnitarioBs",
+          "precioUnitarioUsd",
+          "tasaBcv",
+          "repuesto",
+          "descripcionRepuesto",
+          "fechaOcOs",
+        ];
+
+        return requiredFields.some((field) => {
+          const hasError = !form.payment[field] || form.payment[field] === null;
+          if (hasError) {
+            errorField = field;
+          }
+          return hasError;
+        });
+      });
+
+      if (hasErrors) {
+        openSnackbar(
+          `Error al guardar, verifica el campo ${errorField}`,
+          "error",
+          ErrorOutline
+        );
+        return;
+      }
+
+      if (facNDE === "0" || "") {
+        openSnackbar(
+          `Error al guardar, Fac/NDE debe estar lleno y distinto a 0`,
+          "error",
+          ErrorOutline
+        );
+        return;
+      }
+      result = await dispatch(startSavePurchase(combinedForms));
+    } else {
+      const adjustedEditPurchase = {
+        ...editPurchase,
+        facNDE,
+        proveedor,
+        user_rel: userEmail,
+      };
+      result = await dispatch(startEditPurchase(adjustedEditPurchase));
     }
-    // const hasErrorsUt = forms.some((form) => {
-    //   const requiredFields = ["ut"];
 
-    //   return requiredFields.some((field) => {
-    //     const hasError = !form.input[field] || form.input[field] === null;
-    //     if (hasError) {
-    //       errorField = field;
-    //     }
-    //     return hasError;
-    //   });
-    // });
-
-    // if (hasErrorsUt) {
-    //   openSnackbar(
-    //     `Error al guardar, verifica el campo ${errorField}`,
-    //     "error",
-    //     ErrorOutline
-    //   );
-    //   return;
-    // }
-
-    if (facNDE === "0" || "") {
-      openSnackbar(
-        `Error al guardar, Fac/NDE debe estar lleno y distinto a 0`,
-        "error",
-        ErrorOutline
-      );
-      return;
-    }
-    const result = await dispatch(startSavePurchase(combinedForms));
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
       setIsSaveButtonDisabled(true);

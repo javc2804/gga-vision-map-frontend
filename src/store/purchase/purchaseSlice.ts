@@ -105,6 +105,9 @@ export const purchaseSlice = createSlice({
     editPurchaseClear: (state) => {
       state.purchaseEdit = {};
     },
+    updateEditPurchase: (state, { payload }) => {
+      state.purchaseEdit = payload;
+    },
   },
 });
 
@@ -129,6 +132,7 @@ export const {
   loadingClosePurchase,
   getImportLoading,
   modalImport,
+  updateEditPurchase,
 } = purchaseSlice.actions;
 
 export const selectPurchase = (state: RootState) => state.purchase.purchase;
