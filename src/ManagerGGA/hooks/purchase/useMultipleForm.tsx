@@ -147,8 +147,8 @@ const useMultipleForm = (
     } else {
       const adjustedEditPurchase = {
         ...editPurchase,
-        facNDE,
-        proveedor,
+        // facNDE,
+        // proveedor,
         user_rel: userEmail,
       };
       result = await dispatch(startEditPurchase(adjustedEditPurchase));

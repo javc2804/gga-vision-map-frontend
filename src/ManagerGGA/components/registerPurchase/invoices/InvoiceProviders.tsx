@@ -31,9 +31,12 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
 
   const handleFacNDEChange = (e: any) => {
     setFacNDE(Number(e.target.value));
-    dispatch(
-      updateEditPurchase({ ...editPurchase, facNDE: Number(e.target.value) })
-    );
+
+    if (Object.keys(editPurchase).length !== 0) {
+      dispatch(
+        updateEditPurchase({ ...editPurchase, facNDE: Number(e.target.value) })
+      );
+    }
   };
 
   const handleFacNDEBlur = () => {
@@ -43,7 +46,9 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
   const handleProviderChange = (field: any, _: any, value: any) => {
     field.onChange(value);
     setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
-    dispatch(updateEditPurchase({ ...editPurchase, proveedor: value.name })); // Actualiza editPurchase
+    if (Object.keys(editPurchase).length !== 0) {
+      dispatch(updateEditPurchase({ ...editPurchase, proveedor: value.name })); // Actualiza editPurchase
+    }
   };
 
   return (
