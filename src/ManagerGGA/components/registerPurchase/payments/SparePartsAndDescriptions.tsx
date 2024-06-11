@@ -16,9 +16,6 @@ export const SparePartsAndDescriptions = ({
   spareParts,
   sparePartVariants,
 }: SparePartsProps) => {
-  console.log(values);
-  console.log(spareParts);
-  console.log(sparePartVariants);
   return (
     <Grid container spacing={2} style={{ width: "40%" }}>
       <Grid item xs={12} sm={6} md={4}>
@@ -30,9 +27,11 @@ export const SparePartsAndDescriptions = ({
             <Autocomplete
               {...field}
               options={spareParts}
-              getOptionLabel={(option) => (option ? option.type : "")}
+              getOptionLabel={(option) =>
+                typeof option === "string" ? option : option.type
+              }
               isOptionEqualToValue={(option, value) =>
-                option.title === value.title
+                option.name === value.name
               }
               defaultValue={values.repuesto} // Añade esta línea
               renderInput={(params) => (
@@ -70,9 +69,11 @@ export const SparePartsAndDescriptions = ({
             <Autocomplete
               {...field}
               options={sparePartVariants}
-              getOptionLabel={(option) => (option ? option.variant : "")}
+              getOptionLabel={(option) =>
+                typeof option === "string" ? option : option.variant
+              }
               isOptionEqualToValue={(option, value) =>
-                option.title === value.title
+                option.name === value.name
               }
               defaultValue={values.descripcionRepuesto} // Añade esta línea
               renderInput={(params) => (
