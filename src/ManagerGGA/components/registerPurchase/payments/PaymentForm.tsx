@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { TextField, Box } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useSelector } from "react-redux";
 import { schema } from "../../../../helpers/validationsPaymentForm";
 import { useCalculations } from "../../../hooks/purchase/useCalculations";
 import { SparePartsAndDescriptions, Orders, PaymentFields } from "../..";
@@ -19,6 +20,15 @@ export const PaymentForm = ({
   sparePartVariants,
   onChange,
 }: PaymentFormProps) => {
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+
+  const [formValues, setFormValues] = useState(() => {
+    if (editPurchase && Object.keys(editPurchase).length !== 0) {
+      return editPurchase;
+    }
+    return initialValues;
+  });
+
   const {
     handleSubmit,
     control,
@@ -27,7 +37,7 @@ export const PaymentForm = ({
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: initialValues,
+    defaultValues: formValues,
   });
 
   const {
@@ -38,7 +48,7 @@ export const PaymentForm = ({
     calculateTasaBcv,
   } = useCalculations();
 
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(formValues);
 
   const lastValuesRef = useRef(values);
 
@@ -51,6 +61,7 @@ export const PaymentForm = ({
       lastValuesRef.current = values;
     }
   }, [values, onChange, errors]);
+
   const onSubmit = (data: any) => {
     if (typeof onChange === "function") {
       onChange(data, errors);

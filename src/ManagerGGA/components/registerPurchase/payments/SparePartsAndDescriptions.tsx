@@ -16,6 +16,9 @@ export const SparePartsAndDescriptions = ({
   spareParts,
   sparePartVariants,
 }: SparePartsProps) => {
+  console.log(values);
+  console.log(spareParts);
+  console.log(sparePartVariants);
   return (
     <Grid container spacing={2} style={{ width: "40%" }}>
       <Grid item xs={12} sm={6} md={4}>
@@ -31,6 +34,7 @@ export const SparePartsAndDescriptions = ({
               isOptionEqualToValue={(option, value) =>
                 option.title === value.title
               }
+              defaultValue={values.repuesto} // Añade esta línea
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -70,6 +74,7 @@ export const SparePartsAndDescriptions = ({
               isOptionEqualToValue={(option, value) =>
                 option.title === value.title
               }
+              defaultValue={values.descripcionRepuesto} // Añade esta línea
               renderInput={(params) => (
                 <TextField
                   {...params}
