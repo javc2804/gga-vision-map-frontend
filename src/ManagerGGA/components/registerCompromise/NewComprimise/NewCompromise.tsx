@@ -136,25 +136,29 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
             sparePartVariants={sparePartVariants}
           />
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            {forms.length > 1 && (
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => handleRemoveClick(form.id)}
-                sx={{ mr: 1 }}
-              >
-                Borrar
-              </Button>
-            )}
-            {index === forms.length - 1 && (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleAddClick}
-              >
-                Agregar
-              </Button>
-            )}
+            {editPurchase &&
+              Object.keys(editPurchase).length === 0 &&
+              forms.length > 1 && (
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleRemoveClick(form.id)}
+                  sx={{ mr: 1 }}
+                >
+                  Borrar
+                </Button>
+              )}
+            {editPurchase &&
+              Object.keys(editPurchase).length === 0 &&
+              index === forms.length - 1 && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleAddClick}
+                >
+                  Agregar
+                </Button>
+              )}
           </Box>
         </Box>
       ))}
