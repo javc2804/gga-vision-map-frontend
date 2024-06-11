@@ -7,6 +7,7 @@ import {
   startExport,
   startImport,
   startHandleSearch,
+  startDownload,
 } from "../../../store/purchase/purchaseThunks";
 
 interface FiltersProps {
@@ -29,8 +30,11 @@ export const Filters: React.FC<FiltersProps> = ({
   const dispatch = useDispatch();
 
   const handleExport = () => {
-    console.log(filters, dateRange[0], dateRange[1]);
     dispatch(startExport(filters, dateRange[0], dateRange[1]));
+  };
+
+  const handleDownload = () => {
+    dispatch(startDownload());
   };
 
   const handleSearch = useCallback(
@@ -179,11 +183,23 @@ export const Filters: React.FC<FiltersProps> = ({
             </Button>
             <Button
               variant="contained"
-              style={{ backgroundColor: "#f5447a", color: "#fff" }}
+              style={{
+                marginRight: "1%",
+                backgroundColor: "#f5447a",
+                color: "#fff",
+              }}
               component="label" // Esto permitirá que el botón funcione como un input de tipo "file"
             >
               Importar
               <input type="file" hidden onChange={handleFileUpload} />
+            </Button>
+            <Button
+              onClick={handleDownload}
+              variant="contained"
+              color="primary"
+              component="label"
+            >
+              Descargar Plantilla
             </Button>
           </div>
         </>

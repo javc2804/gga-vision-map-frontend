@@ -264,3 +264,17 @@ export const startImport =
       console.error(error);
     }
   };
+export const startDownload = (): any => async (dispatch: any) => {
+  try {
+    dispatch(getImportLoading());
+    const imp = await purchaseService.getTemplateDownload();
+
+    if (imp.ok) {
+      // dispatch(loadingClosePurchase());
+      // dispatch(modalImport(true));
+    }
+    // dispatch({ type: START_IMPORT, payload: imp });
+  } catch (error) {
+    console.error(error);
+  }
+};
