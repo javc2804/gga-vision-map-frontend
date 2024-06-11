@@ -72,6 +72,7 @@ export const RegisterPurchase: React.FC<RegisterPurchaseProps> = ({
 }) => {
   // console.log(params);
   const dispatch = useAppDispatch();
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
   const { control } = useForm();
 
@@ -156,15 +157,16 @@ export const RegisterPurchase: React.FC<RegisterPurchaseProps> = ({
                 Borrar
               </Button>
             )}
-            {index === forms.length - 1 && (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleAddClick}
-              >
-                Agregar
-              </Button>
-            )}
+            {Object.keys(editPurchase).length === 0 &&
+              index === forms.length - 1 && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleAddClick}
+                >
+                  Agregar
+                </Button>
+              )}
           </Box>
         </Box>
       ))}
