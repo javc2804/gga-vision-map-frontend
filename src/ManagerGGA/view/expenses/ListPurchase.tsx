@@ -164,14 +164,14 @@ export const ListPurchase = () => {
     page,
     rowsPerPage
   );
-  let tempData = data;
-  if (!tempData) {
-    // console.error("data es undefined o null");
-    tempData = { rows: [] };
-  } else if (!tempData.rows || !Array.isArray(tempData.rows)) {
-    // console.error("data.rows no es un array:", tempData.rows);
-    tempData.rows = [];
-  }
+  // let tempData = data;
+  // if (!tempData) {
+  //   // console.error("data es undefined o null");
+  //   tempData = { rows: [] };
+  // } else if (!tempData.rows || !Array.isArray(tempData.rows)) {
+  //   console.log("data.rows no es un array:", tempData);
+  //   tempData.rows = [];
+  // }
   // const [pageSize, setPageSize] = useState(5); // puedes cambiar 10 a cualquier valor inicial que desees
   const loading = useSelector((state: any) => state.purchase.loading);
   const summary = useSelector((state: any) => state.purchase.summary);
