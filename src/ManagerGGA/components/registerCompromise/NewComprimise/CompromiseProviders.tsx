@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, TextField, Autocomplete } from "@mui/material";
 import { Controller, Control } from "react-hook-form";
+import { useSelector } from "react-redux";
 
 interface Provider {
   id: string;
@@ -26,6 +27,18 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
 }) => {
   const [nde, setnde] = useState<number>(0);
   const [compromiso, setCompromiso] = useState("");
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+  useEffect(() => {
+    if (editPurchase && Object.keys(editPurchase).length !== 0) {
+      console.log(editPurchase);
+      setnde(editPurchase.facNDE);
+      setCompromiso(editPurchase.compromiso);
+      setFormState((prevState) => ({
+        ...prevState,
+        proveedor: editPurchase.proveedor,
+      }));
+    }
+  }, [editPurchase]);
 
   const handlendeChange = (e: any) => {
     setnde(Number(e.target.value));
@@ -52,6 +65,7 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
         <TextField
           label="NDE"
           variant="outlined"
+          value={nde} // Agrega esta línea
           onChange={handlendeChange}
           onBlur={handlendeBlur}
           fullWidth
@@ -61,6 +75,7 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
         <TextField
           label="Compromiso"
           variant="outlined"
+          value={compromiso} // Agrega esta línea
           onChange={handleCompromisoChange}
           onBlur={handleCompromisoBlur}
           fullWidth

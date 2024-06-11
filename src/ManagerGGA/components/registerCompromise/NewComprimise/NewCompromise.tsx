@@ -18,7 +18,6 @@ import useMultipleFormCompromise from "../../../hooks/compromises/useMultipleFor
 
 interface RegisterPurchaseProps {
   selectedValue: string;
-  params: any;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -60,10 +59,10 @@ const boxStyles = {
   boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.45)",
 };
 
-export const NewCompromise: React.FC<RegisterPurchaseProps> = ({ params }) => {
-  console.log(params);
+export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
   const dispatch = useAppDispatch();
 
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
   const { control } = useForm();
 
   const [formState, setFormState] = useState<{
@@ -107,6 +106,19 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = ({ params }) => {
   useEffect(() => {
     dispatch(startGetPurchase());
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   if (editPurchase && Object.keys(editPurchase).length !== 0) {
+  //     console.log(editPurchase);
+  //     setFormState({
+  //       nde: editPurchase.facNDE,
+  //       compromiso: editPurchase.compromiso,
+  //       proveedor: editPurchase.proveedor,
+  //     });
+  //     // setTotalFactUsd(editPurchase.montoTotalUsd);
+  //     // Aquí puedes agregar más campos si es necesario
+  //   }
+  // }, [editPurchase]);
 
   return (
     <>

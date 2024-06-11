@@ -21,7 +21,7 @@ export const InvoiceTotalsCompromises: React.FC<InvoiceTotalsProps> = ({
       label="Total deuda $"
       variant="outlined"
       sx={{ mr: 1 }}
-      value={totalFactUsd.toString()}
+      value={totalFactUsd ? totalFactUsd.toString() : ""}
       onChange={(e) => setTotalFactUsd(Number(e.target.value))}
     />
 
