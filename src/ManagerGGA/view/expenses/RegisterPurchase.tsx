@@ -17,6 +17,7 @@ import InvoiceProviders from "../../components/registerPurchase/invoices/Invoice
 interface RegisterPurchaseProps {
   selectedValue: string;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+  params: any; // Asegúrate de reemplazar 'any' con el tipo correcto
 }
 
 interface Provider {
@@ -66,8 +67,10 @@ const boxStyles = {
   borderRadius: 4,
   boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.45)",
 };
-
-export const RegisterPurchase: React.FC<RegisterPurchaseProps> = () => {
+export const RegisterPurchase: React.FC<RegisterPurchaseProps> = ({
+  params,
+}) => {
+  console.log(params);
   const dispatch = useAppDispatch();
 
   const { control } = useForm();

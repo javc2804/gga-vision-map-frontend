@@ -52,6 +52,7 @@ export const RegisterOutPage = () => {
               <RegisterPurchase
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
+                params={params}
               />
             ) : (
               <RegisterCompromise
@@ -64,6 +65,7 @@ export const RegisterOutPage = () => {
               <RegisterPurchase
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
+                params={{}}
               />
             ) : (
               <RegisterCompromise
