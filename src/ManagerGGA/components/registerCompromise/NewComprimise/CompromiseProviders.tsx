@@ -27,19 +27,24 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
 }) => {
   const [nde, setnde] = useState<number>(0);
   const [compromiso, setCompromiso] = useState("");
+  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(
+    null
+  );
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
   useEffect(() => {
     if (editPurchase && Object.keys(editPurchase).length !== 0) {
-      console.log(editPurchase);
       setnde(editPurchase.facNDE);
       setCompromiso(editPurchase.compromiso);
+      const foundProvider = providers.find(
+        (provider) => provider.name === editPurchase.proveedor
+      );
+      setSelectedProvider(foundProvider || null);
       setFormState((prevState) => ({
         ...prevState,
         proveedor: editPurchase.proveedor,
       }));
     }
   }, [editPurchase]);
-
   const handlendeChange = (e: any) => {
     setnde(Number(e.target.value));
   };
@@ -94,7 +99,7 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
               onChange={(event, value) =>
                 handleProviderChange(field, event, value)
               }
-              value={field.value || null} // Asegúrate de que el valor no sea undefined
+              value={selectedProvider} // Asegúrate de que el valor no sea undefined
               renderInput={(params) => (
                 <TextField
                   {...params}
