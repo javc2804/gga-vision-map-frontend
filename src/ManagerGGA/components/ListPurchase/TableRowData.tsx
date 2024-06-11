@@ -6,10 +6,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { editPurchase } from "../../../store/purchase/purchaseSlice";
-import { DeleteDialog } from "../../../components/DeleteDialog"; // Asegúrate de importar el componente DeleteDialog
+import { DeleteDialog } from "../../../components/DeleteDialog";
 
 type ActionButtonsProps = {
-  id: any;
+  id: IRow; // Cambiar el tipo de 'id' a 'IRow'
   handleDelete: () => void;
 };
 
@@ -32,14 +32,16 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleEdit = (data: any) => {
+
+  const handleEdit = (data: IRow) => {
+    // Cambiar el tipo de 'data' a 'IRow'
     dispatch(editPurchase(data));
     navigate(`/register-out/`);
   };
 
   return (
     <Box>
-      <EditIcon style={cursor} color="primary" onClick={() => handleEdit(id)} />
+      <EditIcon style={cursor} color="primary" onClick={() => handleEdit(id)} />{" "}
       <DeleteIcon style={cursor} color="error" onClick={handleDelete} />
     </Box>
   );
@@ -69,7 +71,7 @@ export const TableRowData: React.FC<TableRowDataProps> = ({ row, headers }) => {
           return dataKey !== "acciones" ? (
             <TableCell key={`${row.ID}-${index}`}>
               {dataKey === "createdAt"
-                ? new Date(row[dataKey]).toLocaleDateString("en-GB") // Formatear la fecha si la clave de los datos es 'createdAt'
+                ? new Date(row[dataKey]).toLocaleDateString("en-GB")
                 : row[dataKey]}
             </TableCell>
           ) : (
