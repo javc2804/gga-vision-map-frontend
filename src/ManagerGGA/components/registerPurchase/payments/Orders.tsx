@@ -20,6 +20,7 @@ export const Orders: React.FC<Props> = ({
   setValues,
   trigger,
 }) => {
+  console.log(values);
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -51,12 +52,12 @@ export const Orders: React.FC<Props> = ({
             <DatePicker
               id="fechaOcOs"
               label="Fecha OC/OS"
-              value={value}
+              value={value ? new Date(value) : null} // Convierte la cadena a un objeto Date
               onChange={(date) => {
                 onChange(date);
                 setValues({
                   ...values,
-                  fechaOcOs: format(date, "yyyy-MM-dd"),
+                  fechaOcOs: date,
                 });
               }}
               format="dd/MM/yyyy"
