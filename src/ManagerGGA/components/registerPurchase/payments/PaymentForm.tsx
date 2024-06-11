@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { TextField, Box } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { schema } from "../../../../helpers/validationsPaymentForm";
 import { useCalculations } from "../../../hooks/purchase/useCalculations";
 import { SparePartsAndDescriptions, Orders, PaymentFields } from "../..";
+import { updateEditPurchase } from "../../../../store/purchase/purchaseSlice";
 
 interface PaymentFormProps {
   initialValues: any;
@@ -21,7 +22,7 @@ export const PaymentForm = ({
   onChange,
 }: PaymentFormProps) => {
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
-
+  const dispatch = useDispatch();
   const [formValues, setFormValues] = useState(() => {
     if (editPurchase && Object.keys(editPurchase).length !== 0) {
       return editPurchase;
@@ -57,6 +58,9 @@ export const PaymentForm = ({
       typeof onChange === "function" &&
       JSON.stringify(values) !== JSON.stringify(lastValuesRef.current)
     ) {
+      if (Object.keys(editPurchase).length !== 0) {
+        dispatch(updateEditPurchase({ ...editPurchase, ...values }));
+      }
       onChange(values, errors);
       lastValuesRef.current = values;
     }

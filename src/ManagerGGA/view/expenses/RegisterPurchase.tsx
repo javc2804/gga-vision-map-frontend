@@ -67,9 +67,11 @@ const boxStyles = {
   borderRadius: 4,
   boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.45)",
 };
-export const RegisterPurchase: React.FC<RegisterPurchaseProps> = ({
-  params,
-}) => {
+export const RegisterPurchase: React.FC<RegisterPurchaseProps> = (
+  {
+    // params,
+  }
+) => {
   // console.log(params);
   const dispatch = useAppDispatch();
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
