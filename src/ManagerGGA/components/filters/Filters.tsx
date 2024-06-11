@@ -57,7 +57,7 @@ export const Filters: React.FC<FiltersProps> = ({
   };
 
   const modal = useSelector((state: any) => state.purchase.modal);
-  console.log(modal);
+  // console.log(modal);
 
   return (
     <>

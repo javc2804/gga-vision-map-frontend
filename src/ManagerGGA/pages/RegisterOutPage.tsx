@@ -10,11 +10,14 @@ import { useParams } from "react-router-dom";
 
 export const RegisterOutPage = () => {
   const { params } = useParams<{ params?: any }>();
+  const compromiso = params ? JSON.parse(params).compromiso : null;
+  const [selectedValue, setSelectedValue] = useState(
+    compromiso === null ? "purchase" : "compromise"
+  );
+
   useEffect(() => {
     console.log(params);
   }, [params]);
-
-  const [selectedValue, setSelectedValue] = useState("purchase");
 
   const handleChange = (event: any) => {
     setSelectedValue(event.target.value);
@@ -43,17 +46,33 @@ export const RegisterOutPage = () => {
         />
       </RadioGroup>
       <Box sx={{ overflowY: "auto", maxHeight: "calc(100vh - 200px)" }}>
-        {JSON.parse(params).compromiso === null ? (
-          <RegisterPurchase
-            selectedValue={selectedValue}
-            setSelectedValue={setSelectedValue}
-          />
-        ) : (
-          <RegisterCompromise
-            selectedValue={selectedValue}
-            setSelectedValue={setSelectedValue}
-          />
-        )}
+        {(() => {
+          if (params) {
+            return compromiso === null ? (
+              <RegisterPurchase
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+              />
+            ) : (
+              <RegisterCompromise
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+              />
+            );
+          } else {
+            return selectedValue === "purchase" ? (
+              <RegisterPurchase
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+              />
+            ) : (
+              <RegisterCompromise
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+              />
+            );
+          }
+        })()}
       </Box>
     </ManagerGGALayout>
   );
