@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 
 export const RegisterOutPage = () => {
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
-  console.log(editPurchase);
   const compromiso = editPurchase ? editPurchase.compromiso : null;
   const [selectedValue, setSelectedValue] = useState(() => {
     if (editPurchase && Object.keys(editPurchase).length !== 0) {
@@ -20,7 +19,7 @@ export const RegisterOutPage = () => {
   });
 
   useEffect(() => {
-    console.log(editPurchase);
+    // console.log(editPurchase);
   }, [editPurchase]);
 
   const handleChange = (event: any) => {
