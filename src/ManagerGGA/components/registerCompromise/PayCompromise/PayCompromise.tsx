@@ -9,8 +9,6 @@ import { Button, Box } from "@mui/material";
 import { startGetCompromise } from "../../../../store/compromises/compromisesThunk";
 import { useSnackbar } from "../../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
-import { useParams } from "react-router-dom";
-
 import InvoiceProviderPay from "./viewCompromise/viewComponentsCompromise/InvoiceProviderPay";
 import ViewCompromise from "./viewCompromise/ViewCompromise";
 import InvoiceTotalsCompromisesPay from "./viewCompromise/viewComponentsCompromise/InvoiceTotalsCompromisesPay";
@@ -20,7 +18,6 @@ import Loading from "../../../../components/Loading";
 
 interface RegisterPurchaseProps {
   selectedValue: string;
-  params: any;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -72,16 +69,15 @@ const boxStyles = {
   boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.45)",
 };
 
-export const PayCompromise: React.FC<RegisterPurchaseProps> = ({ params }) => {
-  console.log(params);
+export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
   const dispatch = useAppDispatch();
-  const { id } = useParams<{ id: string }>();
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
   useEffect(() => {
-    if (id) {
-      dispatch(startGetCompromise(id));
+    if (editPurchase && editPurchase.id) {
+      dispatch(startGetCompromise(editPurchase.id));
     }
-  }, [dispatch, id]);
+  }, [dispatch, editPurchase]);
   const resp = useSelector((state: any) => state.compromises);
   const isLoading = useSelector((state: any) => state.compromises.loading);
   const { compromise } = resp;

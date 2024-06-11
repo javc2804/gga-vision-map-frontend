@@ -48,7 +48,7 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
   calculateTasaBcv,
   compromise,
 }) => {
-  // console.log(compromise);
+  console.log(compromise);
   return (
     <>
       <Controller
@@ -129,11 +129,6 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
             variant="outlined"
             error={!!errors.tasaBcv}
             helperText={errors.tasaBcv?.message}
-            value={
-              compromise && compromise.response
-                ? compromise.response.precioUnitarioUsd
-                : 0
-            } // Aquí es donde se establece el valor
             onChange={(event) => {
               field.onChange(event);
               trigger("tasaBcv");
@@ -161,21 +156,11 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
             label="Precio unitario $"
             variant="outlined"
             error={!!errors.precioUnitarioUsd}
-            disabled
             helperText={errors.precioUnitarioUsd?.message}
             value={compromise?.response?.precioUnitarioUsd} // Aquí es donde se establece el valor
             onChange={(event) => {
               field.onChange(event);
               trigger("precioUnitarioUsd");
-              const newPrecioUnitarioUsd = Number(event.target.value);
-              const newPrecioUnitarioBs =
-                Number(values.tasaBcv) * newPrecioUnitarioUsd;
-              setValues({
-                ...values,
-                precioUnitarioUsd: newPrecioUnitarioUsd.toString(),
-                precioUnitarioBs: newPrecioUnitarioBs.toString(),
-              });
-              setValue("precioUnitarioBs", newPrecioUnitarioBs);
             }}
           />
         )}
