@@ -27,9 +27,11 @@ export const SparePartsAndDescriptionsCompromise = ({
             <Autocomplete
               {...field}
               options={spareParts}
-              getOptionLabel={(option) => (option ? option.type : "")}
+              getOptionLabel={(option) =>
+                typeof option === "string" ? option : option.type
+              }
               isOptionEqualToValue={(option, value) =>
-                option.title === value.title
+                option.name === value.name
               }
               renderInput={(params) => (
                 <TextField
@@ -66,9 +68,11 @@ export const SparePartsAndDescriptionsCompromise = ({
             <Autocomplete
               {...field}
               options={sparePartVariants}
-              getOptionLabel={(option) => (option ? option.variant : "")}
+              getOptionLabel={(option) =>
+                typeof option === "string" ? option : option.type
+              }
               isOptionEqualToValue={(option, value) =>
-                option.title === value.title
+                option.name === value.name
               }
               renderInput={(params) => (
                 <TextField

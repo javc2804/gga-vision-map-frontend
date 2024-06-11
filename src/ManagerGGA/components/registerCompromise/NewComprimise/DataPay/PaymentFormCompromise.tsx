@@ -7,6 +7,7 @@ import { useCalculations } from "../../../../hooks/purchase/useCalculations";
 import PaymentFieldsCompromise from "./PaymentFieldsCompromise";
 import OrdersCompromise from "./OrdersCompromise";
 import SparePartsAndDescriptionsCompromise from "./SparePartsAndDescriptionsCompromise";
+import { useSelector } from "react-redux";
 
 interface PaymentFormProps {
   initialValues: any;
@@ -32,6 +33,8 @@ export const PaymentFormCompromise = ({
     defaultValues: initialValues,
   });
 
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+
   const {
     calculatePrecioUnitarioUsd,
     calculateMontoTotalBs,
@@ -42,6 +45,14 @@ export const PaymentFormCompromise = ({
   const [values, setValues] = useState(initialValues);
 
   const lastValuesRef = useRef(values);
+
+  useEffect(() => {
+    if (editPurchase && Object.keys(editPurchase).length !== 0) {
+      Object.keys(editPurchase).forEach((key) => {
+        setValue(key, editPurchase[key]);
+      });
+    }
+  }, [editPurchase, setValue]);
 
   useEffect(() => {
     if (

@@ -51,7 +51,7 @@ export const OrdersCompromise: React.FC<Props> = ({
             <DatePicker
               id="fechaOcOs"
               label="Fecha OC/OS"
-              value={value}
+              value={value ? new Date(value) : null} // Convierte la cadena a un objeto Date
               onChange={(date) => {
                 onChange(date);
                 setValues({
