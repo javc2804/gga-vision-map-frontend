@@ -7,7 +7,8 @@ import { useCalculations } from "../../../../hooks/purchase/useCalculations";
 import PaymentFieldsCompromise from "./PaymentFieldsCompromise";
 import OrdersCompromise from "./OrdersCompromise";
 import SparePartsAndDescriptionsCompromise from "./SparePartsAndDescriptionsCompromise";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateEditPurchase } from "../../../../../store/purchase/purchaseSlice";
 
 interface PaymentFormProps {
   initialValues: any;
@@ -22,6 +23,14 @@ export const PaymentFormCompromise = ({
   sparePartVariants,
   onChange,
 }: PaymentFormProps) => {
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+  const dispatch = useDispatch();
+  const [formValues, setFormValues] = useState(() => {
+    if (editPurchase && Object.keys(editPurchase).length !== 0) {
+      return editPurchase;
+    }
+    return initialValues;
+  });
   const {
     handleSubmit,
     control,
@@ -30,10 +39,8 @@ export const PaymentFormCompromise = ({
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: initialValues,
+    defaultValues: formValues,
   });
-
-  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
   const {
     calculatePrecioUnitarioUsd,
@@ -41,8 +48,7 @@ export const PaymentFormCompromise = ({
     calculateMontoTotalUsd,
     calculateTasaBcv,
   } = useCalculations();
-
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(formValues);
 
   const lastValuesRef = useRef(values);
 
@@ -59,10 +65,14 @@ export const PaymentFormCompromise = ({
       typeof onChange === "function" &&
       JSON.stringify(values) !== JSON.stringify(lastValuesRef.current)
     ) {
+      if (Object.keys(editPurchase).length !== 0) {
+        dispatch(updateEditPurchase({ ...editPurchase, ...values }));
+      }
       onChange(values, errors);
       lastValuesRef.current = values;
     }
   }, [values, onChange, errors]);
+
   const onSubmit = (data: any) => {
     if (typeof onChange === "function") {
       onChange(data, errors);

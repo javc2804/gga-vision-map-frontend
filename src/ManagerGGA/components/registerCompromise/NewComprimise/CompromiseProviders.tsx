@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Grid, TextField, Autocomplete } from "@mui/material";
 import { Controller, Control } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateEditPurchase } from "../../../../store/purchase/purchaseSlice";
 
 interface Provider {
   id: string;
@@ -30,6 +31,9 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(
     null
   );
+
+  const dispatch = useDispatch();
+
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
   useEffect(() => {
     if (editPurchase && Object.keys(editPurchase).length !== 0) {
@@ -47,9 +51,19 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
   }, [editPurchase]);
   const handlendeChange = (e: any) => {
     setnde(Number(e.target.value));
+    if (Object.keys(editPurchase).length !== 0) {
+      dispatch(
+        updateEditPurchase({ ...editPurchase, facNDE: Number(e.target.value) })
+      );
+    }
   };
   const handleCompromisoChange = (e: any) => {
     setCompromiso(e.target.value);
+    if (Object.keys(editPurchase).length !== 0) {
+      dispatch(
+        updateEditPurchase({ ...editPurchase, compromiso: e.target.value })
+      );
+    }
   };
 
   const handlendeBlur = () => {
@@ -62,6 +76,9 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
   const handleProviderChange = (field: any, _: any, value: any) => {
     field.onChange(value);
     setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
+    if (Object.keys(editPurchase).length !== 0) {
+      dispatch(updateEditPurchase({ ...editPurchase, proveedor: value.name })); // Actualiza editPurchase
+    }
   };
 
   return (

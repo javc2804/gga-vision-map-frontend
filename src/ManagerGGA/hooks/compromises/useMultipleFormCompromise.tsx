@@ -1,6 +1,9 @@
 import { useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { startSaveCompromise } from "../../../store/purchase/purchaseThunks";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  startEditPurchase,
+  startSaveCompromise,
+} from "../../../store/purchase/purchaseThunks";
 
 const useMultipleFormCompromise = (
   initialValuesPayment: any,
@@ -79,65 +82,74 @@ const useMultipleFormCompromise = (
     },
     [setForms]
   );
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
-  const handleSaveClick = async () => {
+  const handleSaveClick = async (isEdit: boolean) => {
+    let result;
     const userEmail = localStorage.getItem("email");
-    const combinedForms = forms.map((form) => {
-      form.payment.nde = nde;
-      form.payment.proveedor = proveedor;
-      form.payment.compromiso = compromiso;
-
-      return {
-        id: form.id,
-        ...form.payment,
-        user_rel: userEmail,
-        errors: form.errors,
-      };
-    });
-
-    let errorField = null;
-    const hasErrors = forms.some((form) => {
-      const requiredFields = [
-        "nde",
-        "compromiso",
-        "proveedor",
-        "cantidad",
-        "montoTotalUsd",
-        "numeroOrdenPago",
-        "precioUnitarioUsd",
-        "repuesto",
-        "descripcionRepuesto",
-        "fechaOcOs",
-      ];
-
-      return requiredFields.some((field) => {
-        const hasError = !form.payment[field] || form.payment[field] === null;
-        if (hasError) {
-          errorField = field;
-        }
-        return hasError;
+    if (!isEdit) {
+      const combinedForms = forms.map((form) => {
+        form.payment.nde = nde;
+        form.payment.proveedor = proveedor;
+        form.payment.compromiso = compromiso;
+        return {
+          id: form.id,
+          ...form.payment,
+          user_rel: userEmail,
+          errors: form.errors,
+        };
       });
-    });
 
-    if (hasErrors) {
-      openSnackbar(
-        `Error al guardar, verifica el campo ${errorField}`,
-        "error",
-        ErrorOutline
-      );
-      return;
+      let errorField = null;
+      const hasErrors = forms.some((form) => {
+        const requiredFields = [
+          "nde",
+          "compromiso",
+          "proveedor",
+          "cantidad",
+          "montoTotalUsd",
+          "numeroOrdenPago",
+          "precioUnitarioUsd",
+          "repuesto",
+          "descripcionRepuesto",
+          "fechaOcOs",
+        ];
+
+        return requiredFields.some((field) => {
+          const hasError = !form.payment[field] || form.payment[field] === null;
+          if (hasError) {
+            errorField = field;
+          }
+          return hasError;
+        });
+      });
+
+      if (hasErrors) {
+        openSnackbar(
+          `Error al guardar, verifica el campo ${errorField}`,
+          "error",
+          ErrorOutline
+        );
+        return;
+      }
+
+      if (nde === "0" || "") {
+        openSnackbar(
+          `Error al guardar, NDE debe estar lleno y distinto a 0`,
+          "error",
+          ErrorOutline
+        );
+        result = await dispatch(startSaveCompromise(combinedForms));
+        return;
+      }
+    } else {
+      const adjustedEditPurchase = {
+        ...editPurchase,
+        user_rel: userEmail,
+      };
+      result = await dispatch(startEditPurchase(adjustedEditPurchase));
     }
 
-    if (nde === "0" || "") {
-      openSnackbar(
-        `Error al guardar, NDE debe estar lleno y distinto a 0`,
-        "error",
-        ErrorOutline
-      );
-      return;
-    }
-
-    const result = await dispatch(startSaveCompromise(combinedForms));
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
       setIsSaveButtonDisabled(true);
