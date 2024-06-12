@@ -285,10 +285,12 @@ export const startGraphsOut =
     const { filters, startDate, endDate } = purchaseData;
 
     const compromiseData = {
-      // ...filters,
+      ...filters,
       startDate,
       endDate,
     };
+
+    console.log(purchaseData);
 
     // dispatch(getPurchaseStart());
 

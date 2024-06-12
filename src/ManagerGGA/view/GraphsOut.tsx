@@ -12,6 +12,7 @@ import {
   Cell,
 } from "recharts";
 import { startGraphsOut } from "../../store/purchase/purchaseThunks";
+import FiltersGraph from "../components/filters/FiltersGraph";
 
 const originalConsoleError = console.error;
 
@@ -71,6 +72,50 @@ const GraphsOut = () => {
     }
   );
 
+  const headers = [
+    "id",
+    "createdAt",
+    "facNDE",
+    "proveedor",
+    "ut",
+    // "marcaModelo",
+    "eje",
+    // "subeje",
+    "cantidad",
+    "formaPago",
+    "compromiso",
+    // "descripcion",
+    "repuesto",
+    "descripcionRepuesto",
+    "montoTotalBs",
+    "montoTotalUsd",
+    "deudaTotalUsd",
+    "tasaBcv",
+    "ndeAlmacen",
+    // "fechaOcOs",
+    // "numeroOrdenPago",
+    // "observacion",
+    // "ocOs",
+    // "precioUnitarioBs",
+    // "precioUnitarioUsd",
+    // "updatedAt",
+    // "user_rel",
+    "Acciones",
+  ];
+  // const filters = {};
+  const [filters, setFilters] = useState({});
+
+  const clearFilters = () => console.log("Filters cleared");
+  const updateFilter = (field: string, value: any) => {
+    setFilters({
+      ...filters,
+      [field]: value,
+    });
+  };
+
+  const onSearch = () => {
+    dispatch(startGraphsOut({ filters: filters, startDate, endDate }));
+  };
   return (
     <div
       style={{
@@ -81,6 +126,15 @@ const GraphsOut = () => {
         height: "90vh",
       }}
     >
+      <FiltersGraph
+        headers={headers}
+        filters={filters}
+        dateRange={dateRange}
+        setDateRange={setDateRange}
+        clearFilters={clearFilters}
+        updateFilter={updateFilter}
+        onSearch={onSearch}
+      />
       <h2 style={{ textAlign: "center", fontSize: "32px" }}>General</h2>
       <ComposedChart
         width={1300}
