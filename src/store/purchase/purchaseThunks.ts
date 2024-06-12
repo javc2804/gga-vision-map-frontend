@@ -9,6 +9,7 @@ import {
   loadingClosePurchase,
   getImportLoading,
   modalImport,
+  getDataGraph,
 } from "./purchaseSlice";
 import { purchaseService } from "../../api/purchaseService";
 import {
@@ -278,3 +279,33 @@ export const startDownload = (): any => async (dispatch: any) => {
     console.error(error);
   }
 };
+export const startGraphsOut =
+  (purchaseData: any): any =>
+  async (dispatch: AppDispatch) => {
+    const { filters, startDate, endDate } = purchaseData;
+
+    const compromiseData = {
+      // ...filters,
+      startDate,
+      endDate,
+    };
+
+    // dispatch(getPurchaseStart());
+
+    try {
+      const result = await purchaseService.getDataGraphsOut(compromiseData);
+      if (result.ok) {
+        dispatch(getDataGraph(result.response));
+      } else {
+        dispatch(getPurchaseFailure(result.response));
+      }
+      return result;
+    } catch (error: any) {
+      if (error instanceof Error) {
+        dispatch(getPurchaseFailure(error.message));
+      } else {
+        dispatch(getPurchaseFailure("An unknown error occurred."));
+      }
+      return { ok: false, response: error.message };
+    }
+  };

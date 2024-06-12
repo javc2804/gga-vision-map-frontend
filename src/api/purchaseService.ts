@@ -145,4 +145,17 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  getDataGraphsOut: (compromiseData: any) => {
+    return API_URL.get(`graphs-out`, {
+      params: {
+        ...compromiseData,
+      },
+    })
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
 };

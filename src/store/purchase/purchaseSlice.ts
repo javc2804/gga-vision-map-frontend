@@ -16,6 +16,7 @@ interface PurchaseState {
   filters: any;
   summary: any;
   modal: any;
+  graph: any;
 }
 
 const initialState: PurchaseState = {
@@ -33,6 +34,7 @@ const initialState: PurchaseState = {
   filters: {},
   summary: {},
   modal: false,
+  graph: {},
 };
 
 export const purchaseSlice = createSlice({
@@ -108,10 +110,14 @@ export const purchaseSlice = createSlice({
     updateEditPurchase: (state, { payload }) => {
       state.purchaseEdit = payload;
     },
+    getDataGraph: (state, { payload }) => {
+      state.graph = payload;
+    },
   },
 });
 
 export const {
+  getDataGraph,
   editPurchase,
   editPurchaseClear,
   getPurchaseStart,
