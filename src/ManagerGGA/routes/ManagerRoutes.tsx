@@ -3,6 +3,7 @@ import { ManagerGGAPage } from "../pages/ManagerGGAPage";
 import ListPurchasePage from "../pages/ListPurchasePage";
 import RegisterOutPage from "../pages/RegisterOutPage";
 import DetailCompromisePage from "../pages/DetailCompromisePage";
+import GraphsOutPage from "../pages/GraphsOutPage";
 
 const ManagerRoutes = () => {
   return (
@@ -11,6 +12,7 @@ const ManagerRoutes = () => {
       <Route path="/register-out/:params?" element={<RegisterOutPage />} />
       <Route path="/notes-store" element={<DetailCompromisePage />} />
       <Route path="/list-purchases" element={<ListPurchasePage />} />
+      <Route path="/graphs-out" element={<GraphsOutPage />} />
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
   );
