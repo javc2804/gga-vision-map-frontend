@@ -32,6 +32,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { editPurchaseClear } from "../../store/purchase/purchaseSlice";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
 
 export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
   let menu = JSON.parse(localStorage.getItem("menu") || "[]");
@@ -69,6 +70,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
     People: <People />,
     PersonAdd: <PersonAdd />,
     PeopleOutline: <PeopleOutline />,
+    BarChart: <ShowChartIcon />,
   };
 
   return (
