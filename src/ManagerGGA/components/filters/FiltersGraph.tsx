@@ -19,22 +19,32 @@ const FiltersGraph: React.FC<FiltersGraphProps> = ({
   dateRange,
   setDateRange,
   onSearch,
+  clearFilters,
 }) => {
   return (
-    <div>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        gap: "10px",
+        gridAutoFlow: "dense",
+      }}
+    >
       {headers.map((header: any, index) =>
         header !== "createdAt" ? (
           header !== "formaPago" ? (
             header !== "deudaTotalUsd" ? (
               <TextField
                 key={`${header}-${index}`}
-                label={`Filter by ${header}`}
+                label={`Filtrar por ${header}`}
                 value={filters[header] || ""}
                 onChange={(e) => updateFilter(header, e.target.value)}
-                style={{ marginRight: "10px", marginBottom: "10px" }}
               />
             ) : (
-              <div key={`${header}-${index}`}>
+              <div
+                key={`${header}-${index}`}
+                style={{ display: "flex", gridColumn: "span 2" }}
+              >
                 <TextField
                   key={`${header}Min`}
                   label={`Deuda mínima`}
@@ -45,7 +55,6 @@ const FiltersGraph: React.FC<FiltersGraphProps> = ({
                       min: e.target.value,
                     })
                   }
-                  style={{ marginRight: "10px", marginBottom: "10px" }}
                 />
                 <TextField
                   key={`${header}Max`}
@@ -57,7 +66,6 @@ const FiltersGraph: React.FC<FiltersGraphProps> = ({
                       max: e.target.value,
                     })
                   }
-                  style={{ marginRight: "10px", marginBottom: "10px" }}
                 />
               </div>
             )
@@ -67,7 +75,6 @@ const FiltersGraph: React.FC<FiltersGraphProps> = ({
               label="Forma de Pago"
               value={filters[header] || ""}
               onChange={(e) => updateFilter(header, e.target.value)}
-              style={{ marginRight: "10px", marginBottom: "10px" }}
             >
               <MenuItem value="credito">Crédito</MenuItem>
               <MenuItem value="contado">Contado</MenuItem>
@@ -77,7 +84,6 @@ const FiltersGraph: React.FC<FiltersGraphProps> = ({
           <LocalizationProvider
             key={`datePicker-${index}`}
             dateAdapter={AdapterDateFns}
-            style={{ marginRight: "10px", marginBottom: "10px" }}
           >
             <DatePicker
               label="Fecha inicial"
@@ -97,15 +103,16 @@ const FiltersGraph: React.FC<FiltersGraphProps> = ({
       <Button
         variant="contained"
         color="primary"
-        style={{ marginRight: "10px" }}
         onClick={onSearch}
+        style={{ gridColumn: "span 3" }}
       >
         Buscar
       </Button>
       <Button
         variant="contained"
         color="primary"
-        style={{ marginRight: "10px" }}
+        onClick={clearFilters} // Add this line
+        style={{ gridColumn: "span 3" }}
       >
         Limpiar Filtros
       </Button>

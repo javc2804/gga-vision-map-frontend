@@ -290,10 +290,6 @@ export const startGraphsOut =
       endDate,
     };
 
-    console.log(purchaseData);
-
-    // dispatch(getPurchaseStart());
-
     try {
       const result = await purchaseService.getDataGraphsOut(compromiseData);
       if (result.ok) {

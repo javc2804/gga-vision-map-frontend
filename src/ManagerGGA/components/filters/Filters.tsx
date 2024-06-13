@@ -74,7 +74,7 @@ export const Filters: React.FC<FiltersProps> = ({
                   header !== "deudaTotalUsd" ? (
                     <TextField
                       key={`${header}-${index}`} // Añade un índice a la key
-                      label={`Filter by ${header}`}
+                      label={`Filtrar por ${header}`}
                       value={filters[header] || ""}
                       onChange={(e) => updateFilter(header, e.target.value)}
                       style={{ marginRight: "10px", marginBottom: "10px" }}
