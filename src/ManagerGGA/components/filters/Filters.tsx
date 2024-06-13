@@ -1,5 +1,12 @@
 import React, { useCallback } from "react";
-import { TextField, Button, Select, MenuItem } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useDispatch, useSelector } from "react-redux";
@@ -67,7 +74,13 @@ export const Filters: React.FC<FiltersProps> = ({
     <>
       {modal ? null : (
         <>
-          <div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+              gap: "10px",
+            }}
+          >
             {headers.map((header, index) =>
               header !== "createdAt" ? (
                 header !== "formaPago" ? (
@@ -77,10 +90,15 @@ export const Filters: React.FC<FiltersProps> = ({
                       label={`Filtrar por ${header}`}
                       value={filters[header] || ""}
                       onChange={(e) => updateFilter(header, e.target.value)}
-                      style={{ marginRight: "10px", marginBottom: "10px" }}
                     />
                   ) : (
-                    <div key={`${header}-${index}`}>
+                    <div
+                      key={`${header}-${index}`}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       {" "}
                       <TextField
                         key={`${header}Min`}
@@ -92,7 +110,7 @@ export const Filters: React.FC<FiltersProps> = ({
                             min: e.target.value,
                           })
                         }
-                        style={{ marginRight: "10px", marginBottom: "10px" }}
+                        style={{ flex: 1, marginRight: "5px" }}
                       />
                       <TextField
                         key={`${header}Max`}
@@ -104,27 +122,29 @@ export const Filters: React.FC<FiltersProps> = ({
                             max: e.target.value,
                           })
                         }
-                        style={{ marginRight: "10px", marginBottom: "10px" }}
+                        style={{ flex: 1, marginLeft: "5px" }}
                       />
                     </div>
                   )
                 ) : (
-                  <Select
-                    key={`${header}-${index}`} // Añade un índice a la key
-                    label="Forma de Pago"
-                    value={filters[header] || ""}
-                    onChange={(e) => updateFilter(header, e.target.value)}
-                    style={{ marginRight: "10px", marginBottom: "10px" }}
-                  >
-                    <MenuItem value="credito">Crédito</MenuItem>
-                    <MenuItem value="contado">Contado</MenuItem>
-                  </Select>
+                  <FormControl>
+                    <InputLabel id="formaPago-label">Forma de Pago</InputLabel>
+                    <Select
+                      key={`${header}-${index}`} // Añade un índice a la key
+                      labelId="formaPago-label"
+                      value={filters[header] || ""}
+                      onChange={(e) => updateFilter(header, e.target.value)}
+                    >
+                      <MenuItem value="">Ambos</MenuItem>
+                      <MenuItem value="credito">Crédito</MenuItem>
+                      <MenuItem value="contado">Contado</MenuItem>
+                    </Select>
+                  </FormControl>
                 )
               ) : (
                 <LocalizationProvider
                   key={`datePicker-${index}`} // Añade un índice a la key
                   dateAdapter={AdapterDateFns}
-                  style={{ marginRight: "10px", marginBottom: "10px" }}
                 >
                   <DatePicker
                     label="Fecha inicial"
@@ -149,7 +169,7 @@ export const Filters: React.FC<FiltersProps> = ({
           <Button
             variant="contained"
             color="primary"
-            style={{ marginRight: "10px" }}
+            style={{ margin: "10px" }}
             onClick={handleSearch}
           >
             Buscar
@@ -157,7 +177,7 @@ export const Filters: React.FC<FiltersProps> = ({
           <Button
             variant="contained"
             color="primary"
-            style={{ marginRight: "10px" }}
+            style={{ margin: "10px" }}
             onClick={clearFilters}
           >
             Limpiar Filtros
@@ -176,7 +196,7 @@ export const Filters: React.FC<FiltersProps> = ({
               style={{
                 backgroundColor: "#00dde9",
                 color: "#fff",
-                marginRight: "1%",
+                margin: "10px",
               }}
             >
               Exportar
@@ -184,7 +204,7 @@ export const Filters: React.FC<FiltersProps> = ({
             <Button
               variant="contained"
               style={{
-                marginRight: "1%",
+                margin: "10px",
                 backgroundColor: "#f5447a",
                 color: "#fff",
               }}
@@ -198,6 +218,7 @@ export const Filters: React.FC<FiltersProps> = ({
               variant="contained"
               color="primary"
               component="label"
+              style={{ margin: "10px" }}
             >
               Descargar Plantilla
             </Button>
