@@ -16,6 +16,7 @@ import {
   startHandleSearch,
   startDownload,
 } from "../../../store/purchase/purchaseThunks";
+import { useNavigate } from "react-router-dom";
 
 interface FiltersProps {
   headers: string[];
@@ -35,6 +36,7 @@ export const Filters: React.FC<FiltersProps> = ({
   clearFilters,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleExport = () => {
     dispatch(startExport(filters, dateRange[0], dateRange[1]));
@@ -69,6 +71,10 @@ export const Filters: React.FC<FiltersProps> = ({
 
   const modal = useSelector((state: any) => state.purchase.modal);
   // console.log(modal);
+
+  const graphs = () => {
+    navigate("/graphs-out");
+  };
 
   return (
     <>
@@ -181,6 +187,14 @@ export const Filters: React.FC<FiltersProps> = ({
             onClick={clearFilters}
           >
             Limpiar Filtros
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: "10px" }}
+            onClick={graphs}
+          >
+            Ver Gráficos
           </Button>
           <div
             style={{

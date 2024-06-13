@@ -1,6 +1,8 @@
 import { TextField, Select, MenuItem, Button } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 interface FiltersGraphProps {
   headers: string[];
@@ -21,6 +23,12 @@ const FiltersGraph: React.FC<FiltersGraphProps> = ({
   onSearch,
   clearFilters,
 }) => {
+  const dataFilter = useSelector((state: any) => state.purchase.filters);
+  const initialFilters = {}; // Define initialFilters
+  const [localFilters, setLocalFilters] = useState(initialFilters);
+  useEffect(() => {
+    setLocalFilters(dataFilter);
+  }, [dataFilter]);
   return (
     <div
       style={{
@@ -37,7 +45,7 @@ const FiltersGraph: React.FC<FiltersGraphProps> = ({
               <TextField
                 key={`${header}-${index}`}
                 label={`Filtrar por ${header}`}
-                value={filters[header] || ""}
+                value={dataFilter[header] || filters[header] || ""}
                 onChange={(e) => updateFilter(header, e.target.value)}
               />
             ) : (
