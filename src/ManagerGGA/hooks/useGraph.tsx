@@ -26,9 +26,7 @@ const useGraphsOut = () => {
   const clearFilters = useCallback(() => {
     setFilters({});
   }, []);
-  const [filterValues, setFilterValues] = useState({
-    /* initial filter values */
-  });
+  const [filterValues, setFilterValues] = useState({});
 
   return {
     filters,

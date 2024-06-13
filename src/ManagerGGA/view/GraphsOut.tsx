@@ -12,7 +12,12 @@ import {
 } from "recharts";
 import FiltersGraph from "../components/filters/FiltersGraph";
 import useGraphsOut from "../hooks/useGraph";
-import { useState } from "react";
+
+interface TooltipProps {
+  active?: boolean;
+  payload?: { value: string }[];
+  label?: string;
+}
 
 const originalConsoleError = console.error;
 
@@ -42,8 +47,6 @@ const GraphsOut = () => {
     onSearch,
     updateFilter,
     clearFilters,
-    setFilterValues,
-    filterValues,
   } = useGraphsOut();
 
   const tempData = useSelector((state: any) => state.purchase.graph);
@@ -131,7 +134,7 @@ const GraphsOut = () => {
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             <Bar dataKey="gastos">
-              {generalData.map((entry, index) => (
+              {generalData.map((_, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={colors[index % colors.length]}
@@ -158,13 +161,13 @@ const GraphsOut = () => {
         {transformedData.map((data, i) => (
           <div style={{ flex: "0 1 calc(40% - 10px)", margin: "5px" }} key={i}>
             <h2 style={{ textAlign: "center", fontSize: "32px" }}>
-              {data[0].title}
+              {data && data[0].title}
             </h2>
             <ComposedChart
               key={i}
               width={770} // Adjust this value as needed
               height={500} // Adjust this value as needed
-              data={data}
+              data={data || []}
               margin={{
                 top: 5,
                 right: 30,
@@ -178,12 +181,13 @@ const GraphsOut = () => {
               <Tooltip content={<CustomTooltip />} />
               <Legend />
               <Bar dataKey="gastos">
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={colors[index % colors.length]}
-                  />
-                ))}
+                {data &&
+                  data.map((_, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={colors[index % colors.length]}
+                    />
+                  ))}
               </Bar>
               <Label
                 value={`Mi Gráfico ${i + 2}`}
@@ -199,7 +203,7 @@ const GraphsOut = () => {
   );
 };
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div
