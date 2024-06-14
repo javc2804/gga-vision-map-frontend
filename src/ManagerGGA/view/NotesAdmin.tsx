@@ -13,6 +13,7 @@ import {
   Paper,
   IconButton,
   Box,
+  TablePagination,
 } from "@mui/material";
 import { fetchNoteInvoices } from "../../store/notes/noteInvoicesThunks";
 import { RootState } from "../../store/store";
@@ -36,92 +37,116 @@ export const NotesAdmin = () => {
   const noteInvoices = useSelector(
     (state: RootState) => state.noteInvoices.noteInvoices
   );
+
+  const [page, setPage] = useState(0); // Estado para la página actual
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Estado para el límite de registros por página
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchNoteInvoices());
-  }, [dispatch]);
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
     setIsLoading(true);
-    dispatch(fetchNoteInvoices()).finally(() => {
+    dispatch(fetchNoteInvoices(page, rowsPerPage)).finally(() => {
       setIsLoading(false);
     });
-  }, [dispatch]);
+  }, [dispatch, page, rowsPerPage]);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   if (isLoading) {
     return <Loading />;
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell sx={{ color: "black", fontWeight: "bold" }}>
-              Fac/NDE
-            </TableCell>
-            <TableCell sx={{ color: "black", fontWeight: "bold" }}>
-              Fecha
-            </TableCell>
-            <TableCell sx={{ color: "black", fontWeight: "bold" }}>
-              Estado
-            </TableCell>
-            <TableCell sx={{ color: "black", fontWeight: "bold" }}>
-              Acción
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {noteInvoices.length > 0 ? (
-            noteInvoices.map((invoice: any, index: any) => (
-              <TableRow key={index}>
-                <TableCell>{invoice.note_number}</TableCell>
-                <TableCell>
-                  {new Date(invoice.createdAt).toLocaleDateString("es-ES", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-                </TableCell>
-                <TableCell>
-                  {invoice.status ? (
-                    <Box display="flex" alignItems="center">
-                      Completado
-                      <CheckCircleIcon sx={{ color: "green" }} />
-                    </Box>
-                  ) : (
-                    <Box display="flex" alignItems="center">
-                      Pendiente
-                      <BlinkingWarningIcon />
-                    </Box>
-                  )}
-                </TableCell>
-                <TableCell>
-                  <IconButton
-                    color="primary"
-                    aria-label="view"
-                    onClick={() =>
-                      navigate("/notes-store", { state: { invoice } })
-                    }
-                  >
-                    <VisibilityIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
+    <div>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
             <TableRow>
-              <TableCell colSpan={4} align="center">
-                No hay notas de entrega en este momento
+              <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                Fac/NDE
+              </TableCell>
+              <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                Fecha
+              </TableCell>
+              <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                Estado
+              </TableCell>
+              <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                Acción
               </TableCell>
             </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {noteInvoices.length > 0 ? (
+              noteInvoices
+                .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+                .map((invoice: any, index: any) => (
+                  <TableRow key={index}>
+                    <TableCell>{invoice.note_number}</TableCell>
+                    <TableCell>
+                      {new Date(invoice.createdAt).toLocaleDateString("es-ES", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </TableCell>
+                    <TableCell>
+                      {invoice.status ? (
+                        <Box display="flex" alignItems="center">
+                          Completado
+                          <CheckCircleIcon sx={{ color: "green" }} />
+                        </Box>
+                      ) : (
+                        <Box display="flex" alignItems="center">
+                          Pendiente
+                          <BlinkingWarningIcon />
+                        </Box>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        color="primary"
+                        aria-label="view"
+                        onClick={() =>
+                          navigate("/notes-store", { state: { invoice } })
+                        }
+                      >
+                        <VisibilityIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={4} align="center">
+                  No hay notas de entrega en este momento
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={noteInvoices.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Filas por página"
+        />
+      </TableContainer>
+    </div>
   );
 };
 
