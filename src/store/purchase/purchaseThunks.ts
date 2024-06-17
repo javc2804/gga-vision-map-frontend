@@ -315,3 +315,11 @@ export const startDownloadInvoice =
       // dispatch(getPurchaseSuccess(purchaseData));
     } catch (error) {}
   };
+export const startDeletePurchase =
+  (ids: any): any =>
+  async (dispatch: AppDispatch) => {
+    try {
+      const purchaseData = await purchaseService.deletePurchase(ids);
+      // dispatch(getPurchaseSuccess(purchaseData));
+    } catch (error) {}
+  };

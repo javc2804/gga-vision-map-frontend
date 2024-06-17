@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { TableRow, TableCell, Box } from "@mui/material";
+import { TableRow, TableCell, Box, Checkbox } from "@mui/material";
 import { IRow } from "../../view/expenses/ListPurchase";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -7,15 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { editPurchase } from "../../../store/purchase/purchaseSlice";
 import { DeleteDialog } from "../../../components/DeleteDialog";
+import { useState } from "react";
+import { startDeletePurchase } from "../../../store/purchase/purchaseThunks";
 
 type ActionButtonsProps = {
   id: IRow;
-  handleDelete: (row: IRow) => void; // Cambiar el tipo de 'handleDelete' a '(row: IRow) => void'
+  handleDelete: (row: IRow) => void;
 };
 
 type TableRowDataProps = {
   row: IRow;
   headers: string[];
+  onCheckboxChange: (row: IRow, isChecked: boolean) => void; // Nuevo prop para manejar el cambio de checkbox
+  selectedRows: any;
 };
 
 const columnToDataKeyMap: { [key: string]: string } = {
@@ -50,7 +53,13 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   );
 };
 
-export const TableRowData: React.FC<TableRowDataProps> = ({ row, headers }) => {
+export const TableRowData: React.FC<TableRowDataProps> = ({
+  row,
+  headers,
+  onCheckboxChange,
+  selectedRows,
+}) => {
+  const dispach = useDispatch();
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<IRow | null>(null);
 
@@ -62,26 +71,29 @@ export const TableRowData: React.FC<TableRowDataProps> = ({ row, headers }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleConfirm = (row: IRow) => {
-    if (row) {
-      console.log(row.ID);
-    }
+    const idsToUse = selectedRows.length > 0 ? selectedRows : [row.id];
+    dispach(startDeletePurchase(idsToUse));
     setOpen(false);
   };
 
   return (
     <>
-      <TableRow key={row.ID}>
+      <TableRow key={row.id}>
+        <TableCell padding="checkbox">
+          <Checkbox onChange={(e) => onCheckboxChange(row, e.target.checked)} />
+        </TableCell>
         {headers.map((header, index) => {
           const dataKey = columnToDataKeyMap[header] || header;
           return dataKey !== "acciones" ? (
-            <TableCell key={`${row.ID}-${index}`}>
+            <TableCell key={`${row.id}-${index}`}>
               {dataKey === "createdAt"
                 ? new Date(row[dataKey]).toLocaleDateString("en-GB")
                 : row[dataKey]}
             </TableCell>
           ) : (
-            <TableCell key={`${row.ID}-actions`}>
+            <TableCell key={`${row.id}-actions`}>
               <ActionButtons id={row} handleDelete={() => handleDelete(row)} />
             </TableCell>
           );

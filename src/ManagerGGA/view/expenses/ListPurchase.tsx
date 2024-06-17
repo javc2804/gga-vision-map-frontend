@@ -118,6 +118,7 @@ export const ListPurchase = () => {
     margin: "0.2em 0",
   };
   const headers = [
+    "",
     "id",
     "createdAt",
     "facNDE",
@@ -184,6 +185,7 @@ export const ListPurchase = () => {
   ]);
 
   const headerDisplayNames = {
+    "": "",
     createdAt: "Creado",
     formaPago: "Tipo Pago",
     cantidad: "Cantidad",
@@ -196,6 +198,27 @@ export const ListPurchase = () => {
     eje: "Eje",
     ndeAlmacen: "NDE(A)",
     compromiso: "Compromiso",
+  };
+
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+
+  const handleCheckboxChange = (row: IRow, isChecked: boolean) => {
+    if (isChecked) {
+      setSelectedRows((prev) => {
+        const newSelectedRows = [...prev, row.id];
+        console.log(newSelectedRows); // Imprime el estado más reciente
+        return newSelectedRows;
+      });
+    } else {
+      setSelectedRows((prev) => {
+        const newSelectedRows = prev.filter((id) => id !== row.id);
+        console.log(newSelectedRows); // Imprime el estado más reciente
+        return newSelectedRows;
+      });
+    }
+  };
+  const handleConfirmSelection = () => {
+    console.log(selectedRows); // Aquí puedes ver todos los IDs seleccionados
   };
 
   return (
@@ -448,7 +471,13 @@ export const ListPurchase = () => {
                 {data &&
                   data.rows &&
                   data.rows.map((row) => (
-                    <TableRowData key={row.id} row={row} headers={headers} />
+                    <TableRowData
+                      key={row.id}
+                      row={row}
+                      headers={headers}
+                      onCheckboxChange={handleCheckboxChange}
+                      selectedRows={selectedRows}
+                    />
                   ))}
               </TableBody>
             </Table>
