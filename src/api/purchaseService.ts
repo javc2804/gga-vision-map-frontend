@@ -116,6 +116,43 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  getDownloadInvoice: (invoiceData) => {
+    console.log("entr");
+
+    return API_URL.post(`note-invoices/download-invoice`, invoiceData, {
+      responseType: "arraybuffer", // Cambia esto a 'arraybuffer'
+      headers: {
+        Accept: "application/pdf", // Asegúrate de que axios solicita un PDF
+      },
+    })
+      .then((response) => {
+        console.log(response);
+
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "invoice.pdf");
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup: remove the link after triggering the download
+        document.body.removeChild(link);
+
+        return { ok: true };
+      })
+      .catch((error) => {
+        console.log(error);
+
+        // Handle error: check if error.response and error.response.data.msg exist
+        const errorMsg =
+          error.response && error.response.data.msg
+            ? error.response.data.msg
+            : "Unknown error";
+        return { ok: false, response: errorMsg };
+      });
+  },
+
   importPurchase: (file: any) => {
     return API_URL.post(`/upload/matriz`, file, {
       headers: {

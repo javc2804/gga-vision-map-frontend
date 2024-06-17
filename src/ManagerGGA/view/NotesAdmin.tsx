@@ -21,6 +21,9 @@ import { keyframes } from "@emotion/react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import styled from "@emotion/styled";
 import Loading from "../../components/Loading";
+import PrintIcon from "@mui/icons-material/Print";
+import Tooltip from "@mui/material/Tooltip";
+import { startDownloadInvoice } from "../../store/purchase/purchaseThunks";
 
 export const NotesAdmin = () => {
   const blink = keyframes`
@@ -65,6 +68,11 @@ export const NotesAdmin = () => {
   if (isLoading) {
     return <Loading />;
   }
+
+  const printNote = (invoice: any) => {
+    console.log(invoice);
+    dispatch(startDownloadInvoice(invoice));
+  };
 
   return (
     <div>
@@ -114,15 +122,28 @@ export const NotesAdmin = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      <IconButton
-                        color="primary"
-                        aria-label="view"
-                        onClick={() =>
-                          navigate("/notes-store", { state: { invoice } })
-                        }
-                      >
-                        <VisibilityIcon />
-                      </IconButton>
+                      <Box display="flex" gap={1}>
+                        <Tooltip title="Ver">
+                          <IconButton
+                            color="primary"
+                            aria-label="view"
+                            onClick={() =>
+                              navigate("/notes-store", { state: { invoice } })
+                            }
+                          >
+                            <VisibilityIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Imprimir">
+                          <IconButton
+                            color="primary"
+                            aria-label="print"
+                            onClick={() => printNote(invoice)}
+                          >
+                            <PrintIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))

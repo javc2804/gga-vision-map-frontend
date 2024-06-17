@@ -307,3 +307,11 @@ export const startGraphsOut =
       return { ok: false, response: error.message };
     }
   };
+export const startDownloadInvoice =
+  (invoice: any): any =>
+  async (dispatch: AppDispatch) => {
+    try {
+      const purchaseData = await purchaseService.getDownloadInvoice(invoice);
+      // dispatch(getPurchaseSuccess(purchaseData));
+    } catch (error) {}
+  };
