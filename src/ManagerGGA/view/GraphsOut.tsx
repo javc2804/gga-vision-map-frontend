@@ -118,7 +118,7 @@ const GraphsOut = () => {
         <div style={{ flex: "0 60%" }}>
           <h2 style={{ textAlign: "center", fontSize: "32px" }}>General</h2>
           <ComposedChart
-            width={770} // Adjust this value as needed
+            width={800} // Adjust this value as needed
             height={500}
             data={generalData}
             margin={{
@@ -165,7 +165,7 @@ const GraphsOut = () => {
             </h2>
             <ComposedChart
               key={i}
-              width={770} // Adjust this value as needed
+              width={800} // Adjust this value as needed
               height={500} // Adjust this value as needed
               data={data || []}
               margin={{
