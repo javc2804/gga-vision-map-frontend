@@ -17,6 +17,14 @@ import {
   startDownload,
 } from "../../../store/purchase/purchaseThunks";
 import { useNavigate } from "react-router-dom";
+import Autocomplete from "@mui/lab/Autocomplete";
+type HeaderType =
+  | "ut"
+  | "proveedor"
+  | "repuesto"
+  | "descripcionRepuesto"
+  | "eje"
+  | "subeje";
 
 interface FiltersProps {
   headers: string[];
@@ -70,7 +78,8 @@ export const Filters: React.FC<FiltersProps> = ({
   };
 
   const modal = useSelector((state: any) => state.purchase.modal);
-  // console.log(modal);
+  const combined = useSelector((state: any) => state.purchase.combined);
+  // console.log(combined);
 
   const graphs = () => {
     navigate("/graphs-out");
@@ -87,56 +96,122 @@ export const Filters: React.FC<FiltersProps> = ({
               gap: "10px",
             }}
           >
-            {headers.map((header, index) =>
-              header !== "createdAt" ? (
-                header !== "formaPago" ? (
-                  header !== "deudaTotalUsd" ? (
-                    <TextField
-                      key={`${header}-${index}`} // Añade un índice a la key
-                      label={`Filtrar por ${header}`}
+            {headers.map((header, index) => {
+              if (
+                header === "ut" ||
+                header === "eje" ||
+                header === "subeje" ||
+                header === "proveedor" ||
+                header === "repuesto" ||
+                header === "descripcionRepuesto"
+              ) {
+                let options = [];
+                if (combined) {
+                  if (header === "ut") options = combined.fleets || [];
+                  if (header === "eje") options = combined.eje || [];
+                  if (header === "subeje") options = combined.subeje || [];
+
+                  if (header === "proveedor")
+                    options = (combined.providers || []).filter(
+                      (provider) => provider && provider.name
+                    );
+                  if (header === "repuesto")
+                    options = (combined.spareParts || []).filter(
+                      (sparePart) => sparePart && sparePart.type
+                    );
+                  if (header === "descripcionRepuesto")
+                    options = (combined.sparePartVariants || []).filter(
+                      (variant) => variant && variant.variant
+                    );
+                }
+
+                return (
+                  <FormControl key={`${header}-${index}`}>
+                    <Autocomplete
+                      freeSolo
+                      options={options.map((option) =>
+                        header === "ut"
+                          ? option.ut
+                          : header === "proveedor"
+                          ? option.name
+                          : header === "repuesto"
+                          ? option.type
+                          : header === "descripcionRepuesto"
+                          ? option.variant
+                          : header === "eje"
+                          ? option.eje
+                          : header === "subeje"
+                          ? option.subeje
+                          : ""
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={`Filtrar por ${header}`}
+                          variant="outlined"
+                        />
+                      )}
                       value={filters[header] || ""}
-                      onChange={(e) => updateFilter(header, e.target.value)}
+                      onInputChange={(e, newValue) =>
+                        updateFilter(header, newValue)
+                      }
                     />
-                  ) : (
-                    <div
-                      key={`${header}-${index}`}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      {" "}
-                      <TextField
-                        key={`${header}Min`}
-                        label={`Deuda mínima`}
-                        value={filters[header]?.min || ""}
-                        onChange={(e) =>
-                          updateFilter(header, {
-                            ...filters[header],
-                            min: e.target.value,
-                          })
-                        }
-                        style={{ flex: 1, marginRight: "5px" }}
-                      />
-                      <TextField
-                        key={`${header}Max`}
-                        label={`Deuda máxima`}
-                        value={filters[header]?.max || ""}
-                        onChange={(e) =>
-                          updateFilter(header, {
-                            ...filters[header],
-                            max: e.target.value,
-                          })
-                        }
-                        style={{ flex: 1, marginLeft: "5px" }}
-                      />
-                    </div>
-                  )
-                ) : (
+                  </FormControl>
+                );
+              } else if (
+                header !== "createdAt" &&
+                header !== "formaPago" &&
+                header !== "deudaTotalUsd"
+              ) {
+                return (
+                  <TextField
+                    key={`${header}-${index}`}
+                    label={`Filtrar por ${header}`}
+                    value={filters[header] || ""}
+                    onChange={(e) => updateFilter(header, e.target.value)}
+                  />
+                );
+              } else if (header === "deudaTotalUsd") {
+                return (
+                  <div
+                    key={`${header}-${index}`}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <TextField
+                      key={`${header}Min`}
+                      label={`Deuda mínima`}
+                      value={filters[header]?.min || ""}
+                      onChange={(e) =>
+                        updateFilter(header, {
+                          ...filters[header],
+                          min: e.target.value,
+                        })
+                      }
+                      style={{ flex: 1, marginRight: "5px" }}
+                    />
+                    <TextField
+                      key={`${header}Max`}
+                      label={`Deuda máxima`}
+                      value={filters[header]?.max || ""}
+                      onChange={(e) =>
+                        updateFilter(header, {
+                          ...filters[header],
+                          max: e.target.value,
+                        })
+                      }
+                      style={{ flex: 1, marginLeft: "5px" }}
+                    />
+                  </div>
+                );
+              } else if (header === "formaPago") {
+                return (
                   <FormControl>
                     <InputLabel id="formaPago-label">Forma de Pago</InputLabel>
                     <Select
-                      key={`${header}-${index}`} // Añade un índice a la key
+                      key={`${header}-${index}`}
                       labelId="formaPago-label"
                       value={filters[header] || ""}
                       onChange={(e) => updateFilter(header, e.target.value)}
@@ -146,31 +221,33 @@ export const Filters: React.FC<FiltersProps> = ({
                       <MenuItem value="contado">Contado</MenuItem>
                     </Select>
                   </FormControl>
-                )
-              ) : (
-                <LocalizationProvider
-                  key={`datePicker-${index}`} // Añade un índice a la key
-                  dateAdapter={AdapterDateFns}
-                >
-                  <DatePicker
-                    label="Fecha inicial"
-                    format="dd/MM/yyyy"
-                    value={dateRange[0]}
-                    onChange={(newValue) =>
-                      setDateRange([newValue, dateRange[1]])
-                    }
-                  />
-                  <DatePicker
-                    label="Fecha final"
-                    format="dd/MM/yyyy"
-                    value={dateRange[1]}
-                    onChange={(newValue) =>
-                      setDateRange([dateRange[0], newValue])
-                    }
-                  />
-                </LocalizationProvider>
-              )
-            )}
+                );
+              } else if (header === "createdAt") {
+                return (
+                  <LocalizationProvider
+                    key={`datePicker-${index}`}
+                    dateAdapter={AdapterDateFns}
+                  >
+                    <DatePicker
+                      label="Fecha inicial"
+                      format="dd/MM/yyyy"
+                      value={dateRange[0]}
+                      onChange={(newValue) =>
+                        setDateRange([newValue, dateRange[1]])
+                      }
+                    />
+                    <DatePicker
+                      label="Fecha final"
+                      format="dd/MM/yyyy"
+                      value={dateRange[1]}
+                      onChange={(newValue) =>
+                        setDateRange([dateRange[0], newValue])
+                      }
+                    />
+                  </LocalizationProvider>
+                );
+              }
+            })}
           </div>
           <Button
             variant="contained"
@@ -222,7 +299,7 @@ export const Filters: React.FC<FiltersProps> = ({
                 backgroundColor: "#f5447a",
                 color: "#fff",
               }}
-              component="label" // Esto permitirá que el botón funcione como un input de tipo "file"
+              component="label"
             >
               Importar
               <input type="file" hidden onChange={handleFileUpload} />

@@ -17,6 +17,7 @@ interface PurchaseState {
   summary: any;
   modal: any;
   graph: any;
+  combined: any;
 }
 
 const initialState: PurchaseState = {
@@ -35,6 +36,7 @@ const initialState: PurchaseState = {
   summary: {},
   modal: false,
   graph: {},
+  combined: {},
 };
 
 export const purchaseSlice = createSlice({
@@ -113,6 +115,9 @@ export const purchaseSlice = createSlice({
     getDataGraph: (state, { payload }) => {
       state.graph = payload;
     },
+    getCombined: (state, { payload }) => {
+      state.combined = payload;
+    },
   },
 });
 
@@ -122,6 +127,7 @@ export const {
   editPurchaseClear,
   getPurchaseStart,
   getPurchaseSuccess,
+  getCombined,
   getPurchaseFailure,
   savePurchaseStart,
   savePurchaseSuccess,

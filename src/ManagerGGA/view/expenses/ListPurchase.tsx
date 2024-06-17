@@ -127,7 +127,7 @@ export const ListPurchase = () => {
     "ut",
     // "marcaModelo",
     "eje",
-    // "subeje",
+    "subeje",
     "cantidad",
     "formaPago",
     "compromiso",

@@ -10,6 +10,7 @@ import {
   getImportLoading,
   modalImport,
   getDataGraph,
+  getCombined,
 } from "./purchaseSlice";
 import { purchaseService } from "../../api/purchaseService";
 import {
@@ -28,6 +29,7 @@ export const startGetPurchase = (): any => async (dispatch: AppDispatch) => {
   try {
     const purchaseData = await purchaseService.getCombinedData();
     dispatch(getPurchaseSuccess(purchaseData));
+    dispatch(getCombined(purchaseData.response));
   } catch (error: any) {
     if (error instanceof Error) {
       dispatch(getPurchaseFailure(error.message));

@@ -23,7 +23,10 @@ import styled from "@emotion/styled";
 import Loading from "../../components/Loading";
 import PrintIcon from "@mui/icons-material/Print";
 import Tooltip from "@mui/material/Tooltip";
-import { startDownloadInvoice } from "../../store/purchase/purchaseThunks";
+import {
+  startDownloadInvoice,
+  startGetPurchase,
+} from "../../store/purchase/purchaseThunks";
 
 export const NotesAdmin = () => {
   const blink = keyframes`
@@ -49,6 +52,7 @@ export const NotesAdmin = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    dispatch(startGetPurchase());
     dispatch(fetchNoteInvoices(page, rowsPerPage)).finally(() => {
       setIsLoading(false);
     });
