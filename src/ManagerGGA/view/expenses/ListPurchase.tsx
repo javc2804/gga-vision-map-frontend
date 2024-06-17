@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
   Grid,
+  TableCell,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 
@@ -458,6 +459,8 @@ export const ListPurchase = () => {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell padding="checkbox"></TableCell>{" "}
+                  {/* Agrega una celda de encabezado vacía para el checkbox */}
                   {headers.map((header) => (
                     <SortableTableHeader
                       key={header}
