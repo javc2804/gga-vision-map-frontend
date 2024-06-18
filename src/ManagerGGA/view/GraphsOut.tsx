@@ -98,6 +98,8 @@ const GraphsOut = () => {
         height: "85vh",
       }}
     >
+      <button onClick={() => window.print()}>Imprimir gráficos</button>
+
       <div
         style={{
           display: "flex",

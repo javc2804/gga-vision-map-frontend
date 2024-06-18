@@ -35,7 +35,7 @@ export const InvoiceTotalsCompromises: React.FC<InvoiceTotalsProps> = ({
         variant="contained"
         disabled={isSaveButtonDisabled}
         color="primary"
-        onClick={handleSaveClick}
+        onClick={() => handleSaveClick(Object.keys(editPurchase).length !== 0)}
       >
         {editPurchase && Object.keys(editPurchase).length !== 0
           ? "Editar"

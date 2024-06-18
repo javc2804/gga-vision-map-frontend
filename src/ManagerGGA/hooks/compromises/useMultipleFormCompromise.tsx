@@ -85,6 +85,7 @@ const useMultipleFormCompromise = (
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
   const handleSaveClick = async (isEdit: boolean) => {
+    console.log(isEdit);
     let result;
     const userEmail = localStorage.getItem("email");
     if (!isEdit) {
@@ -139,9 +140,10 @@ const useMultipleFormCompromise = (
           "error",
           ErrorOutline
         );
-        result = await dispatch(startSaveCompromise(combinedForms));
         return;
       }
+      result = await dispatch(startSaveCompromise(combinedForms));
+      console.log(result);
     } else {
       const adjustedEditPurchase = {
         ...editPurchase,
@@ -149,7 +151,7 @@ const useMultipleFormCompromise = (
       };
       result = await dispatch(startEditPurchase(adjustedEditPurchase));
     }
-
+    console.log(result);
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
       setIsSaveButtonDisabled(true);
