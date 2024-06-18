@@ -57,15 +57,16 @@ const GraphsOut = () => {
       const dataForTitle = tempData[title];
       if (!dataForTitle) return null;
 
-      return Object.entries(dataForTitle).map(([rubro, gastos]) => {
-        return { name: rubro, gastos, title };
-      });
+      return Object.entries(dataForTitle).map(
+        ([rubro, { total: gastos, cantidad }]) => {
+          return { name: rubro, gastos, cantidad, title };
+        }
+      );
     })
     .filter(Boolean);
-
   const generalData = Object.entries(tempData.total || {}).map(
-    ([name, gastos]) => {
-      return { name, gastos };
+    ([name, { total: gastos, cantidad }]) => {
+      return { name, gastos, cantidad };
     }
   );
 
@@ -215,7 +216,8 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
         style={{ backgroundColor: "#ffff", padding: "5px", fontSize: "24px" }}
       >
         <p className="label">{`${label} : ${payload[0].value}`}</p>
-        <p className="intro">{`Cantidades : 2`}</p> {/* Add this line */}
+        <p className="intro">{`Cantidad : ${payload[0].payload.cantidad}`}</p>{" "}
+        {/* Add this line */}
       </div>
     );
   }
