@@ -9,6 +9,7 @@ import {
   Legend,
   Label,
   Cell,
+  LabelList,
 } from "recharts";
 import FiltersGraph from "../components/filters/FiltersGraph";
 import useGraphsOut from "../hooks/useGraph";
@@ -134,12 +135,14 @@ const GraphsOut = () => {
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             <Bar dataKey="gastos">
-              {generalData.map((_, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={colors[index % colors.length]}
-                />
-              ))}
+              {generalData &&
+                generalData.map((_, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={colors[index % colors.length]}
+                  />
+                ))}
+              <LabelList dataKey="gastos" position="top" />
             </Bar>
             <Label
               value="Mi Gráfico General"
@@ -181,13 +184,14 @@ const GraphsOut = () => {
               <Tooltip content={<CustomTooltip />} />
               <Legend />
               <Bar dataKey="gastos">
-                {data &&
-                  data.map((_, index) => (
+                {generalData &&
+                  generalData.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={colors[index % colors.length]}
                     />
                   ))}
+                <LabelList dataKey="gastos" position="top" />
               </Bar>
               <Label
                 value={`Mi Gráfico ${i + 2}`}
@@ -211,6 +215,7 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
         style={{ backgroundColor: "#ffff", padding: "5px", fontSize: "24px" }}
       >
         <p className="label">{`${label} : ${payload[0].value}`}</p>
+        <p className="intro">{`Cantidades : 2`}</p> {/* Add this line */}
       </div>
     );
   }
