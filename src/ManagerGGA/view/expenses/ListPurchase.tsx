@@ -460,7 +460,6 @@ export const ListPurchase = () => {
               <TableHead>
                 <TableRow>
                   <TableCell padding="checkbox"></TableCell>{" "}
-                  {/* Agrega una celda de encabezado vacía para el checkbox */}
                   {headers.map((header) => (
                     <SortableTableHeader
                       key={header}

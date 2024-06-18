@@ -117,8 +117,8 @@ const useMultipleFormCompromisePay = (
         "precioUnitarioBs",
         "precioUnitarioUsd",
         "tasaBcv",
-        "repuesto",
-        "descripcionRepuesto",
+        // "repuesto",
+        // "descripcionRepuesto",
         "fechaOcOs",
       ];
 

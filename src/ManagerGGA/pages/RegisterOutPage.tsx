@@ -10,18 +10,18 @@ import { useSelector } from "react-redux";
 
 export const RegisterOutPage = () => {
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
-  const compromiso = editPurchase ? editPurchase.compromiso : null;
+  const formaPago =
+    editPurchase.formaPago === "credito" ? "credito" : "contado";
   const [selectedValue, setSelectedValue] = useState(() => {
     if (editPurchase && Object.keys(editPurchase).length !== 0) {
-      return compromiso ? "compromise" : "purchase";
+      return formaPago === "credito" ? "compromise" : "purchase";
     }
     return "purchase";
   });
-
   useEffect(() => {
-    // console.log(editPurchase);
+    console.log(editPurchase);
   }, [editPurchase]);
-
+  console.log(formaPago);
   const handleChange = (event: any) => {
     setSelectedValue(event.target.value);
   };
@@ -31,7 +31,7 @@ export const RegisterOutPage = () => {
       <RadioGroup row value={selectedValue} onChange={handleChange}>
         {editPurchase &&
         Object.keys(editPurchase).length !== 0 &&
-        !compromiso ? (
+        formaPago === "contado" ? (
           <FormControlLabel
             value="purchase"
             control={<Radio />}
@@ -41,7 +41,7 @@ export const RegisterOutPage = () => {
               </Typography>
             }
           />
-        ) : editPurchase && compromiso ? (
+        ) : editPurchase && formaPago === "credito" ? (
           <FormControlLabel
             value="compromise"
             control={<Radio />}
@@ -77,7 +77,7 @@ export const RegisterOutPage = () => {
       <Box sx={{ overflowY: "auto", maxHeight: "calc(100vh - 200px)" }}>
         {(() => {
           if (editPurchase && Object.keys(editPurchase).length !== 0) {
-            return compromiso === null ? (
+            return formaPago === "contado" ? (
               <RegisterPurchase
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}

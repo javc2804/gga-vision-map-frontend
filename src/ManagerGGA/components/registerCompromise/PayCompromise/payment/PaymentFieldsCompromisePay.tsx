@@ -48,7 +48,7 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
   calculateTasaBcv,
   compromise,
 }) => {
-  console.log(compromise);
+  // console.log(compromise);
   return (
     <>
       <Controller

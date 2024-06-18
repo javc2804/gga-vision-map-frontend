@@ -70,13 +70,13 @@ export const PaymentFormCompromisePay = ({
       noValidate
       autoComplete="off"
     >
-      <SparePartsAndDescriptions
+      {/* <SparePartsAndDescriptions
         control={control}
         setValues={setValues}
         values={values}
         spareParts={spareParts}
         sparePartVariants={sparePartVariants}
-      />
+      /> */}
       <Controller
         name="descripcion"
         control={control}

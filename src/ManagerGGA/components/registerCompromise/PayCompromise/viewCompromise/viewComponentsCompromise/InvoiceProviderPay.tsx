@@ -46,7 +46,7 @@ export const InvoiceProviderPay: React.FC<InvoiceProvidersProps> = ({
           fullWidth
         />
       </Grid>
-      <Grid item xs={2}>
+      {/* <Grid item xs={2}>
         <Controller
           name="provider"
           control={control}
@@ -71,7 +71,7 @@ export const InvoiceProviderPay: React.FC<InvoiceProvidersProps> = ({
             />
           )}
         />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };
