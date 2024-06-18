@@ -74,7 +74,7 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
   };
 
   const handleProviderChange = (field: any, _: any, value: any) => {
-    field.onChange(value);
+    field.onChange(value.name);
     setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
     if (Object.keys(editPurchase).length !== 0) {
       dispatch(updateEditPurchase({ ...editPurchase, proveedor: value.name })); // Actualiza editPurchase

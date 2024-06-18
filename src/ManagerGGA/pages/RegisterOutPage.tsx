@@ -19,9 +19,9 @@ export const RegisterOutPage = () => {
     return "purchase";
   });
   useEffect(() => {
-    console.log(editPurchase);
+    // console.log(editPurchase);
   }, [editPurchase]);
-  console.log(formaPago);
+  // console.log(formaPago);
   const handleChange = (event: any) => {
     setSelectedValue(event.target.value);
   };

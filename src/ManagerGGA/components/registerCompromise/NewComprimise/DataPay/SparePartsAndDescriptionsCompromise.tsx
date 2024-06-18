@@ -69,7 +69,7 @@ export const SparePartsAndDescriptionsCompromise = ({
               {...field}
               options={sparePartVariants}
               getOptionLabel={(option) =>
-                typeof option === "string" ? option : option.type
+                typeof option === "string" ? option : option.variant
               }
               isOptionEqualToValue={(option, value) =>
                 option.name === value.name
