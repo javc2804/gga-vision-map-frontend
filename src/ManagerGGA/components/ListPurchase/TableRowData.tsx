@@ -43,7 +43,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   return (
     <Box>
-      <EditIcon style={cursor} color="primary" onClick={() => handleEdit(id)} />{" "}
+      <EditIcon style={cursor} color="primary" onClick={() => handleEdit(id)} />
       <DeleteIcon
         style={cursor}
         color="error"

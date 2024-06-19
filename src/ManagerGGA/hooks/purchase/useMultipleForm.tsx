@@ -87,8 +87,6 @@ const useMultipleForm = (
     let result;
 
     const userEmail = localStorage.getItem("email");
-    console.log(facNDE);
-    console.log(proveedor);
     if (!isEdit) {
       const combinedForms = forms.map((form) => {
         form.payment.facNDE = facNDE;

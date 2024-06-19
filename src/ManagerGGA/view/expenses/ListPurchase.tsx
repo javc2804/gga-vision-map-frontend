@@ -55,17 +55,6 @@ export const ListPurchase = () => {
     marginBottom: "5%",
     overflowY: "auto", // Añade desbordamiento de scroll en el eje Y
   };
-  // const iconButtonStyle = {
-  //   color: "white",
-  //   position: "absolute",
-  //   left: 0,
-  //   top: -60,
-  //   width: "120px",
-  //   height: 100,
-  //   backgroundColor: "#ffa523",
-  //   borderRadius: 0,
-  //   boxShadow: "3px 3px 5px 0px rgba(0,0,0,0.75)",
-  // };
 
   const iconButtonStyle1 = {
     backgroundColor: "#ffa523",
@@ -164,15 +153,6 @@ export const ListPurchase = () => {
     page,
     rowsPerPage
   );
-  // let tempData = data;
-  // if (!tempData) {
-  //   // console.error("data es undefined o null");
-  //   tempData = { rows: [] };
-  // } else if (!tempData.rows || !Array.isArray(tempData.rows)) {
-  //   console.log("data.rows no es un array:", tempData);
-  //   tempData.rows = [];
-  // }
-  // const [pageSize, setPageSize] = useState(5); // puedes cambiar 10 a cualquier valor inicial que desees
   const loading = useSelector((state: any) => state.purchase.loading);
   const summary = useSelector((state: any) => state.purchase.summary);
 
@@ -207,13 +187,11 @@ export const ListPurchase = () => {
     if (isChecked) {
       setSelectedRows((prev) => {
         const newSelectedRows = [...prev, row.id];
-        console.log(newSelectedRows); // Imprime el estado más reciente
         return newSelectedRows;
       });
     } else {
       setSelectedRows((prev) => {
         const newSelectedRows = prev.filter((id) => id !== row.id);
-        console.log(newSelectedRows); // Imprime el estado más reciente
         return newSelectedRows;
       });
     }
@@ -257,21 +235,21 @@ export const ListPurchase = () => {
                       Baterias: {rubrosCantidad && rubrosCantidad.totalBaterias}
                     </h3>
                     <h3 style={titles}>
-                      Lubricantes:{" "}
+                      Lubricantes:
                       {rubrosCantidad && rubrosCantidad.totalLubricantes}
                     </h3>
                   </Grid>
                   <Grid item xs={6}>
                     <h3 style={titles}>
-                      Servicios:{" "}
+                      Servicios:
                       {rubrosCantidad && rubrosCantidad.totalServicios}
                     </h3>
                     <h3 style={titles}>
-                      Repuestos:{" "}
+                      Repuestos:
                       {rubrosCantidad && rubrosCantidad.totalRepuestos}
                     </h3>
                     <h3 style={titles}>
-                      Preventivos:{" "}
+                      Preventivos:
                       {rubrosCantidad && rubrosCantidad.totalPreventivos}
                     </h3>
                   </Grid>
@@ -459,7 +437,7 @@ export const ListPurchase = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell padding="checkbox"></TableCell>{" "}
+                  <TableCell padding="checkbox"></TableCell>
                   {headers.map((header) => (
                     <SortableTableHeader
                       key={header}
