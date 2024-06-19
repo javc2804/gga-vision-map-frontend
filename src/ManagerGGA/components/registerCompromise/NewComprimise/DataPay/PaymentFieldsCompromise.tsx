@@ -7,14 +7,14 @@ interface PaymentFieldsProps {
   trigger: any;
   values: {
     cantidad: number;
-    precioUnitarioUsd: number;
-    montoTotalUsd: number;
+    deudaUnitarioUsd: number;
+    deudaTotalUsd: number;
   };
   setValues: (values: any) => void;
   setValue: (name: string, value: number) => void;
   calculateMontoTotalUsd: (
     cantidad: number,
-    precioUnitarioUsd: number
+    deudaUnitarioUsd: number
   ) => number;
 }
 
@@ -43,58 +43,58 @@ export const PaymentFieldsCompromise: React.FC<PaymentFieldsProps> = ({
               field.onChange(event);
               trigger("cantidad");
               const newCantidad = Number(event.target.value);
-              const newMontoTotalUsd = calculateMontoTotalUsd(
+              const newDeudaTotalUsd = calculateMontoTotalUsd(
                 newCantidad,
-                values.precioUnitarioUsd
+                values.deudaUnitarioUsd
               );
               setValues({
                 ...values,
                 cantidad: newCantidad,
-                montoTotalUsd: newMontoTotalUsd,
+                deudaTotalUsd: newDeudaTotalUsd,
               });
-              setValue("montoTotalUsd", newMontoTotalUsd);
+              setValue("deudaTotalUsd", newDeudaTotalUsd);
             }}
           />
         )}
       />
       <Controller
-        name="precioUnitarioUsd"
+        name="deudaUnitarioUsd"
         control={control}
         render={({ field }) => (
           <TextField
             {...field}
-            label="Precio unitario $"
+            label="Deuda unitario $"
             variant="outlined"
-            error={!!errors.precioUnitarioUsd}
-            helperText={errors.precioUnitarioUsd?.message}
+            error={!!errors.deudaUnitarioUsd}
+            helperText={errors.deudaUnitarioUsd?.message}
             onChange={(event) => {
               field.onChange(event);
-              const newPrecioUnitarioUsd = Number(event.target.value);
-              const newMontoTotalUsd = calculateMontoTotalUsd(
+              const newDeudaUnitarioUsd = Number(event.target.value);
+              const newDeudaTotalUsd = calculateMontoTotalUsd(
                 values.cantidad,
-                newPrecioUnitarioUsd
+                newDeudaUnitarioUsd
               );
               setValues({
                 ...values,
-                precioUnitarioUsd: newPrecioUnitarioUsd,
-                montoTotalUsd: newMontoTotalUsd,
+                deudaUnitarioUsd: newDeudaUnitarioUsd,
+                deudaTotalUsd: newDeudaTotalUsd,
               });
-              setValue("montoTotalUsd", newMontoTotalUsd);
+              setValue("deudaTotalUsd", newDeudaTotalUsd);
             }}
           />
         )}
       />
 
       <Controller
-        name="montoTotalUsd"
+        name="deudaTotalUsd"
         control={control}
         render={({ field }) => (
           <TextField
             {...field}
-            label="Monto total $"
+            label="Deuda total $"
             variant="outlined"
-            error={!!errors.montoTotalUsd}
-            helperText={errors.montoTotalUsd?.message}
+            error={!!errors.deudaTotalUsd}
+            helperText={errors.deudaTotalUsd?.message}
             disabled
           />
         )}

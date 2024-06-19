@@ -65,12 +65,12 @@ const useMultipleFormCompromise = (
 
         const newForms = prevForms.map((form) => {
           if (form.id === id) {
-            totalUsd += parseFloat(newValues.montoTotalUsd);
-            totalBs += parseFloat(newValues.montoTotalBs);
+            totalUsd += parseFloat(newValues.deudaTotalUsd);
+            totalBs += parseFloat(newValues.deudaTotalBs);
             return { ...form, payment: newValues, errors: newErrors };
           } else {
-            totalUsd += parseFloat(form.payment.montoTotalUsd);
-            totalBs += parseFloat(form.payment.montoTotalBs);
+            totalUsd += parseFloat(form.payment.deudaTotalUsd);
+            totalBs += parseFloat(form.payment.deudaTotalBs);
             return form;
           }
         });
@@ -92,6 +92,8 @@ const useMultipleFormCompromise = (
         form.payment.nde = nde;
         form.payment.proveedor = proveedor;
         form.payment.compromiso = compromiso;
+        delete form.payment.precioUnitarioUsd;
+        delete form.payment.montoTotalUsd;
         return {
           id: form.id,
           ...form.payment,
@@ -107,9 +109,9 @@ const useMultipleFormCompromise = (
           "compromiso",
           "proveedor",
           "cantidad",
-          "montoTotalUsd",
+          // "montoTotalUsd",
           "numeroOrdenPago",
-          "precioUnitarioUsd",
+          "deudaUnitarioUsd",
           "repuesto",
           "descripcionRepuesto",
           "fechaOcOs",
