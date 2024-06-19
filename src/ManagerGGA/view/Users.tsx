@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Paper,
@@ -16,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import BlockIcon from "@mui/icons-material/Block";
 import { useUser } from "../hooks/useUsers";
+import { DeleteDialog } from "../../components/DeleteDialog";
 
 interface User {
   createdAt: string;
@@ -29,7 +31,7 @@ interface User {
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Los meses en JavaScript empiezan en 0
+  const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
 
   return `${day}/${month}/${year}`;
@@ -37,8 +39,18 @@ const formatDate = (dateString: string) => {
 
 export const Users = () => {
   const users = useSelector((state: any) => state.users);
-  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =
-    useUser();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [selectedUserEmail, setSelectedUserEmail] = useState<string | null>(
+    null
+  );
+
+  const {
+    deleteUser,
+    page,
+    rowsPerPage,
+    handleChangePage,
+    handleChangeRowsPerPage,
+  } = useUser();
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -84,6 +96,10 @@ export const Users = () => {
                             marginLeft: 1,
                             color: "red",
                             cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            setOpenDeleteDialog(true);
+                            setSelectedUserEmail(user.email); // Store user's email when delete icon is clicked
                           }}
                         />
                       </Tooltip>
@@ -131,6 +147,19 @@ export const Users = () => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <DeleteDialog
+        open={openDeleteDialog}
+        handleClose={() => {
+          setOpenDeleteDialog(false);
+          setSelectedUserEmail(null);
+        }}
+        handleConfirm={() => {
+          if (selectedUserEmail) {
+            deleteUser(selectedUserEmail);
+          }
+          setOpenDeleteDialog(false);
+        }}
       />
     </Paper>
   );

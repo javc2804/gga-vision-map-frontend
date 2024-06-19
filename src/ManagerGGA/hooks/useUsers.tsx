@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { startGetUsers } from "../../store/users/usersThunk";
+import { startDeleteUser, startGetUsers } from "../../store/users/usersThunk";
 
 export const useUser = (initialRowsPerPage: number = 5) => {
   const [page, setPage] = useState(0);
@@ -15,9 +15,19 @@ export const useUser = (initialRowsPerPage: number = 5) => {
     setPage(0);
   };
 
+  const deleteUser = (email: string) => {
+    dispatch(startDeleteUser(email));
+  };
+
   useEffect(() => {
     dispatch(startGetUsers());
   }, []);
 
-  return { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage };
+  return {
+    deleteUser,
+    page,
+    rowsPerPage,
+    handleChangePage,
+    handleChangeRowsPerPage,
+  };
 };
