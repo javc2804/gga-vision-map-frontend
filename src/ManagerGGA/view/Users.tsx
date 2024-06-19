@@ -8,7 +8,9 @@ import {
   TableRow,
   Paper,
   TablePagination,
+  Button,
 } from "@mui/material";
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -51,6 +53,9 @@ export default function BasicTable() {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <h1>Gestión de usuarios</h1>
+      <Button variant="contained" color="primary" onClick={() => ({})}>
+        Crear usuario
+      </Button>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
