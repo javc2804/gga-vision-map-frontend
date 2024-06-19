@@ -30,6 +30,7 @@ export const SparePartsAndDescriptions = ({
       });
     }
   }, [editPurchase, setValues, values]);
+
   const handleRepuestoChange = (_, data) => {
     if (data) {
       setValues({
@@ -42,10 +43,10 @@ export const SparePartsAndDescriptions = ({
     } else {
       setValues({
         ...values,
-        repuesto: null,
+        repuesto: "",
       });
       if (Object.keys(editPurchase).length !== 0) {
-        dispatch(updateEditPurchase({ ...editPurchase, repuesto: null }));
+        dispatch(updateEditPurchase({ ...editPurchase, repuesto: "" }));
       }
     }
   };
@@ -67,11 +68,11 @@ export const SparePartsAndDescriptions = ({
     } else {
       setValues({
         ...values,
-        descripcionRepuesto: null,
+        descripcionRepuesto: "",
       });
       if (Object.keys(editPurchase).length !== 0) {
         dispatch(
-          updateEditPurchase({ ...editPurchase, descripcionRepuesto: null })
+          updateEditPurchase({ ...editPurchase, descripcionRepuesto: "" })
         );
       }
     }
