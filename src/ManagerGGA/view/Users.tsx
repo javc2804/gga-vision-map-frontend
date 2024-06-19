@@ -16,7 +16,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import BlockIcon from "@mui/icons-material/Block";
 
-// Asegúrate de agregar un campo 'status' a tus datos
+import { useUser } from "../hooks/useUsers";
+import { useSelector } from "react-redux";
+
 const rows = [
   {
     fechaCreacion: "2022-01-01",
@@ -32,23 +34,22 @@ const rows = [
     rol: "store",
     status: false,
   },
-  // Más filas aquí...
 ];
 
-export default function BasicTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+export const Users = () => {
+  const formatDate = (dateString: any) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Los meses en JavaScript empiezan en 0
+    const year = date.getFullYear();
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
+    return `${day}/${month}/${year}`;
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const users = useSelector((state: any) => state.users);
+
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =
+    useUser();
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -64,7 +65,7 @@ export default function BasicTable() {
                 Fecha Creación
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Nombre
+                Nombre y apellido
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
                 Correo
@@ -78,18 +79,18 @@ export default function BasicTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {users.list
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => (
+              .map((user, index) => (
                 <TableRow key={index}>
-                  <TableCell>{row.fechaCreacion}</TableCell>
-                  <TableCell>{row.nombre}</TableCell>
-                  <TableCell>{row.correo}</TableCell>
-                  <TableCell>{row.rol}</TableCell>
+                  <TableCell>{formatDate(user.createdAt)}</TableCell>
+                  <TableCell>{`${user.name} ${user.lastName}`}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.role}</TableCell>
                   <TableCell>
                     <DeleteIcon sx={{ marginLeft: 1, color: "red" }} />
                     <EditIcon sx={{ marginLeft: 1, color: "orange" }} />
-                    {row.status ? (
+                    {user.status ? (
                       <CheckCircleIcon sx={{ marginLeft: 1, color: "green" }} />
                     ) : (
                       <BlockIcon sx={{ marginLeft: 1, color: "grey" }} />
@@ -103,7 +104,7 @@ export default function BasicTable() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={users.list.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -111,4 +112,6 @@ export default function BasicTable() {
       />
     </Paper>
   );
-}
+};
+
+export default Users;

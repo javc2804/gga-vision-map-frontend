@@ -5,6 +5,7 @@ import purchaseReducer from "./purchase/purchaseSlice";
 import noteInvoicesReducer from "./notes/noteInvoicesSlice";
 import { useDispatch as useReduxDispatch } from "react-redux";
 import { compromisesSlice } from "./compromises/compromisesSlices";
+import { UsersSlice } from "./users/usersSlice";
 
 export const store: Store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store: Store = configureStore({
     purchase: purchaseReducer,
     noteInvoices: noteInvoicesReducer,
     compromises: compromisesSlice.reducer,
+    users: UsersSlice.reducer,
   },
 });
 
