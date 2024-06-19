@@ -57,7 +57,6 @@ export const purchaseService = {
       });
   },
   savePurchaseUpdateComprimise: (purchaseData: any) => {
-    console.log(purchaseData);
     return API_URL.post("transaction/trans-compromise", purchaseData)
       .then((response) => {
         return { ok: true, response: response.data };

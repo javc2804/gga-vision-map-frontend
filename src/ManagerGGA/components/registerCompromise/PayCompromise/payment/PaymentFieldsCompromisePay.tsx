@@ -67,7 +67,7 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
               const newCantidad = Number(event.target.value);
               const newMontoTotalUsd = calculateMontoTotalUsd(
                 newCantidad,
-                compromise?.response?.precioUnitarioUsd
+                compromise?.response?.deudaUnitarioUsd
               );
               setValues({
                 ...values,
@@ -156,8 +156,8 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
             label="Precio unitario $"
             variant="outlined"
             error={!!errors.precioUnitarioUsd}
-            helperText={errors.precioUnitarioUsd?.message}
-            value={compromise?.response?.precioUnitarioUsd} // Aquí es donde se establece el valor
+            helperText={errors.deudaUnitarioUsd?.message}
+            value={compromise?.response?.deudaUnitarioUsd} // Aquí es donde se establece el valor
             onChange={(event) => {
               field.onChange(event);
               trigger("precioUnitarioUsd");
@@ -211,7 +211,7 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
             disabled
             helperText={errors.montoTotalUsd?.message}
             value={
-              values.cantidad * (compromise?.response?.precioUnitarioUsd || 0)
+              values.cantidad * (compromise?.response?.deudaUnitarioUsd || 0)
             } // Check if compromise and compromise.response are defined
           />
         )}

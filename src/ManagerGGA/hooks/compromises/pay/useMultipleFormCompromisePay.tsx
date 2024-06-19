@@ -97,8 +97,9 @@ const useMultipleFormCompromisePay = (
       form.payment.descripcionRepuesto =
         compromise.response.descripcionRepuesto;
       form.payment.compromiso = compromise.response.compromiso;
-      form.payment.precioUnitarioUsd = compromise.response.precioUnitarioUsd;
+      form.payment.precioUnitarioUsd = compromise.response.deudaUnitarioUsd;
       form.payment.id = compromise.response.id;
+
       return {
         id: form.id,
         ...form.input,
@@ -169,7 +170,7 @@ const useMultipleFormCompromisePay = (
       0
     );
 
-    if (totalMontoTotalUsd > compromise.response.montoTotalUsd) {
+    if (totalMontoTotalUsd > compromise.response.deudaTotalUsd) {
       openSnackbar(
         `Error al guardar, el monto total USD asignado es mayor al disponible`,
         "error",
