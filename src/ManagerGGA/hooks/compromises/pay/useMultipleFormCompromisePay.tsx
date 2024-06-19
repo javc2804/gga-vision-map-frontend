@@ -91,7 +91,7 @@ const useMultipleFormCompromisePay = (
   const handleSaveClick = async () => {
     const userEmail = localStorage.getItem("email");
     const combinedForms = forms.map((form) => {
-      form.payment.facNDE = compromise.response.facNDE;
+      form.payment.facNDE = facNDE;
       form.payment.proveedor = compromise.response.proveedor;
       form.payment.repuesto = compromise.response.repuesto;
       form.payment.descripcionRepuesto =
@@ -99,6 +99,10 @@ const useMultipleFormCompromisePay = (
       form.payment.compromiso = compromise.response.compromiso;
       form.payment.precioUnitarioUsd = compromise.response.deudaUnitarioUsd;
       form.payment.id = compromise.response.id;
+      form.payment.ut = compromise.response.ut;
+      form.payment.eje = compromise.response.eje;
+      form.payment.subeje = compromise.response.subeje;
+      form.payment.marcaModelo = compromise.response.marcaModelo;
 
       return {
         id: form.id,
