@@ -1,5 +1,7 @@
 import { Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { updateEditPurchase } from "../../../../store/purchase/purchaseSlice";
 interface PaymentFieldsProps {
   control: any;
   errors: any;
@@ -43,11 +45,15 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
   calculatePrecioUnitarioBs,
   calculateTasaBcv,
 }) => {
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+  const dispatch = useDispatch();
+
   return (
     <>
       <Controller
         name="cantidad"
         control={control}
+        defaultValue="" // Asegúrate de que el valor inicial no sea `undefined`
         render={({ field }) => (
           <TextField
             {...field}
@@ -55,20 +61,31 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
             variant="outlined"
             error={!!errors.cantidad}
             helperText={errors.cantidad?.message}
+            value={field.value || ""} // Usa 'value' en lugar de 'defaultValue'
             onChange={(event) => {
-              field.onChange(event);
+              field.onChange(event.target.value); // Actualiza el valor del campo
               trigger("cantidad");
               const newCantidad = Number(event.target.value);
               const newMontoTotalUsd = calculateMontoTotalUsd(
                 values.precioUnitarioUsd,
                 newCantidad
               );
-              setValues({
-                ...values,
-                cantidad: newCantidad,
-                montoTotalUsd: newMontoTotalUsd,
-              });
-              setValue("montoTotalUsd", newMontoTotalUsd);
+              if (Object.keys(editPurchase).length === 0) {
+                setValues({
+                  ...values,
+                  cantidad: newCantidad,
+                  montoTotalUsd: newMontoTotalUsd,
+                });
+                setValue("montoTotalUsd", newMontoTotalUsd);
+              } else {
+                dispatch(
+                  updateEditPurchase({
+                    ...editPurchase,
+                    cantidad: newCantidad,
+                    montoTotalUsd: newMontoTotalUsd,
+                  })
+                ); // Actualiza editPurchase en lugar de values
+              }
             }}
           />
         )}
@@ -99,16 +116,28 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 values.cantidad,
                 newPrecioUnitarioUsd
               );
-              setValues({
-                ...values,
-                precioUnitarioBs: newPrecioUnitarioBs,
-                precioUnitarioUsd: newPrecioUnitarioUsd,
-                montoTotalBs: newMontoTotalBs,
-                montoTotalUsd: newMontoTotalUsd,
-              });
-              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
-              setValue("montoTotalBs", newMontoTotalBs);
-              setValue("montoTotalUsd", newMontoTotalUsd);
+              if (Object.keys(editPurchase).length === 0) {
+                setValues({
+                  ...values,
+                  precioUnitarioBs: newPrecioUnitarioBs,
+                  precioUnitarioUsd: newPrecioUnitarioUsd,
+                  montoTotalBs: newMontoTotalBs,
+                  montoTotalUsd: newMontoTotalUsd,
+                });
+                setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+                setValue("montoTotalBs", newMontoTotalBs);
+                setValue("montoTotalUsd", newMontoTotalUsd);
+              } else {
+                dispatch(
+                  updateEditPurchase({
+                    ...editPurchase,
+                    precioUnitarioBs: newPrecioUnitarioBs,
+                    precioUnitarioUsd: newPrecioUnitarioUsd,
+                    montoTotalBs: newMontoTotalBs,
+                    montoTotalUsd: newMontoTotalUsd,
+                  })
+                );
+              }
             }}
           />
         )}
@@ -135,14 +164,25 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 newPrecioUnitarioUsd,
                 values.cantidad
               );
-              setValues({
-                ...values,
-                tasaBcv: newTasaBcv,
-                precioUnitarioUsd: newPrecioUnitarioUsd,
-                montoTotalUsd: newMontoTotalUsd,
-              });
-              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
-              setValue("montoTotalUsd", newMontoTotalUsd);
+              if (Object.keys(editPurchase).length === 0) {
+                setValues({
+                  ...values,
+                  tasaBcv: newTasaBcv,
+                  precioUnitarioUsd: newPrecioUnitarioUsd,
+                  montoTotalUsd: newMontoTotalUsd,
+                });
+                setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+                setValue("montoTotalUsd", newMontoTotalUsd);
+              } else {
+                dispatch(
+                  updateEditPurchase({
+                    ...editPurchase,
+                    tasaBcv: newTasaBcv,
+                    precioUnitarioUsd: newPrecioUnitarioUsd,
+                    montoTotalUsd: newMontoTotalUsd,
+                  })
+                );
+              }
             }}
           />
         )}
@@ -163,12 +203,22 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
               const newPrecioUnitarioUsd = Number(event.target.value);
               const newPrecioUnitarioBs =
                 Number(values.tasaBcv) * newPrecioUnitarioUsd;
-              setValues({
-                ...values,
-                precioUnitarioUsd: newPrecioUnitarioUsd.toString(),
-                precioUnitarioBs: newPrecioUnitarioBs.toString(),
-              });
-              setValue("precioUnitarioBs", newPrecioUnitarioBs);
+              if (Object.keys(editPurchase).length === 0) {
+                setValues({
+                  ...values,
+                  precioUnitarioUsd: newPrecioUnitarioUsd.toString(),
+                  precioUnitarioBs: newPrecioUnitarioBs.toString(),
+                });
+                setValue("precioUnitarioBs", newPrecioUnitarioBs);
+              } else {
+                dispatch(
+                  updateEditPurchase({
+                    ...editPurchase,
+                    precioUnitarioUsd: newPrecioUnitarioUsd.toString(),
+                    precioUnitarioBs: newPrecioUnitarioBs.toString(),
+                  })
+                );
+              }
             }}
           />
         )}
@@ -195,14 +245,25 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 newPrecioUnitarioBs,
                 values.precioUnitarioUsd
               );
-              setValues({
-                ...values,
-                montoTotalBs: newMontoTotalBs,
-                precioUnitarioBs: newPrecioUnitarioBs,
-                tasaBcv: newTasaBcv,
-              });
-              setValue("precioUnitarioBs", newPrecioUnitarioBs);
-              setValue("tasaBcv", newTasaBcv);
+              if (Object.keys(editPurchase).length === 0) {
+                setValues({
+                  ...values,
+                  montoTotalBs: newMontoTotalBs,
+                  precioUnitarioBs: newPrecioUnitarioBs,
+                  tasaBcv: newTasaBcv,
+                });
+                setValue("precioUnitarioBs", newPrecioUnitarioBs);
+                setValue("tasaBcv", newTasaBcv);
+              } else {
+                dispatch(
+                  updateEditPurchase({
+                    ...editPurchase,
+                    montoTotalBs: newMontoTotalBs,
+                    precioUnitarioBs: newPrecioUnitarioBs,
+                    tasaBcv: newTasaBcv,
+                  })
+                );
+              }
             }}
           />
         )}
@@ -229,14 +290,25 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 values.precioUnitarioBs,
                 newPrecioUnitarioUsd
               );
-              setValues({
-                ...values,
-                montoTotalUsd: newMontoTotalUsd,
-                precioUnitarioUsd: newPrecioUnitarioUsd,
-                tasaBcv: newTasaBcv,
-              });
-              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
-              setValue("tasaBcv", newTasaBcv);
+              if (Object.keys(editPurchase).length === 0) {
+                setValues({
+                  ...values,
+                  montoTotalUsd: newMontoTotalUsd,
+                  precioUnitarioUsd: newPrecioUnitarioUsd,
+                  tasaBcv: newTasaBcv,
+                });
+                setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+                setValue("tasaBcv", newTasaBcv);
+              } else {
+                dispatch(
+                  updateEditPurchase({
+                    ...editPurchase,
+                    montoTotalUsd: newMontoTotalUsd,
+                    precioUnitarioUsd: newPrecioUnitarioUsd,
+                    tasaBcv: newTasaBcv,
+                  })
+                );
+              }
             }}
           />
         )}

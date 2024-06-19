@@ -22,6 +22,7 @@ export const PaymentForm = ({
   onChange,
 }: PaymentFormProps) => {
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+
   const dispatch = useDispatch();
   const [formValues, setFormValues] = useState(() => {
     if (editPurchase && Object.keys(editPurchase).length !== 0) {
@@ -38,7 +39,7 @@ export const PaymentForm = ({
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: formValues,
+    defaultValues: editPurchase || initialValues,
   });
 
   const {
@@ -49,8 +50,10 @@ export const PaymentForm = ({
     calculateTasaBcv,
   } = useCalculations();
 
-  const [values, setValues] = useState(formValues);
-
+  const [values, setValues] = useState({
+    repuesto: "",
+    descripcionRepuesto: "",
+  });
   const lastValuesRef = useRef(values);
 
   useEffect(() => {
@@ -92,6 +95,7 @@ export const PaymentForm = ({
       <Controller
         name="descripcion"
         control={control}
+        defaultValue="" // Asegúrate de que el valor inicial no sea `undefined`
         render={({ field }) => (
           <TextField
             {...field}
@@ -101,7 +105,14 @@ export const PaymentForm = ({
             onChange={(event) => {
               field.onChange(event); // update field value
               trigger("descripcion"); // validate field
-              setValues({ ...values, descripcion: event.target.value }); // update local state
+              if (Object.keys(editPurchase).length !== 0) {
+                dispatch(
+                  updateEditPurchase({
+                    ...editPurchase,
+                    descripcion: event.target.value,
+                  })
+                ); // update Redux state
+              }
             }}
           />
         )}

@@ -87,10 +87,12 @@ const useMultipleForm = (
     let result;
 
     const userEmail = localStorage.getItem("email");
+    console.log(facNDE);
+    console.log(proveedor);
     if (!isEdit) {
       const combinedForms = forms.map((form) => {
         form.payment.facNDE = facNDE;
-        form.payment.proveedor = proveedor;
+        form.payment.proveedor = proveedor.name;
         return {
           id: form.id,
           ...form.input,
@@ -153,7 +155,6 @@ const useMultipleForm = (
       };
       result = await dispatch(startEditPurchase(adjustedEditPurchase));
     }
-
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
       setIsSaveButtonDisabled(true);

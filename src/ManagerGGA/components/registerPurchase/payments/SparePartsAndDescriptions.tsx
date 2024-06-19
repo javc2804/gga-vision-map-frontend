@@ -33,7 +33,7 @@ export const SparePartsAndDescriptions = ({
               isOptionEqualToValue={(option, value) =>
                 option.name === value.name
               }
-              defaultValue={values.repuesto} // Añade esta línea
+              value={values.repuesto || null} // Usa 'value' en lugar de 'defaultValue'
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -75,7 +75,7 @@ export const SparePartsAndDescriptions = ({
               isOptionEqualToValue={(option, value) =>
                 option.name === value.name
               }
-              defaultValue={values.descripcionRepuesto} // Añade esta línea
+              value={values.descripcionRepuesto || null} // Usa 'value' en lugar de 'defaultValue'
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -113,7 +113,7 @@ export const SparePartsAndDescriptions = ({
               label="Contado"
               variant="outlined"
               fullWidth
-              defaultValue="Contado"
+              defaultValue="contado"
               disabled
             />
           )}

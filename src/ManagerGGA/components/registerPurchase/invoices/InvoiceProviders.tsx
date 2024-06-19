@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, TextField, Autocomplete } from "@mui/material";
 import { Controller, Control } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,31 +24,33 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
 }) => {
   const dispatch = useDispatch();
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
-
   const [facNDE, setFacNDE] = useState<number>(
     Number(editPurchase.facNDE) || 0
   );
-
   const handleFacNDEChange = (e: any) => {
-    setFacNDE(Number(e.target.value));
+    const newFacNDE = Number(e.target.value);
+    if (!isNaN(newFacNDE)) {
+      setFacNDE(newFacNDE);
 
-    if (Object.keys(editPurchase).length !== 0) {
-      dispatch(
-        updateEditPurchase({ ...editPurchase, facNDE: Number(e.target.value) })
-      );
+      if (Object.keys(editPurchase).length !== 0) {
+        dispatch(updateEditPurchase({ ...editPurchase, facNDE: newFacNDE }));
+      }
+      setFormState((prevState) => ({ ...prevState, facNDE: newFacNDE }));
     }
   };
 
   const handleFacNDEBlur = () => {
-    setFormState((prevState) => ({ ...prevState, facNDE: facNDE }));
+    if (Object.keys(editPurchase).length !== 0) {
+      dispatch(updateEditPurchase({ ...editPurchase, facNDE: facNDE }));
+    }
   };
 
   const handleProviderChange = (field: any, _: any, value: any) => {
     field.onChange(value);
-    setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
     if (Object.keys(editPurchase).length !== 0) {
       dispatch(updateEditPurchase({ ...editPurchase, proveedor: value.name })); // Actualiza editPurchase
     }
+    setFormState((prevState) => ({ ...prevState, proveedor: value }));
   };
 
   return (
@@ -59,7 +61,7 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
           variant="outlined"
           onChange={handleFacNDEChange}
           onBlur={handleFacNDEBlur}
-          value={facNDE}
+          value={facNDE} // Usa el estado de facNDE
           fullWidth
         />
       </Grid>
