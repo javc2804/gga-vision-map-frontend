@@ -2,6 +2,7 @@ import { Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEditPurchase } from "../../../../store/purchase/purchaseSlice";
+import { useState } from "react";
 interface PaymentFieldsProps {
   control: any;
   errors: any;
@@ -47,6 +48,8 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
 }) => {
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
   const dispatch = useDispatch();
+  const [precioUnitarioUsdUpdated, setPrecioUnitarioUsdUpdated] =
+    useState(false);
 
   return (
     <>
@@ -223,6 +226,7 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
             {...field}
             label="Precio unitario $"
             variant="outlined"
+            InputLabelProps={{ shrink: true }}
             error={!!errors.precioUnitarioUsd}
             helperText={errors.precioUnitarioUsd?.message}
             onChange={(event) => {
@@ -268,6 +272,7 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
             {...field}
             label="Monto total Bs"
             variant="outlined"
+            InputLabelProps={{ shrink: true }}
             error={!!errors.montoTotalBs}
             helperText={errors.montoTotalBs?.message}
             onChange={(event) => {
@@ -312,6 +317,7 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
             {...field}
             label="Monto total $"
             variant="outlined"
+            InputLabelProps={{ shrink: true }}
             error={!!errors.montoTotalUsd}
             helperText={errors.montoTotalUsd?.message}
             onChange={(event) => {

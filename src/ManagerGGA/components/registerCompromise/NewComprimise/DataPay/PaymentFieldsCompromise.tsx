@@ -65,6 +65,7 @@ export const PaymentFieldsCompromise: React.FC<PaymentFieldsProps> = ({
             {...field}
             label="Deuda unitario $"
             variant="outlined"
+            InputLabelProps={{ shrink: true }}
             error={!!errors.deudaUnitarioUsd}
             helperText={errors.deudaUnitarioUsd?.message}
             onChange={(event) => {
@@ -93,6 +94,7 @@ export const PaymentFieldsCompromise: React.FC<PaymentFieldsProps> = ({
             {...field}
             label="Deuda total $"
             variant="outlined"
+            InputLabelProps={{ shrink: true }}
             error={!!errors.deudaTotalUsd}
             helperText={errors.deudaTotalUsd?.message}
             disabled
