@@ -4,6 +4,7 @@ import {
   startEditPurchase,
   startSavePurchase,
 } from "../../../store/purchase/purchaseThunks";
+import { AssignmentReturn } from "@mui/icons-material";
 
 const useMultipleForm = (
   initialValuesInput: any,
@@ -86,6 +87,7 @@ const useMultipleForm = (
   const handleSaveClick = async (isEdit: boolean) => {
     let result;
     const userEmail = localStorage.getItem("email");
+
     if (!isEdit) {
       const combinedForms = forms.map((form) => {
         form.payment.facNDE = facNDE;
@@ -114,6 +116,7 @@ const useMultipleForm = (
           "repuesto",
           "descripcionRepuesto",
           "fechaOcOs",
+          "descripcion",
         ];
 
         return requiredFields.some((field) => {
@@ -142,16 +145,61 @@ const useMultipleForm = (
         );
         return;
       }
+
       result = await dispatch(startSavePurchase(combinedForms));
     } else {
       const adjustedEditPurchase = {
         ...editPurchase,
-        // facNDE,
-        // proveedor,
         user_rel: userEmail,
       };
+
+      let errorField = null;
+      const requiredFields = [
+        "facNDE",
+        "proveedor",
+        "cantidad",
+        "montoTotalBs",
+        "montoTotalUsd",
+        "numeroOrdenPago",
+        "precioUnitarioBs",
+        "precioUnitarioUsd",
+        "tasaBcv",
+        "repuesto",
+        "descripcionRepuesto",
+        "fechaOcOs",
+        "descripcion",
+      ];
+
+      const hasErrors = requiredFields.some((field) => {
+        const hasError =
+          !adjustedEditPurchase[field] || adjustedEditPurchase[field] === null;
+        if (hasError) {
+          errorField = field;
+        }
+        return hasError;
+      });
+
+      if (hasErrors) {
+        openSnackbar(
+          `Error al editar, verifica el campo ${errorField}`,
+          "error",
+          ErrorOutline
+        );
+        return;
+      }
+
+      if (adjustedEditPurchase.facNDE === "0" || "") {
+        openSnackbar(
+          `Error al editar, Fac/NDE debe estar lleno y distinto a 0`,
+          "error",
+          ErrorOutline
+        );
+        return;
+      }
+
       result = await dispatch(startEditPurchase(adjustedEditPurchase));
     }
+
     if (result.ok) {
       openSnackbar("Guardado exitosamente", "success", CheckCircle);
       setIsSaveButtonDisabled(true);
