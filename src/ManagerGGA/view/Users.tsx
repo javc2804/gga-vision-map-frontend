@@ -20,6 +20,7 @@ import { useUser } from "../hooks/useUsers";
 import { DeleteDialog } from "../../components/DeleteDialog";
 import { startToggleStatusUser } from "../../store/users/usersThunk";
 import { useSnackbar } from "../../hooks/useSnackBar";
+import UserModal from "../../ManagerGGA/components/UserModal";
 
 interface User {
   createdAt: string;
@@ -46,6 +47,10 @@ export const Users = () => {
   const [selectedUserEmail, setSelectedUserEmail] = useState<string | null>(
     null
   );
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  const [openUserModal, setOpenUserModal] = useState(false);
+
   const { openSnackbar, SnackbarComponent } = useSnackbar();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
@@ -57,7 +62,7 @@ export const Users = () => {
       CheckCircleIcon
     );
     setSnackbarOpen(true);
-    setUpdateList((prevState) => !prevState); // Actualiza la lista de usuarios
+    setUpdateList((prevState) => !prevState);
   };
 
   const {
@@ -82,9 +87,21 @@ export const Users = () => {
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <h1>Gestión de usuarios</h1>
-        <Button variant="contained" color="primary" onClick={() => ({})}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setOpenUserModal(true)}
+        >
           Crear usuario
         </Button>
+        <UserModal
+  open={openUserModal}
+  handleClose={() => {
+    setOpenUserModal(false);
+    setSelectedUser(null); // Limpiar el usuario seleccionado cuando se cierra la modal
+  }}
+  initialValues={selectedUser}
+/>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -136,6 +153,10 @@ export const Users = () => {
                               marginLeft: 1,
                               color: "orange",
                               cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              setSelectedUser(user);
+                              setOpenUserModal(true);
                             }}
                           />
                         </Tooltip>
