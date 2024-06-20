@@ -85,7 +85,6 @@ const useMultipleForm = (
 
   const handleSaveClick = async (isEdit: boolean) => {
     let result;
-
     const userEmail = localStorage.getItem("email");
     if (!isEdit) {
       const combinedForms = forms.map((form) => {

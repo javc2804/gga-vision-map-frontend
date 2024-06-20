@@ -53,7 +53,7 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
       <Controller
         name="cantidad"
         control={control}
-        defaultValue="" // Asegúrate de que el valor inicial no sea `undefined`
+        defaultValue=""
         render={({ field }) => (
           <TextField
             {...field}
@@ -61,31 +61,53 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
             variant="outlined"
             error={!!errors.cantidad}
             helperText={errors.cantidad?.message}
-            value={field.value || ""} // Usa 'value' en lugar de 'defaultValue'
+            value={field.value || ""}
             onChange={(event) => {
-              field.onChange(event.target.value); // Actualiza el valor del campo
-              trigger("cantidad");
               const newCantidad = Number(event.target.value);
+              field.onChange(newCantidad);
+              trigger("cantidad");
+
               const newMontoTotalUsd = calculateMontoTotalUsd(
-                values.precioUnitarioUsd,
+                values.precioUnitarioUsd || editPurchase.precioUnitarioUsd,
                 newCantidad
               );
-              if (Object.keys(editPurchase).length === 0) {
-                setValues({
-                  ...values,
-                  cantidad: newCantidad,
-                  montoTotalUsd: newMontoTotalUsd,
-                });
-                setValue("montoTotalUsd", newMontoTotalUsd);
-              } else {
+              const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
+                values.montoTotalBs || editPurchase.montoTotalBs,
+                newCantidad
+              );
+              const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
+                values.montoTotalUsd || editPurchase.montoTotalUsd,
+                newCantidad
+              );
+              const newTasaBcv = calculateTasaBcv(
+                newPrecioUnitarioBs,
+                newPrecioUnitarioUsd
+              );
+
+              if (Object.keys(editPurchase).length !== 0) {
                 dispatch(
                   updateEditPurchase({
                     ...editPurchase,
                     cantidad: newCantidad,
                     montoTotalUsd: newMontoTotalUsd,
+                    precioUnitarioBs: newPrecioUnitarioBs,
+                    precioUnitarioUsd: newPrecioUnitarioUsd,
+                    tasaBcv: newTasaBcv,
                   })
-                ); // Actualiza editPurchase en lugar de values
+                );
               }
+              setValues({
+                ...values,
+                cantidad: newCantidad,
+                montoTotalUsd: newMontoTotalUsd,
+                precioUnitarioBs: newPrecioUnitarioBs,
+                precioUnitarioUsd: newPrecioUnitarioUsd,
+                tasaBcv: newTasaBcv,
+              });
+              setValue("montoTotalUsd", newMontoTotalUsd);
+              setValue("precioUnitarioBs", newPrecioUnitarioBs);
+              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+              setValue("tasaBcv", newTasaBcv);
             }}
           />
         )}
@@ -106,28 +128,17 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
               const newPrecioUnitarioBs = Number(event.target.value);
               const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
                 newPrecioUnitarioBs,
-                values.tasaBcv
+                values.tasaBcv || editPurchase.tasaBcv
               );
               const newMontoTotalBs = calculateMontoTotalBs(
-                values.cantidad,
+                values.cantidad || editPurchase.cantidad,
                 newPrecioUnitarioBs
               );
               const newMontoTotalUsd = calculateMontoTotalUsd(
-                values.cantidad,
+                values.cantidad || editPurchase.cantidad,
                 newPrecioUnitarioUsd
               );
-              if (Object.keys(editPurchase).length === 0) {
-                setValues({
-                  ...values,
-                  precioUnitarioBs: newPrecioUnitarioBs,
-                  precioUnitarioUsd: newPrecioUnitarioUsd,
-                  montoTotalBs: newMontoTotalBs,
-                  montoTotalUsd: newMontoTotalUsd,
-                });
-                setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
-                setValue("montoTotalBs", newMontoTotalBs);
-                setValue("montoTotalUsd", newMontoTotalUsd);
-              } else {
+              if (Object.keys(editPurchase).length !== 0) {
                 dispatch(
                   updateEditPurchase({
                     ...editPurchase,
@@ -138,6 +149,16 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                   })
                 );
               }
+              setValues({
+                ...values,
+                precioUnitarioBs: newPrecioUnitarioBs,
+                precioUnitarioUsd: newPrecioUnitarioUsd,
+                montoTotalBs: newMontoTotalBs,
+                montoTotalUsd: newMontoTotalUsd,
+              });
+              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+              setValue("montoTotalBs", newMontoTotalBs);
+              setValue("montoTotalUsd", newMontoTotalUsd);
             }}
           />
         )}
@@ -157,23 +178,14 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
               trigger("tasaBcv");
               const newTasaBcv = Number(event.target.value);
               const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
-                values.precioUnitarioBs,
+                values.precioUnitarioBs || editPurchase.precioUnitarioBs,
                 newTasaBcv
               );
               const newMontoTotalUsd = calculateMontoTotalUsd(
                 newPrecioUnitarioUsd,
-                values.cantidad
+                values.cantidad || editPurchase.cantidad
               );
-              if (Object.keys(editPurchase).length === 0) {
-                setValues({
-                  ...values,
-                  tasaBcv: newTasaBcv,
-                  precioUnitarioUsd: newPrecioUnitarioUsd,
-                  montoTotalUsd: newMontoTotalUsd,
-                });
-                setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
-                setValue("montoTotalUsd", newMontoTotalUsd);
-              } else {
+              if (Object.keys(editPurchase).length !== 0) {
                 dispatch(
                   updateEditPurchase({
                     ...editPurchase,
@@ -183,6 +195,14 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                   })
                 );
               }
+              setValues({
+                ...values,
+                tasaBcv: newTasaBcv,
+                precioUnitarioUsd: newPrecioUnitarioUsd,
+                montoTotalUsd: newMontoTotalUsd,
+              });
+              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+              setValue("montoTotalUsd", newMontoTotalUsd);
             }}
           />
         )}
@@ -201,24 +221,33 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
               field.onChange(event);
               trigger("precioUnitarioUsd");
               const newPrecioUnitarioUsd = Number(event.target.value);
-              const newPrecioUnitarioBs =
-                Number(values.tasaBcv) * newPrecioUnitarioUsd;
-              if (Object.keys(editPurchase).length === 0) {
-                setValues({
-                  ...values,
-                  precioUnitarioUsd: newPrecioUnitarioUsd.toString(),
-                  precioUnitarioBs: newPrecioUnitarioBs.toString(),
-                });
-                setValue("precioUnitarioBs", newPrecioUnitarioBs);
-              } else {
+
+              const newPrecioUnitarioBs = (
+                (Number(values.tasaBcv) || editPurchase.tasaBcv) *
+                newPrecioUnitarioUsd
+              ).toFixed(2);
+
+              const newMontoTotalUsd = calculateMontoTotalUsd(
+                newPrecioUnitarioUsd,
+                Number(values.cantidad) || editPurchase.cantidad
+              );
+
+              if (Object.keys(editPurchase).length !== 0) {
                 dispatch(
                   updateEditPurchase({
                     ...editPurchase,
-                    precioUnitarioUsd: newPrecioUnitarioUsd.toString(),
-                    precioUnitarioBs: newPrecioUnitarioBs.toString(),
+                    precioUnitarioUsd: newPrecioUnitarioUsd,
+                    precioUnitarioBs: newPrecioUnitarioBs,
                   })
                 );
               }
+              setValues({
+                ...values,
+                precioUnitarioUsd: newPrecioUnitarioUsd,
+                precioUnitarioBs: newPrecioUnitarioBs,
+              });
+              setValue("precioUnitarioBs", newPrecioUnitarioBs);
+              setValue("montoTotalUsd", newMontoTotalUsd);
             }}
           />
         )}
@@ -239,22 +268,13 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
               const newMontoTotalBs = Number(event.target.value);
               const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
                 newMontoTotalBs,
-                Number(values.cantidad)
+                Number(values.cantidad) || editPurchase.cantidad
               );
               const newTasaBcv = calculateTasaBcv(
                 newPrecioUnitarioBs,
-                values.precioUnitarioUsd
+                values.precioUnitarioUsd || editPurchase.precioUnitarioUsd
               );
-              if (Object.keys(editPurchase).length === 0) {
-                setValues({
-                  ...values,
-                  montoTotalBs: newMontoTotalBs,
-                  precioUnitarioBs: newPrecioUnitarioBs,
-                  tasaBcv: newTasaBcv,
-                });
-                setValue("precioUnitarioBs", newPrecioUnitarioBs);
-                setValue("tasaBcv", newTasaBcv);
-              } else {
+              if (Object.keys(editPurchase).length !== 0) {
                 dispatch(
                   updateEditPurchase({
                     ...editPurchase,
@@ -264,6 +284,14 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                   })
                 );
               }
+              setValues({
+                ...values,
+                montoTotalBs: newMontoTotalBs,
+                precioUnitarioBs: newPrecioUnitarioBs,
+                tasaBcv: newTasaBcv,
+              });
+              setValue("precioUnitarioBs", newPrecioUnitarioBs);
+              setValue("tasaBcv", newTasaBcv);
             }}
           />
         )}
@@ -287,19 +315,10 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 values.cantidad
               );
               const newTasaBcv = calculateTasaBcv(
-                values.precioUnitarioBs,
+                values.precioUnitarioBs || editPurchase.precioUnitarioBs,
                 newPrecioUnitarioUsd
               );
-              if (Object.keys(editPurchase).length === 0) {
-                setValues({
-                  ...values,
-                  montoTotalUsd: newMontoTotalUsd,
-                  precioUnitarioUsd: newPrecioUnitarioUsd,
-                  tasaBcv: newTasaBcv,
-                });
-                setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
-                setValue("tasaBcv", newTasaBcv);
-              } else {
+              if (Object.keys(editPurchase).length !== 0) {
                 dispatch(
                   updateEditPurchase({
                     ...editPurchase,
@@ -309,6 +328,14 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                   })
                 );
               }
+              setValues({
+                ...values,
+                montoTotalUsd: newMontoTotalUsd,
+                precioUnitarioUsd: newPrecioUnitarioUsd,
+                tasaBcv: newTasaBcv,
+              });
+              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+              setValue("tasaBcv", newTasaBcv);
             }}
           />
         )}
