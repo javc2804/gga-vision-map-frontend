@@ -53,6 +53,7 @@ export const PaymentForm = ({
   const [values, setValues] = useState({
     repuesto: "",
     descripcionRepuesto: "",
+    descripcion: "",
   });
   const lastValuesRef = useRef(values);
 
@@ -103,6 +104,11 @@ export const PaymentForm = ({
             variant="outlined"
             error={!!errors.descripcion}
             onChange={(event) => {
+              setValues({
+                ...values,
+                descripcion: event.target.value,
+              });
+              console.log(values);
               field.onChange(event); // update field value
               trigger("descripcion"); // validate field
               if (Object.keys(editPurchase).length !== 0) {
