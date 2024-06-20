@@ -67,22 +67,27 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
               field.onChange(newCantidad);
               trigger("cantidad");
 
+              // const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
+              //   values.montoTotalBs || editPurchase.montoTotalBs,
+              //   newCantidad
+              // );
+
               const newMontoTotalUsd = calculateMontoTotalUsd(
-                values.precioUnitarioUsd || editPurchase.precioUnitarioUsd,
-                newCantidad
+                newCantidad,
+                values.precioUnitarioUsd || editPurchase.precioUnitarioUsd
               );
-              const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
-                values.montoTotalBs || editPurchase.montoTotalBs,
-                newCantidad
+              const newMontoTotalBs = calculateMontoTotalBs(
+                newCantidad,
+                values.precioUnitarioBs || editPurchase.precioUnitarioBs
               );
-              const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
-                values.montoTotalUsd || editPurchase.montoTotalUsd,
-                newCantidad
-              );
-              const newTasaBcv = calculateTasaBcv(
-                newPrecioUnitarioBs,
-                newPrecioUnitarioUsd
-              );
+              // const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
+              //   values.montoTotalUsd || editPurchase.montoTotalUsd,
+              //   newCantidad
+              // );
+              // const newTasaBcv = calculateTasaBcv(
+              //   values.precioUnitarioBs || editPurchase.precioUnitarioBs,
+              //   values.precioUnitarioUsd || editPurchase.precioUnitarioUsd
+              // );
 
               if (Object.keys(editPurchase).length !== 0) {
                 dispatch(
@@ -90,9 +95,10 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                     ...editPurchase,
                     cantidad: newCantidad,
                     montoTotalUsd: newMontoTotalUsd,
-                    precioUnitarioBs: newPrecioUnitarioBs,
-                    precioUnitarioUsd: newPrecioUnitarioUsd,
-                    tasaBcv: newTasaBcv,
+                    montoTotalBs: newMontoTotalBs,
+                    // precioUnitarioBs: newPrecioUnitarioBs,
+                    // precioUnitarioUsd: newPrecioUnitarioUsd,
+                    // tasaBcv: newTasaBcv,
                   })
                 );
               }
@@ -100,14 +106,16 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 ...values,
                 cantidad: newCantidad,
                 montoTotalUsd: newMontoTotalUsd,
-                precioUnitarioBs: newPrecioUnitarioBs,
-                precioUnitarioUsd: newPrecioUnitarioUsd,
-                tasaBcv: newTasaBcv,
+                montoTotalBs: newMontoTotalBs,
+                // precioUnitarioBs: newPrecioUnitarioBs,
+                // precioUnitarioUsd: newPrecioUnitarioUsd,
+                // tasaBcv: newTasaBcv,
               });
               setValue("montoTotalUsd", newMontoTotalUsd);
-              setValue("precioUnitarioBs", newPrecioUnitarioBs);
-              setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
-              setValue("tasaBcv", newTasaBcv);
+              setValue("montoTotalBs", newMontoTotalBs);
+              // setValue("precioUnitarioBs", newPrecioUnitarioBs);
+              // setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
+              // setValue("tasaBcv", newTasaBcv);
             }}
           />
         )}

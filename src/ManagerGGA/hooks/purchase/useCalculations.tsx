@@ -7,8 +7,7 @@ export const useCalculations = () => {
         return 0;
       }
       if (!isNaN(precioUnitarioBs) && !isNaN(tasaBcv) && tasaBcv !== 0) {
-        const result = precioUnitarioBs / tasaBcv;
-        return Number(result.toFixed(2)); // round to 2 decimal places and convert to number
+        return Number((precioUnitarioBs / tasaBcv).toFixed(2));
       }
 
       return 0;
