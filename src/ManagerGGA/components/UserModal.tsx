@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   TextField,
@@ -8,21 +8,49 @@ import {
   DialogTitle,
 } from "@mui/material";
 
+interface User {
+  name: string;
+  lastName: string;
+  email: string;
+  role: string;
+  password: string;
+}
+
 interface UserModalProps {
   open: boolean;
   handleClose: () => void;
+  user?: User; // Agrega esta línea
 }
+const UserModal: React.FC<UserModalProps> = ({ open, handleClose, user }) => {
+  const [name, setName] = useState(user ? user.name : "");
+  const [lastName, setLastName] = useState(user ? user.lastName : "");
+  const [email, setEmail] = useState(user ? user.email : "");
+  const [role, setRole] = useState(user ? user.role : "");
+  const [password, setPassword] = useState(user ? user.password : "");
 
-const UserModal: React.FC<UserModalProps> = ({ open, handleClose }) => {
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
-  const [password, setPassword] = useState("");
-
+  useEffect(() => {
+    setName(user ? user.name : "");
+    setLastName(user ? user.lastName : "");
+    setEmail(user ? user.email : "");
+    setRole(user ? user.role : "");
+    setPassword(user ? user.password : "");
+  }, [user]);
   const handleSubmit = () => {
-    // Aquí puedes manejar la lógica de envío, como llamar a una API o despachar una acción de Redux
-    console.log({ name, lastName, email, role, password });
+    if (user) {
+      // Si user está definido, estamos editando un usuario existente
+      console.log("Editando usuario", {
+        name,
+        lastName,
+        email,
+        role,
+        password,
+      });
+      // Aquí puedes manejar la lógica de edición, como llamar a una API o despachar una acción de Redux
+    } else {
+      // Si user no está definido, estamos creando un nuevo usuario
+      console.log("Creando usuario", { name, lastName, email, role, password });
+      // Aquí puedes manejar la lógica de creación, como llamar a una API o despachar una acción de Redux
+    }
     handleClose();
   };
 
