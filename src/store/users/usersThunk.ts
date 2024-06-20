@@ -19,7 +19,19 @@ export const startDeleteUser =
   async (dispatch: AppDispatch) => {
     try {
       const users = await userService.deleteUser(email);
-      dispatch(userList(users.response));
+    } catch (error: any) {
+      if (error instanceof Error) {
+        // dispatch(getPurchaseFailure(error.message));
+      } else {
+        // dispatch(getPurchaseFailure("An unknown error occurred."));
+      }
+    }
+  };
+export const startToggleStatusUser =
+  (email: any): any =>
+  async (dispatch: AppDispatch) => {
+    try {
+      const user = await userService.toggleStatus(email);
     } catch (error: any) {
       if (error instanceof Error) {
         // dispatch(getPurchaseFailure(error.message));

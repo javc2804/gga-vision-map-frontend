@@ -19,4 +19,15 @@ export const userService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  toggleStatus: (email: any) => {
+    console.log(email);
+
+    return API_URL.post("users/toggle-status", { email })
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
 };

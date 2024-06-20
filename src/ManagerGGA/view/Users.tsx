@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Paper,
   Table,
@@ -18,6 +18,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import BlockIcon from "@mui/icons-material/Block";
 import { useUser } from "../hooks/useUsers";
 import { DeleteDialog } from "../../components/DeleteDialog";
+import { startToggleStatusUser } from "../../store/users/usersThunk";
+import { useSnackbar } from "../../hooks/useSnackBar";
 
 interface User {
   createdAt: string;
@@ -38,11 +40,25 @@ const formatDate = (dateString: string) => {
 };
 
 export const Users = () => {
+  const dispatch = useDispatch();
   const users = useSelector((state: any) => state.users);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [selectedUserEmail, setSelectedUserEmail] = useState<string | null>(
     null
   );
+  const { openSnackbar, SnackbarComponent } = useSnackbar();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const toggleUserStatus = (email: any) => {
+    dispatch(startToggleStatusUser(email));
+    openSnackbar(
+      "Estado del usuario cambiado con éxito",
+      "success",
+      CheckCircleIcon
+    );
+    setSnackbarOpen(true);
+    setUpdateList((prevState) => !prevState); // Actualiza la lista de usuarios
+  };
 
   const {
     deleteUser,
@@ -50,118 +66,128 @@ export const Users = () => {
     rowsPerPage,
     handleChangePage,
     handleChangeRowsPerPage,
+    setUpdateList,
   } = useUser();
 
+  const handleConfirm = async () => {
+    if (selectedUserEmail) {
+      await deleteUser(selectedUserEmail);
+      openSnackbar("Usuario eliminado con éxito", "success", CheckCircleIcon);
+      setSnackbarOpen(true); // Open the snackbar
+    }
+    setOpenDeleteDialog(false);
+  };
+
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <h1>Gestión de usuarios</h1>
-      <Button variant="contained" color="primary" onClick={() => ({})}>
-        Crear usuario
-      </Button>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Fecha Creación
-              </TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Nombre y apellido
-              </TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Correo
-              </TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Rol
-              </TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Acciones
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.isArray(users.list) &&
-              users.list
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((user: User, index: number) => (
-                  <TableRow key={index}>
-                    <TableCell>{formatDate(user.createdAt)}</TableCell>
-                    <TableCell>{`${user.name} ${user.lastName}`}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.role}</TableCell>
-                    <TableCell>
-                      <Tooltip title="Eliminar">
-                        <DeleteIcon
-                          sx={{
-                            marginLeft: 1,
-                            color: "red",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            setOpenDeleteDialog(true);
-                            setSelectedUserEmail(user.email); // Store user's email when delete icon is clicked
-                          }}
-                        />
-                      </Tooltip>
-                      <Tooltip title="Editar">
-                        <EditIcon
-                          sx={{
-                            marginLeft: 1,
-                            color: "orange",
-                            cursor: "pointer",
-                          }}
-                        />
-                      </Tooltip>
-                      {user.status ? (
-                        <Tooltip title="Desactivar">
-                          <CheckCircleIcon
+    <>
+      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <h1>Gestión de usuarios</h1>
+        <Button variant="contained" color="primary" onClick={() => ({})}>
+          Crear usuario
+        </Button>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                  Fecha Creación
+                </TableCell>
+                <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                  Nombre y apellido
+                </TableCell>
+                <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                  Correo
+                </TableCell>
+                <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                  Rol
+                </TableCell>
+                <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                  Acciones
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Array.isArray(users.list) &&
+                users.list
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((user: User, index: number) => (
+                    <TableRow key={index}>
+                      <TableCell>{formatDate(user.createdAt)}</TableCell>
+                      <TableCell>{`${user.name} ${user.lastName}`}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.role}</TableCell>
+                      <TableCell>
+                        <Tooltip title="Eliminar">
+                          <DeleteIcon
                             sx={{
                               marginLeft: 1,
-                              color: "green",
+                              color: "red",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              setOpenDeleteDialog(true);
+                              setSelectedUserEmail(user.email); // Store user's email when delete icon is clicked
+                            }}
+                          />
+                        </Tooltip>
+                        <Tooltip title="Editar">
+                          <EditIcon
+                            sx={{
+                              marginLeft: 1,
+                              color: "orange",
                               cursor: "pointer",
                             }}
                           />
                         </Tooltip>
-                      ) : (
-                        <Tooltip title="Activar">
-                          <BlockIcon
-                            sx={{
-                              marginLeft: 1,
-                              color: "grey",
-                              cursor: "pointer",
-                            }}
-                          />
-                        </Tooltip>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100]}
-        component="div"
-        count={users.list.length || 0}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-      <DeleteDialog
-        open={openDeleteDialog}
-        handleClose={() => {
-          setOpenDeleteDialog(false);
-          setSelectedUserEmail(null);
-        }}
-        handleConfirm={() => {
-          if (selectedUserEmail) {
-            deleteUser(selectedUserEmail);
-          }
-          setOpenDeleteDialog(false);
-        }}
-      />
-    </Paper>
+                        {user.status ? (
+                          <Tooltip title="Desactivar">
+                            <CheckCircleIcon
+                              sx={{
+                                marginLeft: 1,
+                                color: "green",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => toggleUserStatus(user.email)}
+                            />
+                          </Tooltip>
+                        ) : (
+                          <Tooltip title="Activar">
+                            <BlockIcon
+                              sx={{
+                                marginLeft: 1,
+                                color: "grey",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => toggleUserStatus(user.email)}
+                            />
+                          </Tooltip>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 100]}
+          component="div"
+          count={users.list.length || 0}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+        <DeleteDialog
+          open={openDeleteDialog}
+          handleClose={() => {
+            setOpenDeleteDialog(false);
+            setSelectedUserEmail(null);
+          }}
+          handleConfirm={handleConfirm}
+        />
+      </Paper>
+      {SnackbarComponent}
+    </>
   );
 };
 

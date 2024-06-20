@@ -5,7 +5,9 @@ import { startDeleteUser, startGetUsers } from "../../store/users/usersThunk";
 export const useUser = (initialRowsPerPage: number = 5) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
+  const [updateList, setUpdateList] = useState(false); // Nuevo estado para controlar la actualización de la lista
   const dispatch = useDispatch();
+
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -17,11 +19,12 @@ export const useUser = (initialRowsPerPage: number = 5) => {
 
   const deleteUser = (email: string) => {
     dispatch(startDeleteUser(email));
+    setUpdateList(!updateList); // Cambia el estado para forzar la actualización de la lista
   };
 
   useEffect(() => {
     dispatch(startGetUsers());
-  }, []);
+  }, [updateList]); // Ahora useEffect escucha los cambios en updateList
 
   return {
     deleteUser,
@@ -29,5 +32,6 @@ export const useUser = (initialRowsPerPage: number = 5) => {
     rowsPerPage,
     handleChangePage,
     handleChangeRowsPerPage,
+    setUpdateList,
   };
 };
