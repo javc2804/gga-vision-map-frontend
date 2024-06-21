@@ -140,11 +140,11 @@ export const ListPurchase = () => {
   ];
 
   const {
-    // order,
+    order,
     orderBy,
     page,
     rowsPerPage,
-    // handleSortRequest,
+    handleSortRequest,
     handleChangePage,
     handleChangeRowsPerPage,
   } = useTableList([]);
@@ -441,8 +441,10 @@ export const ListPurchase = () => {
                   {headers.map((header) => (
                     <SortableTableHeader
                       key={header}
-                      header={headerDisplayNames[header] || header} // Si el mapeo existe, usa el nombre de visualización, de lo contrario usa el nombre original
+                      header={headerDisplayNames[header] || header}
                       orderBy={orderBy}
+                      order={order} // Asegúrate de pasar la prop order
+                      onSortRequest={handleSortRequest} // Asegúrate de pasar la prop onSortRequest
                     />
                   ))}
                 </TableRow>
