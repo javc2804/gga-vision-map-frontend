@@ -15,6 +15,7 @@ const ViewCompromise = ({ compromise }: any) => {
   if (!compromise) {
     return null;
   }
+  console.log(compromise);
   const hasUt = compromise.ut;
 
   return (
@@ -128,7 +129,7 @@ const ViewCompromise = ({ compromise }: any) => {
         <>
           <TextField
             label="OC/OS"
-            value={compromise.OcOs}
+            value={compromise.ocOs}
             InputProps={{ readOnly: true }}
             InputLabelProps={{ shrink: true }}
             style={{ marginRight: "10px", marginBottom: "10px" }}

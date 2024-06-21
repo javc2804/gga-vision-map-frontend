@@ -62,7 +62,7 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
             variant="outlined"
             error={!!errors.cantidad}
             helperText={errors.cantidad?.message}
-            value={field.value || ""}
+            value={field.value || 0}
             onChange={(event) => {
               const newCantidad = Number(event.target.value);
               field.onChange(newCantidad);
