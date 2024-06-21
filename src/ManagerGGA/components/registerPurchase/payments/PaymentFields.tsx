@@ -2,7 +2,6 @@ import { Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEditPurchase } from "../../../../store/purchase/purchaseSlice";
-import { useState } from "react";
 interface PaymentFieldsProps {
   control: any;
   errors: any;

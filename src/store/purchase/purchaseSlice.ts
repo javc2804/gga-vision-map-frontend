@@ -103,13 +103,14 @@ export const purchaseSlice = createSlice({
     modalImport: (state, { payload }) => {
       state.modal = payload;
     },
-    editPurchase: (state, { payload }) => {
-      state.purchaseEdit = payload;
-    },
+    // editPurchase: (state, { payload }) => {
+    //   state.purchaseEdit = payload;
+    // },
     editPurchaseClear: (state) => {
       state.purchaseEdit = {};
     },
     updateEditPurchase: (state, { payload }) => {
+      console.log(payload);
       state.purchaseEdit = payload;
     },
     getDataGraph: (state, { payload }) => {
@@ -123,7 +124,6 @@ export const purchaseSlice = createSlice({
 
 export const {
   getDataGraph,
-  editPurchase,
   editPurchaseClear,
   getPurchaseStart,
   getPurchaseSuccess,

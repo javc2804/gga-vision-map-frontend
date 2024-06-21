@@ -52,26 +52,26 @@ export const PaymentFormCompromise = ({
 
   const lastValuesRef = useRef(values);
 
-  useEffect(() => {
-    if (editPurchase && Object.keys(editPurchase).length !== 0) {
-      Object.keys(editPurchase).forEach((key) => {
-        setValue(key, editPurchase[key]);
-      });
-    }
-  }, [editPurchase, setValue]);
+  // useEffect(() => {
+  //   if (editPurchase && Object.keys(editPurchase).length !== 0) {
+  //     Object.keys(editPurchase).forEach((key) => {
+  //       setValue(key, editPurchase[key]);
+  //     });
+  //   }
+  // }, [editPurchase, setValue]);
 
-  useEffect(() => {
-    if (
-      typeof onChange === "function" &&
-      JSON.stringify(values) !== JSON.stringify(lastValuesRef.current)
-    ) {
-      if (Object.keys(editPurchase).length !== 0) {
-        dispatch(updateEditPurchase({ ...editPurchase, ...values }));
-      }
-      onChange(values, errors);
-      lastValuesRef.current = values;
-    }
-  }, [values, onChange, errors]);
+  // useEffect(() => {
+  //   if (
+  //     typeof onChange === "function" &&
+  //     JSON.stringify(values) !== JSON.stringify(lastValuesRef.current)
+  //   ) {
+  //     if (Object.keys(editPurchase).length !== 0) {
+  //       dispatch(updateEditPurchase({ ...editPurchase, ...values }));
+  //     }
+  //     onChange(values, errors);
+  //     lastValuesRef.current = values;
+  //   }
+  // }, [values, onChange, errors]);
 
   const onSubmit = (data: any) => {
     if (typeof onChange === "function") {
@@ -108,6 +108,14 @@ export const PaymentFormCompromise = ({
             onChange={(event) => {
               field.onChange(event); // update field value
               trigger("descripcion"); // validate field
+              if (Object.keys(editPurchase).length !== 0) {
+                dispatch(
+                  updateEditPurchase({
+                    ...editPurchase,
+                    descripcion: event.target.value,
+                  })
+                );
+              }
               setValues({ ...values, descripcion: event.target.value }); // update local state
             }}
           />

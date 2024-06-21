@@ -1,5 +1,7 @@
 import { Controller } from "react-hook-form";
 import { TextField, Grid, Autocomplete } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { updateEditPurchase } from "../../../../../store/purchase/purchaseSlice";
 
 interface SparePartsProps {
   control: any;
@@ -16,6 +18,8 @@ export const SparePartsAndDescriptionsCompromise = ({
   spareParts,
   sparePartVariants,
 }: SparePartsProps) => {
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+  const dispatch = useDispatch();
   return (
     <Grid container spacing={2} style={{ width: "40%" }}>
       <Grid item xs={12} sm={6} md={4}>
@@ -44,11 +48,27 @@ export const SparePartsAndDescriptionsCompromise = ({
               onChange={(_, data) => {
                 field.onChange(data);
                 if (data) {
+                  if (Object.keys(editPurchase).length !== 0) {
+                    dispatch(
+                      updateEditPurchase({
+                        ...editPurchase,
+                        repuesto: data.type,
+                      })
+                    );
+                  }
                   setValues({
                     ...values,
                     repuesto: data.type,
                   });
                 } else {
+                  if (Object.keys(editPurchase).length !== 0) {
+                    dispatch(
+                      updateEditPurchase({
+                        ...editPurchase,
+                        repuesto: null,
+                      })
+                    );
+                  }
                   setValues({
                     ...values,
                     repuesto: null,
@@ -85,11 +105,27 @@ export const SparePartsAndDescriptionsCompromise = ({
               onChange={(_, data) => {
                 field.onChange(data); // Esto es necesario para que react-hook-form rastree los cambios
                 if (data) {
+                  if (Object.keys(editPurchase).length !== 0) {
+                    dispatch(
+                      updateEditPurchase({
+                        ...editPurchase,
+                        descripcionRepuesto: data.variant,
+                      })
+                    );
+                  }
                   setValues({
                     ...values,
                     descripcionRepuesto: data.variant,
                   });
                 } else {
+                  if (Object.keys(editPurchase).length !== 0) {
+                    dispatch(
+                      updateEditPurchase({
+                        ...editPurchase,
+                        descripcionRepuesto: null,
+                      })
+                    );
+                  }
                   setValues({
                     ...values,
                     descripcionRepuesto: null,

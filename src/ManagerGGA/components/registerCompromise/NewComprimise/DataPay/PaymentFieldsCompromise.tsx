@@ -52,6 +52,7 @@ export const PaymentFieldsCompromise: React.FC<PaymentFieldsProps> = ({
                 newCantidad,
                 values.deudaUnitarioUsd || editPurchase.deudaUnitarioUsd
               );
+
               if (Object.keys(editPurchase).length !== 0) {
                 dispatch(
                   updateEditPurchase({
@@ -61,6 +62,7 @@ export const PaymentFieldsCompromise: React.FC<PaymentFieldsProps> = ({
                   })
                 );
               }
+
               setValues({
                 ...values,
                 cantidad: newCantidad,
@@ -89,6 +91,15 @@ export const PaymentFieldsCompromise: React.FC<PaymentFieldsProps> = ({
                 values.cantidad,
                 newDeudaUnitarioUsd
               );
+              if (Object.keys(editPurchase).length !== 0) {
+                dispatch(
+                  updateEditPurchase({
+                    ...editPurchase,
+                    deudaUnitarioUsd: newDeudaUnitarioUsd,
+                    deudaTotalUsd: newDeudaTotalUsd,
+                  })
+                );
+              }
               setValues({
                 ...values,
                 deudaUnitarioUsd: newDeudaUnitarioUsd,

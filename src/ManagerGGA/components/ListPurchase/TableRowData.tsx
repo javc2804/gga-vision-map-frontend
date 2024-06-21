@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { editPurchase } from "../../../store/purchase/purchaseSlice";
+import { updateEditPurchase } from "../../../store/purchase/purchaseSlice";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 import { useState } from "react";
 import { startDeletePurchase } from "../../../store/purchase/purchaseThunks";
@@ -37,7 +37,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   const dispatch = useDispatch();
 
   const handleEdit = (data: IRow) => {
-    dispatch(editPurchase(data));
+    dispatch(updateEditPurchase(data));
     navigate(`/register-out/`);
   };
 
