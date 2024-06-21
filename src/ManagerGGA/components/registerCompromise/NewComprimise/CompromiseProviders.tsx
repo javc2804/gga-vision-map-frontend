@@ -100,6 +100,7 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
           onChange={handlendeChange}
           onBlur={handlendeBlur}
           fullWidth
+          type="number"
         />
       </Grid>
       <Grid item xs={2}>
