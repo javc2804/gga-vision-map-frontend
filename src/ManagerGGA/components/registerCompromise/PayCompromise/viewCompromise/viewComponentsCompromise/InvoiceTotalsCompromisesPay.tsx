@@ -44,14 +44,14 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
             <TextField
               label="Total factura $"
               variant="outlined"
-              value={totalFactUsd.toString()}
+              value={totalFactUsd.toFixed(2)}
             />
           </Grid>
           <Grid item style={{ marginTop: "20px" }}>
             <TextField
               label="Total deuda $ "
               variant="outlined"
-              value={totalDeuda - totalFactUsd}
+              value={(totalDeuda - totalFactUsd).toFixed(2)}
               onChange={(e) =>
                 setTotalFactUsd(totalDeuda - Number(e.target.value))
               }

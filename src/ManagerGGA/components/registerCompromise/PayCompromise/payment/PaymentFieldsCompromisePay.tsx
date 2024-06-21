@@ -210,9 +210,9 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
             error={!!errors.montoTotalUsd}
             disabled
             helperText={errors.montoTotalUsd?.message}
-            value={
+            value={(
               values.cantidad * (compromise?.response?.deudaUnitarioUsd || 0)
-            } // Check if compromise and compromise.response are defined
+            ).toFixed(2)} // Check if compromise and compromise.response are defined
           />
         )}
       />
