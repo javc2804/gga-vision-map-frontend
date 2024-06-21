@@ -26,39 +26,39 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
   providers,
   setFormState,
 }) => {
-  const [nde, setnde] = useState<number>(0);
+  const dispatch = useDispatch();
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+
+  const [nde, setNde] = useState<number>(editPurchase.facNDE || 0);
   const [compromiso, setCompromiso] = useState("");
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(
     null
   );
 
-  const dispatch = useDispatch();
-
-  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
-
-  useEffect(() => {
-    if (editPurchase && Object.keys(editPurchase).length !== 0) {
-      setnde(editPurchase.facNDE);
-      setCompromiso(editPurchase.compromiso);
-      const foundProvider = providers.find(
-        (provider) => provider.name === editPurchase.proveedor
-      );
-      setSelectedProvider(foundProvider || null);
-      setFormState((prevState) => ({
-        ...prevState,
-        proveedor: editPurchase.proveedor,
-      }));
-    }
-  }, [editPurchase]);
+  // useEffect(() => {
+  //   if (editPurchase && Object.keys(editPurchase).length !== 0) {
+  //     setnde(editPurchase.facNDE);
+  //     setCompromiso(editPurchase.compromiso);
+  //     const foundProvider = providers.find(
+  //       (provider) => provider.name === editPurchase.proveedor
+  //     );
+  //     setSelectedProvider(foundProvider || null);
+  //     setFormState((prevState) => ({
+  //       ...prevState,
+  //       proveedor: editPurchase.proveedor,
+  //     }));
+  //   }
+  // }, [editPurchase]);
 
   const handlendeChange = (e: any) => {
-    setnde(Number(e.target.value));
+    const newNde = Number(e.target.value);
     if (Object.keys(editPurchase).length !== 0) {
-      dispatch(
-        updateEditPurchase({ ...editPurchase, facNDE: Number(e.target.value) })
-      );
+      dispatch(updateEditPurchase({ ...editPurchase, nde: newNde }));
     }
+    setNde(newNde);
+    setFormState((prevState) => ({ ...prevState, nde: newNde }));
   };
+
   const handleCompromisoChange = (e: any) => {
     setCompromiso(e.target.value);
     if (Object.keys(editPurchase).length !== 0) {
@@ -66,25 +66,28 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
         updateEditPurchase({ ...editPurchase, compromiso: e.target.value })
       );
     }
+    setFormState((prevState) => ({ ...prevState, compromiso: e.target.value }));
   };
 
   const handlendeBlur = () => {
     if (Object.keys(editPurchase).length !== 0) {
       dispatch(updateEditPurchase({ ...editPurchase, facNDE: nde }));
     }
+    setFormState((prevState) => ({ ...prevState, nde: nde }));
   };
   const handleCompromisoBlur = () => {
     if (Object.keys(editPurchase).length !== 0) {
       dispatch(updateEditPurchase({ ...editPurchase, compromiso: compromiso }));
     }
+    setFormState((prevState) => ({ ...prevState, compromiso }));
   };
 
   const handleProviderChange = (field: any, _: any, value: any) => {
     field.onChange(value);
-    setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
     if (Object.keys(editPurchase).length !== 0) {
       dispatch(updateEditPurchase({ ...editPurchase, proveedor: value.name })); // Actualiza editPurchase
     }
+    setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
   };
 
   return (
@@ -93,7 +96,7 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
         <TextField
           label="NDE"
           variant="outlined"
-          value={nde} // Agrega esta línea
+          value={nde}
           onChange={handlendeChange}
           onBlur={handlendeBlur}
           fullWidth
@@ -103,7 +106,11 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
         <TextField
           label="Compromiso"
           variant="outlined"
-          value={compromiso} // Agrega esta línea
+          value={
+            Object.keys(editPurchase).length !== 0
+              ? editPurchase.compromiso
+              : compromiso
+          }
           onChange={handleCompromisoChange}
           onBlur={handleCompromisoBlur}
           fullWidth

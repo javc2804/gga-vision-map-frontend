@@ -110,7 +110,6 @@ export const purchaseSlice = createSlice({
       state.purchaseEdit = {};
     },
     updateEditPurchase: (state, { payload }) => {
-      console.log(payload);
       state.purchaseEdit = payload;
     },
     getDataGraph: (state, { payload }) => {

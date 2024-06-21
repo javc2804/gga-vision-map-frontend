@@ -46,11 +46,13 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleClick = (name, route) => {
+    console.log(name, route);
     if (selectedItem === name) {
       return;
     }
 
     if (name === "Registro") {
+      console.log("first");
       dispatch(editPurchaseClear());
     }
     setOpenSubMenu((prevOpenSubMenu) => ({

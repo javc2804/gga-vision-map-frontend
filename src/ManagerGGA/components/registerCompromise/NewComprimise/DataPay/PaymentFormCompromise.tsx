@@ -60,18 +60,18 @@ export const PaymentFormCompromise = ({
   //   }
   // }, [editPurchase, setValue]);
 
-  // useEffect(() => {
-  //   if (
-  //     typeof onChange === "function" &&
-  //     JSON.stringify(values) !== JSON.stringify(lastValuesRef.current)
-  //   ) {
-  //     if (Object.keys(editPurchase).length !== 0) {
-  //       dispatch(updateEditPurchase({ ...editPurchase, ...values }));
-  //     }
-  //     onChange(values, errors);
-  //     lastValuesRef.current = values;
-  //   }
-  // }, [values, onChange, errors]);
+  useEffect(() => {
+    if (
+      typeof onChange === "function" &&
+      JSON.stringify(values) !== JSON.stringify(lastValuesRef.current)
+    ) {
+      // if (Object.keys(editPurchase).length !== 0) {
+      //   dispatch(updateEditPurchase({ ...editPurchase, ...values }));
+      // }
+      onChange(values, errors);
+      lastValuesRef.current = values;
+    }
+  }, [values, onChange, errors]);
 
   const onSubmit = (data: any) => {
     if (typeof onChange === "function") {
