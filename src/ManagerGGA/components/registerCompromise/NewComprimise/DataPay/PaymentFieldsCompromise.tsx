@@ -1,5 +1,7 @@
 import { Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { updateEditPurchase } from "../../../../../store/purchase/purchaseSlice";
 
 interface PaymentFieldsProps {
   control: any;
@@ -27,6 +29,9 @@ export const PaymentFieldsCompromise: React.FC<PaymentFieldsProps> = ({
   setValue,
   calculateMontoTotalUsd,
 }) => {
+  const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+  const dispatch = useDispatch();
+
   return (
     <>
       <Controller
@@ -45,8 +50,17 @@ export const PaymentFieldsCompromise: React.FC<PaymentFieldsProps> = ({
               const newCantidad = Number(event.target.value);
               const newDeudaTotalUsd = calculateMontoTotalUsd(
                 newCantidad,
-                values.deudaUnitarioUsd
+                values.deudaUnitarioUsd || editPurchase.deudaUnitarioUsd
               );
+              if (Object.keys(editPurchase).length !== 0) {
+                dispatch(
+                  updateEditPurchase({
+                    ...editPurchase,
+                    cantidad: newCantidad,
+                    deudaTotalUsd: newDeudaTotalUsd,
+                  })
+                );
+              }
               setValues({
                 ...values,
                 cantidad: newCantidad,

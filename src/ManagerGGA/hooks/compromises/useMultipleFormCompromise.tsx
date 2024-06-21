@@ -149,7 +149,46 @@ const useMultipleFormCompromise = (
         ...editPurchase,
         user_rel: userEmail,
       };
-      // return;
+      let errorField = null;
+      const requiredFields = [
+        "facNDE",
+        "compromiso",
+        "proveedor",
+        "cantidad",
+        "numeroOrdenPago",
+        "deudaUnitarioUsd",
+        "repuesto",
+        "descripcionRepuesto",
+        "fechaOcOs",
+      ];
+
+      const hasErrors = requiredFields.some((field) => {
+        const hasError =
+          !adjustedEditPurchase[field] || adjustedEditPurchase[field] === null;
+        if (hasError) {
+          errorField = field;
+        }
+        return hasError;
+      });
+
+      if (hasErrors) {
+        openSnackbar(
+          `Error al editar, verifica el campo ${errorField}`,
+          "error",
+          ErrorOutline
+        );
+        return;
+      }
+
+      if (adjustedEditPurchase.nde === "0" || "") {
+        openSnackbar(
+          `Error al editar, NDE debe estar lleno y distinto a 0`,
+          "error",
+          ErrorOutline
+        );
+        return;
+      }
+
       result = await dispatch(startEditPurchase(adjustedEditPurchase));
     }
     if (result.ok) {

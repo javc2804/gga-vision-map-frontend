@@ -35,6 +35,7 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
   const dispatch = useDispatch();
 
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
+
   useEffect(() => {
     if (editPurchase && Object.keys(editPurchase).length !== 0) {
       setnde(editPurchase.facNDE);
@@ -49,6 +50,7 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
       }));
     }
   }, [editPurchase]);
+
   const handlendeChange = (e: any) => {
     setnde(Number(e.target.value));
     if (Object.keys(editPurchase).length !== 0) {
@@ -67,10 +69,14 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
   };
 
   const handlendeBlur = () => {
-    setFormState((prevState) => ({ ...prevState, nde: nde }));
+    if (Object.keys(editPurchase).length !== 0) {
+      dispatch(updateEditPurchase({ ...editPurchase, facNDE: nde }));
+    }
   };
   const handleCompromisoBlur = () => {
-    setFormState((prevState) => ({ ...prevState, compromiso: compromiso }));
+    if (Object.keys(editPurchase).length !== 0) {
+      dispatch(updateEditPurchase({ ...editPurchase, compromiso: compromiso }));
+    }
   };
 
   const handleProviderChange = (field: any, _: any, value: any) => {

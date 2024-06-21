@@ -48,8 +48,6 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
 }) => {
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
   const dispatch = useDispatch();
-  const [precioUnitarioUsdUpdated, setPrecioUnitarioUsdUpdated] =
-    useState(false);
 
   return (
     <>
@@ -70,11 +68,6 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
               field.onChange(newCantidad);
               trigger("cantidad");
 
-              // const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
-              //   values.montoTotalBs || editPurchase.montoTotalBs,
-              //   newCantidad
-              // );
-
               const newMontoTotalUsd = calculateMontoTotalUsd(
                 newCantidad,
                 values.precioUnitarioUsd || editPurchase.precioUnitarioUsd
@@ -83,14 +76,6 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 newCantidad,
                 values.precioUnitarioBs || editPurchase.precioUnitarioBs
               );
-              // const newPrecioUnitarioUsd = calculatePrecioUnitarioUsd(
-              //   values.montoTotalUsd || editPurchase.montoTotalUsd,
-              //   newCantidad
-              // );
-              // const newTasaBcv = calculateTasaBcv(
-              //   values.precioUnitarioBs || editPurchase.precioUnitarioBs,
-              //   values.precioUnitarioUsd || editPurchase.precioUnitarioUsd
-              // );
 
               if (Object.keys(editPurchase).length !== 0) {
                 dispatch(
@@ -99,9 +84,6 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                     cantidad: newCantidad,
                     montoTotalUsd: newMontoTotalUsd,
                     montoTotalBs: newMontoTotalBs,
-                    // precioUnitarioBs: newPrecioUnitarioBs,
-                    // precioUnitarioUsd: newPrecioUnitarioUsd,
-                    // tasaBcv: newTasaBcv,
                   })
                 );
               }
@@ -110,15 +92,9 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 cantidad: newCantidad,
                 montoTotalUsd: newMontoTotalUsd,
                 montoTotalBs: newMontoTotalBs,
-                // precioUnitarioBs: newPrecioUnitarioBs,
-                // precioUnitarioUsd: newPrecioUnitarioUsd,
-                // tasaBcv: newTasaBcv,
               });
               setValue("montoTotalUsd", newMontoTotalUsd);
               setValue("montoTotalBs", newMontoTotalBs);
-              // setValue("precioUnitarioBs", newPrecioUnitarioBs);
-              // setValue("precioUnitarioUsd", newPrecioUnitarioUsd);
-              // setValue("tasaBcv", newTasaBcv);
             }}
           />
         )}
