@@ -46,6 +46,10 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleClick = (name, route) => {
+    if (selectedItem === name) {
+      return;
+    }
+
     if (name === "Registro") {
       dispatch(editPurchaseClear());
     }
@@ -53,9 +57,18 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
       ...prevOpenSubMenu,
       [name]: !prevOpenSubMenu[name],
     }));
-    setSelectedItem((prevSelectedItem) =>
-      prevSelectedItem === name ? null : name
-    );
+    setSelectedItem(name);
+    navigate(route);
+  };
+
+  const handleSubItemClick = (event, name, route) => {
+    event.stopPropagation();
+
+    if (selectedItem === name) {
+      return;
+    }
+
+    setSelectedItem(name);
     navigate(route);
   };
 
@@ -139,8 +152,12 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
                     item.subMenu.map((subItem) => (
                       <ListItem key={subItem.name} disablePadding>
                         <ListItemButton
-                          onClick={() =>
-                            handleClick(subItem.name, subItem.route)
+                          onClick={(event) =>
+                            handleSubItemClick(
+                              event,
+                              subItem.name,
+                              subItem.route
+                            )
                           }
                           selected={selectedItem === subItem.name}
                           style={{
