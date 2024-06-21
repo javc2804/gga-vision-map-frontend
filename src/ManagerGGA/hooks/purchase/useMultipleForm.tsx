@@ -91,7 +91,7 @@ const useMultipleForm = (
     if (!isEdit) {
       const combinedForms = forms.map((form) => {
         form.payment.facNDE = facNDE;
-        form.payment.proveedor = proveedor.name;
+        form.payment.proveedor = proveedor;
         return {
           id: form.id,
           ...form.input,

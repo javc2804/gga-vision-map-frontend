@@ -50,7 +50,7 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
     if (Object.keys(editPurchase).length !== 0) {
       dispatch(updateEditPurchase({ ...editPurchase, proveedor: value.name })); // Actualiza editPurchase
     }
-    setFormState((prevState) => ({ ...prevState, proveedor: value }));
+    setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
   };
 
   return (
