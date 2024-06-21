@@ -7,6 +7,8 @@ import GraphsOutPage from "../pages/GraphsOutPage";
 import UsersPage from "../pages/UsersPage";
 import ProvidersPage from "../pages/ProvidersPage";
 import SparePartsPage from "../pages/SparePartsPage";
+import RegisterOutInternal from "../pages/RegisterOutInternalPage";
+import ListOutInternal from "../pages/ListOutInternalPage";
 
 const ManagerRoutes = () => {
   return (
@@ -15,6 +17,8 @@ const ManagerRoutes = () => {
       <Route path="/register-out/:params?" element={<RegisterOutPage />} />
       <Route path="/notes-store" element={<DetailCompromisePage />} />
       <Route path="/list-purchases" element={<ListPurchasePage />} />
+      <Route path="/register-internal" element={<RegisterOutInternal />} />
+      <Route path="/list-internal" element={<ListOutInternal />} />
       <Route path="/graphs-out" element={<GraphsOutPage />} />
       <Route path="/users" element={<UsersPage />} />
       <Route path="/providers" element={<ProvidersPage />} />
