@@ -31,7 +31,7 @@ export const InvoiceTotals: React.FC<InvoiceTotalsProps> = ({
             label="Total factura $"
             variant="outlined"
             sx={{ mr: 1 }}
-            value={totalFactUsd.toString()}
+            value={Number(totalFactUsd).toFixed(2)}
             onChange={(e) => setTotalFactUsd(Number(e.target.value))}
           />
           <TextField
