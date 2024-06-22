@@ -10,31 +10,22 @@ import {
   TablePagination,
   Button,
 } from "@mui/material";
+import { useEffect } from "react";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import BlockIcon from "@mui/icons-material/Block";
-
-// Asegúrate de agregar un campo 'status' a tus datos
-const rows = [
-  {
-    fechaCreacion: "2022-01-01",
-    nombre: "Juan",
-    correo: "juan@example.com",
-    rol: "Admin",
-    status: true,
-  },
-  {
-    fechaCreacion: "2022-01-01",
-    nombre: "Juan",
-    correo: "juan@example.com",
-    rol: "store",
-    status: false,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { startGetOutInternal } from "../../../store/out-internal/outInternalThunk";
 
 export const TableOutInternal = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(startGetOutInternal());
+  }, []);
+  const rows = useSelector((state: any) => state.outInternal.list);
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -59,13 +50,37 @@ export const TableOutInternal = () => {
                 Fecha Creación
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Nombre
+                Proveedor/Beneficiario
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Creado por
+                Beneficiario Gasto de Personal
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Status
+                Gasto de Personal
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                Monto Pagado Bolivares Gasto de Personal
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                Monto Pagado $$ Gasto de Personal{" "}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                Fecha Factura{" "}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                Nº de Referencia{" "}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                Cuenta Bancaria{" "}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                Tasa Bcv{" "}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                Cuenta Bancaria{" "}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black" }}>
+                Nº de Orden de Pago
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
                 Acciones
@@ -77,18 +92,30 @@ export const TableOutInternal = () => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell>{row.fechaCreacion}</TableCell>
-                  <TableCell>{row.nombre}</TableCell>
-                  <TableCell>{row.correo}</TableCell>
-                  <TableCell>{row.rol}</TableCell>
                   <TableCell>
-                    <DeleteIcon sx={{ marginLeft: 1, color: "red" }} />
+                    {new Date(row.createdAt).toLocaleDateString("es-ES")}
+                  </TableCell>
+                  <TableCell>{row.proveedor_beneficiario}</TableCell>
+                  <TableCell>
+                    {row.beneficiario_gasto_personal || "N/A"}
+                  </TableCell>
+                  <TableCell>{row.gasto_personal || "N/A"}</TableCell>
+                  <TableCell>{row.monto_pagado_bs_personal || "N/A"}</TableCell>
+                  <TableCell>
+                    {row.monto_pagado_dolares_personal || "N/A"}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(row.fecha_factura).toLocaleDateString("es-ES") ||
+                      "N/A"}
+                  </TableCell>{" "}
+                  <TableCell>{row.num_referencia || "N/A"}</TableCell>
+                  <TableCell>{row.cuenta_bancaria || "N/A"}</TableCell>
+                  <TableCell>{row.cuenta_bancaria || "N/A"}</TableCell>
+                  <TableCell>{row.tasa_bcv || "N/A"}</TableCell>
+                  <TableCell>{row.num_orden_pago || "N/A"}</TableCell>
+                  <TableCell>
+                    <DeleteIcon sx={{ color: "red" }} />
                     <EditIcon sx={{ marginLeft: 1, color: "orange" }} />
-                    {row.status ? (
-                      <CheckCircleIcon sx={{ marginLeft: 1, color: "green" }} />
-                    ) : (
-                      <BlockIcon sx={{ marginLeft: 1, color: "grey" }} />
-                    )}
                   </TableCell>
                 </TableRow>
               ))}
