@@ -24,7 +24,7 @@ export const TableOutInternal = () => {
   useEffect(() => {
     dispatch(startGetOutInternal());
   }, []);
-  const rows = useSelector((state: any) => state.outInternal.list);
+  const rows = useSelector((state: any) => state.outInternal.list.row);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -62,22 +62,22 @@ export const TableOutInternal = () => {
                 Monto Pagado Bolivares Gasto de Personal
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Monto Pagado $$ Gasto de Personal{" "}
+                Monto Pagado $$ Gasto de Personal
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Fecha Factura{" "}
+                Fecha Factura
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Nº de Referencia{" "}
+                Nº de Referencia
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Cuenta Bancaria{" "}
+                Cuenta Bancaria
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Tasa Bcv{" "}
+                Tasa Bcv
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Cuenta Bancaria{" "}
+                Cuenta Bancaria
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
                 Nº de Orden de Pago
@@ -111,7 +111,7 @@ export const TableOutInternal = () => {
                       {new Date(row.fecha_factura).toLocaleDateString(
                         "es-ES"
                       ) || "N/A"}
-                    </TableCell>{" "}
+                    </TableCell>
                     <TableCell>{row.num_referencia || "N/A"}</TableCell>
                     <TableCell>{row.cuenta_bancaria || "N/A"}</TableCell>
                     <TableCell>{row.cuenta_bancaria || "N/A"}</TableCell>
@@ -129,7 +129,7 @@ export const TableOutInternal = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={rows.length || 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
