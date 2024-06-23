@@ -9,34 +9,28 @@ import {
   Paper,
   TablePagination,
   Button,
+  Box,
+  IconButton,
 } from "@mui/material";
+import { useEffect } from "react";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import BlockIcon from "@mui/icons-material/Block";
-
-// Asegúrate de agregar un campo 'status' a tus datos
-const rows = [
-  {
-    fechaCreacion: "2022-01-01",
-    nombre: "Juan",
-    correo: "juan@example.com",
-    rol: "Admin",
-    status: true,
-  },
-  {
-    fechaCreacion: "2022-01-01",
-    nombre: "Juan",
-    correo: "juan@example.com",
-    rol: "store",
-    status: false,
-  },
-];
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { startGetProviders } from "../../store/providersOut/providersThunk";
 
 export const Providers = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(startGetProviders());
+  }, []);
+  const providers = useSelector((state: any) => state.providers.list);
+
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(30);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -69,7 +63,7 @@ export const Providers = () => {
                 Creado por
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
-                Status
+                Estado
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "black" }}>
                 Acciones
@@ -77,32 +71,53 @@ export const Providers = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell>{row.fechaCreacion}</TableCell>
-                  <TableCell>{row.nombre}</TableCell>
-                  <TableCell>{row.correo}</TableCell>
-                  <TableCell>{row.rol}</TableCell>
-                  <TableCell>
-                    <DeleteIcon sx={{ marginLeft: 1, color: "red" }} />
-                    <EditIcon sx={{ marginLeft: 1, color: "orange" }} />
-                    {row.status ? (
-                      <CheckCircleIcon sx={{ marginLeft: 1, color: "green" }} />
-                    ) : (
-                      <BlockIcon sx={{ marginLeft: 1, color: "grey" }} />
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
+            {(Array.isArray(providers)
+              ? providers.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+              : []
+            ).map((provider, index) => (
+              <TableRow key={provider.id}>
+                <TableCell>
+                  {new Date(provider.createdAt).toLocaleDateString("es-ES", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </TableCell>
+                <TableCell>{provider.name}</TableCell>
+                <TableCell>{provider.user_rel}</TableCell>
+                <TableCell>{provider.status ? "Activo" : "Inactivo"}</TableCell>
+                <TableCell align="center">
+                  <Box display="flex" justifyContent="start" alignItems="start">
+                    <IconButton
+                      onClick={() => {
+                        /* función para editar */
+                      }}
+                      style={{ color: "#0079cc" }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => {
+                        /* función para eliminar */
+                      }}
+                      style={{ color: "red" }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={providers.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

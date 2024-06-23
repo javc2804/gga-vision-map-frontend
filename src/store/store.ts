@@ -7,6 +7,7 @@ import { useDispatch as useReduxDispatch } from "react-redux";
 import { compromisesSlice } from "./compromises/compromisesSlices";
 import { UsersSlice } from "./users/usersSlice";
 import { outInternalSlice } from "./out-internal/outInternalSlice";
+import { providersSlice } from "./providersOut/providersSlice";
 
 export const store: Store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store: Store = configureStore({
     compromises: compromisesSlice.reducer,
     users: UsersSlice.reducer,
     outInternal: outInternalSlice.reducer,
+    providers: providersSlice.reducer,
   },
 });
 
