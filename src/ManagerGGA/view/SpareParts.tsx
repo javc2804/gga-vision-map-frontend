@@ -16,7 +16,10 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
-import { startGetSpareParts } from "../../store/spareParts/sparePartsThunk";
+import {
+  startExportSpareParts,
+  startGetSpareParts,
+} from "../../store/spareParts/sparePartsThunk";
 
 const rows = [
   // Supongamos que estos son tus datos
@@ -33,7 +36,6 @@ const SpareParts = () => {
   }, []);
 
   const spareParts = useSelector((state: any) => state.spareParts.list);
-  console.log(spareParts);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -47,9 +49,9 @@ const SpareParts = () => {
     setPage(0);
   };
 
-  // const exportData = () => {
-  //   dispatch(startExportProviders());
-  // };
+  const exportData = () => {
+    dispatch(startExportSpareParts());
+  };
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -66,7 +68,7 @@ const SpareParts = () => {
         <Button variant="contained" color="primary" sx={{ marginRight: 1 }}>
           Crear repuesto
         </Button>
-        <Button variant="contained" color="secondary">
+        <Button variant="contained" color="secondary" onClick={exportData}>
           Exportar repuesto
         </Button>
       </Box>
@@ -105,7 +107,9 @@ const SpareParts = () => {
                     <TableCell>{part.sparePart.type}</TableCell>
                     <TableCell>{part.variant}</TableCell>
                     <TableCell>{part.userid}</TableCell>
-                    <TableCell>{part.userid}</TableCell>
+                    <TableCell>
+                      {part.status ? "Activo" : "Inactivo"}
+                    </TableCell>{" "}
                     <TableCell align="center">
                       <Box
                         display="flex"
