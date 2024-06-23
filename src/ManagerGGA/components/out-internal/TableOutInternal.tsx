@@ -88,37 +88,41 @@ export const TableOutInternal = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell>
-                    {new Date(row.createdAt).toLocaleDateString("es-ES")}
-                  </TableCell>
-                  <TableCell>{row.proveedor_beneficiario}</TableCell>
-                  <TableCell>
-                    {row.beneficiario_gasto_personal || "N/A"}
-                  </TableCell>
-                  <TableCell>{row.gasto_personal || "N/A"}</TableCell>
-                  <TableCell>{row.monto_pagado_bs_personal || "N/A"}</TableCell>
-                  <TableCell>
-                    {row.monto_pagado_dolares_personal || "N/A"}
-                  </TableCell>
-                  <TableCell>
-                    {new Date(row.fecha_factura).toLocaleDateString("es-ES") ||
-                      "N/A"}
-                  </TableCell>{" "}
-                  <TableCell>{row.num_referencia || "N/A"}</TableCell>
-                  <TableCell>{row.cuenta_bancaria || "N/A"}</TableCell>
-                  <TableCell>{row.cuenta_bancaria || "N/A"}</TableCell>
-                  <TableCell>{row.tasa_bcv || "N/A"}</TableCell>
-                  <TableCell>{row.num_orden_pago || "N/A"}</TableCell>
-                  <TableCell>
-                    <DeleteIcon sx={{ color: "red" }} />
-                    <EditIcon sx={{ marginLeft: 1, color: "orange" }} />
-                  </TableCell>
-                </TableRow>
-              ))}
+            {Array.isArray(rows) &&
+              rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      {new Date(row.createdAt).toLocaleDateString("es-ES")}
+                    </TableCell>
+                    <TableCell>{row.proveedor_beneficiario}</TableCell>
+                    <TableCell>
+                      {row.beneficiario_gasto_personal || "N/A"}
+                    </TableCell>
+                    <TableCell>{row.gasto_personal || "N/A"}</TableCell>
+                    <TableCell>
+                      {row.monto_pagado_bs_personal || "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      {row.monto_pagado_dolares_personal || "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(row.fecha_factura).toLocaleDateString(
+                        "es-ES"
+                      ) || "N/A"}
+                    </TableCell>{" "}
+                    <TableCell>{row.num_referencia || "N/A"}</TableCell>
+                    <TableCell>{row.cuenta_bancaria || "N/A"}</TableCell>
+                    <TableCell>{row.cuenta_bancaria || "N/A"}</TableCell>
+                    <TableCell>{row.tasa_bcv || "N/A"}</TableCell>
+                    <TableCell>{row.num_orden_pago || "N/A"}</TableCell>
+                    <TableCell>
+                      <DeleteIcon sx={{ color: "red" }} />
+                      <EditIcon sx={{ marginLeft: 1, color: "orange" }} />
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </TableContainer>
