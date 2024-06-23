@@ -20,7 +20,10 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import BlockIcon from "@mui/icons-material/Block";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { startGetProviders } from "../../store/providersOut/providersThunk";
+import {
+  startExportProviders,
+  startGetProviders,
+} from "../../store/providersOut/providersThunk";
 
 export const Providers = () => {
   const dispatch = useDispatch();
@@ -43,13 +46,28 @@ export const Providers = () => {
     setPage(0);
   };
 
+  const exportData = () => {
+    dispatch(startExportProviders());
+  };
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <h1>Gestión de Proveedores</h1>
-      <Button variant="contained" color="primary" onClick={() => ({})}>
-        Crear Proveedor
-      </Button>
+      <Box display="block" mb={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => ({})}
+          sx={{ mr: 1 }}
+        >
+          Crear Proveedor
+        </Button>
+        <Button variant="contained" color="secondary" onClick={exportData}>
+          Exportar Proveedores
+        </Button>
+      </Box>
       <TableContainer sx={{ maxHeight: 440 }}>
+        {" "}
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
