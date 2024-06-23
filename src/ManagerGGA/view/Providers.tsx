@@ -30,7 +30,7 @@ export const Providers = () => {
   const providers = useSelector((state: any) => state.providers.list);
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(30);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -115,7 +115,7 @@ export const Providers = () => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100]}
+        rowsPerPageOptions={[5, 10, 25]}
         component="div"
         count={providers.length}
         rowsPerPage={rowsPerPage}
