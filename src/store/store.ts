@@ -8,6 +8,7 @@ import { compromisesSlice } from "./compromises/compromisesSlices";
 import { UsersSlice } from "./users/usersSlice";
 import { outInternalSlice } from "./out-internal/outInternalSlice";
 import { providersSlice } from "./providersOut/providersSlice";
+import { sparePartsSlice } from "./spareParts/sparePartsSlice";
 
 export const store: Store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store: Store = configureStore({
     users: UsersSlice.reducer,
     outInternal: outInternalSlice.reducer,
     providers: providersSlice.reducer,
+    spareParts: sparePartsSlice.reducer,
   },
 });
 
