@@ -7,3 +7,4 @@ export * from "./registerPurchase/payments/Orders";
 export * from "./registerPurchase/payments/SparePartsAndDescriptions";
 export * from "./registerPurchase/payments/PaymentFields";
 export * from "./registerCompromise/index";
+export * from "./registerOutInternal";

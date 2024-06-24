@@ -1,136 +1,89 @@
-import { TextField, Grid, Button } from "@mui/material";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { startCreateOutInternal } from "../../store/out-internal/outInternalThunk";
+import React from "react";
+import {
+  FormControl,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+} from "@mui/material";
+// Asegúrate de importar tus componentes aquí
+import {
+  Contributions,
+  Taxes,
+  Donnations,
+  PersonnaelExpenses,
+  Maintenance,
+} from "../components/registerOutInternal";
 
 const RegisterOutInternal = () => {
-  const [formValues, setFormValues] = useState({});
-  const dispatch = useDispatch();
-  const handleChange = (e, field) => {
-    setFormValues({ ...formValues, [field.name]: e.target.value });
+  const [value, setValue] = React.useState("");
+
+  const handleChange = (event: any) => {
+    setValue(event.target.value);
   };
 
-  const handleSubmit = () => {
-    dispatch(startCreateOutInternal(formValues));
+  // Función para determinar qué componente mostrar
+  const renderComponent = () => {
+    switch (value) {
+      case "Aportes":
+        return <Contributions />;
+      case "Impuestos":
+        return <Taxes />;
+      case "Donaciones":
+        return <Donnations />;
+      case "Gasto Personal":
+        return <PersonnaelExpenses />;
+      case "Mantenimiento":
+        return <Maintenance />;
+      default:
+        return null; // O cualquier otro componente por defecto
+    }
   };
-
-  const fields = [
-    {
-      label: "Proveedor/Beneficiario",
-      name: "proveedor_beneficiario",
-      type: "string",
-    },
-    {
-      label: "Mantenimiento Adquisición",
-      name: "mantenimiento_adquisicion",
-      type: "number",
-    },
-    {
-      label: "Monto Factura Bolivares Adq. Mantenimiento",
-      name: "monto_factura_bs_mantenimiento",
-      type: "number",
-    },
-    {
-      label: "Monto Pagado Bolivares adq. Mantenimiento",
-      name: "monto_pagado_bolivares_mantenimiento",
-      type: "number",
-    },
-    {
-      label: "Monto Factura $$ Adq. Mantenimiento",
-      name: "monto_factura_dolares_mantenimiento",
-      type: "number",
-    },
-    {
-      label: "Monto pagado $$ Adq. Mantenimiento",
-      name: "monto_pagado_dolares_mantenimiento",
-      type: "number",
-    },
-    {
-      label: "Beneficiario Gasto de personal",
-      name: "beneficiario_gasto_personal",
-      type: "text",
-    },
-    { label: "Gasto de Personal", name: "gasto_personal", type: "text" },
-    {
-      label: "Monto Pagado Bs Gasto de Personal",
-      name: "monto_pagado_bs_personal",
-      type: "number",
-    },
-    {
-      label: "Monto Pagado $$ Gasto de Personal",
-      name: "monto_pagado_dolares_personal",
-      type: "number",
-    },
-    {
-      label: "Beneficiario Donaciones",
-      name: "beneficiario_donaciones",
-      type: "text",
-    },
-    { label: "Donaciones", name: "donaciones", type: "text" },
-    {
-      label: "Monto Pagado Bolivares Donaciones",
-      name: "monto_pagado_bolivares_donaciones",
-      type: "number",
-    },
-    {
-      label: "Monto Pagado $$ Donaciones",
-      name: "monto_pagado_dolares_donaciones",
-      type: "number",
-    },
-    { label: "Impuestos", name: "impuestos", type: "number" },
-    {
-      label: "Monto Pagado Bolivares Impuesto",
-      name: "monto_pagado_bolivares_impuesto",
-      type: "number",
-    },
-    {
-      label: "Monto pagado $ Impuesto",
-      name: "monto_pagado_dolares_impuesto",
-      type: "number",
-    },
-    { label: "Aportes", name: "aportes", type: "number" },
-    {
-      label: "Monto pagado Bs Aportes",
-      name: "monto_pagado_bs_aportes",
-      type: "number",
-    },
-    {
-      label: "Monto Pagado $ Aportes",
-      name: "monto_pagado_dolares_aportes",
-      type: "number",
-    },
-    { label: "Num Factura", name: "num_factura", type: "number" },
-    { label: "Fecha Factura", name: "fecha_factura", type: "date" },
-    { label: "Num de referencia", name: "num_referencia", type: "number" },
-    { label: "Cuenta Bancaria", name: "cuenta_bancaria", type: "text" },
-    { label: "Tasa BCV", name: "tasa_bcv", type: "number" },
-    { label: "Fecha de la tasa", name: "fecha_tasa", type: "date" },
-    { label: "Num de orden de Pago", name: "num_orden_pago", type: "number" },
-    { label: "Fecha de Pago", name: "fecha_pago", type: "date" },
-    { label: "Relacion mes de pago", name: "relacion_mes_pago", type: "text" },
-    { label: "Observacion", name: "observacion", type: "text" },
-  ];
 
   return (
-    <>
-      <Grid container spacing={2} padding={2}>
-        {fields.map((field, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-            <TextField
-              fullWidth
-              label={field.label}
-              variant="outlined"
-              type={field.type}
-              name={field.name}
-              onChange={(e) => handleChange(e, field)}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
-        Guardar
-      </Button>
-    </>
+    <div>
+      <h1>Registrar gasto de funcionamiento</h1>
+      <FormControl component="fieldset">
+        <RadioGroup
+          row
+          aria-label="category"
+          name="row-radio-buttons-group"
+          value={value}
+          onChange={handleChange}
+        >
+          <FormControlLabel
+            value="Mantenimiento"
+            control={<Radio />}
+            label="Mantenimiento"
+            sx={{ "& .MuiTypography-root": { fontSize: "1.2rem" } }}
+          />
+          <FormControlLabel
+            value="Gasto Personal"
+            control={<Radio />}
+            label="Gasto Personal"
+            sx={{ "& .MuiTypography-root": { fontSize: "1.2rem" } }}
+          />
+          <FormControlLabel
+            value="Donaciones"
+            control={<Radio />}
+            label="Donaciones"
+            sx={{ "& .MuiTypography-root": { fontSize: "1.2rem" } }}
+          />
+          <FormControlLabel
+            value="Impuestos"
+            control={<Radio />}
+            label="Impuestos"
+            sx={{ "& .MuiTypography-root": { fontSize: "1.2rem" } }}
+          />
+          <FormControlLabel
+            value="Aportes"
+            control={<Radio />}
+            label="Aportes"
+            sx={{ "& .MuiTypography-root": { fontSize: "1.2rem" } }}
+          />
+        </RadioGroup>
+      </FormControl>
+      {renderComponent()}
+    </div>
   );
 };
 
