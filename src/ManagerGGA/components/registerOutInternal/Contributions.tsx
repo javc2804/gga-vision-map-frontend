@@ -63,9 +63,11 @@ export const Contributions = () => {
             </Grid>
           ))}
         </Grid>
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Guardar
-        </Button>
+        <Grid item xs={12} container justifyContent="flex-end">
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Guardar
+          </Button>
+        </Grid>
       </Paper>
     </>
   );

@@ -21,7 +21,6 @@ const RegisterOutInternal = () => {
     setValue(event.target.value);
   };
 
-  // Función para determinar qué componente mostrar
   const renderComponent = () => {
     switch (value) {
       case "Aportes":
@@ -35,7 +34,7 @@ const RegisterOutInternal = () => {
       case "Mantenimiento":
         return <Maintenance />;
       default:
-        return null; // O cualquier otro componente por defecto
+        return null;
     }
   };
 
