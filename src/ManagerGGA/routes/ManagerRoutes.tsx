@@ -9,6 +9,8 @@ import ProvidersPage from "../pages/ProvidersPage";
 import SparePartsPage from "../pages/SparePartsPage";
 import RegisterOutInternal from "../pages/RegisterOutInternalPage";
 import ListOutInternal from "../pages/ListOutInternalPage";
+import CreateNoteInvoicePage from "../pages/CreateNoteInvoicePage";
+import ListNoteInvoicesPage from "../pages/ListNoteInvoicesPage";
 
 const ManagerRoutes = () => {
   return (
@@ -23,6 +25,8 @@ const ManagerRoutes = () => {
       <Route path="/users" element={<UsersPage />} />
       <Route path="/providers" element={<ProvidersPage />} />
       <Route path="/spareparts" element={<SparePartsPage />} />
+      <Route path="/note-invoices" element={<CreateNoteInvoicePage />} />
+      <Route path="/note-invoices-list" element={<ListNoteInvoicesPage />} />
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
   );
