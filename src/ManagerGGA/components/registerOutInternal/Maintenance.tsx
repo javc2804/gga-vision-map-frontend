@@ -91,31 +91,24 @@ export const Maintenance = () => {
     let name = field.name;
     let formattedValue = value;
 
-    // Si el campo es de tipo fecha, formatea el valor a 'yyyy-MM-dd'
     if (field.type === "date" && value instanceof Date) {
       formattedValue = format(value, "yyyy-MM-dd");
     } else if (field.type === "number") {
-      // Intenta convertir el valor a flotante, maneja la validación de números
-      const numericValue = parseFloat(value);
-      if (isNaN(numericValue)) {
+      // Permite valores numéricos y decimales, pero no realiza la conversión todavía
+      if (value === "" || /^-?\d*\.?\d*$/.test(value)) {
+        formattedValue = value; // Mantiene el valor como cadena para permitir decimales
+        delete errors[name];
+      } else {
         errors[name] = "El valor debe ser numérico";
         setFormErrors(errors);
         return;
-      } else if (numericValue < 0) {
-        // Validación para números negativos en campos numéricos
-        errors[name] = "El valor no puede ser negativo";
-        setFormErrors(errors);
-        return;
-      } else {
-        formattedValue = numericValue; // Usa el valor numérico si la validación es exitosa
-        delete errors[name]; // Elimina el error si el valor es válido
       }
     } else {
-      delete errors[name]; // Elimina el error si el valor es válido para campos no numéricos
+      delete errors[name];
     }
 
     setFormValues({ ...formValues, [name]: formattedValue });
-    setFormErrors(errors); // Actualiza el estado de errores
+    setFormErrors(errors);
   };
 
   const handleSubmit = () => {
