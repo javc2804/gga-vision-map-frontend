@@ -113,7 +113,6 @@ export const Maintenance = () => {
 
   const handleSubmit = () => {
     const hasErrors = Object.keys(formErrors).length > 0;
-
     if (!hasErrors) {
       setIsSubmitting(true); // Se establece correctamente aquí
       dispatch(startCreateOutInternal(formValues))
@@ -126,7 +125,6 @@ export const Maintenance = () => {
     } else {
       openSnackbar("El formulario contiene errores.", "error", ErrorIcon);
     }
-    console.log(formValues);
   };
 
   return (
@@ -156,21 +154,17 @@ export const Maintenance = () => {
                   label={field.label}
                   value={
                     formValues[field.name]
-                      ? new Date(formValues[field.name])
+                      ? new Date(formValues[field.name] + "T00:00:00")
                       : null
-                  }
-                  format="dd/MM/yyyy"
+                  } // Asegura la correcta conversión a objeto Date
                   onChange={(newValue: Date | null) => {
                     const formattedDate = newValue
                       ? format(newValue, "yyyy-MM-dd")
                       : "";
-                    setFormValues({
-                      ...formValues,
-                      [field.name]: formattedDate,
-                    });
+                    handleChange(formattedDate, field); // Usa handleChange para actualizar el estado
                   }}
                   renderInput={(params) => <TextField {...params} />}
-                  inputFormat="dd/MM/yyyy" // Asegura que el formato de visualización sea dd/MM/yyyy
+                  format="dd/MM/yyyy"
                 />
               ) : (
                 <TextField
