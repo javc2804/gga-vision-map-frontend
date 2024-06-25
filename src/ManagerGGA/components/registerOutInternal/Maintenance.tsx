@@ -183,16 +183,27 @@ export const Maintenance = () => {
           ))}
         </Grid>
         <Grid item xs={12} container justifyContent="flex-end">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-          >
-            Guardar
+          <Button variant="contained" color="primary">
+            Agregar
           </Button>
         </Grid>
       </Paper>
+      <Grid
+        sx={{ marginTop: "2%" }}
+        item
+        xs={12}
+        container
+        justifyContent="flex-end"
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+        >
+          Guardar
+        </Button>
+      </Grid>
       {SnackbarComponent}
     </LocalizationProvider>
   );
