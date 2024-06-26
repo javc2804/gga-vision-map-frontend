@@ -238,7 +238,7 @@ export const Maintenance = () => {
           variant="contained"
           color="primary"
           onClick={handleSubmit}
-          // disabled={isSubmitting}
+          disabled={isSubmitting}
         >
           Guardar
         </Button>
