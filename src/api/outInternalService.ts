@@ -2,9 +2,6 @@ import { API_URL } from "./index";
 
 export const outInternalService = {
   createOutInternal: (data: any) => {
-    localStorage.getItem("email");
-    const email = localStorage.getItem("email");
-    data = { ...data, user_rel: email };
     return API_URL.post("out-internal", { data })
       .then((response) => {
         return { ok: true, response: response.data };

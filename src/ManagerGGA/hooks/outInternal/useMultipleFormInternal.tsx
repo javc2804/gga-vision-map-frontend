@@ -11,11 +11,13 @@ export const useMultipleFormInternal = (initialForm: any) => {
     setForms((currentForms) => currentForms.filter((_, i) => i !== index));
   };
 
-  const handleFormChange = (index: any, event: any) => {
-    const { name, value } = event.target;
-    console.log(index);
-    console.log(name);
-    console.log(value);
+  const handleFormChange = (
+    index: number,
+    event: any,
+    isDate: boolean = false
+  ) => {
+    const name = isDate ? event.name : event.target.name;
+    const value = isDate ? event.value : event.target.value;
     setForms((currentForms) =>
       currentForms.map((form, i) =>
         i === index ? { ...form, [name]: value } : form

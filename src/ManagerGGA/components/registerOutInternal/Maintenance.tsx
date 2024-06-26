@@ -69,16 +69,21 @@ const fields = [
 ];
 
 export const Maintenance = () => {
-  const initialFormValues = fields.reduce<FormValues>((acc, field) => {
-    if (field.type === "number") {
-      acc[field.name] = 0; // Initialize numbers with 0
-    } else if (field.type === "date") {
-      acc[field.name] = ""; // Initialize dates with an empty string or you can use a specific date format
-    } else {
-      acc[field.name] = ""; // Initialize strings as empty string
-    }
-    return acc;
-  }, {});
+  const emailFromLocalStorage = localStorage.getItem("email") || "";
+
+  const initialFormValues = fields.reduce<FormValues>(
+    (acc, field) => {
+      if (field.type === "number") {
+        acc[field.name] = 0;
+      } else if (field.type === "date") {
+        acc[field.name] = "";
+      } else {
+        acc[field.name] = "";
+      }
+      return acc;
+    },
+    { user_rel: emailFromLocalStorage }
+  );
 
   const { forms, setForms, addForm, removeForm, handleFormChange } =
     useMultipleFormInternal(initialFormValues);
@@ -115,6 +120,10 @@ export const Maintenance = () => {
 
     currentForm[name] = formattedValue;
 
+    if (name === "user_rel") {
+      localStorage.setItem("email", formattedValue);
+    }
+
     formsCopy[formIndex] = currentForm;
     setForms(formsCopy); // Actualizar el estado de forms con la copia modificada
     setFormErrors(errors);
@@ -124,7 +133,7 @@ export const Maintenance = () => {
     const hasErrors = Object.keys(formErrors).length > 0;
     if (!hasErrors) {
       setIsSubmitting(true); // Se establece correctamente aquí
-      dispatch(startCreateOutInternal(formValues))
+      dispatch(startCreateOutInternal(forms))
         .then(() => {
           openSnackbar("Operación exitosa.", "success", CheckCircleIcon);
         })
@@ -165,18 +174,17 @@ export const Maintenance = () => {
                     <DatePicker
                       label={field.label}
                       value={
-                        formValues[field.name]
-                          ? new Date(formValues[field.name] + "T00:00:00")
+                        form[field.name]
+                          ? new Date(form[field.name] + "T00:00:00")
                           : null
-                      } // Asegura la correcta conversión a objeto Date
+                      }
                       onChange={(newValue: Date | null) => {
                         const formattedDate = newValue
                           ? format(newValue, "yyyy-MM-dd")
                           : "";
-                        handleChange(formattedDate, field); // Usa handleChange para actualizar el estado
+                        handleChange(formattedDate, field, formIndex); // Corregido para pasar el valor formateado, el campo y el índice del formulario
                       }}
                       renderInput={(params) => <TextField {...params} />}
-                      format="dd/MM/yyyy"
                     />
                   ) : (
                     <TextField
@@ -229,7 +237,7 @@ export const Maintenance = () => {
           variant="contained"
           color="primary"
           onClick={handleSubmit}
-          disabled={isSubmitting}
+          // disabled={isSubmitting}
         >
           Guardar
         </Button>
