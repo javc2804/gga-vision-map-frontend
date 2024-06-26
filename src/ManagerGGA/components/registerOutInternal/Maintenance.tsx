@@ -80,7 +80,7 @@ export const Maintenance = () => {
     return acc;
   }, {});
 
-  const { forms, addForm, removeForm, handleFormChange } =
+  const { forms, setForms, addForm, removeForm, handleFormChange } =
     useMultipleFormInternal(initialFormValues);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -90,8 +90,10 @@ export const Maintenance = () => {
 
   const dispatch = useDispatch();
 
-  const handleChange = (value: any, field: any) => {
-    let errors = { ...formErrors };
+  const handleChange = (value: any, field: any, formIndex: number) => {
+    let formsCopy = [...forms]; // Hacer una copia del estado actual de forms
+    let currentForm = formsCopy[formIndex]; // Obtener el formulario actual por índice
+    let errors = { ...formErrors }; // Copiar los errores existentes
     let name = field.name;
     let formattedValue = value;
 
@@ -111,7 +113,10 @@ export const Maintenance = () => {
       delete errors[name];
     }
 
-    setFormValues({ ...formValues, [name]: formattedValue });
+    currentForm[name] = formattedValue;
+
+    formsCopy[formIndex] = currentForm;
+    setForms(formsCopy); // Actualizar el estado de forms con la copia modificada
     setFormErrors(errors);
   };
 
@@ -136,6 +141,7 @@ export const Maintenance = () => {
       <Box style={{ maxHeight: "70vh", overflowY: "auto" }}>
         {forms.map((form, formIndex) => (
           <Paper
+            key={formIndex}
             elevation={3}
             style={{
               padding: "20px",
@@ -177,10 +183,10 @@ export const Maintenance = () => {
                       fullWidth
                       label={field.label}
                       variant="outlined"
-                      type={field.type === "number" ? "text" : field.type} // Asegúrate de usar "text" para los inputs numéricos para manejar la validación manualmente
+                      type={field.type === "number" ? "text" : field.type}
                       name={field.name}
-                      value={formValues[field.name]}
-                      onChange={(e) => handleChange(e.target.value, field)} // Ajuste aquí
+                      value={form[field.name]} // Asegúrate de que esto refleje el estado actual del formulario específico
+                      onChange={(e) => handleFormChange(formIndex, e)} // Ajuste aquí para pasar el índice y el evento
                       error={!!formErrors[field.name]}
                       helperText={formErrors[field.name]}
                     />

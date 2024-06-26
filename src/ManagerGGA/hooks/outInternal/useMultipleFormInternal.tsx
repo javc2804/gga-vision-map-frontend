@@ -13,6 +13,9 @@ export const useMultipleFormInternal = (initialForm: any) => {
 
   const handleFormChange = (index: any, event: any) => {
     const { name, value } = event.target;
+    console.log(index);
+    console.log(name);
+    console.log(value);
     setForms((currentForms) =>
       currentForms.map((form, i) =>
         i === index ? { ...form, [name]: value } : form
@@ -20,5 +23,5 @@ export const useMultipleFormInternal = (initialForm: any) => {
     );
   };
 
-  return { forms, addForm, removeForm, handleFormChange };
+  return { forms, addForm, removeForm, handleFormChange, setForms };
 };
