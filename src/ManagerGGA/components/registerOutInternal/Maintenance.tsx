@@ -1,4 +1,4 @@
-import { TextField, Grid, Button, Paper } from "@mui/material";
+import { TextField, Grid, Button, Paper, Box } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { startCreateOutInternal } from "../../../store/out-internal/outInternalThunk";
@@ -9,6 +9,7 @@ import ErrorIcon from "@mui/icons-material/Error"; // Importa el icono de error
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"; // Importa el icono de éxito
 import { format } from "date-fns"; // Asegúrate de tener esta importación para formatear las fechas
 import esLocale from "date-fns/locale/es"; // Asegúrate de importar el locale correcto
+import { useMultipleFormInternal } from "../../hooks/outInternal/useMultipleFormInternal";
 
 interface FormErrors {
   [key: string]: string; // Assuming each form field error is a string message
@@ -79,6 +80,9 @@ export const Maintenance = () => {
     return acc;
   }, {});
 
+  const { forms, addForm, removeForm, handleFormChange } =
+    useMultipleFormInternal(initialFormValues);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -129,65 +133,85 @@ export const Maintenance = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} locale={esLocale}>
-      <Paper
-        elevation={3}
-        style={{
-          padding: "20px",
-          marginTop: "3%",
-          borderRadius: "15px",
-          backgroundColor: "white",
-        }}
-      >
-        <Grid container spacing={2} padding={2}>
-          {fields.map((field, index) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              key={index}
-              style={{ width: "100%" }}
-            >
-              {field.type === "date" ? (
-                <DatePicker
-                  label={field.label}
-                  value={
-                    formValues[field.name]
-                      ? new Date(formValues[field.name] + "T00:00:00")
-                      : null
-                  } // Asegura la correcta conversión a objeto Date
-                  onChange={(newValue: Date | null) => {
-                    const formattedDate = newValue
-                      ? format(newValue, "yyyy-MM-dd")
-                      : "";
-                    handleChange(formattedDate, field); // Usa handleChange para actualizar el estado
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                  format="dd/MM/yyyy"
-                />
-              ) : (
-                <TextField
-                  fullWidth
-                  label={field.label}
-                  variant="outlined"
-                  type={field.type === "number" ? "text" : field.type} // Asegúrate de usar "text" para los inputs numéricos para manejar la validación manualmente
-                  name={field.name}
-                  value={formValues[field.name]}
-                  onChange={(e) => handleChange(e.target.value, field)} // Ajuste aquí
-                  error={!!formErrors[field.name]}
-                  helperText={formErrors[field.name]}
-                />
+      <Box style={{ maxHeight: "70vh", overflowY: "auto" }}>
+        {forms.map((form, formIndex) => (
+          <Paper
+            elevation={3}
+            style={{
+              padding: "20px",
+              marginTop: "3%",
+              borderRadius: "15px",
+              backgroundColor: "white",
+            }}
+          >
+            <Grid container spacing={2} padding={2}>
+              {fields.map((field, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  key={index}
+                  style={{ width: "100%" }}
+                >
+                  {field.type === "date" ? (
+                    <DatePicker
+                      label={field.label}
+                      value={
+                        formValues[field.name]
+                          ? new Date(formValues[field.name] + "T00:00:00")
+                          : null
+                      } // Asegura la correcta conversión a objeto Date
+                      onChange={(newValue: Date | null) => {
+                        const formattedDate = newValue
+                          ? format(newValue, "yyyy-MM-dd")
+                          : "";
+                        handleChange(formattedDate, field); // Usa handleChange para actualizar el estado
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                      format="dd/MM/yyyy"
+                    />
+                  ) : (
+                    <TextField
+                      fullWidth
+                      label={field.label}
+                      variant="outlined"
+                      type={field.type === "number" ? "text" : field.type} // Asegúrate de usar "text" para los inputs numéricos para manejar la validación manualmente
+                      name={field.name}
+                      value={formValues[field.name]}
+                      onChange={(e) => handleChange(e.target.value, field)} // Ajuste aquí
+                      error={!!formErrors[field.name]}
+                      helperText={formErrors[field.name]}
+                    />
+                  )}
+                </Grid>
+              ))}
+            </Grid>
+            <Grid item xs={12} container justifyContent="flex-end">
+              {forms.length > 1 && (
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => removeForm(formIndex)}
+                  style={{ marginRight: "10px" }}
+                >
+                  Borrar
+                </Button>
+              )}
+              {formIndex === forms.length - 1 && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => addForm()}
+                >
+                  Agregar
+                </Button>
               )}
             </Grid>
-          ))}
-        </Grid>
-        <Grid item xs={12} container justifyContent="flex-end">
-          <Button variant="contained" color="primary">
-            Agregar
-          </Button>
-        </Grid>
-      </Paper>
+          </Paper>
+        ))}
+      </Box>
       <Grid
         sx={{ marginTop: "2%" }}
         item
