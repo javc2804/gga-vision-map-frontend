@@ -129,7 +129,7 @@ export const TableOutInternal = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={rows.length || 0}
+        count={0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

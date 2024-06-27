@@ -2,9 +2,19 @@ import { Box, Grid, IconButton, Paper } from "@mui/material";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import SettingsIcon from "@mui/icons-material/Settings";
 import BuildIcon from "@mui/icons-material/Build";
+import { useSelector } from "react-redux";
 
 export const SummaryOutInternal = () => {
   const boxStyle = {
+    padding: "10px",
+    margin: "10px",
+    backgroundColor: "white",
+    width: "40%",
+    height: "250px", // Aumenta la altura a 500px
+    marginBottom: "5%",
+    overflowY: "auto", // Añade desbordamiento de scroll en el eje Y
+  };
+  const boxStyleOtros = {
     padding: "10px",
     margin: "10px",
     backgroundColor: "white",
@@ -53,6 +63,13 @@ export const SummaryOutInternal = () => {
   const titles = {
     margin: "0.2em 0",
   };
+
+  const elements = useSelector((state: any) => state.outInternal.list);
+  const adquisicion = elements.mantenimiento?.adquisicion; // Safely access adquisicion, will be undefined if mantenimiento is not present
+  const personal = elements.otros?.gastos_personal;
+  const impuestos = elements.otros?.impuestos;
+  const donaciones = elements.otros?.donaciones;
+  const aportes = elements.otros?.aportes;
   return (
     <Box display="flex" justifyContent="center" flexWrap="wrap">
       <Paper elevation={3} style={boxStyle}>
@@ -86,23 +103,21 @@ export const SummaryOutInternal = () => {
             <Grid item xs={2}>
               <b>Pagado $</b>
             </Grid>
-            {/* Contenido para Adquisición */}
             <Grid item xs={3}>
               Adquisicion
             </Grid>
             <Grid item xs={2}>
-              1.046.417,75
+              {adquisicion?.sumaTotalMontoFacturaBs}
             </Grid>
             <Grid item xs={2}>
-              27.940,91
+              {adquisicion?.sumaTotalMontoPagadoBs}
             </Grid>
             <Grid item xs={2}>
-              4
+              {adquisicion?.sumaTotalMontoFacturaDolares}
             </Grid>
             <Grid item xs={2}>
-              5
+              {adquisicion?.sumaTotalMontoPagadoDolares}
             </Grid>
-            {/* Contenido para Servicio */}
             <Grid item xs={3}>
               Servicio
             </Grid>
@@ -187,7 +202,7 @@ export const SummaryOutInternal = () => {
           </Grid>
         </Box>
       </Paper>
-      <Paper elevation={3} style={boxStyle}>
+      <Paper elevation={3} style={boxStyleOtros}>
         <Box position="relative">
           <IconButton style={iconButtonStyle3}>
             <AccountBalanceIcon style={{ fontSize: 60 }} />
@@ -203,82 +218,66 @@ export const SummaryOutInternal = () => {
         >
           <h2>Otros</h2>
           <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <b>Descripción</b>
+            {/* Cabecera */}
+            <Grid item xs={12} container>
+              <Grid item xs={3}>
+                <b>Descripción</b>
+              </Grid>
+              <Grid item xs={2}>
+                <b>Pagado Bs.</b>
+              </Grid>
+              <Grid item xs={2}>
+                <b>Pagado $</b>
+              </Grid>
             </Grid>
-            <Grid item xs={2}>
-              <b>Fac Bs.</b>
+
+            {/* Gasto de Personal */}
+            <Grid item xs={12} container>
+              <Grid item xs={3}>
+                Gasto de Personal
+              </Grid>
+              <Grid item xs={2}>
+                {personal?.monto_pagado_bs_personal}
+              </Grid>
+              <Grid item xs={2}>
+                {personal?.monto_pagado_dolares_personal}
+              </Grid>
             </Grid>
-            <Grid item xs={2}>
-              <b>Pagado Bs.</b>
+
+            {/* Aportes */}
+            <Grid item xs={12} container>
+              <Grid item xs={3}>
+                Aportes
+              </Grid>
+              <Grid item xs={2}>
+                {aportes?.monto_pagado_bs_aportes}
+              </Grid>
+              <Grid item xs={2}>
+                {aportes?.monto_pagado_dolares_aportes}
+              </Grid>
             </Grid>
-            <Grid item xs={2}>
-              <b>Fact $</b>
+
+            {/* Impuestos */}
+            <Grid item xs={12} container>
+              <Grid item xs={3}>
+                Impuestos
+              </Grid>
+              <Grid item xs={2}>
+                {impuestos?.monto_pagado_bolivares_impuesto}
+              </Grid>
+              <Grid item xs={2}></Grid>
             </Grid>
-            <Grid item xs={2}>
-              <b>Pagado $</b>
-            </Grid>
-            {/* Contenido para Adquisición */}
-            <Grid item xs={3}>
-              Gasto de Personal
-            </Grid>
-            <Grid item xs={2}>
-              1.046.417,75
-            </Grid>
-            <Grid item xs={2}>
-              27.940,91
-            </Grid>
-            <Grid item xs={2}>
-              4
-            </Grid>
-            <Grid item xs={2}>
-              5
-            </Grid>
-            {/* Contenido para Servicio */}
-            <Grid item xs={3}>
-              Aportes
-            </Grid>
-            <Grid item xs={2}>
-              1.046.417,75
-            </Grid>
-            <Grid item xs={2}>
-              27.940,91
-            </Grid>
-            <Grid item xs={2}>
-              8
-            </Grid>
-            <Grid item xs={2}>
-              9
-            </Grid>
-            <Grid item xs={3}>
-              Impuestos
-            </Grid>
-            <Grid item xs={2}>
-              1.046.417,75
-            </Grid>
-            <Grid item xs={2}>
-              27.940,91
-            </Grid>
-            <Grid item xs={2}>
-              8
-            </Grid>
-            <Grid item xs={2}>
-              9
-            </Grid>
-            <Grid item xs={3}>
-              Donaciones
-            </Grid>
-            <Grid item xs={2}>
-              1.046.417,75
-            </Grid>
-            <Grid item xs={2}>
-              27.940,91
-            </Grid>
-            <Grid item xs={2}>
-              8
-            </Grid>
-            <Grid item xs={2}>
-              9
+
+            <Grid item xs={12} container>
+              <Grid item xs={3}>
+                Donaciones
+              </Grid>
+              <Grid item xs={2}>
+                {donaciones?.monto_pagado_bolivares_donaciones}
+              </Grid>
+              <Grid item xs={2}>
+                {donaciones?.monto_pagado_dolares_donaciones}
+              </Grid>
             </Grid>
           </Grid>
         </Box>
