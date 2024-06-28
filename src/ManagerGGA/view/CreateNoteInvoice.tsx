@@ -13,7 +13,7 @@ import {
 const CreateNoteInvoice = () => {
   return (
     <div>
-      <h2>Create Note Invoice</h2>
+      <h2>Crear nota de entrega</h2>
       <Paper
         elevation={3}
         style={{
