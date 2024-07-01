@@ -123,7 +123,16 @@ const CreateNoteInvoice = () => {
                 />
               </Grid>
               <Grid item xs={2}>
-                <TextField label="Fac/NDE" variant="outlined" fullWidth />
+                <TextField
+                  disabled
+                  label="Fac/NDE"
+                  variant="outlined"
+                  value={data.facNDE}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={2}>
                 <TextField label="Observación" variant="outlined" fullWidth />
