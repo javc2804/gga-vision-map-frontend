@@ -35,6 +35,22 @@ const CreateNoteInvoice = () => {
     setFormularios(nuevosFormularios);
   };
 
+  const handleUTChange = (event, value, index) => {
+    const updatedFormularios = [...formularios];
+    const selectedFleet = result.fleets.find((fleet) => fleet.ut === value.ut);
+    if (selectedFleet) {
+      updatedFormularios[index] = {
+        ...updatedFormularios[index],
+        ut: value.ut,
+        marcaModelo: selectedFleet.marcaModelo,
+        eje: selectedFleet.eje,
+        subeje: selectedFleet.subeje,
+      };
+    }
+    setFormularios(updatedFormularios);
+    console.log(formularios);
+  };
+
   return (
     <div>
       <h2>Crear nota de entrega</h2>
@@ -53,8 +69,11 @@ const CreateNoteInvoice = () => {
               <Grid item xs={2}>
                 <Grid item xs={2}>
                   <Autocomplete
-                    options={Array.isArray(result.fleets) ? result.fleets : []} // Asegurándose de que options siempre sea un array
-                    getOptionLabel={(option) => option.ut} // Utilizando la propiedad ut para el label
+                    options={Array.isArray(result.fleets) ? result.fleets : []}
+                    getOptionLabel={(option) => option.ut}
+                    onChange={(event, value) =>
+                      handleUTChange(event, value, index)
+                    }
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -73,10 +92,23 @@ const CreateNoteInvoice = () => {
                   label="Modelo/Marca"
                   variant="outlined"
                   fullWidth
+                  value={formulario.marcaModelo}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={2}>
-                <TextField disabled label="Eje" variant="outlined" fullWidth />
+                <TextField
+                  disabled
+                  label="Eje"
+                  variant="outlined"
+                  fullWidth
+                  value={formulario.eje}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
               </Grid>
               <Grid item xs={2}>
                 <TextField
@@ -84,6 +116,10 @@ const CreateNoteInvoice = () => {
                   label="Sub Eje"
                   variant="outlined"
                   fullWidth
+                  value={formulario.subeje}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={2}>
