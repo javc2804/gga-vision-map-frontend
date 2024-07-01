@@ -8,9 +8,19 @@ import {
   InputLabel,
   Grid,
   Paper,
+  Autocomplete,
 } from "@mui/material";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CreateNoteInvoice = () => {
+  const location = useLocation();
+  const { data } = location.state || {};
+  console.log(data);
+
+  const result = useSelector((state: any) => state.purchase.combined);
+  console.log(result.fleets);
+
   const [formularios, setFormularios] = useState([{}]);
   const [nextId, setNextId] = useState(2);
 
@@ -40,18 +50,41 @@ const CreateNoteInvoice = () => {
         >
           <form>
             <Grid container spacing={2}>
-              {/* Primera fila */}
               <Grid item xs={2}>
-                <TextField label="UT" variant="outlined" fullWidth />
+                <Grid item xs={2}>
+                  <Autocomplete
+                    options={Array.isArray(result.fleets) ? result.fleets : []} // Asegurándose de que options siempre sea un array
+                    getOptionLabel={(option) => option.ut} // Utilizando la propiedad ut para el label
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="UT"
+                        variant="outlined"
+                        fullWidth
+                      />
+                    )}
+                    sx={{ width: 150 }}
+                  />
+                </Grid>
               </Grid>
               <Grid item xs={2}>
-                <TextField label="Modelo/Marca" variant="outlined" fullWidth />
+                <TextField
+                  disabled
+                  label="Modelo/Marca"
+                  variant="outlined"
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={2}>
-                <TextField label="Eje" variant="outlined" fullWidth />
+                <TextField disabled label="Eje" variant="outlined" fullWidth />
               </Grid>
               <Grid item xs={2}>
-                <TextField label="Sub Eje" variant="outlined" fullWidth />
+                <TextField
+                  disabled
+                  label="Sub Eje"
+                  variant="outlined"
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={2}>
                 <TextField label="Fac/NDE" variant="outlined" fullWidth />
