@@ -12,13 +12,16 @@ import {
 
 const CreateNoteInvoice = () => {
   const [formularios, setFormularios] = useState([{}]);
+  const [nextId, setNextId] = useState(2);
 
   const agregarFormulario = () => {
-    setFormularios([...formularios, {}]);
+    setFormularios([...formularios, { id: nextId }]);
+    setNextId(nextId + 1);
   };
-
-  const eliminarFormulario = (index) => {
-    const nuevosFormularios = formularios.filter((_, i) => i !== index);
+  const eliminarFormulario = (id) => {
+    const nuevosFormularios = formularios.filter(
+      (formulario) => formulario.id !== id
+    );
     setFormularios(nuevosFormularios);
   };
 
@@ -27,6 +30,7 @@ const CreateNoteInvoice = () => {
       <h2>Crear nota de entrega</h2>
       {formularios.map((formulario, index) => (
         <Paper
+          key={formulario.id}
           elevation={3}
           style={{
             padding: "20px",
@@ -140,7 +144,7 @@ const CreateNoteInvoice = () => {
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => eliminarFormulario(index)}
+                onClick={() => eliminarFormulario(formulario.id)}
               >
                 Eliminar
               </Button>
