@@ -9,6 +9,7 @@ import { UsersSlice } from "./users/usersSlice";
 import { outInternalSlice } from "./out-internal/outInternalSlice";
 import { providersSlice } from "./providersOut/providersSlice";
 import { sparePartsSlice } from "./spareParts/sparePartsSlice";
+import { almacenSlice } from "./almacen/almacenSlice";
 
 export const store: Store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store: Store = configureStore({
     outInternal: outInternalSlice.reducer,
     providers: providersSlice.reducer,
     spareParts: sparePartsSlice.reducer,
+    almacen: almacenSlice.reducer,
   },
 });
 

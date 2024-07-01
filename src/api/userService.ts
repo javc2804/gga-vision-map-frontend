@@ -20,8 +20,6 @@ export const userService = {
       });
   },
   toggleStatus: (email: any) => {
-    console.log(email);
-
     return API_URL.post("users/toggle-status", { email })
       .then((response) => {
         return { ok: true, response: response.data };

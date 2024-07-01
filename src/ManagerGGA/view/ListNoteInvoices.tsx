@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Paper,
   Table,
@@ -18,6 +18,8 @@ import WarningIcon from "@mui/icons-material/Warning";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useDispatch, useSelector } from "react-redux";
+import { startGetTransactions } from "../../store/almacen/almacenThunk";
 
 const ListNoteInvoices = () => {
   const blink = keyframes`
@@ -31,33 +33,48 @@ const ListNoteInvoices = () => {
     color: orange;
   `;
   const columns = [
-    { id: "id", label: "ID", minWidth: 100 },
     { id: "facNDE", label: "facNDE", minWidth: 100 },
-    { id: "state", label: "Estado", minWidth: 100 },
-    { id: "createdAt", label: "Fecha", minWidth: 100 },
+    { id: "proveedor", label: "Proveedor", minWidth: 200 },
+    { id: "repuesto", label: "Repuesto", minWidth: 150 },
+    { id: "cantidad", label: "Cantidad", minWidth: 100 },
+    { id: "precioUnitarioBs", label: "Precio Unitario Bs", minWidth: 150 },
+    { id: "montoTotalBs", label: "Monto Total Bs", minWidth: 150 },
+    { id: "status", label: "Estado", minWidth: 100 },
     { id: "acciones", label: "Acciones", minWidth: 100 },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      facNDE: "NDE123",
-      state: false,
-      createdAt: "2023-04-01",
-    },
-    {
-      id: 2,
-      facNDE: "NDE124",
-      state: true,
-      createdAt: "2023-04-02",
-    },
-    {
-      id: 3,
-      facNDE: "NDE125",
-      state: false,
-      createdAt: "2023-04-03",
-    },
-  ];
+  // Dentro de <TableBody>, actualiza el mapeo para reflejar los nuevos datos
+  // Asegúrate de que el manejo de la columna "status" y "acciones" siga siendo adecuado
+  // para tu lógica de negocio.
+
+  // const rows = [
+  //   {
+  //     id: 1,
+  //     facNDE: "NDE123",
+  //     state: false,
+  //     createdAt: "2023-04-01",
+  //   },
+  //   {
+  //     id: 2,
+  //     facNDE: "NDE124",
+  //     state: true,
+  //     createdAt: "2023-04-02",
+  //   },
+  //   {
+  //     id: 3,
+  //     facNDE: "NDE125",
+  //     state: false,
+  //     createdAt: "2023-04-03",
+  //   },
+  // ];
+
+  const distpach = useDispatch();
+  useEffect(() => {
+    distpach(startGetTransactions());
+  }, []);
+
+  const result = useSelector((state: any) => state.almacen.list);
+  const rows = result.response;
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -70,6 +87,8 @@ const ListNoteInvoices = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const isRowsArray = Array.isArray(rows);
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -88,59 +107,60 @@ const ListNoteInvoices = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    if (column.id === "state") {
-                      return (
-                        <TableCell key={column.id}>
-                          {row.state ? (
-                            <Box display="flex" alignItems="center">
-                              Completado
-                              <CheckCircleIcon sx={{ color: "green" }} />
+            {isRowsArray &&
+              rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row: any) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      if (column.id === "status") {
+                        return (
+                          <TableCell key={column.id}>
+                            {!row.status ? (
+                              <Box display="flex" alignItems="center">
+                                Completado
+                                <CheckCircleIcon sx={{ color: "green" }} />
+                              </Box>
+                            ) : (
+                              <Box display="flex" alignItems="center">
+                                Pendiente
+                                <BlinkingWarningIcon />
+                              </Box>
+                            )}
+                          </TableCell>
+                        );
+                      } else if (column.id === "acciones") {
+                        // Aquí se maneja la columna de Acciones
+                        return (
+                          <TableCell key={column.id}>
+                            <Box display="flex" gap={1}>
+                              <Tooltip title="Ver">
+                                <IconButton color="primary" aria-label="view">
+                                  <VisibilityIcon />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Imprimir">
+                                <IconButton color="primary" aria-label="print">
+                                  <PrintIcon />
+                                </IconButton>
+                              </Tooltip>
                             </Box>
-                          ) : (
-                            <Box display="flex" alignItems="center">
-                              Pendiente
-                              <BlinkingWarningIcon />
-                            </Box>
-                          )}
-                        </TableCell>
-                      );
-                    } else if (column.id === "acciones") {
-                      // Aquí se maneja la columna de Acciones
-                      return (
-                        <TableCell key={column.id}>
-                          <Box display="flex" gap={1}>
-                            <Tooltip title="Ver">
-                              <IconButton color="primary" aria-label="view">
-                                <VisibilityIcon />
-                              </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Imprimir">
-                              <IconButton color="primary" aria-label="print">
-                                <PrintIcon />
-                              </IconButton>
-                            </Tooltip>
-                          </Box>
-                        </TableCell>
-                      );
-                    } else {
-                      return <TableCell key={column.id}>{value}</TableCell>;
-                    }
-                  })}
-                </TableRow>
-              ))}
+                          </TableCell>
+                        );
+                      } else {
+                        return <TableCell key={column.id}>{value}</TableCell>;
+                      }
+                    })}
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={rows.length || 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
