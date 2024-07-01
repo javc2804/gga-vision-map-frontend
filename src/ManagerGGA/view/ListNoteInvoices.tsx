@@ -20,6 +20,7 @@ import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import { startGetTransactions } from "../../store/almacen/almacenThunk";
+import { useNavigate } from "react-router-dom";
 
 const ListNoteInvoices = () => {
   const blink = keyframes`
@@ -69,6 +70,8 @@ const ListNoteInvoices = () => {
   // ];
 
   const distpach = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     distpach(startGetTransactions());
   }, []);
@@ -89,6 +92,15 @@ const ListNoteInvoices = () => {
   };
 
   const isRowsArray = Array.isArray(rows);
+
+  const showData = (row: any) => {
+    const data = {
+      facNDE: row.facNDE,
+      cantidad: row.cantidad,
+      proveedor: row.proveedor,
+    };
+    navigate("/note-invoices", { state: { data } });
+  };
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -135,7 +147,12 @@ const ListNoteInvoices = () => {
                         return (
                           <TableCell key={column.id}>
                             <Box display="flex" gap={1}>
-                              <Tooltip title="Ver">
+                              <Tooltip
+                                title="Ver"
+                                onClick={() => {
+                                  showData(row);
+                                }}
+                              >
                                 <IconButton color="primary" aria-label="view">
                                   <VisibilityIcon />
                                 </IconButton>
@@ -160,7 +177,7 @@ const ListNoteInvoices = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length || 0}
+        count={0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

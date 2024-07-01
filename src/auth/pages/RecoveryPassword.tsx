@@ -15,7 +15,7 @@ import logo from "../../assets/logo.png";
 import { authService } from "../../api/authService";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 
 const WhiteErrorOutlineIcon = styled(ErrorOutlineIcon)({

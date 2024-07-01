@@ -14,7 +14,7 @@ import {
 import { authService } from "../../api/authService";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 
