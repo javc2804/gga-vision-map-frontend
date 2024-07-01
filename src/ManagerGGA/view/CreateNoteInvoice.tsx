@@ -16,10 +16,10 @@ import { useSelector } from "react-redux";
 const CreateNoteInvoice = () => {
   const location = useLocation();
   const { data } = location.state || {};
-  console.log(data);
 
   const result = useSelector((state: any) => state.purchase.combined);
-  console.log(result.fleets);
+  console.log(result.sparePartVariants);
+  console.log("s");
 
   const [formularios, setFormularios] = useState([{}]);
   const [nextId, setNextId] = useState(2);
@@ -49,6 +49,22 @@ const CreateNoteInvoice = () => {
     }
     setFormularios(updatedFormularios);
     console.log(formularios);
+  };
+
+  const handleDescriptionChange = (event, value, index) => {
+    const updatedFormularios = [...formularios];
+    const selectedDescription = result.sparePartvariants.find(
+      (variant) => variant.variant === value.variant
+    );
+    if (selectedDescription) {
+      updatedFormularios[index] = {
+        ...updatedFormularios[index],
+        // Aquí actualizas el estado con la descripción seleccionada y cualquier otro campo relevante
+        descripcionRepuesto: selectedDescription.variant,
+        // Otros campos a actualizar basados en la selección
+      };
+    }
+    setFormularios(updatedFormularios);
   };
 
   return (
@@ -181,19 +197,32 @@ const CreateNoteInvoice = () => {
                 <FormControl fullWidth>
                   <InputLabel>Repuesto</InputLabel>
                   <Select label="Repuesto">
-                    <MenuItem value="repuesto1">Repuesto 1</MenuItem>
-                    <MenuItem value="repuesto2">Repuesto 2</MenuItem>
+                    <MenuItem value="baterias">Bateria</MenuItem>
+                    <MenuItem value="cauchos">Caucho</MenuItem>
+                    <MenuItem value="lubricantes">Lubricante</MenuItem>
+                    <MenuItem value="servicios">Servicio</MenuItem>
+                    <MenuItem value="preventivo">Preventivo</MenuItem>
+                    <MenuItem value="filtros">Filtros</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={2}>
-                <FormControl fullWidth>
-                  <InputLabel>Descripción Repuesto</InputLabel>
-                  <Select label="Descripción Repuesto">
-                    <MenuItem value="descripcion1">Descripción 1</MenuItem>
-                    <MenuItem value="descripcion2">Descripción 2</MenuItem>
-                  </Select>
-                </FormControl>
+                <Autocomplete
+                  options={result.sparePartVariants || []} // Asegúrate de que esto es un array
+                  getOptionLabel={(option) => option.variant || ""} // Asegúrate de acceder correctamente a la propiedad 'variant'
+                  onChange={(event, value) =>
+                    handleDescriptionChange(event, value, index)
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Descripción Repuesto"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  )}
+                  sx={{ width: 150 }}
+                />
               </Grid>
 
               {/* Botones, sin cambios, perfectos como están */}
