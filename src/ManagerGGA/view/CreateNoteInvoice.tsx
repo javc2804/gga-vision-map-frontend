@@ -166,13 +166,16 @@ const CreateNoteInvoice = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={2}>
-                <FormControl fullWidth>
-                  <InputLabel>Proveedor</InputLabel>
-                  <Select label="Proveedor">
-                    <MenuItem value="proveedor1">Proveedor 1</MenuItem>
-                    <MenuItem value="proveedor2">Proveedor 2</MenuItem>
-                  </Select>
-                </FormControl>
+                <TextField
+                  disabled
+                  label="Proveedor"
+                  variant="outlined"
+                  value={data.proveedor}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={2}>
                 <FormControl fullWidth>
