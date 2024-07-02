@@ -38,8 +38,8 @@ const ListNoteInvoices = () => {
     { id: "proveedor", label: "Proveedor", minWidth: 200 },
     { id: "repuesto", label: "Repuesto", minWidth: 150 },
     { id: "cantidad", label: "Cantidad", minWidth: 100 },
-    { id: "precioUnitarioBs", label: "Precio Unitario Bs", minWidth: 150 },
-    { id: "montoTotalBs", label: "Monto Total Bs", minWidth: 150 },
+    // { id: "precioUnitarioBs", label: "Precio Unitario Bs", minWidth: 150 },
+    // { id: "montoTotalBs", label: "Monto Total Bs", minWidth: 150 },
     { id: "status", label: "Estado", minWidth: 100 },
     { id: "acciones", label: "Acciones", minWidth: 100 },
   ];

@@ -113,7 +113,19 @@ const CreateNoteInvoice = () => {
   };
 
   const save = () => {
-    console.log(formularios);
+    const todosCamposRellenados = formularios.every((formulario) => {
+      return Object.values(formulario).every((valor) => {
+        // Convertir todos los valores a cadenas antes de llamar a trim()
+        const valorComoCadena = String(valor).trim();
+        return valorComoCadena !== "";
+      });
+    });
+
+    if (todosCamposRellenados) {
+      console.log("Guardado");
+    } else {
+      console.error("Error: Todos los campos deben estar rellenados.");
+    }
   };
 
   return (
