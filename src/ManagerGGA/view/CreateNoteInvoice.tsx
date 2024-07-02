@@ -81,9 +81,9 @@ const CreateNoteInvoice = () => {
   };
 
   const handleDescriptionChange = (event, value, index) => {
-    const newFormularios = [...formularios];
-    newFormularios[index].descripcionRepuesto = value; // Asegúrate de que esto refleje el valor correcto, por ejemplo, value.variant si es un objeto
-    setFormularios(newFormularios);
+    const updatedFormularios = [...formularios];
+    updatedFormularios[index].descripcionRepuesto = value ? value.variant : "";
+    setFormularios(updatedFormularios);
   };
 
   const handleEntregadoChange = (event, index) => {
@@ -285,8 +285,6 @@ const CreateNoteInvoice = () => {
                   sx={{ width: 150 }}
                 />
               </Grid>
-
-              {/* Botones, sin cambios, perfectos como están */}
               <Grid
                 item
                 xs={12}
