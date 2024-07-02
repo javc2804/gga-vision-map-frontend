@@ -30,8 +30,8 @@ const CreateNoteInvoice = () => {
       observacion: "",
       facNDE: data.facNDE,
       proveedor: data.proveedor,
-      entregadoPor: "", // Mover entregadoPor al estado de cada formulario
-      inventario: "", // Mover inventario al estado de cada formulario
+      entregadoPor: "",
+      inventario: "",
     },
   ]);
   const [nextId, setNextId] = useState(2);
@@ -55,9 +55,23 @@ const CreateNoteInvoice = () => {
   };
 
   const agregarFormulario = () => {
-    setFormularios([...formularios, { id: nextId }]);
+    setFormularios([
+      ...formularios,
+      {
+        id: nextId,
+        facNDE: data.facNDE, // Asegura que facNDE sea constante
+        proveedor: data.proveedor, // Asegura que proveedor sea constante
+        cantidad: "",
+        repuesto: "",
+        descripcionRepuesto: "",
+        observacion: "",
+        entregadoPor: "",
+        inventario: "",
+      },
+    ]);
     setNextId(nextId + 1);
   };
+
   const eliminarFormulario = (id) => {
     const nuevosFormularios = formularios.filter(
       (formulario) => formulario.id !== id
@@ -111,6 +125,7 @@ const CreateNoteInvoice = () => {
           elevation={3}
           style={{
             padding: "20px",
+            marginBottom: "2%",
             borderRadius: "15px",
             backgroundColor: "white",
           }}
