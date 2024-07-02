@@ -48,7 +48,6 @@ const CreateNoteInvoice = () => {
       };
     }
     setFormularios(updatedFormularios);
-    console.log(formularios);
   };
 
   const handleDescriptionChange = (event, value, index) => {
@@ -65,6 +64,10 @@ const CreateNoteInvoice = () => {
       };
     }
     setFormularios(updatedFormularios);
+  };
+
+  const save = () => {
+    console.log(formularios);
   };
 
   return (
@@ -262,6 +265,14 @@ const CreateNoteInvoice = () => {
           )}
         </Paper>
       ))}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={save}
+        style={{ marginRight: 10 }}
+      >
+        Guardar
+      </Button>
     </div>
   );
 };
