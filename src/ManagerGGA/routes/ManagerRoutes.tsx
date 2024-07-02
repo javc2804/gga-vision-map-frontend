@@ -11,6 +11,8 @@ import RegisterOutInternal from "../pages/RegisterOutInternalPage";
 import ListOutInternal from "../pages/ListOutInternalPage";
 import CreateNoteInvoicePage from "../pages/CreateNoteInvoicePage";
 import ListNoteInvoicesPage from "../pages/ListNoteInvoicesPage";
+import { Inventory } from "@mui/icons-material";
+import InventoryPage from "../pages/InventoryPage";
 
 const ManagerRoutes = () => {
   return (
@@ -27,6 +29,7 @@ const ManagerRoutes = () => {
       <Route path="/spareparts" element={<SparePartsPage />} />
       <Route path="/note-invoices" element={<CreateNoteInvoicePage />} />
       <Route path="/note-invoices-list" element={<ListNoteInvoicesPage />} />
+      <Route path="/inventory" element={<InventoryPage />} />
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
   );

@@ -10,6 +10,7 @@ import { outInternalSlice } from "./out-internal/outInternalSlice";
 import { providersSlice } from "./providersOut/providersSlice";
 import { sparePartsSlice } from "./spareParts/sparePartsSlice";
 import { almacenSlice } from "./almacen/almacenSlice";
+import { inventorySlice } from "./inventory/inventorySlice";
 
 export const store: Store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store: Store = configureStore({
     providers: providersSlice.reducer,
     spareParts: sparePartsSlice.reducer,
     almacen: almacenSlice.reducer,
+    inventory: inventorySlice.reducer,
   },
 });
 
