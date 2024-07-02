@@ -11,46 +11,50 @@ import {
   Autocomplete,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { startCreateNDE } from "../../store/almacen/almacenThunk";
 
 const CreateNoteInvoice = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const { data } = location.state || {};
 
   const result = useSelector((state: any) => state.purchase.combined);
-  const [entregadoPor, setEntregadoPor] = useState("");
+  const [delivered_by, setdelivered_by] = useState("");
   const [inventario, setinventario] = useState("");
 
   const [formularios, setFormularios] = useState([
     {
       id: 1,
-      cantidad: "",
-      repuesto: "",
-      descripcionRepuesto: "",
-      observacion: "",
-      facNDE: data.facNDE,
-      proveedor: data.proveedor,
-      entregadoPor: "",
+      quantity: "",
+      spare_part: "",
+      spare_part_variant: "",
+      observation: "",
+      note_number: data.facNDE,
+      provider: data.proveedor,
+      delivered_by: "",
       inventario: "",
+      marcaModelo: "",
+      status: false,
     },
   ]);
   const [nextId, setNextId] = useState(2);
 
   const handleCantidadChange = (event, index) => {
     const updatedFormularios = [...formularios];
-    updatedFormularios[index].cantidad = event.target.value;
+    updatedFormularios[index].quantity = event.target.value;
     setFormularios(updatedFormularios);
   };
 
   const handleRepuestoChange = (event, index) => {
     const updatedFormularios = [...formularios];
-    updatedFormularios[index].repuesto = event.target.value;
+    updatedFormularios[index].spare_part = event.target.value;
     setFormularios(updatedFormularios);
   };
 
   const handleObservacionChange = (event, index) => {
     const updatedFormularios = [...formularios];
-    updatedFormularios[index].observacion = event.target.value;
+    updatedFormularios[index].observation = event.target.value;
     setFormularios(updatedFormularios);
   };
 
@@ -59,14 +63,16 @@ const CreateNoteInvoice = () => {
       ...formularios,
       {
         id: nextId,
-        facNDE: data.facNDE, // Asegura que facNDE sea constante
-        proveedor: data.proveedor, // Asegura que proveedor sea constante
-        cantidad: "",
-        repuesto: "",
-        descripcionRepuesto: "",
-        observacion: "",
-        entregadoPor: "",
+        note_number: data.facNDE, // Asegura que facNDE sea constante
+        provider: data.proveedor, // Asegura que proveedor sea constante
+        quantity: "",
+        spare_part: "",
+        spare_part_variant: "",
+        observation: "",
+        delivered_by: "",
         inventario: "",
+        marcaModelo: "",
+        status: false,
       },
     ]);
     setNextId(nextId + 1);
@@ -96,13 +102,13 @@ const CreateNoteInvoice = () => {
 
   const handleDescriptionChange = (event, value, index) => {
     const updatedFormularios = [...formularios];
-    updatedFormularios[index].descripcionRepuesto = value ? value.variant : "";
+    updatedFormularios[index].spare_part_variant = value ? value.variant : "";
     setFormularios(updatedFormularios);
   };
 
   const handleEntregadoChange = (event, index) => {
     const updatedFormularios = [...formularios];
-    updatedFormularios[index].entregadoPor = event.target.value;
+    updatedFormularios[index].delivered_by = event.target.value;
     setFormularios(updatedFormularios);
   };
 
@@ -122,7 +128,7 @@ const CreateNoteInvoice = () => {
     });
 
     if (todosCamposRellenados) {
-      console.log("Guardado");
+      dispatch(startCreateNDE(formularios));
     } else {
       console.error("Error: Todos los campos deben estar rellenados.");
     }
@@ -214,7 +220,7 @@ const CreateNoteInvoice = () => {
                 <TextField
                   label="Observación"
                   onChange={(event) => handleObservacionChange(event, index)}
-                  value={formulario.observacion}
+                  value={formulario.observation}
                   variant="outlined"
                   fullWidth
                 />
@@ -224,7 +230,7 @@ const CreateNoteInvoice = () => {
               <Grid item xs={2}>
                 <TextField
                   onChange={(event) => handleCantidadChange(event, index)}
-                  value={formulario.cantidad}
+                  value={formulario.quantity}
                   label="Cantidad"
                   type="number"
                   variant="outlined"
@@ -236,7 +242,7 @@ const CreateNoteInvoice = () => {
                   <InputLabel>Entregado por</InputLabel>
                   <Select
                     label="Entregado por"
-                    value={formulario.entregadoPor} // Usar el valor del estado del formulario actual
+                    value={formulario.delivered_by} // Usar el valor del estado del formulario actual
                     onChange={(event) => handleEntregadoChange(event, index)}
                   >
                     <MenuItem value="store">Almacen</MenuItem>
@@ -275,7 +281,7 @@ const CreateNoteInvoice = () => {
                   <Select
                     label="Repuesto"
                     onChange={(event) => handleRepuestoChange(event, index)}
-                    value={formulario.repuesto}
+                    value={formulario.spare_part}
                   >
                     <MenuItem value="baterias">Bateria</MenuItem>
                     <MenuItem value="cauchos">Caucho</MenuItem>
@@ -292,7 +298,7 @@ const CreateNoteInvoice = () => {
                     (result.sparePartVariants &&
                       result.sparePartVariants.find(
                         (variant) =>
-                          variant.variant === formulario.descripcionRepuesto
+                          variant.variant === formulario.spare_part_variant
                       )) ||
                     null // Asegura que el valor inicial no sea undefined
                   }
