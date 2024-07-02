@@ -211,7 +211,7 @@ const CreateNoteInvoice = () => {
                   <InputLabel>Entregado por</InputLabel>
                   <Select
                     label="Entregado por"
-                    value={entregadoPor}
+                    value={formulario.entregadoPor} // Usar el valor del estado del formulario actual
                     onChange={(event) => handleEntregadoChange(event, index)}
                   >
                     <MenuItem value="store">Almacen</MenuItem>
@@ -224,11 +224,11 @@ const CreateNoteInvoice = () => {
                   <InputLabel>Tiempo</InputLabel>
                   <Select
                     label="Tiempo"
-                    value={tiempo}
+                    value={formulario.tiempo} // Usar el valor del estado del formulario actual
                     onChange={(event) => handleTiempoChange(event, index)}
                   >
-                    <MenuItem value="tiempo1">Actual</MenuItem>
-                    <MenuItem value="tiempo2">Años anteriores</MenuItem>
+                    <MenuItem value="actual">Actual</MenuItem>
+                    <MenuItem value="anteriores">Años anteriores</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
