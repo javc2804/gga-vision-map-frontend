@@ -19,7 +19,7 @@ const CreateNoteInvoice = () => {
 
   const result = useSelector((state: any) => state.purchase.combined);
   const [entregadoPor, setEntregadoPor] = useState("");
-  const [tiempo, setTiempo] = useState("");
+  const [inventario, setinventario] = useState("");
 
   const [formularios, setFormularios] = useState([
     {
@@ -31,7 +31,7 @@ const CreateNoteInvoice = () => {
       facNDE: data.facNDE,
       proveedor: data.proveedor,
       entregadoPor: "", // Mover entregadoPor al estado de cada formulario
-      tiempo: "", // Mover tiempo al estado de cada formulario
+      inventario: "", // Mover inventario al estado de cada formulario
     },
   ]);
   const [nextId, setNextId] = useState(2);
@@ -92,9 +92,9 @@ const CreateNoteInvoice = () => {
     setFormularios(updatedFormularios);
   };
 
-  const handleTiempoChange = (event, index) => {
+  const handleinventarioChange = (event, index) => {
     const updatedFormularios = [...formularios];
-    updatedFormularios[index].tiempo = event.target.value;
+    updatedFormularios[index].inventario = event.target.value;
     setFormularios(updatedFormularios);
   };
 
@@ -221,11 +221,11 @@ const CreateNoteInvoice = () => {
               </Grid>
               <Grid item xs={2}>
                 <FormControl fullWidth>
-                  <InputLabel>Tiempo</InputLabel>
+                  <InputLabel>Inventario</InputLabel>
                   <Select
-                    label="Tiempo"
-                    value={formulario.tiempo} // Usar el valor del estado del formulario actual
-                    onChange={(event) => handleTiempoChange(event, index)}
+                    label="inventario"
+                    value={formulario.inventario} // Usar el valor del estado del formulario actual
+                    onChange={(event) => handleinventarioChange(event, index)}
                   >
                     <MenuItem value="actual">Actual</MenuItem>
                     <MenuItem value="anteriores">Años anteriores</MenuItem>
