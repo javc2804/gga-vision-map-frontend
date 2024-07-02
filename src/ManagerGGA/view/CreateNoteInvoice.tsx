@@ -18,11 +18,41 @@ const CreateNoteInvoice = () => {
   const { data } = location.state || {};
 
   const result = useSelector((state: any) => state.purchase.combined);
-  console.log(result.sparePartVariants);
-  console.log("s");
+  const [entregadoPor, setEntregadoPor] = useState("");
+  const [tiempo, setTiempo] = useState("");
 
-  const [formularios, setFormularios] = useState([{}]);
+  const [formularios, setFormularios] = useState([
+    {
+      id: 1,
+      cantidad: "",
+      repuesto: "",
+      descripcionRepuesto: "",
+      observacion: "",
+      facNDE: data.facNDE,
+      proveedor: data.proveedor,
+      entregadoPor: "", // Mover entregadoPor al estado de cada formulario
+      tiempo: "", // Mover tiempo al estado de cada formulario
+    },
+  ]);
   const [nextId, setNextId] = useState(2);
+
+  const handleCantidadChange = (event, index) => {
+    const updatedFormularios = [...formularios];
+    updatedFormularios[index].cantidad = event.target.value;
+    setFormularios(updatedFormularios);
+  };
+
+  const handleRepuestoChange = (event, index) => {
+    const updatedFormularios = [...formularios];
+    updatedFormularios[index].repuesto = event.target.value;
+    setFormularios(updatedFormularios);
+  };
+
+  const handleObservacionChange = (event, index) => {
+    const updatedFormularios = [...formularios];
+    updatedFormularios[index].observacion = event.target.value;
+    setFormularios(updatedFormularios);
+  };
 
   const agregarFormulario = () => {
     setFormularios([...formularios, { id: nextId }]);
@@ -51,18 +81,20 @@ const CreateNoteInvoice = () => {
   };
 
   const handleDescriptionChange = (event, value, index) => {
+    const newFormularios = [...formularios];
+    newFormularios[index].descripcionRepuesto = value; // Asegúrate de que esto refleje el valor correcto, por ejemplo, value.variant si es un objeto
+    setFormularios(newFormularios);
+  };
+
+  const handleEntregadoChange = (event, index) => {
     const updatedFormularios = [...formularios];
-    const selectedDescription = result.sparePartvariants.find(
-      (variant) => variant.variant === value.variant
-    );
-    if (selectedDescription) {
-      updatedFormularios[index] = {
-        ...updatedFormularios[index],
-        // Aquí actualizas el estado con la descripción seleccionada y cualquier otro campo relevante
-        descripcionRepuesto: selectedDescription.variant,
-        // Otros campos a actualizar basados en la selección
-      };
-    }
+    updatedFormularios[index].entregadoPor = event.target.value;
+    setFormularios(updatedFormularios);
+  };
+
+  const handleTiempoChange = (event, index) => {
+    const updatedFormularios = [...formularios];
+    updatedFormularios[index].tiempo = event.target.value;
     setFormularios(updatedFormularios);
   };
 
@@ -154,12 +186,20 @@ const CreateNoteInvoice = () => {
                 />
               </Grid>
               <Grid item xs={2}>
-                <TextField label="Observación" variant="outlined" fullWidth />
+                <TextField
+                  label="Observación"
+                  onChange={(event) => handleObservacionChange(event, index)}
+                  value={formulario.observacion}
+                  variant="outlined"
+                  fullWidth
+                />
               </Grid>
 
               {/* Segunda fila */}
               <Grid item xs={2}>
                 <TextField
+                  onChange={(event) => handleCantidadChange(event, index)}
+                  value={formulario.cantidad}
                   label="Cantidad"
                   type="number"
                   variant="outlined"
@@ -169,18 +209,26 @@ const CreateNoteInvoice = () => {
               <Grid item xs={2}>
                 <FormControl fullWidth>
                   <InputLabel>Entregado por</InputLabel>
-                  <Select label="Entregado por">
-                    <MenuItem value="persona1">Persona 1</MenuItem>
-                    <MenuItem value="persona2">Persona 2</MenuItem>
+                  <Select
+                    label="Entregado por"
+                    value={entregadoPor}
+                    onChange={(event) => handleEntregadoChange(event, index)}
+                  >
+                    <MenuItem value="store">Almacen</MenuItem>
+                    <MenuItem value="direct">Directo</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={2}>
                 <FormControl fullWidth>
                   <InputLabel>Tiempo</InputLabel>
-                  <Select label="Tiempo">
-                    <MenuItem value="tiempo1">Tiempo 1</MenuItem>
-                    <MenuItem value="tiempo2">Tiempo 2</MenuItem>
+                  <Select
+                    label="Tiempo"
+                    value={tiempo}
+                    onChange={(event) => handleTiempoChange(event, index)}
+                  >
+                    <MenuItem value="tiempo1">Actual</MenuItem>
+                    <MenuItem value="tiempo2">Años anteriores</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -199,7 +247,11 @@ const CreateNoteInvoice = () => {
               <Grid item xs={2}>
                 <FormControl fullWidth>
                   <InputLabel>Repuesto</InputLabel>
-                  <Select label="Repuesto">
+                  <Select
+                    label="Repuesto"
+                    onChange={(event) => handleRepuestoChange(event, index)}
+                    value={formulario.repuesto}
+                  >
                     <MenuItem value="baterias">Bateria</MenuItem>
                     <MenuItem value="cauchos">Caucho</MenuItem>
                     <MenuItem value="lubricantes">Lubricante</MenuItem>
@@ -211,8 +263,14 @@ const CreateNoteInvoice = () => {
               </Grid>
               <Grid item xs={2}>
                 <Autocomplete
-                  options={result.sparePartVariants || []} // Asegúrate de que esto es un array
-                  getOptionLabel={(option) => option.variant || ""} // Asegúrate de acceder correctamente a la propiedad 'variant'
+                  value={
+                    result.sparePartVariants.find(
+                      (variant) =>
+                        variant.variant === formulario.descripcionRepuesto
+                    ) || null
+                  }
+                  options={result.sparePartVariants || []}
+                  getOptionLabel={(option) => option.variant || ""}
                   onChange={(event, value) =>
                     handleDescriptionChange(event, value, index)
                   }
