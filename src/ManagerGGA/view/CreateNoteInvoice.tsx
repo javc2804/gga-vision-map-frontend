@@ -118,24 +118,22 @@ const CreateNoteInvoice = () => {
           <form>
             <Grid container spacing={2}>
               <Grid item xs={2}>
-                <Grid item xs={2}>
-                  <Autocomplete
-                    options={Array.isArray(result.fleets) ? result.fleets : []}
-                    getOptionLabel={(option) => option.ut}
-                    onChange={(event, value) =>
-                      handleUTChange(event, value, index)
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="UT"
-                        variant="outlined"
-                        fullWidth
-                      />
-                    )}
-                    sx={{ width: 150 }}
-                  />
-                </Grid>
+                <Autocomplete
+                  options={Array.isArray(result.fleets) ? result.fleets : []}
+                  getOptionLabel={(option) => option.ut}
+                  onChange={(event, value) =>
+                    handleUTChange(event, value, index)
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="UT"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  )}
+                  sx={{ width: 150 }}
+                />
               </Grid>
               <Grid item xs={2}>
                 <TextField
@@ -264,10 +262,12 @@ const CreateNoteInvoice = () => {
               <Grid item xs={2}>
                 <Autocomplete
                   value={
-                    result.sparePartVariants.find(
-                      (variant) =>
-                        variant.variant === formulario.descripcionRepuesto
-                    ) || null
+                    (result.sparePartVariants &&
+                      result.sparePartVariants.find(
+                        (variant) =>
+                          variant.variant === formulario.descripcionRepuesto
+                      )) ||
+                    null // Asegura que el valor inicial no sea undefined
                   }
                   options={result.sparePartVariants || []}
                   getOptionLabel={(option) => option.variant || ""}
@@ -275,14 +275,8 @@ const CreateNoteInvoice = () => {
                     handleDescriptionChange(event, value, index)
                   }
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Descripción Repuesto"
-                      variant="outlined"
-                      fullWidth
-                    />
+                    <TextField {...params} label="Descripción del repuesto" />
                   )}
-                  sx={{ width: 150 }}
                 />
               </Grid>
               <Grid
