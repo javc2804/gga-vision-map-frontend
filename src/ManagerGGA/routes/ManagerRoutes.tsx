@@ -11,7 +11,6 @@ import RegisterOutInternal from "../pages/RegisterOutInternalPage";
 import ListOutInternal from "../pages/ListOutInternalPage";
 import CreateNoteInvoicePage from "../pages/CreateNoteInvoicePage";
 import ListNoteInvoicesPage from "../pages/ListNoteInvoicesPage";
-import { Inventory } from "@mui/icons-material";
 import InventoryPage from "../pages/InventoryPage";
 
 const ManagerRoutes = () => {
