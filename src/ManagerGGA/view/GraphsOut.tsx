@@ -70,6 +70,16 @@ const GraphsOut = () => {
     }
   );
 
+  const CustomizedLabel = (props) => {
+    const { x, y, value } = props;
+    // Ajusta la posición según sea necesario
+    return (
+      <text x={x + 45} y={y - 25} fill="#666" textAnchor="middle">
+        Cantidad: {value}
+      </text>
+    );
+  };
+
   const headers = [
     "id",
     "createdAt",
@@ -146,6 +156,7 @@ const GraphsOut = () => {
                   />
                 ))}
               <LabelList dataKey="gastos" position="top" />
+              <LabelList dataKey="cantidad" content={<CustomizedLabel />} />
             </Bar>
             <Label
               value="Mi Gráfico General"
@@ -172,7 +183,7 @@ const GraphsOut = () => {
             <ComposedChart
               key={i}
               width={800} // Adjust this value as needed
-              height={500} // Adjust this value as needed
+              height={800} // Adjust this value as needed
               data={data || []}
               margin={{
                 top: 5,
@@ -195,6 +206,7 @@ const GraphsOut = () => {
                     />
                   ))}
                 <LabelList dataKey="gastos" position="top" />
+                <LabelList dataKey="cantidad" content={<CustomizedLabel />} />
               </Bar>
               <Label
                 value={`Mi Gráfico ${i + 2}`}
