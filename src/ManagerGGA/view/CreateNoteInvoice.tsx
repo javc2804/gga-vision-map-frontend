@@ -18,17 +18,17 @@ const CreateNoteInvoice = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { data } = location.state || {};
-
   const result = useSelector((state: any) => state.purchase.combined);
   const [delivered_by, setdelivered_by] = useState("");
   const [inventario, setinventario] = useState("");
 
   const [formularios, setFormularios] = useState([
     {
-      id: 1,
+      id: data.id,
+      id_items: 1,
       quantity: "",
-      spare_part: "",
-      spare_part_variant: "",
+      spare_part: data.repuesto,
+      spare_part_variant: data.descripcionRepuesto,
       observation: "",
       note_number: data.facNDE,
       provider: data.proveedor,
@@ -62,12 +62,13 @@ const CreateNoteInvoice = () => {
     setFormularios([
       ...formularios,
       {
-        id: nextId,
+        id: data.id,
+        id_items: nextId,
         note_number: data.facNDE, // Asegura que facNDE sea constante
         provider: data.proveedor, // Asegura que proveedor sea constante
         quantity: "",
-        spare_part: "",
-        spare_part_variant: "",
+        spare_part: data.repuesto,
+        spare_part_variant: data.descripcionRepuesto,
         observation: "",
         delivered_by: "",
         inventario: "",
@@ -100,12 +101,6 @@ const CreateNoteInvoice = () => {
     setFormularios(updatedFormularios);
   };
 
-  const handleDescriptionChange = (event, value, index) => {
-    const updatedFormularios = [...formularios];
-    updatedFormularios[index].spare_part_variant = value ? value.variant : "";
-    setFormularios(updatedFormularios);
-  };
-
   const handleEntregadoChange = (event, index) => {
     const updatedFormularios = [...formularios];
     updatedFormularios[index].delivered_by = event.target.value;
@@ -119,16 +114,20 @@ const CreateNoteInvoice = () => {
   };
 
   const save = () => {
-    const todosCamposRellenados = formularios.every((formulario) => {
+    const formulariosConUserRel = formularios.map((formulario) => ({
+      ...formulario,
+      user_rel: localStorage.getItem("email") || "",
+    }));
+
+    const todosCamposRellenados = formulariosConUserRel.every((formulario) => {
       return Object.values(formulario).every((valor) => {
-        // Convertir todos los valores a cadenas antes de llamar a trim()
         const valorComoCadena = String(valor).trim();
         return valorComoCadena !== "";
       });
     });
 
     if (todosCamposRellenados) {
-      dispatch(startCreateNDE(formularios));
+      dispatch(startCreateNDE(formulariosConUserRel));
     } else {
       console.error("Error: Todos los campos deben estar rellenados.");
     }

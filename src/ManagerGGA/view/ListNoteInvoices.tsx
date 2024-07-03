@@ -72,6 +72,7 @@ const ListNoteInvoices = () => {
 
   const showData = (row: any) => {
     const data = {
+      id: row.id,
       facNDE: row.facNDE,
       cantidad: row.cantidad,
       proveedor: row.proveedor,
@@ -108,7 +109,7 @@ const ListNoteInvoices = () => {
                       if (column.id === "status") {
                         return (
                           <TableCell key={column.id}>
-                            {!row.status ? (
+                            {row.status ? (
                               <Box display="flex" alignItems="center">
                                 Completado
                                 <CheckCircleIcon sx={{ color: "green" }} />
