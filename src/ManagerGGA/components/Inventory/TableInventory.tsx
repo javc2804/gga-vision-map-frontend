@@ -39,14 +39,14 @@ const TableInventory = () => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell style={{ fontWeight: "bold" }}>Proveedor</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Repuesto</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Entrada</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Salida</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Factura</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>
                 Stock Disponible
               </TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Descripcion</TableCell>
+              {/* <TableCell style={{ fontWeight: "bold" }}>Descripcion</TableCell> */}
               {/* <TableCell style={{ fontWeight: "bold" }}>Acciones</TableCell> */}
             </TableRow>
           </TableHead>
@@ -55,12 +55,12 @@ const TableInventory = () => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell>{row.proveedor}</TableCell>
+                  <TableCell>{row.descripcion}</TableCell>
                   <TableCell>{row.entrada}</TableCell>
                   <TableCell>{row.salida}</TableCell>
                   <TableCell>{row.factura}</TableCell>
                   <TableCell>{row.cantidad}</TableCell>
-                  <TableCell>{row.descripcion}</TableCell>
+                  {/* <TableCell>{row.descripcion}</TableCell> */}
                   {/* <TableCell>
                     <DeleteIcon sx={{ color: "red" }} />
                     <EditIcon sx={{ marginLeft: 1, color: "orange" }} />
