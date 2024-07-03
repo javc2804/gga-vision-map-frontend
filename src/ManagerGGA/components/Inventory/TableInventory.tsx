@@ -19,7 +19,7 @@ const TableInventory = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const dispatch = useDispatch();
   const result = useSelector((state: any) => state.inventory.list);
-  const rows = result.response;
+  const rows = result.response || [];
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -43,7 +43,9 @@ const TableInventory = () => {
               <TableCell style={{ fontWeight: "bold" }}>Entrada</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Salida</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Factura</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Cantidad</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>
+                Stock Disponible
+              </TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Descripcion</TableCell>
               {/* <TableCell style={{ fontWeight: "bold" }}>Acciones</TableCell> */}
             </TableRow>
