@@ -276,40 +276,27 @@ const CreateNoteInvoice = () => {
                 />
               </Grid>
               <Grid item xs={2}>
-                <FormControl fullWidth>
-                  <InputLabel>Repuesto</InputLabel>
-                  <Select
-                    label="Repuesto"
-                    onChange={(event) => handleRepuestoChange(event, index)}
-                    value={formulario.spare_part}
-                  >
-                    <MenuItem value="baterias">Bateria</MenuItem>
-                    <MenuItem value="cauchos">Caucho</MenuItem>
-                    <MenuItem value="lubricantes">Lubricante</MenuItem>
-                    <MenuItem value="servicios">Servicio</MenuItem>
-                    <MenuItem value="preventivo">Preventivo</MenuItem>
-                    <MenuItem value="filtros">Filtros</MenuItem>
-                  </Select>
-                </FormControl>
+                <TextField
+                  disabled
+                  label="Repuesto"
+                  variant="outlined"
+                  value={data.repuesto}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={2}>
-                <Autocomplete
-                  value={
-                    (result.sparePartVariants &&
-                      result.sparePartVariants.find(
-                        (variant) =>
-                          variant.variant === formulario.spare_part_variant
-                      )) ||
-                    null // Asegura que el valor inicial no sea undefined
-                  }
-                  options={result.sparePartVariants || []}
-                  getOptionLabel={(option) => option.variant || ""}
-                  onChange={(event, value) =>
-                    handleDescriptionChange(event, value, index)
-                  }
-                  renderInput={(params) => (
-                    <TextField {...params} label="Descripción del repuesto" />
-                  )}
+                <TextField
+                  disabled
+                  label="Descripción Repuesto"
+                  variant="outlined"
+                  value={data.descripcionRepuesto}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  fullWidth
                 />
               </Grid>
               <Grid

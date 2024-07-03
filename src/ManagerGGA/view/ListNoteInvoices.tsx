@@ -37,37 +37,13 @@ const ListNoteInvoices = () => {
     { id: "facNDE", label: "facNDE", minWidth: 100 },
     { id: "proveedor", label: "Proveedor", minWidth: 200 },
     { id: "repuesto", label: "Repuesto", minWidth: 150 },
+    { id: "descripcionRepuesto", label: "Descripción ", minWidth: 150 },
     { id: "cantidad", label: "Cantidad", minWidth: 100 },
     // { id: "precioUnitarioBs", label: "Precio Unitario Bs", minWidth: 150 },
     // { id: "montoTotalBs", label: "Monto Total Bs", minWidth: 150 },
     { id: "status", label: "Estado", minWidth: 100 },
     { id: "acciones", label: "Acciones", minWidth: 100 },
   ];
-
-  // Dentro de <TableBody>, actualiza el mapeo para reflejar los nuevos datos
-  // Asegúrate de que el manejo de la columna "status" y "acciones" siga siendo adecuado
-  // para tu lógica de negocio.
-
-  // const rows = [
-  //   {
-  //     id: 1,
-  //     facNDE: "NDE123",
-  //     state: false,
-  //     createdAt: "2023-04-01",
-  //   },
-  //   {
-  //     id: 2,
-  //     facNDE: "NDE124",
-  //     state: true,
-  //     createdAt: "2023-04-02",
-  //   },
-  //   {
-  //     id: 3,
-  //     facNDE: "NDE125",
-  //     state: false,
-  //     createdAt: "2023-04-03",
-  //   },
-  // ];
 
   const distpach = useDispatch();
   const navigate = useNavigate();
@@ -78,6 +54,7 @@ const ListNoteInvoices = () => {
 
   const result = useSelector((state: any) => state.almacen.list);
   const rows = result.response;
+  console.log(rows);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -98,6 +75,8 @@ const ListNoteInvoices = () => {
       facNDE: row.facNDE,
       cantidad: row.cantidad,
       proveedor: row.proveedor,
+      repuesto: row.repuesto,
+      descripcionRepuesto: row.descripcionRepuesto,
     };
     navigate("/note-invoices", { state: { data } });
   };

@@ -42,7 +42,7 @@ const TableInventory = () => {
               <TableCell style={{ fontWeight: "bold" }}>Repuesto</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Entrada</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Salida</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Factura</TableCell>
+              {/* <TableCell style={{ fontWeight: "bold" }}>Factura</TableCell> */}
               <TableCell style={{ fontWeight: "bold" }}>
                 Stock Disponible
               </TableCell>
@@ -58,7 +58,7 @@ const TableInventory = () => {
                   <TableCell>{row.descripcion}</TableCell>
                   <TableCell>{row.entrada}</TableCell>
                   <TableCell>{row.salida}</TableCell>
-                  <TableCell>{row.factura}</TableCell>
+                  {/* <TableCell>{row.factura}</TableCell> */}
                   <TableCell>{row.cantidad}</TableCell>
                   {/* <TableCell>{row.descripcion}</TableCell> */}
                   {/* <TableCell>
