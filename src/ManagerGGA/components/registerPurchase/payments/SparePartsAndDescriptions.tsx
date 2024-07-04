@@ -31,7 +31,7 @@ export const SparePartsAndDescriptions = ({
     }
   }, [editPurchase, setValues, values]);
 
-  const handleRepuestoChange = (_, data) => {
+  const handleRepuestoChange = (_: any, data: any) => {
     if (data) {
       setValues({
         ...values,
@@ -51,7 +51,7 @@ export const SparePartsAndDescriptions = ({
     }
   };
 
-  const handleDescripcionRepuestoChange = (_, data) => {
+  const handleDescripcionRepuestoChange = (_: any, data: any) => {
     if (data) {
       setValues({
         ...values,

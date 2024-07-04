@@ -5,7 +5,7 @@ import {
   startHandleSearch,
 } from "../../store/purchase/purchaseThunks";
 import { useDispatch, useSelector } from "react-redux";
-import { getSummary } from "../../store/purchase/purchaseSlice";
+// import { getSummary } from "../../store/purchase/purchaseSlice";
 
 interface IRow {
   ID: number;
@@ -52,7 +52,7 @@ const useTableList = (initialData: IRow[]) => {
     filters: {},
   });
 
-  const [filters, setFilters] = useState({}); // Define filters state
+  // const [filters, setFilters] = useState({}); // Define filters state
 
   useEffect(() => {
     setDataDate({
@@ -81,7 +81,7 @@ const useTableList = (initialData: IRow[]) => {
   const filtersState = useSelector((state: any) => state.purchase.filters);
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     newPage = Number(newPage); // Convert newPage to a number

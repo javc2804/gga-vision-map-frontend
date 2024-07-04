@@ -65,7 +65,7 @@ export const OrdersCompromise: React.FC<Props> = ({
               id="fechaOcOs"
               label="Fecha OC/OS"
               value={value ? new Date(value) : null} // Convierte la cadena a un objeto Date
-              onChange={(date) => {
+              onChange={(date: any) => {
                 onChange(date);
                 if (Object.keys(editPurchase).length !== 0) {
                   dispatch(

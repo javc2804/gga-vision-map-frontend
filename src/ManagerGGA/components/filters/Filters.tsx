@@ -19,13 +19,13 @@ import {
 } from "../../../store/purchase/purchaseThunks";
 import { useNavigate } from "react-router-dom";
 import { Autocomplete } from "@mui/material";
-type HeaderType =
-  | "ut"
-  | "proveedor"
-  | "repuesto"
-  | "descripcionRepuesto"
-  | "eje"
-  | "subeje";
+// type HeaderType =
+//   | "ut"
+//   | "proveedor"
+//   | "repuesto"
+//   | "descripcionRepuesto"
+//   | "eje"
+//   | "subeje";
 
 interface FiltersProps {
   headers: string[];
@@ -112,15 +112,15 @@ export const Filters: React.FC<FiltersProps> = ({
 
               if (header === "proveedor")
                 options = (combined.providers || []).filter(
-                  (provider) => provider && provider.name
+                  (provider: any) => provider && provider.name
                 );
               if (header === "repuesto")
                 options = (combined.spareParts || []).filter(
-                  (sparePart) => sparePart && sparePart.type
+                  (sparePart: any) => sparePart && sparePart.type
                 );
               if (header === "descripcionRepuesto")
                 options = (combined.sparePartVariants || []).filter(
-                  (variant) => variant && variant.variant
+                  (variant: any) => variant && variant.variant
                 );
             }
 
@@ -128,7 +128,7 @@ export const Filters: React.FC<FiltersProps> = ({
               <FormControl key={`${header}-${index}`}>
                 <Autocomplete
                   freeSolo
-                  options={options.map((option) =>
+                  options={options.map((option: any) =>
                     header === "ut"
                       ? option.ut
                       : header === "proveedor"
@@ -151,7 +151,7 @@ export const Filters: React.FC<FiltersProps> = ({
                     />
                   )}
                   value={filters[header] || ""}
-                  onInputChange={(e, newValue) =>
+                  onInputChange={(_e, newValue) =>
                     updateFilter(header, newValue)
                   }
                 />

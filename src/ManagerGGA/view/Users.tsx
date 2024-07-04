@@ -31,6 +31,12 @@ interface User {
   status: boolean;
 }
 
+interface UserModalProps {
+  open: boolean;
+  handleClose: () => void;
+  initialValues: User | null; // Make sure this is correctly defined
+}
+
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   const day = String(date.getDate()).padStart(2, "0");

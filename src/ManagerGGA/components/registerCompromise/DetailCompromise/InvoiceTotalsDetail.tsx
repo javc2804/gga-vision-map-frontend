@@ -34,7 +34,7 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
 
   const totalInvoiceAmount =
     compromise && invoice.invoices
-      ? invoice.invoices.reduce((total, currentInvoice) => {
+      ? invoice.invoices.reduce((total: any, currentInvoice: any) => {
           return total + currentInvoice.quantity * compromise.precioUnitarioUsd;
         }, 0)
       : 0;

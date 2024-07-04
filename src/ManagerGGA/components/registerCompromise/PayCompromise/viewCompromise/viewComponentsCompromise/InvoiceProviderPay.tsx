@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Grid, TextField, Autocomplete } from "@mui/material";
-import { Controller, Control } from "react-hook-form";
+import { Grid, TextField } from "@mui/material";
 
 interface Provider {
   id: string;
@@ -8,16 +7,16 @@ interface Provider {
 }
 
 interface InvoiceProvidersProps {
-  control: Control;
-  providers: Provider[];
+  // control: Control;
+  // providers: Provider[];
   setFormState: React.Dispatch<
     React.SetStateAction<{ facNDE: number; proveedor: Provider | null }>
   >;
 }
 
 export const InvoiceProviderPay: React.FC<InvoiceProvidersProps> = ({
-  control,
-  providers,
+  // control,
+  // providers,
   setFormState,
 }) => {
   const [facNDE, setFacNDE] = useState<number>(0);
@@ -30,10 +29,10 @@ export const InvoiceProviderPay: React.FC<InvoiceProvidersProps> = ({
     setFormState((prevState) => ({ ...prevState, facNDE: facNDE }));
   };
 
-  const handleProviderChange = (field: any, _: any, value: any) => {
-    field.onChange(value);
-    setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
-  };
+  // const handleProviderChange = (field: any, _: any, value: any) => {
+  //   field.onChange(value);
+  //   setFormState((prevState) => ({ ...prevState, proveedor: value.name }));
+  // };
 
   return (
     <Grid container spacing={2} justifyContent="flex-end">

@@ -34,7 +34,13 @@ import { useDispatch } from "react-redux";
 import { editPurchaseClear } from "../../store/purchase/purchaseSlice";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 
-export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
+interface SideBarProps {
+  drawerWidth?: number;
+  open: boolean;
+  onClose: () => void;
+}
+
+export const SideBar = ({ drawerWidth = 240, open, onClose }: SideBarProps) => {
   let menu = JSON.parse(localStorage.getItem("menu") || "[]");
   if (!Array.isArray(menu)) {
     menu = [menu];
@@ -45,7 +51,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
   const [openSubMenu, setOpenSubMenu] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleClick = (name, route) => {
+  const handleClick = (name: any, route: any) => {
     console.log(name, route);
     if (selectedItem === name) {
       return;
@@ -63,7 +69,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
     navigate(route);
   };
 
-  const handleSubItemClick = (event, name, route) => {
+  const handleSubItemClick = (event: any, name: any, route: any) => {
     event.stopPropagation();
 
     if (selectedItem === name) {
@@ -123,7 +129,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
         </Toolbar>
         <Divider />
         <List>
-          {menu.map((item) => (
+          {menu.map((item: any) => (
             <div key={item.name}>
               <ListItemButton
                 onClick={() => handleClick(item.name, item.route)}
@@ -151,7 +157,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
               >
                 <List component="div" disablePadding>
                   {item.subMenu &&
-                    item.subMenu.map((subItem) => (
+                    item.subMenu.map((subItem: any) => (
                       <ListItem key={subItem.name} disablePadding>
                         <ListItemButton
                           onClick={(event) =>

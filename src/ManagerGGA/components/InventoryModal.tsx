@@ -9,13 +9,14 @@ import {
 } from "@mui/material";
 
 interface User {
-  proveedor: string;
-  entrada: number;
-  salida: number;
-  role: string;
+  createdAt: string;
+  name: string;
   password: string;
+  lastName: string;
+  email: string;
+  role: string;
+  status: boolean;
 }
-
 interface InventoryModalProps {
   open: boolean;
   handleClose: () => void;

@@ -14,6 +14,24 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { startCreateNDE } from "../../store/almacen/almacenThunk";
 
+type FormularioType = {
+  id: any;
+  id_items: number;
+  quantity: string;
+  spare_part: any;
+  spare_part_variant: any;
+  observation: string;
+  note_number: any;
+  provider: any;
+  delivered_by: string;
+  inventario: string;
+  marcaModelo: string;
+  status: boolean;
+  subeje?: string;
+  eje?: string;
+  ut?: string;
+};
+
 const CreateNoteInvoice = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -22,7 +40,7 @@ const CreateNoteInvoice = () => {
   // const [delivered_by, setdelivered_by] = useState("");
   // const [inventario, setinventario] = useState("");
 
-  const [formularios, setFormularios] = useState([
+  const [formularios, setFormularios] = useState<FormularioType[]>([
     {
       id: data.id,
       id_items: 1,
@@ -36,6 +54,7 @@ const CreateNoteInvoice = () => {
       inventario: "",
       marcaModelo: "",
       status: false,
+      subeje: data.subeje || "", // Initialize `subeje` here
     },
   ]);
   const [nextId, setNextId] = useState(2);
@@ -58,8 +77,8 @@ const CreateNoteInvoice = () => {
       {
         id: data.id,
         id_items: nextId,
-        note_number: data.facNDE, // Asegura que facNDE sea constante
-        provider: data.proveedor, // Asegura que proveedor sea constante
+        note_number: data.facNDE,
+        provider: data.proveedor,
         quantity: "",
         spare_part: data.repuesto,
         spare_part_variant: data.descripcionRepuesto,
@@ -149,7 +168,7 @@ const CreateNoteInvoice = () => {
                 <Autocomplete
                   options={Array.isArray(result.fleets) ? result.fleets : []}
                   getOptionLabel={(option) => option.ut}
-                  onChange={(event, value) => handleUTChange(value, index)}
+                  onChange={(_event, value) => handleUTChange(value, index)}
                   renderInput={(params: any) => (
                     <TextField
                       {...params}

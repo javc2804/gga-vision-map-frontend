@@ -92,7 +92,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     forms,
     handleAddClick,
     handleRemoveClick,
-    handleInputChange,
+    // handleInputChange,
     handlePaymentChange,
     totalFactUsd,
     totalFactBs,
@@ -109,8 +109,8 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     formState.facNDE,
     formState.proveedor,
     ErrorOutline,
-    CheckCircle,
-    compromise
+    CheckCircle
+    // compromise
   );
   const purchase = useSelector(
     (state: StoreRootState) => state.purchase.purchase
@@ -123,7 +123,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     response = purchase.response;
   }
   const {
-    fleets = [],
+    // fleets = [],
     providers = [],
     spareParts = [],
     sparePartVariants = [],

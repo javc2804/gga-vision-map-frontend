@@ -165,7 +165,7 @@ export const Taxes = () => {
                           : "";
                         handleChange(formattedDate, field, formIndex); // Corregido para pasar el valor formateado, el campo y el índice del formulario
                       }}
-                      renderInput={(params) => <TextField {...params} />}
+                      renderInput={(params: any) => <TextField {...params} />}
                       format="dd/MM/yyyy"
                     />
                   ) : (

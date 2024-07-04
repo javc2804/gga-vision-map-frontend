@@ -9,8 +9,8 @@ import {
   Paper,
   TablePagination,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
 import { startGetInventory } from "../../../store/inventory/inventoryThunk";
 
@@ -20,11 +20,11 @@ const TableInventory = () => {
   const dispatch = useDispatch();
   const result = useSelector((state: any) => state.inventory.list);
   const rows = result.response || [];
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage: any) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: any) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
@@ -53,7 +53,7 @@ const TableInventory = () => {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => (
+              .map((row: any, index: any) => (
                 <TableRow key={index}>
                   <TableCell>{row.descripcion}</TableCell>
                   <TableCell>{row.entrada}</TableCell>

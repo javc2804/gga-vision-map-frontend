@@ -1,10 +1,25 @@
 import React from "react";
 import { Box, Grid, IconButton, Paper } from "@mui/material";
-import BuildIcon from "@mui/icons-material/Build"; // Asumiendo íconos para el ejemplo
-import SettingsIcon from "@mui/icons-material/Settings";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+// import BuildIcon from "@mui/icons-material/Build"; // Asumiendo íconos para el ejemplo
+// import SettingsIcon from "@mui/icons-material/Settings";
+// import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
 // Estilos comunes o específicos pueden ser definidos aquí
+
+type DataItem = {
+  description: string;
+  facBs: number;
+  paidBs: number;
+  factDollar: number;
+  paidDollar: number;
+};
+
+interface SectionProps {
+  title: string;
+  icon: React.ReactElement; // Assuming icon is a React element, adjust as necessary
+  data: DataItem[];
+}
+
 const boxStyle = { margin: 8, padding: 8 };
 const iconButtonStyle = {
   position: "absolute",
@@ -13,7 +28,7 @@ const iconButtonStyle = {
   transform: "translateX(-50%)",
 };
 
-const Section = ({ title, icon, data }) => (
+const Section: React.FC<SectionProps> = ({ title, icon, data }) => (
   <Paper elevation={3} style={boxStyle}>
     <Box position="relative">
       <IconButton style={iconButtonStyle}>{icon}</IconButton>
@@ -43,7 +58,7 @@ const Section = ({ title, icon, data }) => (
         <Grid item xs={2}>
           <b>Pagado $</b>
         </Grid>
-        {data.map((item, index) => (
+        {data.map((item: any, index: any) => (
           <React.Fragment key={index}>
             <Grid item xs={3}>
               {item.description}

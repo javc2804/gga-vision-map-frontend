@@ -18,7 +18,7 @@ export const InvoiceTotals: React.FC<InvoiceTotalsProps> = ({
   setTotalFactUsd,
   setTotalFactBs,
   handleSaveClick,
-  setIsSaveButtonDisabled,
+  // setIsSaveButtonDisabled,
   isSaveButtonDisabled,
 }) => {
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);

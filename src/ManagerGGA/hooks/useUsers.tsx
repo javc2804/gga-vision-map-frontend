@@ -8,7 +8,7 @@ export const useUser = (initialRowsPerPage: number = 5) => {
   const [updateList, setUpdateList] = useState(false); // Nuevo estado para controlar la actualización de la lista
   const dispatch = useDispatch();
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 

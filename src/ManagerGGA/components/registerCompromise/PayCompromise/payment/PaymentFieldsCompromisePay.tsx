@@ -1,7 +1,5 @@
 import { Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 
 interface PaymentFieldsProps {
   control: any;

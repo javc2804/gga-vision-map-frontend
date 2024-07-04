@@ -89,7 +89,7 @@ export const Maintenance = () => {
     useMultipleFormInternal(initialFormValues);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
+  // const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const { openSnackbar, SnackbarComponent } = useSnackbar();
 
@@ -184,7 +184,7 @@ export const Maintenance = () => {
                           : "";
                         handleChange(formattedDate, field, formIndex); // Corregido para pasar el valor formateado, el campo y el índice del formulario
                       }}
-                      renderInput={(params) => <TextField {...params} />}
+                      renderInput={(params: any) => <TextField {...params} />}
                       format="dd/MM/yyyy"
                     />
                   ) : (

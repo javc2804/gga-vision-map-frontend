@@ -70,7 +70,7 @@ export const Contributions = () => {
     useMultipleFormInternal(initialFormValues);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
+  // const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const { openSnackbar, SnackbarComponent } = useSnackbar();
 

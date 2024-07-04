@@ -3,35 +3,65 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import React, { useEffect, useMemo, useCallback } from "react";
 
+interface CostDataProps {
+  compromise?: {
+    precioUnitarioBs?: number;
+    precioUnitarioUsd?: number;
+  };
+  invoice?: {
+    quantity?: number;
+  };
+  onValuesChangeProp: (newValues: any) => void; // Adjust the type of newValues as needed
+  invoiceData: any; // Specify a more precise type if possible
+  showFields?: {
+    modoPago?: boolean; // Assuming modoPago is a boolean, adjust as necessary
+  };
+}
+
 const CostData = React.memo(
   ({
     compromise,
     invoice,
     onValuesChangeProp,
     invoiceData,
-    showFields = { modoPago },
-  }) => {
+    showFields = { modoPago: true },
+  }: CostDataProps) => {
     const { precioUnitarioBs, precioUnitarioUsd } = compromise || {};
     const { quantity } = invoice || {};
 
     const montoTotalBs = useMemo(() => {
-      return compromise && invoice
-        ? parseFloat(
-            (compromise.precioUnitarioBs * invoice.quantity).toFixed(2)
-          )
-        : 0;
+      // Ensure compromise, invoice, precioUnitarioBs, and quantity are defined
+      if (
+        compromise &&
+        invoice &&
+        compromise.precioUnitarioBs !== undefined &&
+        invoice.quantity !== undefined
+      ) {
+        return parseFloat(
+          (compromise.precioUnitarioBs * invoice.quantity).toFixed(2)
+        );
+      } else {
+        return 0;
+      }
     }, [compromise, invoice]);
 
     const montoTotalUsd = useMemo(() => {
-      return compromise && invoice
-        ? parseFloat(
-            (compromise.precioUnitarioUsd * invoice.quantity).toFixed(2)
-          )
-        : 0;
+      if (
+        compromise &&
+        invoice &&
+        compromise.precioUnitarioUsd !== undefined &&
+        invoice.quantity !== undefined
+      ) {
+        return parseFloat(
+          (compromise.precioUnitarioUsd * invoice.quantity).toFixed(2)
+        );
+      } else {
+        return 0;
+      }
     }, [compromise, invoice]);
 
     const onValuesChange = useCallback(
-      (newValues) => {
+      (newValues: any) => {
         onValuesChangeProp(newValues);
       },
       [onValuesChangeProp]

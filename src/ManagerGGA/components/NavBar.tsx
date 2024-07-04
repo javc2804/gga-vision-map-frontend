@@ -11,7 +11,17 @@ import { useDispatch } from "react-redux";
 import { startLogout } from "../../store/auth";
 import { useNavigate } from "react-router-dom";
 
-export const Navbar = ({ drawerWidth = 240, onMenuClick, open }) => {
+interface NavbarProps {
+  drawerWidth?: number;
+  onMenuClick: () => void; // Define the type of onMenuClick here
+  open: boolean;
+}
+
+export const Navbar = ({
+  drawerWidth = 240,
+  onMenuClick,
+  open,
+}: NavbarProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

@@ -8,14 +8,14 @@ import {
   TableRow,
   Paper,
   TablePagination,
-  Button,
+  // Button,
 } from "@mui/material";
 import { useEffect } from "react";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import BlockIcon from "@mui/icons-material/Block";
+// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+// import BlockIcon from "@mui/icons-material/Block";
 import { useDispatch, useSelector } from "react-redux";
 import { startGetOutInternal } from "../../../store/out-internal/outInternalThunk";
 
@@ -29,7 +29,7 @@ export const TableOutInternal = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
