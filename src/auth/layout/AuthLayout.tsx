@@ -3,7 +3,12 @@ import logo from "../../assets/logo.png";
 import fondo from "../../assets/fondo.png";
 import "./AuthLayout.css";
 
-const AuthLayout = ({ children, title }) => {
+interface AuthLayoutProps {
+  children: React.ReactNode;
+  title: string;
+}
+
+const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title }) => {
   return (
     <Grid
       container

@@ -16,9 +16,9 @@ export const startGetUsers = (): any => async (dispatch: AppDispatch) => {
 };
 export const startDeleteUser =
   (email: any): any =>
-  async (dispatch: AppDispatch) => {
+  async () => {
     try {
-      const users = await userService.deleteUser(email);
+      await userService.deleteUser(email);
     } catch (error: any) {
       if (error instanceof Error) {
         // dispatch(getPurchaseFailure(error.message));
@@ -29,9 +29,9 @@ export const startDeleteUser =
   };
 export const startToggleStatusUser =
   (email: any): any =>
-  async (dispatch: AppDispatch) => {
+  async () => {
     try {
-      const user = await userService.toggleStatus(email);
+      await userService.toggleStatus(email);
     } catch (error: any) {
       if (error instanceof Error) {
         // dispatch(getPurchaseFailure(error.message));

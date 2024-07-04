@@ -10,7 +10,7 @@ import {
 type DeleteDialogProps = {
   open: boolean;
   handleClose: () => void;
-  handleConfirm: (row: IRow | null) => void;
+  handleConfirm: (row: any | null) => void;
 };
 
 export const DeleteDialog: React.FC<DeleteDialogProps> = ({

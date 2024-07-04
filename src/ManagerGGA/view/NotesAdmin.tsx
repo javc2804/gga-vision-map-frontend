@@ -58,7 +58,7 @@ export const NotesAdmin = () => {
     });
   }, [dispatch, page, rowsPerPage]);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (newPage: number) => {
     setPage(newPage);
   };
 

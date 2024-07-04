@@ -3,7 +3,6 @@ import { Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import {
   NewCompromise,
   PayCompromise,
-  DetailCompromise,
 } from "../../components/registerCompromise/";
 import { useSelector } from "react-redux";
 import { RootState as StoreRootState } from "../../../store/store";

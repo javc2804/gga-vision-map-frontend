@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   TextField,
   Button,
@@ -19,8 +19,8 @@ const CreateNoteInvoice = () => {
   const dispatch = useDispatch();
   const { data } = location.state || {};
   const result = useSelector((state: any) => state.purchase.combined);
-  const [delivered_by, setdelivered_by] = useState("");
-  const [inventario, setinventario] = useState("");
+  // const [delivered_by, setdelivered_by] = useState("");
+  // const [inventario, setinventario] = useState("");
 
   const [formularios, setFormularios] = useState([
     {
@@ -40,19 +40,13 @@ const CreateNoteInvoice = () => {
   ]);
   const [nextId, setNextId] = useState(2);
 
-  const handleCantidadChange = (event, index) => {
+  const handleCantidadChange = (event: any, index: any) => {
     const updatedFormularios = [...formularios];
     updatedFormularios[index].quantity = event.target.value;
     setFormularios(updatedFormularios);
   };
 
-  const handleRepuestoChange = (event, index) => {
-    const updatedFormularios = [...formularios];
-    updatedFormularios[index].spare_part = event.target.value;
-    setFormularios(updatedFormularios);
-  };
-
-  const handleObservacionChange = (event, index) => {
+  const handleObservacionChange = (event: any, index: any) => {
     const updatedFormularios = [...formularios];
     updatedFormularios[index].observation = event.target.value;
     setFormularios(updatedFormularios);
@@ -79,16 +73,18 @@ const CreateNoteInvoice = () => {
     setNextId(nextId + 1);
   };
 
-  const eliminarFormulario = (id) => {
+  const eliminarFormulario = (id: any) => {
     const nuevosFormularios = formularios.filter(
       (formulario) => formulario.id !== id
     );
     setFormularios(nuevosFormularios);
   };
 
-  const handleUTChange = (event, value, index) => {
+  const handleUTChange = (value: any, index: any) => {
     const updatedFormularios = [...formularios];
-    const selectedFleet = result.fleets.find((fleet) => fleet.ut === value.ut);
+    const selectedFleet = result.fleets.find(
+      (fleet: any) => fleet.ut === value.ut
+    );
     if (selectedFleet) {
       updatedFormularios[index] = {
         ...updatedFormularios[index],
@@ -101,13 +97,13 @@ const CreateNoteInvoice = () => {
     setFormularios(updatedFormularios);
   };
 
-  const handleEntregadoChange = (event, index) => {
+  const handleEntregadoChange = (event: any, index: any) => {
     const updatedFormularios = [...formularios];
     updatedFormularios[index].delivered_by = event.target.value;
     setFormularios(updatedFormularios);
   };
 
-  const handleinventarioChange = (event, index) => {
+  const handleinventarioChange = (event: any, index: any) => {
     const updatedFormularios = [...formularios];
     updatedFormularios[index].inventario = event.target.value;
     setFormularios(updatedFormularios);
@@ -153,10 +149,8 @@ const CreateNoteInvoice = () => {
                 <Autocomplete
                   options={Array.isArray(result.fleets) ? result.fleets : []}
                   getOptionLabel={(option) => option.ut}
-                  onChange={(event, value) =>
-                    handleUTChange(event, value, index)
-                  }
-                  renderInput={(params) => (
+                  onChange={(event, value) => handleUTChange(value, index)}
+                  renderInput={(params: any) => (
                     <TextField
                       {...params}
                       label="UT"

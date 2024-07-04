@@ -18,10 +18,8 @@ import {
   getCompromise,
   getCompromiseLoading,
 } from "../compromises/compromisesSlices";
-import { ThunkAction } from "redux-thunk";
-import { AnyAction } from "redux";
 
-import { PurchaseActionTypes, START_IMPORT } from "../purchase/purchaseActions";
+import { START_IMPORT } from "../purchase/purchaseActions";
 
 //TODO: cambiar nombre de la funcion
 export const startGetPurchase = (): any => async (dispatch: AppDispatch) => {
@@ -196,7 +194,6 @@ export const startGetListPurchase =
       const result = await purchaseService.getListPurchase(
         compromiseData,
         page,
-        limit,
         offset
       );
       if (result.ok) {
@@ -239,14 +236,14 @@ export const startHandleSearch =
   };
 export const startExport =
   (filters: any, startDate: string, endDate: string): any =>
-  async (dispatch: AppDispatch) => {
+  async () => {
     const dataFilters = {
       filters,
       startDate,
       endDate,
     };
     try {
-      const purchaseData = await purchaseService.getExportPurchase(dataFilters);
+      await purchaseService.getExportPurchase(dataFilters);
       // dispatch(getPurchaseSuccess(purchaseData));
     } catch (error) {}
   };
@@ -311,17 +308,17 @@ export const startGraphsOut =
   };
 export const startDownloadInvoice =
   (invoice: any): any =>
-  async (dispatch: AppDispatch) => {
+  async () => {
     try {
-      const purchaseData = await purchaseService.getDownloadInvoice(invoice);
+      await purchaseService.getDownloadInvoice(invoice);
       // dispatch(getPurchaseSuccess(purchaseData));
     } catch (error) {}
   };
 export const startDeletePurchase =
   (ids: any): any =>
-  async (dispatch: AppDispatch) => {
+  async () => {
     try {
-      const purchaseData = await purchaseService.deletePurchase(ids);
+      await purchaseService.deletePurchase(ids);
       // dispatch(getPurchaseSuccess(purchaseData));
     } catch (error) {}
   };

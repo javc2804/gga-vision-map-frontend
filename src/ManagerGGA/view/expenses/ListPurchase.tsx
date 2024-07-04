@@ -156,7 +156,6 @@ export const ListPurchase = () => {
   const loading = useSelector((state: any) => state.purchase.loading);
   const summary = useSelector((state: any) => state.purchase.summary);
 
-  const { totalMontoBs, totalDeuda, totalCantidad, totalMontoUsd } = summary;
   const { rubrosBs, rubrosCantidad, rubrosDeuda, rubrosUsd } = summary;
 
   const currentYear = new Date().getFullYear();
@@ -185,7 +184,7 @@ export const ListPurchase = () => {
 
   const handleCheckboxChange = (row: IRow, isChecked: boolean) => {
     if (isChecked) {
-      setSelectedRows((prev) => {
+      setSelectedRows((prev: any) => {
         const newSelectedRows = [...prev, row.id];
         return newSelectedRows;
       });
@@ -196,9 +195,9 @@ export const ListPurchase = () => {
       });
     }
   };
-  const handleConfirmSelection = () => {
-    console.log(selectedRows); // Aquí puedes ver todos los IDs seleccionados
-  };
+  // const handleConfirmSelection = () => {
+  //   console.log(selectedRows); // Aquí puedes ver todos los IDs seleccionados
+  // };
 
   return (
     <>

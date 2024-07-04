@@ -1,4 +1,3 @@
-import { getTransactions } from "../store/almacen/almacenSlice";
 import { API_URL } from "./index";
 
 export const almacenService = {

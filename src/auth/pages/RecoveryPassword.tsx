@@ -17,6 +17,9 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { styled } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
+import { AlertColor } from "@mui/material/Alert";
+import { SyntheticEvent } from "react";
+import { ForwardedRef } from "react";
 
 const WhiteErrorOutlineIcon = styled(ErrorOutlineIcon)({
   color: "white",
@@ -26,17 +29,25 @@ const WhiteCheckCircleIcon = styled(CheckCircleIcon)({
   color: "white",
 });
 
-const Alert = React.forwardRef((props: MuiAlertProps, ref) => {
-  const Icon =
-    props.severity === "success" ? WhiteCheckCircleIcon : WhiteErrorOutlineIcon;
-  return <MuiAlert icon={<Icon />} ref={ref} {...props} />;
-});
+const Alert = React.forwardRef<HTMLDivElement, MuiAlertProps>(
+  (props, ref: ForwardedRef<HTMLDivElement>) => {
+    const Icon =
+      props.severity === "success"
+        ? WhiteCheckCircleIcon
+        : WhiteErrorOutlineIcon;
+    return <MuiAlert icon={<Icon />} ref={ref} {...props} />;
+  }
+);
 
 const RecoveryPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [open, setOpen] = useState(false);
-  const [alert, setAlert] = useState({
+  const [alert, setAlert] = useState<{
+    severity: AlertColor;
+    message: string;
+    color: string;
+  }>({
     severity: "success",
     message: "",
     color: "green",
@@ -80,7 +91,7 @@ const RecoveryPassword = () => {
     setOpen(true);
   };
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = (_event?: Event | SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }

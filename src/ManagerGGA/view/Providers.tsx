@@ -16,8 +16,8 @@ import { useEffect } from "react";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import BlockIcon from "@mui/icons-material/Block";
+// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+// import BlockIcon from "@mui/icons-material/Block";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
@@ -35,7 +35,7 @@ export const Providers = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (newPage: number) => {
     setPage(newPage);
   };
 
@@ -95,7 +95,7 @@ export const Providers = () => {
                   page * rowsPerPage + rowsPerPage
                 )
               : []
-            ).map((provider, index) => (
+            ).map((provider) => (
               <TableRow key={provider.id}>
                 <TableCell>
                   {new Date(provider.createdAt).toLocaleDateString("es-ES", {

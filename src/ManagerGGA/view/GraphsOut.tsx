@@ -70,7 +70,7 @@ const GraphsOut = () => {
     }
   );
 
-  const CustomizedLabel = (props) => {
+  const CustomizedLabel = (props: any) => {
     const { x, y, value } = props;
     // Ajusta la posición según sea necesario
     return (

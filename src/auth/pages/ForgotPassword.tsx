@@ -18,6 +18,12 @@ import { styled } from "@mui/material/styles";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 
+type AlertState = {
+  severity: "error" | "warning" | "info" | "success";
+  message: string;
+  color: string;
+};
+
 const WhiteErrorOutlineIcon = styled(ErrorOutlineIcon)({
   color: "white",
 });
@@ -35,7 +41,7 @@ const Alert = React.forwardRef((props: MuiAlertProps, ref) => {
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
-  const [alert, setAlert] = useState({
+  const [alert, setAlert] = useState<AlertState>({
     severity: "success",
     message: "",
     color: "green",
@@ -60,11 +66,13 @@ const ForgotPassword = () => {
     setOpen(true);
   };
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = (
+    _event: React.SyntheticEvent | Event,
+    reason?: string
+  ): void => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
   };
 
   return (

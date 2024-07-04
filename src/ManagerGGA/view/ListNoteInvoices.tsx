@@ -59,7 +59,7 @@ const ListNoteInvoices = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleChangePage = (event: any, newPage: any) => {
+  const handleChangePage = (newPage: any) => {
     setPage(newPage);
   };
 

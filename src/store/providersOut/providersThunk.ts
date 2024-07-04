@@ -14,15 +14,14 @@ export const startGetProviders = (): any => async (dispatch: AppDispatch) => {
     }
   }
 };
-export const startExportProviders =
-  (): any => async (dispatch: AppDispatch) => {
-    try {
-      providersService.exportProviders();
-    } catch (error: any) {
-      if (error instanceof Error) {
-        // dispatch(getPurchaseFailure(error.message));
-      } else {
-        // dispatch(getPurchaseFailure("An unknown error occurred."));
-      }
+export const startExportProviders = (): any => async () => {
+  try {
+    providersService.exportProviders();
+  } catch (error: any) {
+    if (error instanceof Error) {
+      // dispatch(getPurchaseFailure(error.message));
+    } else {
+      // dispatch(getPurchaseFailure("An unknown error occurred."));
     }
-  };
+  }
+};
