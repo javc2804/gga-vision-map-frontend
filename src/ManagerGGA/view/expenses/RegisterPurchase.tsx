@@ -165,7 +165,7 @@ export const RegisterPurchase: React.FC<RegisterPurchaseProps> = (
         totalFactBs={totalFactBs}
         setTotalFactUsd={setTotalFactUsd}
         setTotalFactBs={setTotalFactBs}
-        handleSaveClick={() => handleSaveClick()}
+        handleSaveClick={() => handleSaveClick(false)}
         setIsSaveButtonDisabled={setIsSaveButtonDisabled}
         isSaveButtonDisabled={isSaveButtonDisabled}
       />

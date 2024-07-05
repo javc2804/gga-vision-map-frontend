@@ -193,7 +193,7 @@ export const startGetListPurchase =
       const offset = page * limit;
       const result = await purchaseService.getListPurchase(
         compromiseData,
-        page,
+        limit,
         offset
       );
       if (result.ok) {
