@@ -6,7 +6,6 @@ import noteInvoicesReducer from "./notes/noteInvoicesSlice";
 import { useDispatch as useReduxDispatch } from "react-redux";
 import { compromisesSlice } from "./compromises/compromisesSlices";
 import { UsersSlice } from "./users/usersSlice";
-import { outInternalSlice } from "./out-internal/outInternalSlice";
 import { providersSlice } from "./providersOut/providersSlice";
 import { sparePartsSlice } from "./spareParts/sparePartsSlice";
 import { almacenSlice } from "./almacen/almacenSlice";
@@ -19,7 +18,6 @@ export const store: Store = configureStore({
     noteInvoices: noteInvoicesReducer,
     compromises: compromisesSlice.reducer,
     users: UsersSlice.reducer,
-    outInternal: outInternalSlice.reducer,
     providers: providersSlice.reducer,
     spareParts: sparePartsSlice.reducer,
     almacen: almacenSlice.reducer,

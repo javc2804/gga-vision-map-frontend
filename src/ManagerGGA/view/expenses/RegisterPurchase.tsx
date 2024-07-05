@@ -6,7 +6,7 @@ import {
 } from "../../../store/store";
 import { useForm } from "react-hook-form";
 import { Button, Box } from "@mui/material";
-import { UTInputForm, PaymentForm, InvoiceTotals } from "../../components/";
+import { PaymentForm, InvoiceTotals } from "../../components/";
 import { startGetPurchase } from "../../../store/purchase/purchaseThunks";
 import { useSnackbar } from "../../../hooks/useSnackBar";
 import { ErrorOutline, CheckCircle } from "@mui/icons-material";
@@ -26,7 +26,6 @@ interface Provider {
 }
 
 interface ResponseType {
-  fleets?: any[];
   providers?: Provider[];
   spareParts?: any[];
   sparePartVariants?: any[];
@@ -116,12 +115,7 @@ export const RegisterPurchase: React.FC<RegisterPurchaseProps> = (
   if (purchase && purchase.response) {
     response = purchase.response;
   }
-  const {
-    fleets = [],
-    providers = [],
-    spareParts = [],
-    sparePartVariants = [],
-  } = response;
+  const { providers = [], spareParts = [], sparePartVariants = [] } = response;
 
   useEffect(() => {
     dispatch(startGetPurchase());
@@ -136,12 +130,6 @@ export const RegisterPurchase: React.FC<RegisterPurchaseProps> = (
       />
       {forms.map((form, index) => (
         <Box key={index} sx={boxStyles}>
-          {/* <UTInputForm
-            initialValues={form.input}
-            fleets={fleets}
-            disabled={false}
-            onChange={(values: any) => handleInputChange(form.id)(values, {})}
-          /> */}
           <PaymentForm
             initialValues={form.payment}
             onChange={handlePaymentChange(form.id)}
@@ -177,7 +165,7 @@ export const RegisterPurchase: React.FC<RegisterPurchaseProps> = (
         totalFactBs={totalFactBs}
         setTotalFactUsd={setTotalFactUsd}
         setTotalFactBs={setTotalFactBs}
-        handleSaveClick={handleSaveClick}
+        handleSaveClick={() => handleSaveClick()}
         setIsSaveButtonDisabled={setIsSaveButtonDisabled}
         isSaveButtonDisabled={isSaveButtonDisabled}
       />

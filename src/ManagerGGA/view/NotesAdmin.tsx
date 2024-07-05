@@ -58,7 +58,7 @@ export const NotesAdmin = () => {
     });
   }, [dispatch, page, rowsPerPage]);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (newPage: number) => {
     setPage(newPage);
   };
 
@@ -166,7 +166,7 @@ export const NotesAdmin = () => {
           count={noteInvoices.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={handleChangePage}
+          onPageChange={() => handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           labelRowsPerPage="Filas por página"
         />
