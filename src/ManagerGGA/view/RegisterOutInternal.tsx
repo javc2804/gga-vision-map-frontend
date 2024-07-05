@@ -6,13 +6,13 @@ import {
   FormControlLabel,
 } from "@mui/material";
 // Asegúrate de importar tus componentes aquí
-import {
-  Contributions,
-  Taxes,
-  Donnations,
-  PersonnaelExpenses,
-  Maintenance,
-} from "../components/registerOutInternal";
+// import {
+//   Contributions,
+//   Taxes,
+//   Donnations,
+//   PersonnaelExpenses,
+//   Maintenance,
+// } from "../components/registerOutInternal";
 
 const RegisterOutInternal = () => {
   const [value, setValue] = React.useState("");
@@ -21,22 +21,22 @@ const RegisterOutInternal = () => {
     setValue(event.target.value);
   };
 
-  const renderComponent = () => {
-    switch (value) {
-      case "Aportes":
-        return <Contributions />;
-      case "Impuestos":
-        return <Taxes />;
-      case "Donaciones":
-        return <Donnations />;
-      case "Gasto Personal":
-        return <PersonnaelExpenses />;
-      case "Mantenimiento":
-        return <Maintenance />;
-      default:
-        return null;
-    }
-  };
+  // const renderComponent = () => {
+  //   switch (value) {
+  //     case "Aportes":
+  //       return <Contributions />;
+  //     case "Impuestos":
+  //       return <Taxes />;
+  //     case "Donaciones":
+  //       return <Donnations />;
+  //     case "Gasto Personal":
+  //       return <PersonnaelExpenses />;
+  //     case "Mantenimiento":
+  //       return <Maintenance />;
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   return (
     <div>
@@ -81,7 +81,7 @@ const RegisterOutInternal = () => {
           />
         </RadioGroup>
       </FormControl>
-      {renderComponent()}
+      {/* {renderComponent()} */}
     </div>
   );
 };

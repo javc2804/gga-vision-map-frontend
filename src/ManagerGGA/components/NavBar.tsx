@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { startLogout } from "../../store/auth";
+import { startLogout } from "../../store/auth/thunks";
 import { useNavigate } from "react-router-dom";
 
 interface NavbarProps {

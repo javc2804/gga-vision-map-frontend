@@ -20,6 +20,17 @@ interface TooltipProps {
   label?: string;
 }
 
+interface TempDataType {
+  [key: string]: {
+    total?: {
+      [name: string]: {
+        total: number;
+        cantidad: number;
+      };
+    };
+  };
+}
+
 const originalConsoleError = console.error;
 
 console.error = (...args) => {
@@ -50,7 +61,9 @@ const GraphsOut = () => {
     clearFilters,
   } = useGraphsOut();
 
-  const tempData = useSelector((state: any) => state.purchase.graph);
+  const tempData = useSelector(
+    (state: any) => state.purchase.graph
+  ) as TempDataType;
 
   const transformedData = titles
     .map((title) => {
@@ -230,8 +243,9 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
         style={{ backgroundColor: "#ffff", padding: "5px", fontSize: "24px" }}
       >
         <p className="label">{`${label} : ${payload[0].value}`}</p>
-        <p className="intro">{`Cantidad : ${payload[0].payload.cantidad}`}</p>{" "}
-        {/* Add this line */}
+        <p className="intro">{`Cantidad : ${
+          (payload[0] as any).payload.cantidad
+        }`}</p>
       </div>
     );
   }

@@ -9,7 +9,7 @@ interface InvoiceTotalsProps {
   setTotalFactBs: (value: number) => void;
   setIsSaveButtonDisabled: any;
   isSaveButtonDisabled: any;
-  handleSaveClick: () => void;
+  handleSaveClick: (data: any) => any;
 }
 
 export const InvoiceTotals: React.FC<InvoiceTotalsProps> = ({

@@ -31,7 +31,7 @@ const iconButtonStyle = {
 const Section: React.FC<SectionProps> = ({ title, icon, data }) => (
   <Paper elevation={3} style={boxStyle}>
     <Box position="relative">
-      <IconButton style={iconButtonStyle}>{icon}</IconButton>
+      <IconButton sx={iconButtonStyle}>{icon}</IconButton>
     </Box>
     <Box
       display="flex"

@@ -32,13 +32,10 @@ const useTableList = (initialData: IRow[]) => {
   const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [data, setData] = useState({ count: 0, rows: [] });
+  const [, setData] = useState({ count: 0, rows: [] });
 
   const currentYear = new Date().getFullYear();
-  const [dateRange, setDateRange] = useState([
-    new Date(currentYear, 0, 1),
-    new Date(),
-  ]);
+  const [dateRange] = useState([new Date(currentYear, 0, 1), new Date()]);
   const [offset, setOffset] = useState(0);
   const startDate = new Date(dateRange[0]).toISOString();
   const endDate = new Date(dateRange[1]).toISOString();

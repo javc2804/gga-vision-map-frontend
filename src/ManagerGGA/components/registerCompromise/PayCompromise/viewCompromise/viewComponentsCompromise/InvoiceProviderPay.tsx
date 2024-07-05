@@ -7,7 +7,7 @@ interface Provider {
 }
 
 interface InvoiceProvidersProps {
-  // control: Control;
+  // control: any;
   // providers: Provider[];
   setFormState: React.Dispatch<
     React.SetStateAction<{ facNDE: number; proveedor: Provider | null }>

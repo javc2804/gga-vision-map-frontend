@@ -12,11 +12,11 @@ interface InvoiceTotalsProps {
 }
 
 export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
-  totalFactUsd,
-  totalFactBs,
+  // totalFactUsd,
+  // totalFactBs,
   handleSave,
   compromise,
-  costData,
+  // costData,
   invoice,
   showFields,
 }) => {
@@ -27,10 +27,10 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
   let totalQuantity =
     compromise && compromise.cantidad ? compromise.cantidad - sumQuantity : 0;
 
-  let sumTotal = invoice.invoices.reduce(
-    (sum: any, cost: any) => sum + cost.montoTotalUsd,
-    0
-  );
+  // let sumTotal = invoice.invoices.reduce(
+  //   (sum: any, cost: any) => sum + cost.montoTotalUsd,
+  //   0
+  // );
 
   const totalInvoiceAmount =
     compromise && invoice.invoices

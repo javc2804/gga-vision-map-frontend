@@ -80,9 +80,7 @@ export const startCreatingUser =
     return { wasSuccessful: true, messageType: "success" };
   };
 
-export const startLogout =
-  () =>
-  async (dispatch: any): Promise<void> => {
-    localStorage.clear();
-    dispatch(logout(false));
-  };
+export const startLogout = (): any => async (dispatch: any) => {
+  localStorage.clear();
+  dispatch(logout(false));
+};

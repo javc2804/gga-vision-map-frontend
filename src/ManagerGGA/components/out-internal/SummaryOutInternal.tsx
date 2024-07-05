@@ -60,9 +60,9 @@ export const SummaryOutInternal = () => {
     boxShadow: "3px 3px 5px 0px rgba(0,0,0,0.75)",
   };
 
-  const titles = {
-    margin: "0.2em 0",
-  };
+  // const titles = {
+  //   margin: "0.2em 0",
+  // };
 
   const elements = useSelector((state: any) => state.outInternal.list);
   const adquisicion = elements.mantenimiento?.adquisicion; // Safely access adquisicion, will be undefined if mantenimiento is not present
@@ -72,9 +72,9 @@ export const SummaryOutInternal = () => {
   const aportes = elements.otros?.aportes;
   return (
     <Box display="flex" justifyContent="center" flexWrap="wrap">
-      <Paper elevation={3} style={boxStyle}>
+      <Paper elevation={3} sx={boxStyle}>
         <Box position="relative">
-          <IconButton style={iconButtonStyle1}>
+          <IconButton sx={iconButtonStyle1}>
             <BuildIcon style={{ fontSize: 60 }} />
           </IconButton>
         </Box>
@@ -136,7 +136,7 @@ export const SummaryOutInternal = () => {
           </Grid>
         </Box>
       </Paper>
-      <Paper elevation={3} style={boxStyle}>
+      <Paper elevation={3} sx={boxStyle}>
         <Box position="relative">
           <IconButton style={iconButtonStyle2}>
             <SettingsIcon style={{ fontSize: 60 }} />
@@ -202,7 +202,7 @@ export const SummaryOutInternal = () => {
           </Grid>
         </Box>
       </Paper>
-      <Paper elevation={3} style={boxStyleOtros}>
+      <Paper elevation={3} sx={boxStyleOtros}>
         <Box position="relative">
           <IconButton style={iconButtonStyle3}>
             <AccountBalanceIcon style={{ fontSize: 60 }} />

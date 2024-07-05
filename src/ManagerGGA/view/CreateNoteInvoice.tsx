@@ -14,6 +14,10 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { startCreateNDE } from "../../store/almacen/almacenThunk";
 
+interface Fleet {
+  ut: string;
+}
+
 type FormularioType = {
   id: any;
   id_items: number;
@@ -167,7 +171,7 @@ const CreateNoteInvoice = () => {
               <Grid item xs={2}>
                 <Autocomplete
                   options={Array.isArray(result.fleets) ? result.fleets : []}
-                  getOptionLabel={(option) => option.ut}
+                  getOptionLabel={(option: Fleet) => option.ut}
                   onChange={(_event, value) => handleUTChange(value, index)}
                   renderInput={(params: any) => (
                     <TextField

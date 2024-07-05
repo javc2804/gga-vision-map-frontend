@@ -210,9 +210,9 @@ export const ListPurchase = () => {
         >
           <h2>Registro de transacciones</h2>
           <Box display="flex" justifyContent="center" flexWrap="wrap">
-            <Paper elevation={3} style={boxStyle}>
+            <Paper elevation={3} sx={boxStyle}>
               <Box position="relative">
-                <IconButton style={iconButtonStyle1}>
+                <IconButton sx={iconButtonStyle1}>
                   <InsertChartOutlinedIcon style={{ fontSize: 60 }} />
                 </IconButton>
               </Box>
@@ -266,7 +266,7 @@ export const ListPurchase = () => {
                 </h3>
               </Box>
             </Paper>
-            <Paper elevation={3} style={boxStyle}>
+            <Paper elevation={3} sx={boxStyle}>
               <Box position="relative">
                 <IconButton style={iconButtonStyle3}>
                   <MoneyOffIcon style={{ fontSize: 60 }} />
@@ -318,7 +318,7 @@ export const ListPurchase = () => {
                 </h3>
               </Box>
             </Paper>
-            <Paper elevation={3} style={boxStyle}>
+            <Paper elevation={3} sx={boxStyle}>
               <Box position="relative">
                 <IconButton style={iconButtonStyle2}>
                   <AttachMoneyIcon style={{ fontSize: 60 }} />
@@ -371,7 +371,7 @@ export const ListPurchase = () => {
               </Box>
             </Paper>
 
-            <Paper elevation={3} style={boxStyle}>
+            <Paper elevation={3} sx={boxStyle}>
               <Box position="relative">
                 <IconButton style={iconButtonStyle4}>
                   <AccountBalanceIcon style={{ fontSize: 60 }} />
@@ -437,7 +437,7 @@ export const ListPurchase = () => {
               <TableHead>
                 <TableRow>
                   <TableCell padding="checkbox"></TableCell>
-                  {headers.map((header) => (
+                  {headers.map((header: any) => (
                     <SortableTableHeader
                       key={header}
                       header={headerDisplayNames[header] || header}

@@ -9,6 +9,7 @@ import { RootState as StoreRootState } from "../../../store/store";
 
 interface RegisterCompromiseProps {
   selectedValueProp: string;
+  selectedValue: any;
   params: any;
 }
 
@@ -28,10 +29,34 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
   let Component;
   switch (selectedValue) {
     case "new":
-      Component = <NewCompromise combinedData={combinedData} params={params} />;
+      Component = (
+        <NewCompromise
+          combinedData={combinedData}
+          params={params}
+          selectedValue={selectedValue}
+          setSelectedValue={setSelectedValue}
+        />
+      );
+
       break;
     case "pay":
-      Component = <PayCompromise combinedData={combinedData} params={params} />;
+      Component = (
+        <NewCompromise
+          combinedData={combinedData}
+          params={params}
+          selectedValue={selectedValue}
+          setSelectedValue={setSelectedValue}
+        />
+      );
+
+      Component = (
+        <PayCompromise
+          combinedData={combinedData}
+          params={params}
+          selectedValue={selectedValue}
+          setSelectedValue={setSelectedValue}
+        />
+      );
       break;
     // case "detail":
     //   Component = <DetailCompromise combinedData={combinedData} />;

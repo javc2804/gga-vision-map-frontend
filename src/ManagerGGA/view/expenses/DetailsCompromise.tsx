@@ -24,6 +24,7 @@ import CostData from "../../components/detailsCompromise/CostData";
 import ViewDetailCompromise from "../../components/registerCompromise/DetailCompromise/ViewDetailCompromise";
 import InvoiceTotalsDetail from "../../components/registerCompromise/DetailCompromise/InvoiceTotalsDetail";
 import Loading from "../../../components/Loading";
+import { AlertColor } from "@mui/material/Alert";
 
 const DetailsCompromise = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const DetailsCompromise = () => {
   }, []);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
-  const [snackbarType, setSnackbarType] = useState("");
+  const [snackbarType, setSnackbarType] = useState<AlertColor>("success");
   const [costData, setCostData] = useState(
     invoice.invoices.map(() => ({
       precioUnitarioBs: 0,
@@ -184,7 +185,7 @@ const DetailsCompromise = () => {
                               onValuesChangeProp={(newCostData: any) =>
                                 handleCostDataChange(index, newCostData)
                               }
-                              showFields={modoPago}
+                              showFields={{ modoPago: modoPago }}
                               style={{ width: "97%", height: "525px" }}
                             />
                           </Box>

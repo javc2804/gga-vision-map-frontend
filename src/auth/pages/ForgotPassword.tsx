@@ -32,7 +32,7 @@ const WhiteCheckCircleIcon = styled(CheckCircleIcon)({
   color: "white",
 });
 
-const Alert = React.forwardRef((props: MuiAlertProps, ref) => {
+const Alert = React.forwardRef<HTMLDivElement, MuiAlertProps>((props, ref) => {
   const Icon =
     props.severity === "success" ? WhiteCheckCircleIcon : WhiteErrorOutlineIcon;
   return <MuiAlert icon={<Icon />} ref={ref} {...props} />;

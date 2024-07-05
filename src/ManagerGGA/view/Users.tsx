@@ -31,11 +31,12 @@ interface User {
   status: boolean;
 }
 
-interface UserModalProps {
-  open: boolean;
-  handleClose: () => void;
-  initialValues: User | null; // Make sure this is correctly defined
-}
+// interface UserModalProps {
+//   open: boolean;
+//   handleClose: () => void;
+//   user?: User; // Existing line
+//   initialValues?: User | null; // Add this line
+// }
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -58,7 +59,7 @@ export const Users = () => {
   const [openUserModal, setOpenUserModal] = useState(false);
 
   const { openSnackbar, SnackbarComponent } = useSnackbar();
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [, setSnackbarOpen] = useState(false);
 
   const toggleUserStatus = (email: any) => {
     dispatch(startToggleStatusUser(email));

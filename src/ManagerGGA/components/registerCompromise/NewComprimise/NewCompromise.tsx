@@ -19,6 +19,8 @@ import useMultipleFormCompromise from "../../../hooks/compromises/useMultipleFor
 interface RegisterPurchaseProps {
   selectedValue: string;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+  combinedData: any;
+  params: any;
 }
 
 interface Provider {
@@ -165,7 +167,7 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
       <InvoiceTotalsCompromises
         totalFactUsd={totalFactUsd}
         setTotalFactUsd={setTotalFactUsd}
-        handleSaveClick={handleSaveClick}
+        handleSaveClick={() => handleSaveClick}
         setIsSaveButtonDisabled={setIsSaveButtonDisabled}
         isSaveButtonDisabled={isSaveButtonDisabled}
       />

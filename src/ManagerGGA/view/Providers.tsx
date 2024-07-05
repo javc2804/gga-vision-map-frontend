@@ -138,7 +138,7 @@ export const Providers = () => {
         count={providers.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onPageChange={handleChangePage}
+        onPageChange={() => handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>

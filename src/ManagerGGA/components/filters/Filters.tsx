@@ -27,6 +27,9 @@ import { Autocomplete } from "@mui/material";
 //   | "eje"
 //   | "subeje";
 
+type HandleSearch = ((page?: number) => void) &
+  ((event: React.MouseEvent<HTMLButtonElement>) => void);
+
 interface FiltersProps {
   headers: string[];
   filters: any;
@@ -55,8 +58,12 @@ export const Filters: React.FC<FiltersProps> = ({
     dispatch(startDownload());
   };
 
-  const handleSearch = useCallback(
-    (page = 0) => {
+  const handleSearch: HandleSearch = useCallback(
+    (arg?: number | React.MouseEvent<HTMLButtonElement>) => {
+      let page = 0;
+      if (typeof arg === "number") {
+        page = arg;
+      }
       dispatch(startHandleSearch(filters, dateRange[0], dateRange[1], page, 5));
     },
     [dispatch, filters, dateRange]
@@ -258,6 +265,7 @@ export const Filters: React.FC<FiltersProps> = ({
       >
         Buscar
       </Button>
+
       <Button
         variant="contained"
         color="primary"

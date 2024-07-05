@@ -130,9 +130,11 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
             onChange={(event) => {
               field.onChange(event);
               trigger("tasaBcv");
-              const newTasaBcv = Number(event.target.value).toFixed(2); // Aquí es donde se redondea el valor a dos decimales
+              const newTasaBcv = Number(Number(event.target.value).toFixed(2)); // Convert to number after rounding
               const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
-                values.precioUnitarioUsd || compromise.precioUnitarioUsd,
+                Number(
+                  values.precioUnitarioUsd || compromise.precioUnitarioUsd
+                ),
                 newTasaBcv
               );
               setValues({

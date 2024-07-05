@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startGetListPurchase } from "../../store/purchase/purchaseThunks";
-import { getSummary } from "../../store/purchase/purchaseSlice";
+// import { getSummary } from "../../store/purchase/purchaseSlice";
 interface DataType {
   count?: number;
   rows?: any[];
@@ -10,7 +10,7 @@ export const usePurchaseList = (page: number, limit: number) => {
   // console.log(page, limit);
   const dispatch = useDispatch();
   const [filters, setFilters] = useState({});
-  const [offset, setOffset] = useState(0);
+  const [offset] = useState(0);
 
   const [data, setData] = useState<DataType>({ count: 0, rows: [] });
   const currentYear = new Date().getFullYear();

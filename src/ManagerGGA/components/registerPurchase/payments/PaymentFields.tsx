@@ -233,7 +233,7 @@ export const PaymentFields: React.FC<PaymentFieldsProps> = ({
                 precioUnitarioUsd: newPrecioUnitarioUsd,
                 precioUnitarioBs: newPrecioUnitarioBs,
               });
-              setValue("precioUnitarioBs", newPrecioUnitarioBs);
+              setValue("precioUnitarioBs", Number(newPrecioUnitarioBs));
               setValue("montoTotalUsd", newMontoTotalUsd);
             }}
           />

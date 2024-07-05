@@ -3,6 +3,10 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import React, { useEffect, useMemo, useCallback } from "react";
 
+interface InvoiceData {
+  [key: string]: number | undefined; // Assuming all values are numbers or undefined
+}
+
 interface CostDataProps {
   compromise?: {
     precioUnitarioBs?: number;
@@ -70,7 +74,7 @@ const CostData = React.memo(
     useEffect(() => {
       if (showFields) {
         if (precioUnitarioUsd && quantity) {
-          const newValues = {
+          const newValues: InvoiceData = {
             precioUnitarioUsd,
             montoTotalUsd,
           };
@@ -93,7 +97,9 @@ const CostData = React.memo(
           };
 
           const valuesChanged = Object.keys(newValues).some(
-            (key) => newValues[key] !== invoiceData[key]
+            (key) =>
+              newValues[key as keyof typeof newValues] !==
+              invoiceData[key as keyof typeof invoiceData]
           );
 
           if (valuesChanged) {
