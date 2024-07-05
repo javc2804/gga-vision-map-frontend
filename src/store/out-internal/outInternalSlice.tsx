@@ -6,7 +6,9 @@ export const outInternalSlice = createSlice({
     list: {},
   },
   reducers: {
-    createOutInternal: (state, { payload }) => {},
+    createOutInternal: (state, { payload }) => {
+      console.log(state, payload);
+    },
     getListOutInternal: (state, { payload }) => {
       state.list = payload;
     },

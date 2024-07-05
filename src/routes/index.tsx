@@ -12,7 +12,7 @@ import CheckingAuth from "../ui/components/CheckingAuth";
 import { login } from "../store/auth";
 
 export const RoutesComponent: React.FC = () => {
-  const { status } = useSelector((state) => state.auth);
+  const { status } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {

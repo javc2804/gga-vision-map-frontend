@@ -1,8 +1,8 @@
 import { API_URL } from "./index";
 
-export const outInternalService = {
-  createOutInternal: (data: any) => {
-    return API_URL.post("out-internal", { data })
+export const almacenService = {
+  getTransactions: () => {
+    return API_URL.get("note-invoices/transactions")
       .then((response) => {
         return { ok: true, response: response.data };
       })
@@ -10,8 +10,9 @@ export const outInternalService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
-  getOutInternal: () => {
-    return API_URL.get("out-internal/list")
+  createNDE: (data: any) => {
+    return API_URL.post("note-invoices", { data })
+
       .then((response) => {
         return { ok: true, response: response.data };
       })

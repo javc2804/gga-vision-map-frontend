@@ -83,12 +83,7 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
-  getListPurchase: (
-    compromiseData: any,
-    page: number,
-    limit: number,
-    offset: number
-  ) => {
+  getListPurchase: (compromiseData: any, limit: number, offset: number) => {
     return API_URL.get(`transaction/list`, {
       params: {
         ...compromiseData,
@@ -123,7 +118,7 @@ export const purchaseService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
-  getDownloadInvoice: (invoiceData) => {
+  getDownloadInvoice: (invoiceData: any) => {
     console.log("entr");
 
     return API_URL.post(`note-invoices/download-invoice`, invoiceData, {
