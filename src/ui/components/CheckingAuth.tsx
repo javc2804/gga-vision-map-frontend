@@ -1,4 +1,4 @@
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import { CircularProgress, Grid } from "@mui/material";
 
 const StyledCircularProgress = styled(CircularProgress)({

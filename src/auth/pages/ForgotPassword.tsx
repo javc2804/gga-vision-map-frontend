@@ -14,9 +14,15 @@ import {
 import { authService } from "../../api/authService";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
+
+type AlertState = {
+  severity: "error" | "warning" | "info" | "success";
+  message: string;
+  color: string;
+};
 
 const WhiteErrorOutlineIcon = styled(ErrorOutlineIcon)({
   color: "white",
@@ -26,7 +32,7 @@ const WhiteCheckCircleIcon = styled(CheckCircleIcon)({
   color: "white",
 });
 
-const Alert = React.forwardRef((props: MuiAlertProps, ref) => {
+const Alert = React.forwardRef<HTMLDivElement, MuiAlertProps>((props, ref) => {
   const Icon =
     props.severity === "success" ? WhiteCheckCircleIcon : WhiteErrorOutlineIcon;
   return <MuiAlert icon={<Icon />} ref={ref} {...props} />;
@@ -35,7 +41,7 @@ const Alert = React.forwardRef((props: MuiAlertProps, ref) => {
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
-  const [alert, setAlert] = useState({
+  const [alert, setAlert] = useState<AlertState>({
     severity: "success",
     message: "",
     color: "green",
@@ -60,11 +66,13 @@ const ForgotPassword = () => {
     setOpen(true);
   };
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = (
+    _event: React.SyntheticEvent | Event,
+    reason?: string
+  ): void => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
   };
 
   return (
