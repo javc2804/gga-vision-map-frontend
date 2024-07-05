@@ -33,8 +33,43 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { editPurchaseClear } from "../../store/purchase/purchaseSlice";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
+// import MoneyIcon from "@mui/icons-material/Money";
+// import AddBoxIcon from "@mui/icons-material/AddBox";
+// import ListAltIcon from "@mui/icons-material/ListAlt";
+// import StoreIcon from "@mui/icons-material/Store";
+// import NoteIcon from "@mui/icons-material/Note";
+// import InventoryIcon from "@mui/icons-material/Inventory2"; // Adjust based on the correct icon name
 
-export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
+interface SideBarProps {
+  drawerWidth?: number;
+  open: boolean;
+  onClose: () => void;
+}
+
+type IconKey =
+  | "Money"
+  | "AddBox"
+  | "List"
+  | "ListAlt"
+  | "Store"
+  | "Note"
+  | "Inventory";
+
+// const iconMap: { [key in IconKey]: JSX.Element } = {
+//   Money: <MoneyIcon />,
+//   AddBox: <AddBoxIcon />,
+//   List: <ListIcon />,
+//   ListAlt: <ListAltIcon />,
+//   Store: <StoreIcon />,
+//   Note: <NoteIcon />,
+//   Inventory: <InventoryIcon />,
+// };
+
+type OpenSubMenuState = {
+  [key: string]: boolean;
+};
+
+export const SideBar = ({ drawerWidth = 240, open, onClose }: SideBarProps) => {
   let menu = JSON.parse(localStorage.getItem("menu") || "[]");
   if (!Array.isArray(menu)) {
     menu = [menu];
@@ -42,10 +77,10 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [openSubMenu, setOpenSubMenu] = useState({});
+  const [openSubMenu, setOpenSubMenu] = useState<OpenSubMenuState>({});
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleClick = (name, route) => {
+  const handleClick = (name: any, route: any) => {
     console.log(name, route);
     if (selectedItem === name) {
       return;
@@ -59,11 +94,12 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
       ...prevOpenSubMenu,
       [name]: !prevOpenSubMenu[name],
     }));
+
     setSelectedItem(name);
     navigate(route);
   };
 
-  const handleSubItemClick = (event, name, route) => {
+  const handleSubItemClick = (event: any, name: any, route: any) => {
     event.stopPropagation();
 
     if (selectedItem === name) {
@@ -123,7 +159,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
         </Toolbar>
         <Divider />
         <List>
-          {menu.map((item) => (
+          {menu.map((item: any) => (
             <div key={item.name}>
               <ListItemButton
                 onClick={() => handleClick(item.name, item.route)}
@@ -139,7 +175,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
                     color: selectedItem === item.name ? "#ffffff" : "inherit",
                   }}
                 >
-                  {iconMap[item.icon]}
+                  {iconMap[item.icon as IconKey]}{" "}
                 </ListItemIcon>
                 <ListItemText primary={item.name} />
                 {openSubMenu[item.name] ? <ExpandLess /> : <ExpandMore />}
@@ -151,7 +187,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
               >
                 <List component="div" disablePadding>
                   {item.subMenu &&
-                    item.subMenu.map((subItem) => (
+                    item.subMenu.map((subItem: any) => (
                       <ListItem key={subItem.name} disablePadding>
                         <ListItemButton
                           onClick={(event) =>
@@ -182,7 +218,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }) => {
                                   : "inherit",
                             }}
                           >
-                            {iconMap[subItem.icon]}
+                            {iconMap[subItem.icon as IconKey]}
                           </ListItemIcon>
                           <ListItemText primary={subItem.name} />
                         </ListItemButton>
