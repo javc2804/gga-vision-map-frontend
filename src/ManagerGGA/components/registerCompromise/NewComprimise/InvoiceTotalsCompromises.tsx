@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 interface InvoiceTotalsProps {
   totalFactUsd: number;
   setTotalFactUsd: (value: number) => void;
-  handleSaveClick: () => void;
+  handleSaveClick: (isEdit: boolean) => void; // Updated to accept a boolean argument
   setIsSaveButtonDisabled: any;
   isSaveButtonDisabled: any;
 }
@@ -14,7 +14,7 @@ export const InvoiceTotalsCompromises: React.FC<InvoiceTotalsProps> = ({
   totalFactUsd,
   setTotalFactUsd,
   handleSaveClick,
-  setIsSaveButtonDisabled,
+  // setIsSaveButtonDisabled,
   isSaveButtonDisabled,
 }) => {
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);

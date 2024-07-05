@@ -25,7 +25,7 @@ const FiltersGraph: React.FC<FiltersGraphProps> = ({
 }) => {
   const dataFilter = useSelector((state: any) => state.purchase.filters);
   const initialFilters = {}; // Define initialFilters
-  const [localFilters, setLocalFilters] = useState(initialFilters);
+  const [, setLocalFilters] = useState(initialFilters);
   useEffect(() => {
     setLocalFilters(dataFilter);
   }, [dataFilter]);

@@ -4,7 +4,7 @@ import {
   RootState as StoreRootState,
   useAppDispatch,
 } from "../../../../store/store";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 import { Button, Box } from "@mui/material";
 import { startGetCompromise } from "../../../../store/compromises/compromisesThunk";
 import { useSnackbar } from "../../../../hooks/useSnackBar";
@@ -19,6 +19,8 @@ import Loading from "../../../../components/Loading";
 interface RegisterPurchaseProps {
   selectedValue: string;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+  combinedData: any;
+  params: any;
 }
 
 interface Provider {
@@ -81,7 +83,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
   const resp = useSelector((state: any) => state.compromises);
   const isLoading = useSelector((state: any) => state.compromises.loading);
   const { compromise } = resp;
-  const { control } = useForm();
+  // const { control } = useForm();
   const [formState, setFormState] = useState<{
     facNDE: number;
     proveedor: Provider | null;
@@ -92,7 +94,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     forms,
     handleAddClick,
     handleRemoveClick,
-    handleInputChange,
+    // handleInputChange,
     handlePaymentChange,
     totalFactUsd,
     totalFactBs,
@@ -109,8 +111,8 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     formState.facNDE,
     formState.proveedor,
     ErrorOutline,
-    CheckCircle,
-    compromise
+    CheckCircle
+    // compromise
   );
   const purchase = useSelector(
     (state: StoreRootState) => state.purchase.purchase
@@ -123,8 +125,8 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     response = purchase.response;
   }
   const {
-    fleets = [],
-    providers = [],
+    // fleets = [],
+    // providers = [],
     spareParts = [],
     sparePartVariants = [],
   } = response;
@@ -139,8 +141,8 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
           {forms.map((form, index) => (
             <Box key={index} sx={boxStyles}>
               <InvoiceProviderPay
-                control={control}
-                providers={providers}
+                // control={control}
+                // providers={providers}
                 setFormState={setFormState}
               />
               <PaymentFormCompromisePay

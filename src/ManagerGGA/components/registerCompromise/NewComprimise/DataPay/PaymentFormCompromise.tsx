@@ -43,10 +43,10 @@ export const PaymentFormCompromise = ({
   });
 
   const {
-    calculatePrecioUnitarioUsd,
-    calculateMontoTotalBs,
+    // calculatePrecioUnitarioUsd,
+    // calculateMontoTotalBs,
     calculateMontoTotalUsd,
-    calculateTasaBcv,
+    // calculateTasaBcv,
   } = useCalculations();
   const [values, setValues] = useState(formValues);
 

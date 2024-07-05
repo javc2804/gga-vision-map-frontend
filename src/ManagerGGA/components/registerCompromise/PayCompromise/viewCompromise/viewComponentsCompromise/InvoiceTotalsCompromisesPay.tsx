@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, TextField, Button, Grid } from "@mui/material";
+import { TextField, Button, Grid } from "@mui/material";
 
 interface InvoiceTotalsProps {
   totalFactUsd: number;

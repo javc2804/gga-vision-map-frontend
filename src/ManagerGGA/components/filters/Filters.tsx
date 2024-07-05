@@ -19,13 +19,16 @@ import {
 } from "../../../store/purchase/purchaseThunks";
 import { useNavigate } from "react-router-dom";
 import { Autocomplete } from "@mui/material";
-type HeaderType =
-  | "ut"
-  | "proveedor"
-  | "repuesto"
-  | "descripcionRepuesto"
-  | "eje"
-  | "subeje";
+// type HeaderType =
+//   | "ut"
+//   | "proveedor"
+//   | "repuesto"
+//   | "descripcionRepuesto"
+//   | "eje"
+//   | "subeje";
+
+type HandleSearch = ((page?: number) => void) &
+  ((event: React.MouseEvent<HTMLButtonElement>) => void);
 
 interface FiltersProps {
   headers: string[];
@@ -55,8 +58,12 @@ export const Filters: React.FC<FiltersProps> = ({
     dispatch(startDownload());
   };
 
-  const handleSearch = useCallback(
-    (page = 0) => {
+  const handleSearch: HandleSearch = useCallback(
+    (arg?: number | React.MouseEvent<HTMLButtonElement>) => {
+      let page = 0;
+      if (typeof arg === "number") {
+        page = arg;
+      }
       dispatch(startHandleSearch(filters, dateRange[0], dateRange[1], page, 5));
     },
     [dispatch, filters, dateRange]
@@ -112,15 +119,15 @@ export const Filters: React.FC<FiltersProps> = ({
 
               if (header === "proveedor")
                 options = (combined.providers || []).filter(
-                  (provider) => provider && provider.name
+                  (provider: any) => provider && provider.name
                 );
               if (header === "repuesto")
                 options = (combined.spareParts || []).filter(
-                  (sparePart) => sparePart && sparePart.type
+                  (sparePart: any) => sparePart && sparePart.type
                 );
               if (header === "descripcionRepuesto")
                 options = (combined.sparePartVariants || []).filter(
-                  (variant) => variant && variant.variant
+                  (variant: any) => variant && variant.variant
                 );
             }
 
@@ -128,7 +135,7 @@ export const Filters: React.FC<FiltersProps> = ({
               <FormControl key={`${header}-${index}`}>
                 <Autocomplete
                   freeSolo
-                  options={options.map((option) =>
+                  options={options.map((option: any) =>
                     header === "ut"
                       ? option.ut
                       : header === "proveedor"
@@ -151,7 +158,7 @@ export const Filters: React.FC<FiltersProps> = ({
                     />
                   )}
                   value={filters[header] || ""}
-                  onInputChange={(e, newValue) =>
+                  onInputChange={(_e, newValue) =>
                     updateFilter(header, newValue)
                   }
                 />
@@ -258,6 +265,7 @@ export const Filters: React.FC<FiltersProps> = ({
       >
         Buscar
       </Button>
+
       <Button
         variant="contained"
         color="primary"

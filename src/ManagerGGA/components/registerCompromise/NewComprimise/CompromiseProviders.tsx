@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Grid, TextField, Autocomplete } from "@mui/material";
 import { Controller, Control } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,9 +31,9 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
 
   const [nde, setNde] = useState<number>(editPurchase.facNDE || 0);
   const [compromiso, setCompromiso] = useState("");
-  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(
-    null
-  );
+  // const [selectedProvider, setSelectedProvider] = useState<Provider | null>(
+  // null
+  // );
 
   // useEffect(() => {
   //   if (editPurchase && Object.keys(editPurchase).length !== 0) {

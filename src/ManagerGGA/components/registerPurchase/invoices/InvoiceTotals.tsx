@@ -9,7 +9,7 @@ interface InvoiceTotalsProps {
   setTotalFactBs: (value: number) => void;
   setIsSaveButtonDisabled: any;
   isSaveButtonDisabled: any;
-  handleSaveClick: () => void;
+  handleSaveClick: (data: any) => any;
 }
 
 export const InvoiceTotals: React.FC<InvoiceTotalsProps> = ({
@@ -18,7 +18,7 @@ export const InvoiceTotals: React.FC<InvoiceTotalsProps> = ({
   setTotalFactUsd,
   setTotalFactBs,
   handleSaveClick,
-  setIsSaveButtonDisabled,
+  // setIsSaveButtonDisabled,
   isSaveButtonDisabled,
 }) => {
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
