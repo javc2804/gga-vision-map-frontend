@@ -5,7 +5,7 @@ import {
   startHandleSearch,
 } from "../../store/purchase/purchaseThunks";
 import { useDispatch, useSelector } from "react-redux";
-import { getSummary } from "../../store/purchase/purchaseSlice";
+// import { getSummary } from "../../store/purchase/purchaseSlice";
 
 interface IRow {
   ID: number;
@@ -32,13 +32,10 @@ const useTableList = (initialData: IRow[]) => {
   const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [data, setData] = useState({ count: 0, rows: [] });
+  const [, setData] = useState({ count: 0, rows: [] });
 
   const currentYear = new Date().getFullYear();
-  const [dateRange, setDateRange] = useState([
-    new Date(currentYear, 0, 1),
-    new Date(),
-  ]);
+  const [dateRange] = useState([new Date(currentYear, 0, 1), new Date()]);
   const [offset, setOffset] = useState(0);
   const startDate = new Date(dateRange[0]).toISOString();
   const endDate = new Date(dateRange[1]).toISOString();
@@ -52,7 +49,7 @@ const useTableList = (initialData: IRow[]) => {
     filters: {},
   });
 
-  const [filters, setFilters] = useState({}); // Define filters state
+  // const [filters, setFilters] = useState({}); // Define filters state
 
   useEffect(() => {
     setDataDate({
@@ -81,7 +78,7 @@ const useTableList = (initialData: IRow[]) => {
   const filtersState = useSelector((state: any) => state.purchase.filters);
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     newPage = Number(newPage); // Convert newPage to a number

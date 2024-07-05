@@ -7,7 +7,7 @@ const useMultipleFormCompromisePay = (
   initialValuesPayment: any,
   openSnackbar: any,
   facNDE: any,
-  proveedor: any,
+  // proveedor: any,
   ErrorOutline: any,
   CheckCircle: any,
   compromise: any

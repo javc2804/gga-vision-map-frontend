@@ -1,12 +1,16 @@
 // ManagerGGALayout.tsx
 
-import { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import { Box, Toolbar } from "@mui/material";
 import { Navbar, SideBar } from "../components/";
 
 const drawerWidth = 240;
 
-const ManagerGGALayout = ({ children }) => {
+interface ManagerGGALayoutProps {
+  children: ReactNode;
+}
+
+const ManagerGGALayout: React.FC<ManagerGGALayoutProps> = ({ children }) => {
   const [open, setOpen] = useState(true); // Cambia esto a true
 
   const handleMenuClick = () => {
