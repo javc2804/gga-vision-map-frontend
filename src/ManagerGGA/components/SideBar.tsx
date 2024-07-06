@@ -1,44 +1,44 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-import {
-  ExpandLess,
-  ExpandMore,
-  MoneyOffCsred,
-  AddBox,
-  List as ListIcon,
-  Store,
-  Note,
-  Inventory,
-  People,
-  PersonAdd,
-  PeopleOutline,
-  ListAlt,
-} from "@mui/icons-material";
 import {
   Box,
   Collapse,
-  Divider,
   Drawer,
   List,
-  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Toolbar,
   Typography,
+  Divider,
 } from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import MoneyIcon from "@mui/icons-material/Money";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import ListIcon from "@mui/icons-material/List";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import Logo from "../../assets/logo.png";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { editPurchaseClear } from "../../store/purchase/purchaseSlice";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
-// import MoneyIcon from "@mui/icons-material/Money";
-// import AddBoxIcon from "@mui/icons-material/AddBox";
-// import ListAltIcon from "@mui/icons-material/ListAlt";
-// import StoreIcon from "@mui/icons-material/Store";
-// import NoteIcon from "@mui/icons-material/Note";
-// import InventoryIcon from "@mui/icons-material/Inventory2"; // Adjust based on the correct icon name
+
+const getIcon = (iconName: any) => {
+  switch (iconName) {
+    case "Money":
+      return <MoneyIcon />;
+    case "ListAlt":
+      return <ListAltIcon />;
+    case "AddBox":
+      return <AddBoxIcon />;
+    case "List":
+      return <ListIcon />;
+    case "BarChart":
+      return <BarChartIcon />;
+    case "PeopleOutline":
+      return <PeopleOutlineIcon />;
+    default:
+      return null;
+  }
+};
 
 interface SideBarProps {
   drawerWidth?: number;
@@ -46,82 +46,45 @@ interface SideBarProps {
   onClose: () => void;
 }
 
-type IconKey =
-  | "Money"
-  | "AddBox"
-  | "List"
-  | "ListAlt"
-  | "Store"
-  | "Note"
-  | "Inventory";
+interface MenuItem {
+  name: string;
+  icon?: string; // Add this line to include the 'icon' property
+  subMenu?: MenuItem[];
+  route?: string; // Assuming you might also need a 'route' property based on your menu structure
+}
 
-// const iconMap: { [key in IconKey]: JSX.Element } = {
-//   Money: <MoneyIcon />,
-//   AddBox: <AddBoxIcon />,
-//   List: <ListIcon />,
-//   ListAlt: <ListAltIcon />,
-//   Store: <StoreIcon />,
-//   Note: <NoteIcon />,
-//   Inventory: <InventoryIcon />,
-// };
-
-type OpenSubMenuState = {
+interface OpenSubMenuState {
   [key: string]: boolean;
+}
+
+const selectedStyle = {
+  "&.Mui-selected": {
+    backgroundColor: "#f5447a",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#f5447a",
+    },
+  },
 };
 
 export const SideBar = ({ drawerWidth = 240, open, onClose }: SideBarProps) => {
-  let menu = JSON.parse(localStorage.getItem("menu") || "[]");
-  if (!Array.isArray(menu)) {
-    menu = [menu];
-  }
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  let menuData: MenuItem[] = JSON.parse(localStorage.getItem("menu") || "[]");
   const [openSubMenu, setOpenSubMenu] = useState<OpenSubMenuState>({});
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<string>("");
 
-  const handleClick = (name: any, route: any) => {
-    console.log(name, route);
-    if (selectedItem === name) {
-      return;
-    }
-
-    if (name === "Registro") {
-      console.log("first");
-      dispatch(editPurchaseClear());
-    }
+  const toggleSubMenu = (name: string) => {
     setOpenSubMenu((prevOpenSubMenu) => ({
       ...prevOpenSubMenu,
       [name]: !prevOpenSubMenu[name],
     }));
-
-    setSelectedItem(name);
-    navigate(route);
-  };
-
-  const handleSubItemClick = (event: any, name: any, route: any) => {
-    event.stopPropagation();
-
-    if (selectedItem === name) {
-      return;
+    // Si no tiene submenú, también actualiza el elemento seleccionado
+    if (!menuData.find((item) => item.name === name)?.subMenu) {
+      setSelectedItem(name);
     }
-
-    setSelectedItem(name);
-    navigate(route);
   };
 
-  const iconMap = {
-    Money: <MoneyOffCsred />,
-    AddBox: <AddBox />,
-    List: <ListIcon />,
-    ListAlt: <ListAlt />,
-    Store: <Store />,
-    Note: <Note />,
-    Inventory: <Inventory />,
-    People: <People />,
-    PersonAdd: <PersonAdd />,
-    PeopleOutline: <PeopleOutline />,
-    BarChart: <ShowChartIcon />,
+  const handleMenuItemClick = (name: string) => {
+    setSelectedItem(name);
   };
 
   return (
@@ -159,74 +122,51 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }: SideBarProps) => {
         </Toolbar>
         <Divider />
         <List>
-          {menu.map((item: any) => (
-            <div key={item.name}>
+          {menuData.map((item, index) => (
+            <React.Fragment key={index}>
               <ListItemButton
-                onClick={() => handleClick(item.name, item.route)}
-                selected={selectedItem === item.name}
-                style={{
-                  backgroundColor:
-                    selectedItem === item.name ? "#f5447a" : "inherit",
-                  color: selectedItem === item.name ? "#ffffff" : "inherit",
+                onClick={() => {
+                  toggleSubMenu(item.name);
+                  handleMenuItemClick(item.name);
                 }}
+                selected={selectedItem === item.name}
+                sx={{ ...selectedStyle }}
               >
-                <ListItemIcon
-                  style={{
-                    color: selectedItem === item.name ? "#ffffff" : "inherit",
-                  }}
-                >
-                  {iconMap[item.icon as IconKey]}{" "}
-                </ListItemIcon>
+                <ListItemIcon>{getIcon(item.icon)}</ListItemIcon>
                 <ListItemText primary={item.name} />
-                {openSubMenu[item.name] ? <ExpandLess /> : <ExpandMore />}
+                {item.subMenu ? (
+                  openSubMenu[item.name] ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )
+                ) : null}
               </ListItemButton>
-              <Collapse
-                in={openSubMenu[item.name]}
-                timeout="auto"
-                unmountOnExit
-              >
-                <List component="div" disablePadding>
-                  {item.subMenu &&
-                    item.subMenu.map((subItem: any) => (
-                      <ListItem key={subItem.name} disablePadding>
-                        <ListItemButton
-                          onClick={(event) =>
-                            handleSubItemClick(
-                              event,
-                              subItem.name,
-                              subItem.route
-                            )
-                          }
-                          selected={selectedItem === subItem.name}
-                          style={{
-                            backgroundColor:
-                              selectedItem === subItem.name
-                                ? "#f5447a"
-                                : "inherit",
-                            color:
-                              selectedItem === subItem.name
-                                ? "#ffffff"
-                                : "inherit",
-                            marginLeft: "8px",
-                          }}
-                        >
-                          <ListItemIcon
-                            style={{
-                              color:
-                                selectedItem === subItem.name
-                                  ? "#ffffff"
-                                  : "inherit",
-                            }}
-                          >
-                            {iconMap[subItem.icon as IconKey]}
-                          </ListItemIcon>
-                          <ListItemText primary={subItem.name} />
-                        </ListItemButton>
-                      </ListItem>
+              {item.subMenu && (
+                <Collapse
+                  in={openSubMenu[item.name]}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <List component="div" disablePadding>
+                    {item.subMenu.map((subItem, subIndex) => (
+                      <ListItemButton
+                        key={subIndex}
+                        sx={{
+                          pl: 4,
+                          ...selectedStyle,
+                        }}
+                        onClick={() => handleMenuItemClick(subItem.name)}
+                        selected={selectedItem === subItem.name}
+                      >
+                        <ListItemIcon>{getIcon(subItem.icon)}</ListItemIcon>
+                        <ListItemText primary={subItem.name} />
+                      </ListItemButton>
                     ))}
-                </List>
-              </Collapse>
-            </div>
+                  </List>
+                </Collapse>
+              )}
+            </React.Fragment>
           ))}
         </List>
       </Drawer>
