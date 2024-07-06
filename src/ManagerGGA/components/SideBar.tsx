@@ -21,7 +21,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import BuildIcon from "@mui/icons-material/Build";
-import HomeWorkIcon from "@mui/icons-material/HomeWork"; // Alternativa para "Almacén"
+import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import Logo from "../../assets/logo.png";
 
 const getIcon = (iconName: any) => {
@@ -45,6 +45,8 @@ const getIcon = (iconName: any) => {
       return <BuildIcon />;
     case "HomeWorkIcon":
       return <HomeWorkIcon />;
+    case "Inventory":
+      return <ListIcon />;
     default:
       return null;
   }
