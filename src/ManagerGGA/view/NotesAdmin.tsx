@@ -74,7 +74,6 @@ export const NotesAdmin = () => {
   }
 
   const printNote = (invoice: any) => {
-    console.log(invoice);
     dispatch(startDownloadInvoice(invoice));
   };
 

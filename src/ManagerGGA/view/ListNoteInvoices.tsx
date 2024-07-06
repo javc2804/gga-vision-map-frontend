@@ -21,6 +21,8 @@ import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import { startGetTransactions } from "../../store/almacen/almacenThunk";
 import { useNavigate } from "react-router-dom";
+import { startGetPurchase } from "../../store/purchase/purchaseThunks";
+import Loading from "../../components/Loading";
 
 const ListNoteInvoices = () => {
   const blink = keyframes`
@@ -47,9 +49,15 @@ const ListNoteInvoices = () => {
 
   const distpach = useDispatch();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    distpach(startGetTransactions());
+    setIsLoading(true);
+
+    distpach(startGetPurchase());
+    distpach(startGetTransactions()).finally(() => {
+      setIsLoading(false);
+    });
   }, []);
 
   const result = useSelector((state: any) => state.almacen.list);
@@ -80,6 +88,10 @@ const ListNoteInvoices = () => {
     };
     navigate("/note-invoices", { state: { data } });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
