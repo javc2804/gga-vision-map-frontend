@@ -78,7 +78,7 @@ const ListNoteInvoices = () => {
   const isRowsArray = Array.isArray(rows);
 
   const showData = (row: any) => {
-    const data = {
+    const dataFacNDE = {
       id: row.id,
       facNDE: row.facNDE,
       cantidad: row.cantidad,
@@ -86,7 +86,7 @@ const ListNoteInvoices = () => {
       repuesto: row.repuesto,
       descripcionRepuesto: row.descripcionRepuesto,
     };
-    navigate("/note-invoices", { state: { data } });
+    navigate("/note-invoices", { state: { dataFacNDE } });
   };
 
   if (isLoading) {

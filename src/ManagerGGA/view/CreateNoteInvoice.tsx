@@ -43,7 +43,8 @@ const CreateNoteInvoice = () => {
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
-  const { data } = location.state || {};
+  const { dataFacNDE } = location.state || {};
+  console.log(dataFacNDE);
   const [cantidadAsignada, setCantidadAsignada] = useState(0);
 
   const result = useSelector((state: any) => state.purchase.combined);
@@ -52,19 +53,19 @@ const CreateNoteInvoice = () => {
 
   const [formularios, setFormularios] = useState<FormularioType[]>([
     {
-      id: data.id,
+      id: dataFacNDE.id,
       id_items: 1,
       quantity: "",
-      spare_part: data.repuesto,
-      spare_part_variant: data.descripcionRepuesto,
+      spare_part: dataFacNDE.repuesto,
+      spare_part_variant: dataFacNDE.descripcionRepuesto,
       observation: "",
-      note_number: data.facNDE,
-      provider: data.proveedor,
+      note_number: dataFacNDE.facNDE,
+      provider: dataFacNDE.proveedor,
       delivered_by: "",
       inventario: "",
       marcaModelo: "",
       status: false,
-      subeje: data.subeje || "", // Initialize `subeje` here
+      subeje: dataFacNDE.subeje || "",
     },
   ]);
   const [nextId, setNextId] = useState(2);
@@ -81,22 +82,23 @@ const CreateNoteInvoice = () => {
     setFormularios(updatedFormularios);
   };
 
-  const agregarFormulario = (data: any) => {
+  const agregarFormulario = () => {
     setFormularios(
       formularios.concat([
         {
-          id: data.id,
+          id: dataFacNDE.id,
           id_items: nextId,
-          note_number: data.facNDE,
-          provider: data.proveedor,
           quantity: "",
-          spare_part: data.repuesto,
-          spare_part_variant: data.descripcionRepuesto,
+          spare_part: dataFacNDE.repuesto,
+          spare_part_variant: dataFacNDE.descripcionRepuesto,
           observation: "",
+          note_number: dataFacNDE.facNDE,
+          provider: dataFacNDE.proveedor,
           delivered_by: "",
           inventario: "",
           marcaModelo: "",
           status: false,
+          subeje: dataFacNDE.subeje || "",
         },
       ])
     );
@@ -154,7 +156,7 @@ const CreateNoteInvoice = () => {
       0
     );
 
-    if (data.cantidad < totalCantidad) {
+    if (dataFacNDE.cantidad < totalCantidad) {
       openSnackbar(
         "Error, la cantidad total supera la cantidad disponible.",
         "error",
@@ -268,7 +270,7 @@ const CreateNoteInvoice = () => {
                   disabled
                   label="Fac/NDE"
                   variant="outlined"
-                  value={data.facNDE}
+                  value={dataFacNDE.facNDE}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -327,7 +329,7 @@ const CreateNoteInvoice = () => {
                   disabled
                   label="Proveedor"
                   variant="outlined"
-                  value={data.proveedor}
+                  value={dataFacNDE.proveedor}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -339,7 +341,7 @@ const CreateNoteInvoice = () => {
                   disabled
                   label="Repuesto"
                   variant="outlined"
-                  value={data.repuesto}
+                  value={dataFacNDE.repuesto}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -351,7 +353,7 @@ const CreateNoteInvoice = () => {
                   disabled
                   label="Descripción Repuesto"
                   variant="outlined"
-                  value={data.descripcionRepuesto}
+                  value={dataFacNDE.descripcionRepuesto}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -413,7 +415,7 @@ const CreateNoteInvoice = () => {
         <TextField
           label="Cantidad Disponible"
           variant="outlined"
-          value={data.cantidad}
+          value={dataFacNDE.cantidad}
           style={{ marginBottom: 10 }}
           InputLabelProps={{ shrink: true }}
           disabled
@@ -429,7 +431,7 @@ const CreateNoteInvoice = () => {
           variant="contained"
           color="primary"
           onClick={save}
-          // disabled={isSaveButtonDisabled}
+          disabled={isSaveButtonDisabled}
           style={{ marginRight: 10 }}
         >
           Guardar
