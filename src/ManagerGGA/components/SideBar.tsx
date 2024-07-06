@@ -19,6 +19,8 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import ListIcon from "@mui/icons-material/List";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import BuildIcon from "@mui/icons-material/Build";
 import Logo from "../../assets/logo.png";
 
 const getIcon = (iconName: any) => {
@@ -35,6 +37,10 @@ const getIcon = (iconName: any) => {
       return <BarChartIcon />;
     case "PeopleOutline":
       return <PeopleOutlineIcon />;
+    case "Suppliers":
+      return <BusinessCenterIcon />;
+    case "AutoParts":
+      return <BuildIcon />;
     default:
       return null;
   }
