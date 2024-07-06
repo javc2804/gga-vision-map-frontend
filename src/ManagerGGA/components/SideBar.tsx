@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Collapse,
@@ -21,6 +21,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import BuildIcon from "@mui/icons-material/Build";
+
 import Logo from "../../assets/logo.png";
 
 const getIcon = (iconName: any) => {
@@ -77,20 +78,40 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }: SideBarProps) => {
   let menuData: MenuItem[] = JSON.parse(localStorage.getItem("menu") || "[]");
   const [openSubMenu, setOpenSubMenu] = useState<OpenSubMenuState>({});
   const [selectedItem, setSelectedItem] = useState<string>("");
+  const navigate = useNavigate(); // Paso 2: Crea una instancia de useNavigate
 
   const toggleSubMenu = (name: string) => {
+    // Asegura que el submenú seleccionado se mantenga abierto
     setOpenSubMenu((prevOpenSubMenu) => ({
-      ...prevOpenSubMenu,
-      [name]: !prevOpenSubMenu[name],
+      ...Object.keys(prevOpenSubMenu).reduce((acc, key) => {
+        acc[key] = false; // Cierra todos los submenús
+        return acc;
+      }, {} as OpenSubMenuState),
+      [name]: true, // Abre el submenú seleccionado
     }));
-    // Si no tiene submenú, también actualiza el elemento seleccionado
-    if (!menuData.find((item) => item.name === name)?.subMenu) {
-      setSelectedItem(name);
-    }
   };
 
-  const handleMenuItemClick = (name: string) => {
+  const handleMenuItemClick = (name: string, route?: string) => {
+    if (selectedItem === name) {
+      return;
+    }
     setSelectedItem(name);
+    // Encuentra el menú padre del ítem seleccionado y ábrelo
+    const parentMenuName = menuData.find((item) =>
+      item.subMenu?.some((subItem) => subItem.name === name)
+    )?.name;
+    if (parentMenuName) {
+      setOpenSubMenu((prevOpenSubMenu) => ({
+        ...Object.keys(prevOpenSubMenu).reduce((acc, key) => {
+          acc[key] = false; // Cierra todos los submenús
+          return acc;
+        }, {} as OpenSubMenuState),
+        [parentMenuName]: true, // Asegura que el submenú del ítem seleccionado se mantenga abierto
+      }));
+    }
+    if (route) {
+      navigate(route);
+    }
   };
 
   return (
@@ -133,7 +154,7 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }: SideBarProps) => {
               <ListItemButton
                 onClick={() => {
                   toggleSubMenu(item.name);
-                  handleMenuItemClick(item.name);
+                  handleMenuItemClick(item.name, item.route); // Pasa item.route como argumento
                 }}
                 selected={selectedItem === item.name}
                 sx={{ ...selectedStyle }}
@@ -162,7 +183,9 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }: SideBarProps) => {
                           pl: 4,
                           ...selectedStyle,
                         }}
-                        onClick={() => handleMenuItemClick(subItem.name)}
+                        onClick={() =>
+                          handleMenuItemClick(subItem.name, subItem.route)
+                        } // Pasa subItem.route como argumento
                         selected={selectedItem === subItem.name}
                       >
                         <ListItemIcon>{getIcon(subItem.icon)}</ListItemIcon>
