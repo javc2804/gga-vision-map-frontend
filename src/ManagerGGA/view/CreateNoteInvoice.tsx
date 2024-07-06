@@ -429,7 +429,7 @@ const CreateNoteInvoice = () => {
           variant="contained"
           color="primary"
           onClick={save}
-          disabled={isSaveButtonDisabled}
+          // disabled={isSaveButtonDisabled}
           style={{ marginRight: 10 }}
         >
           Guardar

@@ -119,38 +119,37 @@ export const purchaseService = {
       });
   },
   getDownloadInvoice: (invoiceData: any) => {
-    console.log("entr");
-
     return API_URL.post(`note-invoices/download-invoice`, invoiceData, {
-      responseType: "arraybuffer", // Cambia esto a 'arraybuffer'
+      responseType: "arraybuffer", // Asegura que la respuesta sea un flujo binario
       headers: {
-        Accept: "application/pdf", // Asegúrate de que axios solicita un PDF
+        Accept: "application/pdf", // Solicita específicamente un PDF
       },
     })
       .then((response) => {
-        console.log(response);
-
+        // Crear un Blob con los datos de la respuesta
         const blob = new Blob([response.data], { type: "application/pdf" });
-        const url = window.URL.createObjectURL(blob);
+        // Crear un enlace para la descarga
+        const downloadUrl = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "invoice.pdf");
+        link.href = downloadUrl;
+        link.setAttribute("download", "invoice.pdf"); // Nombre del archivo a descargar
         document.body.appendChild(link);
-        link.click();
+        link.click(); // Iniciar la descarga
 
-        // Cleanup: remove the link after triggering the download
+        // Limpieza: eliminar el enlace después de la descarga
+        window.URL.revokeObjectURL(downloadUrl);
         document.body.removeChild(link);
 
         return { ok: true };
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error al descargar el archivo", error);
 
-        // Handle error: check if error.response and error.response.data.msg exist
+        // Manejo de errores
         const errorMsg =
-          error.response && error.response.data.msg
+          error.response && error.response.data && error.response.data.msg
             ? error.response.data.msg
-            : "Unknown error";
+            : "Error desconocido";
         return { ok: false, response: errorMsg };
       });
   },
