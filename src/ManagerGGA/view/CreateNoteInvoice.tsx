@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -13,6 +13,8 @@ import {
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { startCreateNDE } from "../../store/almacen/almacenThunk";
+import { useSnackbar } from "../../hooks/useSnackBar";
+import { CheckCircle, ErrorOutline } from "@mui/icons-material";
 
 interface Fleet {
   ut: string;
@@ -37,9 +39,13 @@ type FormularioType = {
 };
 
 const CreateNoteInvoice = () => {
+  const { SnackbarComponent, openSnackbar } = useSnackbar();
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
   const { data } = location.state || {};
+  const [cantidadAsignada, setCantidadAsignada] = useState(0);
+
   const result = useSelector((state: any) => state.purchase.combined);
   // const [delivered_by, setdelivered_by] = useState("");
   // const [inventario, setinventario] = useState("");
@@ -143,6 +149,20 @@ const CreateNoteInvoice = () => {
       user_rel: localStorage.getItem("email") || "",
     }));
 
+    const totalCantidad = formulariosConUserRel.reduce(
+      (acc, formulario) => acc + Number(formulario.quantity || 0),
+      0
+    );
+
+    if (data.cantidad < totalCantidad) {
+      openSnackbar(
+        "Error, la cantidad total supera la cantidad disponible.",
+        "error",
+        ErrorOutline
+      );
+      return;
+    }
+
     const todosCamposRellenados = formulariosConUserRel.every((formulario) => {
       return Object.values(formulario).every((valor) => {
         const valorComoCadena = String(valor).trim();
@@ -151,14 +171,32 @@ const CreateNoteInvoice = () => {
     });
 
     if (todosCamposRellenados) {
+      setIsSaveButtonDisabled(true);
       dispatch(startCreateNDE(formulariosConUserRel));
+      openSnackbar("Guardado exitosamente", "success", CheckCircle);
     } else {
-      console.error("Error: Todos los campos deben estar rellenados.");
+      openSnackbar(
+        `Error, Todos los campos deben estar rellenados.`,
+        "error",
+        ErrorOutline
+      );
     }
   };
 
+  const calcularSumatoria = () => {
+    const sumatoria = formularios.reduce(
+      (acc, formulario) => acc + Number(formulario.quantity || 0),
+      0
+    );
+    setCantidadAsignada(sumatoria);
+  };
+
+  useEffect(() => {
+    calcularSumatoria();
+  }, [formularios]);
+
   return (
-    <div>
+    <div style={{ overflowY: "auto", maxHeight: "85vh" }}>
       <h2>Crear nota de entrega</h2>
       {formularios.map((formulario, index) => (
         <Paper
@@ -382,6 +420,8 @@ const CreateNoteInvoice = () => {
         />
         <TextField
           label="Cantidad asignada"
+          value={cantidadAsignada}
+          disabled
           variant="outlined"
           style={{ marginBottom: 10 }}
         />
@@ -389,10 +429,12 @@ const CreateNoteInvoice = () => {
           variant="contained"
           color="primary"
           onClick={save}
+          disabled={isSaveButtonDisabled}
           style={{ marginRight: 10 }}
         >
           Guardar
         </Button>
+        {SnackbarComponent}
       </div>
     </div>
   );
