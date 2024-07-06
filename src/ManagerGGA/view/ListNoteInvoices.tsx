@@ -54,7 +54,6 @@ const ListNoteInvoices = () => {
 
   const result = useSelector((state: any) => state.almacen.list);
   const rows = result.response;
-  console.log(rows);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);

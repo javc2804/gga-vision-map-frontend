@@ -25,7 +25,6 @@ import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import Logo from "../../assets/logo.png";
 
 const getIcon = (iconName: any) => {
-  console.log(iconName);
   switch (iconName) {
     case "Money":
       return <MoneyIcon />;

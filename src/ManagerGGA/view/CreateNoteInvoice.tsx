@@ -75,32 +75,37 @@ const CreateNoteInvoice = () => {
     setFormularios(updatedFormularios);
   };
 
-  const agregarFormulario = () => {
-    setFormularios([
-      ...formularios,
-      {
-        id: data.id,
-        id_items: nextId,
-        note_number: data.facNDE,
-        provider: data.proveedor,
-        quantity: "",
-        spare_part: data.repuesto,
-        spare_part_variant: data.descripcionRepuesto,
-        observation: "",
-        delivered_by: "",
-        inventario: "",
-        marcaModelo: "",
-        status: false,
-      },
-    ]);
+  const agregarFormulario = (data: any) => {
+    setFormularios(
+      formularios.concat([
+        {
+          id: data.id,
+          id_items: nextId,
+          note_number: data.facNDE,
+          provider: data.proveedor,
+          quantity: "",
+          spare_part: data.repuesto,
+          spare_part_variant: data.descripcionRepuesto,
+          observation: "",
+          delivered_by: "",
+          inventario: "",
+          marcaModelo: "",
+          status: false,
+        },
+      ])
+    );
     setNextId(nextId + 1);
   };
 
-  const eliminarFormulario = (id: any) => {
-    const nuevosFormularios = formularios.filter(
-      (formulario) => formulario.id !== id
-    );
-    setFormularios(nuevosFormularios);
+  const eliminarFormulario = (idItemSeleccionado: any) => {
+    if (formularios.length > 1) {
+      const formulariosActualizados = formularios.filter(
+        (formulario) => formulario.id_items !== idItemSeleccionado
+      );
+      setFormularios(formulariosActualizados);
+    } else {
+      console.log("No se puede eliminar el único formulario restante.");
+    }
   };
 
   const handleUTChange = (value: any, index: any) => {
@@ -336,6 +341,15 @@ const CreateNoteInvoice = () => {
               >
                 Agregar
               </Button>
+              {formularios.length > 1 && (
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => eliminarFormulario(formulario.id_items)}
+                >
+                  Eliminar
+                </Button>
+              )}
             </Grid>
           )}
           {index < formularios.length - 1 && (
@@ -343,7 +357,7 @@ const CreateNoteInvoice = () => {
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => eliminarFormulario(formulario.id)}
+                onClick={() => eliminarFormulario(formulario.id_items)}
               >
                 Eliminar
               </Button>
@@ -351,14 +365,35 @@ const CreateNoteInvoice = () => {
           )}
         </Paper>
       ))}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={save}
-        style={{ marginRight: 10 }}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+        }}
       >
-        Guardar
-      </Button>
+        <TextField
+          label="Cantidad Disponible"
+          variant="outlined"
+          value={data.cantidad}
+          style={{ marginBottom: 10 }}
+          InputLabelProps={{ shrink: true }}
+          disabled
+        />
+        <TextField
+          label="Cantidad asignada"
+          variant="outlined"
+          style={{ marginBottom: 10 }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={save}
+          style={{ marginRight: 10 }}
+        >
+          Guardar
+        </Button>
+      </div>
     </div>
   );
 };
