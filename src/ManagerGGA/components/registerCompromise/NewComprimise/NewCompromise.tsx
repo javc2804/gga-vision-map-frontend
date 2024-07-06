@@ -167,7 +167,7 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
       <InvoiceTotalsCompromises
         totalFactUsd={totalFactUsd}
         setTotalFactUsd={setTotalFactUsd}
-        handleSaveClick={() => handleSaveClick}
+        handleSaveClick={() => handleSaveClick(false)}
         setIsSaveButtonDisabled={setIsSaveButtonDisabled}
         isSaveButtonDisabled={isSaveButtonDisabled}
       />

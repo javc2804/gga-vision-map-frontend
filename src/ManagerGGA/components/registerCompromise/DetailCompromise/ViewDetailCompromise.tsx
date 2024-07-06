@@ -119,7 +119,7 @@ const ViewDetailCompromise = ({ compromise, showFields }: any) => {
 
       <TextField
         label="OC/OS"
-        value={compromise.OcOs}
+        value={compromise.ocOs}
         InputProps={{ readOnly: true }}
         InputLabelProps={{ shrink: true }}
         style={{ marginRight: "10px", marginBottom: "10px" }}
