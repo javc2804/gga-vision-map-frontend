@@ -8,6 +8,12 @@ import {
   DialogTitle,
 } from "@mui/material";
 
+import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import { useCreateUser } from "../../auth/pages/hooks/useCreateUser";
+import { useSnackbar } from "../../hooks/useSnackBar";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
 interface User {
   name: string;
   lastName: string;
@@ -22,6 +28,9 @@ interface UserModalProps {
   user?: User; // Agrega esta línea
 }
 const UserModal: React.FC<UserModalProps> = ({ open, handleClose, user }) => {
+  const createUser = useCreateUser();
+  const { openSnackbar, SnackbarComponent } = useSnackbar();
+
   const [name, setName] = useState(user ? user.name : "");
   const [lastName, setLastName] = useState(user ? user.lastName : "");
   const [email, setEmail] = useState(user ? user.email : "");
@@ -35,9 +44,9 @@ const UserModal: React.FC<UserModalProps> = ({ open, handleClose, user }) => {
     setRole(user ? user.role : "");
     setPassword(user ? user.password : "");
   }, [user]);
-  const handleSubmit = () => {
+
+  const handleSubmit = async () => {
     if (user) {
-      // Si user está definido, estamos editando un usuario existente
       console.log("Editando usuario", {
         name,
         lastName,
@@ -45,11 +54,24 @@ const UserModal: React.FC<UserModalProps> = ({ open, handleClose, user }) => {
         role,
         password,
       });
-      // Aquí puedes manejar la lógica de edición, como llamar a una API o despachar una acción de Redux
     } else {
-      // Si user no está definido, estamos creando un nuevo usuario
-      console.log("Creando usuario", { name, lastName, email, role, password });
-      // Aquí puedes manejar la lógica de creación, como llamar a una API o despachar una acción de Redux
+      const response = await createUser({
+        email,
+        password,
+        name,
+        lastName,
+        role,
+      });
+
+      if (response) {
+        openSnackbar("Usuario creado con éxito", "success", CheckCircleIcon);
+      } else {
+        openSnackbar(
+          "Ocurrio un error intentelo de nuevo",
+          "error",
+          ErrorOutlineIcon
+        );
+      }
     }
     handleClose();
   };
@@ -86,15 +108,23 @@ const UserModal: React.FC<UserModalProps> = ({ open, handleClose, user }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <TextField
-          margin="dense"
-          label="Rol"
-          type="text"
+        <FormControl
           fullWidth
+          margin="dense"
           variant="standard"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        />
+          style={{ width: "50%" }}
+        >
+          <InputLabel id="role-select-label">Rol</InputLabel>
+          <Select
+            labelId="role-select-label"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            label="Rol"
+          >
+            <MenuItem value="admin">Admin</MenuItem>
+            <MenuItem value="almacenista">Almacenista</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           margin="dense"
           label="Clave"
