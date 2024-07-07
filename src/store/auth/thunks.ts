@@ -83,8 +83,6 @@ export const startCreatingUser =
 export const startEditUser =
   (userCredentials: UserCredentials): any =>
   async (dispatch: any) => {
-    console.log("pase");
-
     const { email, password, name, lastName, role } = userCredentials;
 
     const { ok, response } = await authService.editUser(

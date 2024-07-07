@@ -53,7 +53,6 @@ const formatDate = (dateString: string) => {
 };
 
 export const Users = () => {
-  const loggedInUserEmail = localStorage.getItem("email");
   const dispatch = useDispatch();
   const users = useSelector((state: any) => state.users);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);

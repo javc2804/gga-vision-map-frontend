@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import * as React from "react";
 import {
   Table,
@@ -16,14 +18,23 @@ import { useEffect } from "react";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-// import BlockIcon from "@mui/icons-material/Block";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
   startExportProviders,
   startGetProviders,
 } from "../../store/providersOut/providersThunk";
+import ProviderModal from "../components/ProviderModal";
+import { useSnackbar } from "../../hooks/useSnackBar";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
+interface Proveedor {
+  createdAt: string;
+  name: string;
+  user_rel: string;
+  status: boolean;
+}
 
 export const Providers = () => {
   const dispatch = useDispatch();
@@ -31,6 +42,13 @@ export const Providers = () => {
     dispatch(startGetProviders());
   }, []);
   const providers = useSelector((state: any) => state.providers.list);
+  const { openSnackbar, SnackbarComponent } = useSnackbar();
+
+  const [openProveedorModal, setopenProveedorModal] = useState(false);
+  const [selectedProveedor, setSelectedProveedor] = useState<Proveedor | null>(
+    null
+  );
+  const [proveedorCreationMessage, setproveedorCreationMessage] = useState("");
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -50,6 +68,18 @@ export const Providers = () => {
     dispatch(startExportProviders());
   };
 
+  const handleProveedorCreationFeedback = (data: any) => {
+    openSnackbar(
+      `${data.msg}`,
+      data.type,
+      data.type === "success" ? CheckCircleIcon : ErrorOutlineIcon
+    );
+
+    dispatch(startGetProviders());
+
+    setproveedorCreationMessage(data);
+  };
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <h1>Gestión de Proveedores</h1>
@@ -57,17 +87,28 @@ export const Providers = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => ({})}
-          sx={{ mr: 1 }}
+          onClick={() => {
+            setSelectedProveedor(null); // Restablecer el usuario seleccionado a null
+            setopenProveedorModal(true);
+          }}
         >
           Crear Proveedor
         </Button>
+        <ProviderModal
+          open={openProveedorModal}
+          handleClose={() => {
+            setopenProveedorModal(false);
+            // setproveedorCreationMessage("");
+          }}
+          // user={selectedUser}
+          onProveedorCreationFeedback={handleProveedorCreationFeedback} // Añadir esta línea
+          // initialValues={selectedUser}
+        />
         <Button variant="contained" color="secondary" onClick={exportData}>
           Exportar Proveedores
         </Button>
       </Box>
       <TableContainer sx={{ maxHeight: 440 }}>
-        {" "}
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -135,12 +176,13 @@ export const Providers = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={providers.length}
+        count={0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={() => handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      {SnackbarComponent}
     </Paper>
   );
 };

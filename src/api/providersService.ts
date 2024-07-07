@@ -10,7 +10,18 @@ export const providersService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
-  exportProviders: () => {
+  createProviders: (data: any) => {
+    return API_URL.post("providers", {
+      data,
+    })
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
+  Providers: () => {
     return API_URL.get("providers/export", { responseType: "blob" }) // Solicitar el archivo como un Blob
       .then((response) => {
         // Crear un URL para el Blob, lo que permite descargarlo o mostrarlo en el navegador
