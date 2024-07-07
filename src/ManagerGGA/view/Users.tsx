@@ -18,8 +18,13 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import BlockIcon from "@mui/icons-material/Block";
 import { useUser } from "../hooks/useUsers";
 import { DeleteDialog } from "../../components/DeleteDialog";
-import { startToggleStatusUser } from "../../store/users/usersThunk";
+import {
+  startGetUsers,
+  startToggleStatusUser,
+} from "../../store/users/usersThunk";
 import { useSnackbar } from "../../hooks/useSnackBar";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
 import UserModal from "../../ManagerGGA/components/UserModal";
 
 interface User {
@@ -48,6 +53,7 @@ const formatDate = (dateString: string) => {
 };
 
 export const Users = () => {
+  const loggedInUserEmail = localStorage.getItem("email");
   const dispatch = useDispatch();
   const users = useSelector((state: any) => state.users);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -57,7 +63,7 @@ export const Users = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const [openUserModal, setOpenUserModal] = useState(false);
-
+  const [userCreationMessage, setUserCreationMessage] = useState("");
   const { openSnackbar, SnackbarComponent } = useSnackbar();
   const [, setSnackbarOpen] = useState(false);
 
@@ -90,6 +96,18 @@ export const Users = () => {
     setOpenDeleteDialog(false);
   };
 
+  const handleUserCreationFeedback = (data: any) => {
+    openSnackbar(
+      `${data.msg}`,
+      data.type,
+      data.type === "success" ? CheckCircleIcon : ErrorOutlineIcon
+    );
+
+    dispatch(startGetUsers());
+
+    setUserCreationMessage(data);
+  };
+
   return (
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -97,7 +115,10 @@ export const Users = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => setOpenUserModal(true)}
+          onClick={() => {
+            setSelectedUser(null); // Restablecer el usuario seleccionado a null
+            setOpenUserModal(true);
+          }}
         >
           Crear usuario
         </Button>
@@ -105,8 +126,10 @@ export const Users = () => {
           open={openUserModal}
           handleClose={() => {
             setOpenUserModal(false);
-            setSelectedUser(null); // Limpiar el usuario seleccionado cuando se cierra la modal
+            setUserCreationMessage("");
           }}
+          user={selectedUser}
+          onUserCreationFeedback={handleUserCreationFeedback} // Añadir esta línea
           initialValues={selectedUser}
         />
         <TableContainer sx={{ maxHeight: 440 }}>
@@ -134,65 +157,73 @@ export const Users = () => {
               {Array.isArray(users.list) &&
                 users.list
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((user: User, index: number) => (
-                    <TableRow key={index}>
-                      <TableCell>{formatDate(user.createdAt)}</TableCell>
-                      <TableCell>{`${user.name} ${user.lastName}`}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.role}</TableCell>
-                      <TableCell>
-                        <Tooltip title="Eliminar">
-                          <DeleteIcon
-                            sx={{
-                              marginLeft: 1,
-                              color: "red",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => {
-                              setOpenDeleteDialog(true);
-                              setSelectedUserEmail(user.email); // Store user's email when delete icon is clicked
-                            }}
-                          />
-                        </Tooltip>
-                        <Tooltip title="Editar">
-                          <EditIcon
-                            sx={{
-                              marginLeft: 1,
-                              color: "orange",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => {
-                              setSelectedUser(user);
-                              setOpenUserModal(true);
-                            }}
-                          />
-                        </Tooltip>
-                        {user.status ? (
-                          <Tooltip title="Desactivar">
-                            <CheckCircleIcon
+                  .map((user: User, index: number) => {
+                    // Obtén el correo electrónico del localStorage
+                    const loggedInUserEmail = localStorage.getItem("email");
+
+                    // Si el correo del usuario actual es igual al del localStorage, no renderizar la fila
+                    if (user.email === loggedInUserEmail) return null;
+
+                    return (
+                      <TableRow key={index}>
+                        <TableCell>{formatDate(user.createdAt)}</TableCell>
+                        <TableCell>{`${user.name} ${user.lastName}`}</TableCell>
+                        <TableCell>{user.email}</TableCell>
+                        <TableCell>{user.role}</TableCell>
+                        <TableCell>
+                          <Tooltip title="Eliminar">
+                            <DeleteIcon
                               sx={{
                                 marginLeft: 1,
-                                color: "green",
+                                color: "red",
                                 cursor: "pointer",
                               }}
-                              onClick={() => toggleUserStatus(user.email)}
+                              onClick={() => {
+                                setOpenDeleteDialog(true);
+                                setSelectedUserEmail(user.email); // Store user's email when delete icon is clicked
+                              }}
                             />
                           </Tooltip>
-                        ) : (
-                          <Tooltip title="Activar">
-                            <BlockIcon
+                          <Tooltip title="Editar">
+                            <EditIcon
                               sx={{
                                 marginLeft: 1,
-                                color: "grey",
+                                color: "orange",
                                 cursor: "pointer",
                               }}
-                              onClick={() => toggleUserStatus(user.email)}
+                              onClick={() => {
+                                setSelectedUser(user);
+                                setOpenUserModal(true);
+                              }}
                             />
                           </Tooltip>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                          {user.status ? (
+                            <Tooltip title="Desactivar">
+                              <CheckCircleIcon
+                                sx={{
+                                  marginLeft: 1,
+                                  color: "green",
+                                  cursor: "pointer",
+                                }}
+                                onClick={() => toggleUserStatus(user.email)}
+                              />
+                            </Tooltip>
+                          ) : (
+                            <Tooltip title="Activar">
+                              <BlockIcon
+                                sx={{
+                                  marginLeft: 1,
+                                  color: "grey",
+                                  cursor: "pointer",
+                                }}
+                                onClick={() => toggleUserStatus(user.email)}
+                              />
+                            </Tooltip>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
             </TableBody>
           </Table>
         </TableContainer>

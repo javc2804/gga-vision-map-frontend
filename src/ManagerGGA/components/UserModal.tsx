@@ -10,9 +10,6 @@ import {
 
 import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import { useCreateUser } from "../../auth/pages/hooks/useCreateUser";
-import { useSnackbar } from "../../hooks/useSnackBar";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 interface User {
   name: string;
@@ -25,12 +22,17 @@ interface User {
 interface UserModalProps {
   open: boolean;
   handleClose: () => void;
-  user?: User; // Agrega esta línea
+  user?: User;
+  onUserCreationFeedback?: (data: {}) => void; // Añadir esta línea
 }
-const UserModal: React.FC<UserModalProps> = ({ open, handleClose, user }) => {
+const UserModal: React.FC<UserModalProps> = ({
+  open,
+  handleClose,
+  user,
+  onUserCreationFeedback,
+}) => {
   const createUser = useCreateUser();
-  const { openSnackbar, SnackbarComponent } = useSnackbar();
-
+  console.log(user);
   const [name, setName] = useState(user ? user.name : "");
   const [lastName, setLastName] = useState(user ? user.lastName : "");
   const [email, setEmail] = useState(user ? user.email : "");
@@ -63,14 +65,18 @@ const UserModal: React.FC<UserModalProps> = ({ open, handleClose, user }) => {
         role,
       });
 
-      if (response) {
-        openSnackbar("Usuario creado con éxito", "success", CheckCircleIcon);
+      if (response && response.wasSuccessful) {
+        onUserCreationFeedback &&
+          onUserCreationFeedback({
+            msg: "Usuario creado con éxito",
+            type: "success",
+          });
       } else {
-        openSnackbar(
-          "Ocurrio un error intentelo de nuevo",
-          "error",
-          ErrorOutlineIcon
-        );
+        onUserCreationFeedback &&
+          onUserCreationFeedback({
+            msg: "Ocurrió un error, inténtelo de nuevo",
+            type: "error",
+          });
       }
     }
     handleClose();
@@ -156,7 +162,7 @@ const UserModal: React.FC<UserModalProps> = ({ open, handleClose, user }) => {
           }}
           onClick={handleSubmit}
         >
-          Crear
+          {user ? "Editar" : "Crear"}
         </Button>
       </DialogActions>
     </Dialog>

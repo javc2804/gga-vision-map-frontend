@@ -2,7 +2,7 @@ import { useDispatch as _useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { startCreatingUser } from "../../../store/auth/thunks";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const formSchema = yup.object().shape({
   name: yup
@@ -28,6 +28,7 @@ export const useCreateUser = () => {
   const useDispatch = () => _useDispatch<AppDispatch>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation(); // Usa useLocation para obtener la ruta actual
 
   const createUser = async (userDetails: {
     email: string;
@@ -41,9 +42,11 @@ export const useCreateUser = () => {
       const response = await dispatch(startCreatingUser(userDetails));
 
       if (response.wasSuccessful) {
-        setTimeout(() => {
-          navigate("/auth/login");
-        }, 4000);
+        if (location.pathname !== "/users") {
+          setTimeout(() => {
+            navigate("/auth/login");
+          }, 4000);
+        }
         return { wasSuccessful: true, errors: {} };
       }
     } catch (error: any) {
