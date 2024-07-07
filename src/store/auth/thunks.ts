@@ -80,6 +80,31 @@ export const startCreatingUser =
     return { wasSuccessful: true, messageType: "success" };
   };
 
+export const startEditUser =
+  (userCredentials: UserCredentials): any =>
+  async (dispatch: any) => {
+    console.log("pase");
+
+    const { email, password, name, lastName, role } = userCredentials;
+
+    const { ok, response } = await authService.editUser(
+      email,
+      password,
+      name,
+      lastName,
+      role
+    );
+
+    if (!ok) {
+      dispatch(logout(response));
+      dispatch(showSnackbar({ message: response, type: "error" }));
+      return { wasSuccessful: false, messageType: "error" };
+    }
+
+    dispatch(showSnackbar({ message: "Editado con éxito", type: "success" }));
+    return { wasSuccessful: true, messageType: "success" };
+  };
+
 export const startLogout = (): any => async (dispatch: any) => {
   localStorage.clear();
   dispatch(logout(false));

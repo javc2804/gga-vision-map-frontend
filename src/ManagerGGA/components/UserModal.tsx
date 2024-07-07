@@ -31,54 +31,51 @@ const UserModal: React.FC<UserModalProps> = ({
   user,
   onUserCreationFeedback,
 }) => {
-  const createUser = useCreateUser();
-  console.log(user);
+  const { createUser, editUser } = useCreateUser();
   const [name, setName] = useState(user ? user.name : "");
   const [lastName, setLastName] = useState(user ? user.lastName : "");
   const [email, setEmail] = useState(user ? user.email : "");
   const [role, setRole] = useState(user ? user.role : "");
-  const [password, setPassword] = useState(user ? user.password : "");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     setName(user ? user.name : "");
     setLastName(user ? user.lastName : "");
     setEmail(user ? user.email : "");
     setRole(user ? user.role : "");
-    setPassword(user ? user.password : "");
+    setPassword("");
   }, [user]);
 
   const handleSubmit = async () => {
-    if (user) {
-      console.log("Editando usuario", {
-        name,
-        lastName,
-        email,
-        role,
-        password,
-      });
-    } else {
-      const response = await createUser({
-        email,
-        password,
-        name,
-        lastName,
-        role,
-      });
+    const userData = {
+      email,
+      password,
+      name,
+      lastName,
+      role,
+    };
 
-      if (response && response.wasSuccessful) {
-        onUserCreationFeedback &&
-          onUserCreationFeedback({
-            msg: "Usuario creado con éxito",
-            type: "success",
-          });
-      } else {
-        onUserCreationFeedback &&
-          onUserCreationFeedback({
-            msg: "Ocurrió un error, inténtelo de nuevo",
-            type: "error",
-          });
-      }
+    const response = user
+      ? await editUser(userData)
+      : await createUser(userData);
+
+    if (response && response.wasSuccessful) {
+      const message = user
+        ? "Usuario editado con éxito"
+        : "Usuario creado con éxito";
+      onUserCreationFeedback &&
+        onUserCreationFeedback({
+          msg: message,
+          type: "success",
+        });
+    } else {
+      onUserCreationFeedback &&
+        onUserCreationFeedback({
+          msg: "Ocurrió un error, inténtelo de nuevo",
+          type: "error",
+        });
     }
+
     handleClose();
   };
 
@@ -128,7 +125,7 @@ const UserModal: React.FC<UserModalProps> = ({
             label="Rol"
           >
             <MenuItem value="admin">Admin</MenuItem>
-            <MenuItem value="almacenista">Almacenista</MenuItem>
+            <MenuItem value="store">Almacenista</MenuItem>
           </Select>
         </FormControl>
         <TextField

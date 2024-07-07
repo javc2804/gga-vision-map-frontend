@@ -1,6 +1,6 @@
 import { useDispatch as _useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
-import { startCreatingUser } from "../../../store/auth/thunks";
+import { startCreatingUser, startEditUser } from "../../../store/auth/thunks";
 import * as yup from "yup";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -28,8 +28,7 @@ export const useCreateUser = () => {
   const useDispatch = () => _useDispatch<AppDispatch>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation(); // Usa useLocation para obtener la ruta actual
-
+  const location = useLocation();
   const createUser = async (userDetails: {
     email: string;
     password: string;
@@ -57,6 +56,28 @@ export const useCreateUser = () => {
       return { wasSuccessful: false, errors };
     }
   };
+  const editUser = async (userDetails: {
+    email: string;
+    password: string;
+    name: string;
+    lastName: string;
+    role: string;
+  }) => {
+    try {
+      await formSchema.validate(userDetails, { abortEarly: false });
+      const response = await dispatch(startEditUser(userDetails));
 
-  return createUser;
+      if (response.wasSuccessful) {
+        return { wasSuccessful: true, errors: {} };
+      }
+    } catch (error: any) {
+      const errors = error.inner.reduce(
+        (acc: any, curr: any) => ({ ...acc, [curr.path]: curr.message }),
+        {}
+      );
+      return { wasSuccessful: false, errors };
+    }
+  };
+
+  return { createUser, editUser };
 };

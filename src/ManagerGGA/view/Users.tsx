@@ -169,7 +169,11 @@ export const Users = () => {
                         <TableCell>{formatDate(user.createdAt)}</TableCell>
                         <TableCell>{`${user.name} ${user.lastName}`}</TableCell>
                         <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.role}</TableCell>
+                        <TableCell>
+                          {user.role === "store"
+                            ? "Almacenista"
+                            : "Administración"}
+                        </TableCell>
                         <TableCell>
                           <Tooltip title="Eliminar">
                             <DeleteIcon
