@@ -123,9 +123,10 @@ const DetailsCompromise = () => {
   const resp = useSelector((state: any) => state.compromises);
   const isLoading = useSelector((state: any) => state.compromises.loading);
   const { compromise } = resp;
+  console.log(compromise);
   const [modoPago, setModoPago] = useState(false);
   useEffect(() => {
-    if (compromise.response?.formaPago === "Contado") {
+    if (compromise.response?.formaPago === "contado") {
       setModoPago(false);
     } else {
       setModoPago(true);

@@ -33,6 +33,7 @@ const CostData = React.memo(
   }: CostDataProps) => {
     const { precioUnitarioBs, precioUnitarioUsd } = compromise || {};
     const { quantity } = invoice || {};
+    const { modoPago } = showFields;
 
     const montoTotalBs = useMemo(() => {
       // Ensure compromise, invoice, precioUnitarioBs, and quantity are defined
@@ -127,7 +128,7 @@ const CostData = React.memo(
     return (
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Grid container spacing={1} sx={{ p: 3 }}>
-          {!showFields && (
+          {!modoPago && (
             <>
               <Grid item xs={3}>
                 <TextField
