@@ -100,9 +100,9 @@ export const Providers = () => {
             setopenProveedorModal(false);
             // setproveedorCreationMessage("");
           }}
-          // user={selectedUser}
+          proveedor={selectedProveedor}
           onProveedorCreationFeedback={handleProveedorCreationFeedback} // Añadir esta línea
-          // initialValues={selectedUser}
+          initialValues={selectedProveedor}
         />
         <Button variant="contained" color="secondary" onClick={exportData}>
           Exportar Proveedores
@@ -152,7 +152,8 @@ export const Providers = () => {
                   <Box display="flex" justifyContent="start" alignItems="start">
                     <IconButton
                       onClick={() => {
-                        /* función para editar */
+                        setSelectedProveedor(provider);
+                        setopenProveedorModal(true);
                       }}
                       style={{ color: "#0079cc" }}
                     >

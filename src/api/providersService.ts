@@ -21,6 +21,17 @@ export const providersService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  editProviders: (data: any) => {
+    return API_URL.post("providers/edit", {
+      data,
+    })
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
   Providers: () => {
     return API_URL.get("providers/export", { responseType: "blob" }) // Solicitar el archivo como un Blob
       .then((response) => {

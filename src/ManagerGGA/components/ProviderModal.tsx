@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   TextField,
@@ -15,7 +15,7 @@ import { useProveedor } from "../hooks/useProveedor";
 interface Proveedor {
   name: string;
   user_rel: string;
-  status: string;
+  id: string;
 }
 
 interface ProviderModalProps {
@@ -30,25 +30,28 @@ const ProviderModal: React.FC<ProviderModalProps> = ({
   proveedor,
   onProveedorCreationFeedback,
 }) => {
-  const { createProveedor } = useProveedor();
+  console.log(proveedor);
+  const { createProveedor, editProvider } = useProveedor();
   const [name, setName] = useState(proveedor ? proveedor.name : "");
-  const [role, setStatus] = useState(proveedor ? proveedor.status : "");
+  const [id, setId] = useState(proveedor ? proveedor.id : "");
 
-  // useEffect(() => {
-  //   setName(user ? user.name : "");
-  //   setLastName(user ? user.lastName : "");
-  //   setEmail(user ? user.email : "");
-  //   setRole(user ? user.role : "");
-  //   setPassword("");
-  // }, [user]);
+  useEffect(() => {
+    setName(proveedor ? proveedor.name : "");
+    setId(proveedor ? proveedor.id : ""); // Asegurar que el ID también se actualice
+  }, [proveedor]);
 
   const handleSubmit = async () => {
     const proveedorData = {
+      id,
       name,
       user_rel: localStorage.getItem("email"),
     };
 
-    const response = await createProveedor(proveedorData);
+    const response = proveedor
+      ? await editProvider(proveedorData)
+      : await createProveedor(proveedorData);
+
+    console.log(response);
 
     if (response && response.wasSuccessful) {
       const message = proveedor
@@ -66,7 +69,6 @@ const ProviderModal: React.FC<ProviderModalProps> = ({
           type: "error",
         });
     }
-
     handleClose();
   };
 

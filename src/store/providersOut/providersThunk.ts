@@ -34,6 +34,25 @@ export const startCreatingProveedor =
       }
     }
   };
+export const startEditProveedor =
+  (data: any): any =>
+  async () => {
+    try {
+      const { ok } = await providersService.editProviders(data);
+      if (ok) {
+        return { wasSuccessful: true, errors: {} };
+      } else {
+        return { wasSuccessful: false };
+      }
+      // dispatch(getList(providers.response));
+    } catch (error: any) {
+      if (error instanceof Error) {
+        // dispatch(getPurchaseFailure(error.message));
+      } else {
+        // dispatch(getPurchaseFailure("An unknown error occurred."));
+      }
+    }
+  };
 export const startExportProviders = (): any => async () => {
   try {
     providersService.exportProviders();
