@@ -44,7 +44,7 @@ export const providersService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
-  Providers: () => {
+  exportProviders: () => {
     return API_URL.get("providers/export", { responseType: "blob" }) // Solicitar el archivo como un Blob
       .then((response) => {
         // Crear un URL para el Blob, lo que permite descargarlo o mostrarlo en el navegador
