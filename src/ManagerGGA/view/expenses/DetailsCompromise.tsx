@@ -43,6 +43,8 @@ const DetailsCompromise = () => {
       montoTotalBs: 0,
       precioUnitarioUsd: 0,
       montoTotalUsd: 0,
+      deudaUnitarioUsd: 0,
+      deudaTotalUsd: 0,
     }))
   );
 
@@ -72,6 +74,8 @@ const DetailsCompromise = () => {
       repuesto,
       formaPago,
       compromiso = null,
+      deudaUnitarioUsd,
+      precioUnitarioBs,
     } = compromise.response;
     const updatedInvoices = invoice.invoices.map((inv: any, index: any) => {
       const { fleet, ...restInv } = inv; // Extraer fleet y el resto de las propiedades de inv
@@ -85,6 +89,15 @@ const DetailsCompromise = () => {
         ocOs,
         observacion,
         proveedor,
+        precioUnitarioBs,
+        deudaTotalUsd:
+          formaPago === "contado"
+            ? 0
+            : Number(inv.quantity) * Number(deudaUnitarioUsd),
+        montoTotalBs:
+          formaPago !== "contado"
+            ? 0
+            : Number(inv.quantity) * Number(precioUnitarioBs),
         cantidad: inv.quantity,
         fechaOcOs,
         ut: fleet.ut,
@@ -123,7 +136,6 @@ const DetailsCompromise = () => {
   const resp = useSelector((state: any) => state.compromises);
   const isLoading = useSelector((state: any) => state.compromises.loading);
   const { compromise } = resp;
-  console.log(compromise);
   const [modoPago, setModoPago] = useState(false);
   useEffect(() => {
     if (compromise.response?.formaPago === "contado") {

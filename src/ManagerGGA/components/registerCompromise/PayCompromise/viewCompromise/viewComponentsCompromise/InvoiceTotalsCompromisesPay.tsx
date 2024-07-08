@@ -11,7 +11,7 @@ interface InvoiceTotalsProps {
   setTotalCantidad: (value: number) => void;
   setTotalFactBs: (value: number) => void;
   // totalCantidad: (value: number) => void;
-  handleSaveClick: () => void;
+  handleSaveClick: () => any;
 }
 export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
   totalFactUsd,
@@ -88,7 +88,9 @@ export const InvoiceTotalsCompromisesPay: React.FC<InvoiceTotalsProps> = ({
           variant="contained"
           color="primary"
           disabled={isSaveButtonDisabled}
-          onClick={handleSaveClick}
+          onClick={() => {
+            handleSaveClick();
+          }}
         >
           Guardar
         </Button>

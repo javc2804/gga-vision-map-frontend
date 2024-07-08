@@ -15,7 +15,6 @@ const ViewCompromise = ({ compromise }: any) => {
   if (!compromise) {
     return null;
   }
-  console.log(compromise);
   const hasUt = compromise.ut;
 
   return (

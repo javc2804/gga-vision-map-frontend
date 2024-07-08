@@ -7,11 +7,12 @@ const useMultipleFormCompromisePay = (
   initialValuesPayment: any,
   openSnackbar: any,
   facNDE: any,
-  // proveedor: any,
+  proveedor: any,
   ErrorOutline: any,
   CheckCircle: any,
   compromise: any
 ) => {
+  console.log(compromise);
   const dispatch = useDispatch();
 
   const [forms, setForms] = useState([
@@ -92,7 +93,7 @@ const useMultipleFormCompromisePay = (
     const userEmail = localStorage.getItem("email");
     const combinedForms = forms.map((form) => {
       form.payment.facNDE = facNDE;
-      form.payment.proveedor = compromise.response.proveedor;
+      form.payment.proveedor = proveedor;
       form.payment.repuesto = compromise.response.repuesto;
       form.payment.descripcionRepuesto =
         compromise.response.descripcionRepuesto;
@@ -103,7 +104,6 @@ const useMultipleFormCompromisePay = (
       form.payment.eje = compromise.response.eje;
       form.payment.subeje = compromise.response.subeje;
       form.payment.marcaModelo = compromise.response.marcaModelo;
-
       return {
         id: form.id,
         ...form.input,

@@ -111,8 +111,8 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
     formState.facNDE,
     formState.proveedor,
     ErrorOutline,
-    CheckCircle
-    // compromise
+    CheckCircle,
+    compromise
   );
   const purchase = useSelector(
     (state: StoreRootState) => state.purchase.purchase
@@ -183,7 +183,7 @@ export const PayCompromise: React.FC<RegisterPurchaseProps> = () => {
             setTotalFactUsd={setTotalFactUsd}
             setTotalFactBs={setTotalFactBs}
             setTotalCantidad={setTotalCantidad}
-            handleSaveClick={handleSaveClick}
+            handleSaveClick={() => handleSaveClick()}
             isSaveButtonDisabled={isSaveButtonDisabled}
           />
           {SnackbarComponent}
