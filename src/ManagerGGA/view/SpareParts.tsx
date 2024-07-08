@@ -20,6 +20,16 @@ import {
   startExportSpareParts,
   startGetSpareParts,
 } from "../../store/spareParts/sparePartsThunk";
+import SparePartsModal from "../components/SparePartsModal";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { useSnackbar } from "../../hooks/useSnackBar";
+
+interface SpareParts {
+  createdAt: string;
+  sparePart: string;
+  sparePart_variant: string;
+}
 
 const rows = [
   // Supongamos que estos son tus datos
@@ -36,6 +46,13 @@ const SpareParts = () => {
   }, []);
 
   const spareParts = useSelector((state: any) => state.spareParts.list);
+  const { openSnackbar, SnackbarComponent } = useSnackbar();
+
+  const [selectedSpareparts, setSelectedSpareparts] =
+    useState<SpareParts | null>(null);
+  const [openSparePartsModal, setopenSparePartsModal] = useState(false);
+  const [sparePartsCreationMessage, setSparePartsCreationMessage] =
+    useState("");
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -53,6 +70,19 @@ const SpareParts = () => {
     dispatch(startExportSpareParts());
   };
 
+  const handleSparePartsCreationFeedback = (data: any) => {
+    console.log(data);
+    // openSnackbar(
+    //   `${data.msg}`,
+    //   data.type,
+    //   data.type === "success" ? CheckCircleIcon : ErrorOutlineIcon
+    // );
+
+    // dispatch(startGetSpareParts());
+
+    // setSparePartsCreationMessage(data);
+  };
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <Typography
@@ -65,9 +95,25 @@ const SpareParts = () => {
         Gestión de repuestos
       </Typography>
       <Box sx={{ marginY: 2 }}>
-        <Button variant="contained" color="primary" sx={{ marginRight: 1 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            setSelectedSpareparts(null); // Restablecer el usuario seleccionado a null
+            setopenSparePartsModal(true);
+          }}
+        >
           Crear repuesto
         </Button>
+        <SparePartsModal
+          open={openSparePartsModal}
+          handleClose={() => {
+            setopenSparePartsModal(false);
+          }}
+          SpareParts={selectedSpareparts}
+          onSparePartsCreationFeedback={handleSparePartsCreationFeedback} // Añadir esta línea
+          initialValues={selectedSpareparts}
+        />
         <Button variant="contained" color="secondary" onClick={exportData}>
           Exportar repuesto
         </Button>
@@ -148,6 +194,7 @@ const SpareParts = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      {SnackbarComponent}
     </Paper>
   );
 };

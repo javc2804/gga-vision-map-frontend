@@ -10,6 +10,17 @@ export const SparePartsService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  createSpareParts: (data: any) => {
+    return API_URL.post("spare-parts", {
+      data,
+    })
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
   exportSpareParts: () => {
     return API_URL.get("spare-parts/export", { responseType: "blob" }) // Solicitar el archivo como un Blob
       .then((response) => {
