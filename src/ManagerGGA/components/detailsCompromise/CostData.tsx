@@ -11,6 +11,7 @@ interface CostDataProps {
   compromise?: {
     precioUnitarioBs?: number;
     precioUnitarioUsd?: number;
+    deudaUnitarioUsd?: number;
   };
   invoice?: {
     quantity?: number;
@@ -54,13 +55,18 @@ const CostData = React.memo(
         compromise &&
         invoice &&
         compromise.precioUnitarioUsd !== undefined &&
+        compromise.precioUnitarioUsd != null &&
         invoice.quantity !== undefined
       ) {
         return parseFloat(
           (compromise.precioUnitarioUsd * invoice.quantity).toFixed(2)
         );
       } else {
-        return 0;
+        if (compromise?.deudaUnitarioUsd && invoice?.quantity) {
+          return parseFloat(
+            (compromise.deudaUnitarioUsd * invoice.quantity).toFixed(2)
+          );
+        }
       }
     }, [compromise, invoice]);
 
@@ -146,7 +152,11 @@ const CostData = React.memo(
           <Grid item xs={3}>
             <TextField
               label="Precio Unitario $"
-              value={compromise ? compromise.precioUnitarioUsd : ""}
+              value={
+                compromise?.precioUnitarioBs != null
+                  ? compromise.precioUnitarioUsd
+                  : compromise?.deudaUnitarioUsd
+              }
               fullWidth
               style={{ marginBottom: "20px" }}
               disabled

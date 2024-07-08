@@ -85,14 +85,14 @@ const ViewDetailCompromise = ({ compromise, showFields }: any) => {
 
       <TextField
         label="Precio unitario $"
-        value={compromise.precioUnitarioUsd}
+        value={compromise.precioUnitarioUsd || compromise.deudaUnitarioUsd}
         InputProps={{ readOnly: true }}
         style={{ marginRight: "10px", marginBottom: "10px" }}
       />
 
       <TextField
         label="Monto total $"
-        value={compromise.montoTotalUsd}
+        value={compromise.montoTotalUsd || compromise.deudaTotalUsd}
         InputProps={{ readOnly: true }}
         InputLabelProps={{ shrink: true }}
         style={{ marginRight: "10px", marginBottom: "10px" }}
