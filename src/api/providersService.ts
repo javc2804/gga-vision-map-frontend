@@ -21,6 +21,18 @@ export const providersService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  deleteProvider: (data: any) => {
+    return API_URL.post("providers/delete", {
+      data,
+    })
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
+
   editProviders: (data: any) => {
     return API_URL.post("providers/edit", {
       data,

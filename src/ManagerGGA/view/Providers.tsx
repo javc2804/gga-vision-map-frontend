@@ -21,6 +21,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
+  startDeleteProveedor,
   startExportProviders,
   startGetProviders,
 } from "../../store/providersOut/providersThunk";
@@ -28,6 +29,7 @@ import ProviderModal from "../components/ProviderModal";
 import { useSnackbar } from "../../hooks/useSnackBar";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { DeleteDialog } from "../../components/DeleteDialog";
 
 interface Proveedor {
   createdAt: string;
@@ -43,12 +45,14 @@ export const Providers = () => {
   }, []);
   const providers = useSelector((state: any) => state.providers.list);
   const { openSnackbar, SnackbarComponent } = useSnackbar();
-
+  const [selectedProvider, setselectedProvider] = useState<string | null>(null);
   const [openProveedorModal, setopenProveedorModal] = useState(false);
   const [selectedProveedor, setSelectedProveedor] = useState<Proveedor | null>(
     null
   );
   const [proveedorCreationMessage, setproveedorCreationMessage] = useState("");
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [, setSnackbarOpen] = useState(false);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -78,6 +82,29 @@ export const Providers = () => {
     dispatch(startGetProviders());
 
     setproveedorCreationMessage(data);
+  };
+
+  const handleConfirm = async () => {
+    console.log(selectedProvider);
+    if (selectedProvider) {
+      const resp = await dispatch(startDeleteProveedor(selectedProvider));
+      if (resp.wasSuccessful) {
+        openSnackbar(
+          "Proveedor eliminado con éxito",
+          "success",
+          CheckCircleIcon
+        );
+        dispatch(startGetProviders());
+      } else {
+        openSnackbar(
+          "Ocurrio un error vuelva a intentarl",
+          "error",
+          ErrorOutlineIcon
+        );
+      }
+      setSnackbarOpen(true);
+    }
+    setOpenDeleteDialog(false);
   };
 
   return (
@@ -161,7 +188,8 @@ export const Providers = () => {
                     </IconButton>
                     <IconButton
                       onClick={() => {
-                        /* función para eliminar */
+                        setOpenDeleteDialog(true);
+                        setselectedProvider(provider.id); // Store user's email when delete icon is clicked
                       }}
                       style={{ color: "red" }}
                     >
@@ -182,6 +210,14 @@ export const Providers = () => {
         page={page}
         onPageChange={() => handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <DeleteDialog
+        open={openDeleteDialog}
+        handleClose={() => {
+          setOpenDeleteDialog(false);
+          setselectedProvider(null);
+        }}
+        handleConfirm={handleConfirm}
       />
       {SnackbarComponent}
     </Paper>

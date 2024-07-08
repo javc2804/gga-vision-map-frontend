@@ -51,8 +51,6 @@ const ProviderModal: React.FC<ProviderModalProps> = ({
       ? await editProvider(proveedorData)
       : await createProveedor(proveedorData);
 
-    console.log(response);
-
     if (response && response.wasSuccessful) {
       const message = proveedor
         ? "Proveedor editado con éxito"
