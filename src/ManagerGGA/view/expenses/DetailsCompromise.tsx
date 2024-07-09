@@ -90,6 +90,7 @@ const DetailsCompromise = () => {
         observacion,
         proveedor,
         precioUnitarioBs,
+        deudaUnitarioUsd: formaPago === "contado" ? 0 : deudaUnitarioUsd,
         deudaTotalUsd:
           formaPago === "contado"
             ? 0
@@ -117,6 +118,7 @@ const DetailsCompromise = () => {
       invoices: updatedInvoices,
       idTransaction: id,
     };
+
     dispatch(startSavePurchaseAsing(updatedInvoice))
       .then(() => {
         setSnackbarMessage("Guardado con éxito");
