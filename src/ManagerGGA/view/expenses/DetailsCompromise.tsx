@@ -31,7 +31,6 @@ const DetailsCompromise = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const invoice = location.state?.invoice || {};
-  console.log(invoice);
   useEffect(() => {
     dispatch(startGetPurchaseTrans(invoice.note_number));
   }, []);

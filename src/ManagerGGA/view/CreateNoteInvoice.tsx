@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { startCreateNDE } from "../../store/almacen/almacenThunk";
 import { useSnackbar } from "../../hooks/useSnackBar";
 import { CheckCircle, ErrorOutline } from "@mui/icons-material";
+import { startGetInventoryByDescription } from "../../store/inventory/inventoryThunk";
 
 interface Fleet {
   ut: string;
@@ -44,8 +45,15 @@ const CreateNoteInvoice = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { dataFacNDE } = location.state || {};
-  console.log(dataFacNDE);
   const [cantidadAsignada, setCantidadAsignada] = useState(0);
+
+  useEffect(() => {
+    dispatch(startGetInventoryByDescription(dataFacNDE.descripcionRepuesto));
+  }, []);
+
+  const res = useSelector((state: any) => state.inventory.totalDescription);
+
+  const totalDescription = res.response[0];
 
   const result = useSelector((state: any) => state.purchase.combined);
   // const [delivered_by, setdelivered_by] = useState("");
@@ -156,7 +164,7 @@ const CreateNoteInvoice = () => {
       0
     );
 
-    if (dataFacNDE.cantidad < totalCantidad) {
+    if (totalDescription.cantidad < totalCantidad) {
       openSnackbar(
         "Error, la cantidad total supera la cantidad disponible.",
         "error",
@@ -415,7 +423,7 @@ const CreateNoteInvoice = () => {
         <TextField
           label="Cantidad Disponible"
           variant="outlined"
-          value={dataFacNDE.cantidad}
+          value={totalDescription.cantidad}
           style={{ marginBottom: 10 }}
           InputLabelProps={{ shrink: true }}
           disabled

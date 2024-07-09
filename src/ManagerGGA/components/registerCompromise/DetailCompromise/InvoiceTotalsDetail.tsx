@@ -20,7 +20,6 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
   invoice,
   showFields,
 }) => {
-  console.log(invoice);
   let sumQuantity = invoice.invoices
     .filter((invoice: any) => !invoice.status) // Filtra para incluir solo invoices con status false
     .reduce((sum: any, cost: any) => sum + cost.quantity, 0);

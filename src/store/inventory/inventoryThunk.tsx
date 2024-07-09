@@ -1,6 +1,6 @@
 import { inventoryService } from "../../api/inventoryService";
 import { AppDispatch } from "../store";
-import { getInventory } from "./inventorySlice";
+import { getInventory, getInventoryByDescription } from "./inventorySlice";
 
 export const startGetInventory = (): any => async (dispatch: AppDispatch) => {
   try {
@@ -14,3 +14,20 @@ export const startGetInventory = (): any => async (dispatch: AppDispatch) => {
     }
   }
 };
+export const startGetInventoryByDescription =
+  (description: any): any =>
+  async (dispatch: AppDispatch) => {
+    console.log(description);
+    try {
+      const result = await inventoryService.getInventoryByDescription(
+        description
+      );
+      dispatch(getInventoryByDescription(result));
+    } catch (error: any) {
+      if (error instanceof Error) {
+        // dispatch(getPurchaseFailure(error.message));
+      } else {
+        // dispatch(getPurchaseFailure("An unknown error occurred."));
+      }
+    }
+  };
