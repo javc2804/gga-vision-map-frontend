@@ -7,19 +7,22 @@ interface InvoiceData {
   [key: string]: number | undefined; // Assuming all values are numbers or undefined
 }
 
+interface Invoice {
+  quantity?: number;
+  inventario?: string; // Adjust the type as necessary
+}
+
 interface CostDataProps {
   compromise?: {
     precioUnitarioBs?: number;
     precioUnitarioUsd?: number;
     deudaUnitarioUsd?: number;
   };
-  invoice?: {
-    quantity?: number;
-  };
-  onValuesChangeProp: (newValues: any) => void; // Adjust the type of newValues as needed
-  invoiceData: any; // Specify a more precise type if possible
+  invoice?: Invoice;
+  onValuesChangeProp: (newValues: any) => void;
+  invoiceData: any;
   showFields?: {
-    modoPago?: boolean; // Assuming modoPago is a boolean, adjust as necessary
+    modoPago?: boolean;
   };
 }
 
@@ -34,7 +37,7 @@ const CostData = React.memo(
     const { precioUnitarioBs, precioUnitarioUsd } = compromise || {};
     const { quantity } = invoice || {};
     const { modoPago } = showFields;
-
+    const inventario = invoice?.inventario;
     const montoTotalBs = useMemo(() => {
       // Ensure compromise, invoice, precioUnitarioBs, and quantity are defined
       if (
@@ -126,14 +129,40 @@ const CostData = React.memo(
     ]);
 
     return (
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Grid container spacing={1} sx={{ p: 3 }}>
-          {!modoPago && (
-            <>
+      <>
+        {inventario !== "anteriores" && (
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Grid container spacing={1} sx={{ p: 3 }}>
+              {!modoPago && (
+                <>
+                  <Grid item xs={3}>
+                    <TextField
+                      label="Precio Unitario Bs"
+                      value={compromise ? compromise.precioUnitarioBs : ""}
+                      fullWidth
+                      style={{ marginBottom: "20px" }}
+                      disabled
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      label="Monto Total Bs"
+                      value={montoTotalBs || ""}
+                      fullWidth
+                      style={{ marginBottom: "20px" }}
+                      disabled
+                    />
+                  </Grid>
+                </>
+              )}
               <Grid item xs={3}>
                 <TextField
-                  label="Precio Unitario Bs"
-                  value={compromise ? compromise.precioUnitarioBs : ""}
+                  label="Precio Unitario $"
+                  value={
+                    compromise?.precioUnitarioBs != null
+                      ? compromise.precioUnitarioUsd
+                      : compromise?.deudaUnitarioUsd
+                  }
                   fullWidth
                   style={{ marginBottom: "20px" }}
                   disabled
@@ -141,39 +170,17 @@ const CostData = React.memo(
               </Grid>
               <Grid item xs={3}>
                 <TextField
-                  label="Monto Total Bs"
-                  value={montoTotalBs || ""}
+                  label="Monto Total $"
+                  value={montoTotalUsd || ""}
                   fullWidth
                   style={{ marginBottom: "20px" }}
                   disabled
                 />
               </Grid>
-            </>
-          )}
-          <Grid item xs={3}>
-            <TextField
-              label="Precio Unitario $"
-              value={
-                compromise?.precioUnitarioBs != null
-                  ? compromise.precioUnitarioUsd
-                  : compromise?.deudaUnitarioUsd
-              }
-              fullWidth
-              style={{ marginBottom: "20px" }}
-              disabled
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              label="Monto Total $"
-              value={montoTotalUsd || ""}
-              fullWidth
-              style={{ marginBottom: "20px" }}
-              disabled
-            />
-          </Grid>
-        </Grid>
-      </LocalizationProvider>
+            </Grid>
+          </LocalizationProvider>
+        )}
+      </>
     );
   }
 );

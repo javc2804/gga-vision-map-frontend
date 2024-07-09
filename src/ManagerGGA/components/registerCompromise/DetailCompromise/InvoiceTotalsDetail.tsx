@@ -21,20 +21,20 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
   showFields,
 }) => {
   let sumQuantity = invoice.invoices
-    .filter((invoice: any) => !invoice.status) // Filtra para incluir solo invoices con status false
+    .filter(
+      (invoice: any) => !invoice.status && invoice.inventario !== "anteriores"
+    ) // Agrega condición para inventario
     .reduce((sum: any, cost: any) => sum + cost.quantity, 0);
   let totalQuantity =
     compromise && compromise.cantidad ? compromise.cantidad - sumQuantity : 0;
 
-  // let sumTotal = invoice.invoices.reduce(
-  //   (sum: any, cost: any) => sum + cost.montoTotalUsd,
-  //   0
-  // );
-
   const totalInvoiceAmount =
     compromise && invoice.invoices
       ? invoice.invoices
-          .filter((invoice: any) => !invoice.status) // Filtra para incluir solo invoices con status false
+          .filter(
+            (invoice: any) =>
+              !invoice.status && invoice.inventario !== "anteriores"
+          ) // Agrega condición para inventario
           .reduce((total: any, currentInvoice: any) => {
             const unitPrice =
               compromise.formaPago === "contado"

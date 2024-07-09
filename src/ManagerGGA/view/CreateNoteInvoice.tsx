@@ -53,8 +53,8 @@ const CreateNoteInvoice = () => {
 
   const res = useSelector((state: any) => state.inventory.totalDescription);
 
-  const totalDescription = res.response[0];
-
+  const totalDescription =
+    res.response && res.response.length >= 0 ? res.response[0] : null;
   const result = useSelector((state: any) => state.purchase.combined);
   // const [delivered_by, setdelivered_by] = useState("");
   // const [inventario, setinventario] = useState("");
@@ -423,7 +423,7 @@ const CreateNoteInvoice = () => {
         <TextField
           label="Cantidad Disponible"
           variant="outlined"
-          value={totalDescription.cantidad}
+          value={totalDescription?.cantidad || 0}
           style={{ marginBottom: 10 }}
           InputLabelProps={{ shrink: true }}
           disabled
