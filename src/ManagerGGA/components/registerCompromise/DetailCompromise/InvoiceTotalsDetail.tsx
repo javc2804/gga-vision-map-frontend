@@ -35,13 +35,18 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
   const totalInvoiceAmount =
     compromise && invoice.invoices
       ? invoice.invoices.reduce((total: any, currentInvoice: any) => {
-          return total + currentInvoice.quantity * compromise.precioUnitarioUsd;
+          const unitPrice =
+            compromise.formaPago === "contado"
+              ? compromise.precioUnitarioUsd
+              : compromise.deudaUnitarioUsd;
+          return total + currentInvoice.quantity * unitPrice;
         }, 0)
       : 0;
 
-  const montoTotalUsd = compromise
-    ? (compromise.montoTotalUsd - totalInvoiceAmount).toFixed(2)
-    : 0;
+  const montoTotalUsd =
+    compromise.formaPago === "contado"
+      ? (compromise.montoTotalUsd - totalInvoiceAmount).toFixed(2)
+      : (compromise.deudaTotalUsd - totalInvoiceAmount).toFixed(2);
 
   return (
     <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2, mr: 3.7 }}>
