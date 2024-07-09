@@ -20,10 +20,10 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
   invoice,
   showFields,
 }) => {
-  let sumQuantity = invoice.invoices.reduce(
-    (sum: any, cost: any) => sum + cost.quantity,
-    0
-  );
+  console.log(invoice);
+  let sumQuantity = invoice.invoices
+    .filter((invoice: any) => !invoice.status) // Filtra para incluir solo invoices con status false
+    .reduce((sum: any, cost: any) => sum + cost.quantity, 0);
   let totalQuantity =
     compromise && compromise.cantidad ? compromise.cantidad - sumQuantity : 0;
 
@@ -34,19 +34,22 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
 
   const totalInvoiceAmount =
     compromise && invoice.invoices
-      ? invoice.invoices.reduce((total: any, currentInvoice: any) => {
-          const unitPrice =
-            compromise.formaPago === "contado"
-              ? compromise.precioUnitarioUsd
-              : compromise.deudaUnitarioUsd;
-          return total + currentInvoice.quantity * unitPrice;
-        }, 0)
+      ? invoice.invoices
+          .filter((invoice: any) => !invoice.status) // Filtra para incluir solo invoices con status false
+          .reduce((total: any, currentInvoice: any) => {
+            const unitPrice =
+              compromise.formaPago === "contado"
+                ? compromise.precioUnitarioUsd
+                : compromise.deudaUnitarioUsd;
+            return total + currentInvoice.quantity * unitPrice;
+          }, 0)
       : 0;
 
   const montoTotalUsd =
-    compromise.formaPago === "contado"
+    compromise &&
+    (compromise.formaPago === "contado"
       ? (compromise.montoTotalUsd - totalInvoiceAmount).toFixed(2)
-      : (compromise.deudaTotalUsd - totalInvoiceAmount).toFixed(2);
+      : (compromise.deudaTotalUsd - totalInvoiceAmount).toFixed(2));
 
   return (
     <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2, mr: 3.7 }}>
@@ -66,7 +69,7 @@ export const InvoiceTotalsDetail: React.FC<InvoiceTotalsProps> = ({
         variant="contained"
         color="primary"
         onClick={handleSave}
-        disabled={invoice.status === true}
+        // disabled={invoice.status === true}
       >
         Guardar
       </Button>
