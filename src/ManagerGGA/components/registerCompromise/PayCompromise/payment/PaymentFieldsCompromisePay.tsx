@@ -131,18 +131,18 @@ export const PaymentFieldsCompromisePay: React.FC<PaymentFieldsProps> = ({
               field.onChange(event);
               trigger("tasaBcv");
               const newTasaBcv = Number(Number(event.target.value).toFixed(2)); // Convert to number after rounding
-              const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
-                Number(
-                  values.precioUnitarioUsd || compromise.precioUnitarioUsd
-                ),
-                newTasaBcv
-              );
+              // const newPrecioUnitarioBs = calculatePrecioUnitarioBs(
+              //   Number(
+              //     values.precioUnitarioUsd || compromise.precioUnitarioUsd
+              //   ),
+              //   newTasaBcv
+              // );
               setValues({
                 ...values,
                 tasaBcv: newTasaBcv,
-                precioUnitarioBs: newPrecioUnitarioBs,
+                // precioUnitarioBs: newPrecioUnitarioBs,
               });
-              setValue("precioUnitarioBs", newPrecioUnitarioBs);
+              // setValue("precioUnitarioBs", newPrecioUnitarioBs);
             }}
           />
         )}
