@@ -10,15 +10,18 @@ import {
 import { useSnackbar } from "../../hooks/useSnackBar";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { ErrorOutline, CheckCircle } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import { startCreateOutInternal } from "../../store/out-internal/outInternalThunk";
 
 type FormularioType = {
-  id: any;
   id_items: number;
-  observation: string; // Proveedor/Beneficiario
-  description: string; // Descripcion del gasto
-  ordenPago: string; // Nº de Orden de Pago
-  mesPago: string; // Relación mes de pago
+  proveedorBeneficiario: string; // Proveedor/Beneficiario
+  descripcionGasto: string; // Descripcion del gasto
+  ordenPagoNumero: string; // Nº de Orden de Pago
+  relacionMesPago: string; // Relación mes de pago
   montoPagadoBs: string; // Monto Pagado Bolivares
+  montoPagadoUsd: string; // Monto Pagado Bolivares
   montoCompromisoUsd: string; // Monto compromiso $
   montoCompromisoBs: string; // Monto compromiso Bolivares
   tipoGasto: string; // Tipo de gasto
@@ -29,20 +32,21 @@ type FormularioType = {
 };
 
 export const RegisterOutInternal = () => {
+  const dispatch = useDispatch();
   const { SnackbarComponent, openSnackbar } = useSnackbar();
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
 
   const [formularios, setFormularios] = useState<FormularioType[]>([
     {
-      id: "",
       id_items: 1,
-      observation: "",
-      description: "",
-      ordenPago: "",
-      mesPago: "",
+      proveedorBeneficiario: "",
+      descripcionGasto: "",
+      ordenPagoNumero: "",
+      relacionMesPago: "",
       montoPagadoBs: "",
       montoCompromisoUsd: "",
       montoCompromisoBs: "",
+      montoPagadoUsd: "",
       tipoGasto: "",
       fechaTasa: null,
       fechaPago: null,
@@ -56,15 +60,15 @@ export const RegisterOutInternal = () => {
     setFormularios(
       formularios.concat([
         {
-          id: "",
           id_items: nextId,
-          observation: "",
-          description: "",
-          ordenPago: "",
-          mesPago: "",
+          proveedorBeneficiario: "",
+          descripcionGasto: "",
+          ordenPagoNumero: "",
+          relacionMesPago: "",
           montoPagadoBs: "",
           montoCompromisoUsd: "",
           montoCompromisoBs: "",
+          montoPagadoUsd: "",
           tipoGasto: "",
           fechaTasa: null,
           fechaPago: null,
@@ -89,28 +93,31 @@ export const RegisterOutInternal = () => {
 
   const save = () => {
     console.log(formularios);
-    // const formulariosConUserRel = formularios.map((formulario) => ({
-    //   ...formulario,
-    //   user_rel: localStorage.getItem("email") || "",
-    // }));
+    const formulariosConUserRel = formularios.map((formulario) => ({
+      ...formulario,
+      user_rel: localStorage.getItem("email") || "",
+    }));
 
-    // const todosCamposRellenados = formulariosConUserRel.every((formulario) => {
-    //   return Object.values(formulario).every((valor) => {
-    //     const valorComoCadena = String(valor).trim();
-    //     return valorComoCadena !== "";
-    //   });
-    // });
+    console.log(formulariosConUserRel);
 
-    // if (todosCamposRellenados) {
-    //   setIsSaveButtonDisabled(true);
-    //   openSnackbar("Guardado exitosamente", "success", CheckCircle);
-    // } else {
-    //   openSnackbar(
-    //     `Error, Todos los campos deben estar rellenados.`,
-    //     "error",
-    //     ErrorOutline
-    //   );
-    // }
+    const todosCamposRellenados = formulariosConUserRel.every((formulario) => {
+      return Object.values(formulario).every((valor) => {
+        const valorComoCadena = String(valor).trim();
+        return valorComoCadena !== "";
+      });
+    });
+
+    if (todosCamposRellenados) {
+      setIsSaveButtonDisabled(true);
+      dispatch(startCreateOutInternal(formulariosConUserRel));
+      openSnackbar("Guardado exitosamente", "success", CheckCircle);
+    } else {
+      openSnackbar(
+        `Error, Todos los campos deben estar rellenados.`,
+        "error",
+        ErrorOutline
+      );
+    }
   };
 
   // const [value, setValue] = useState("");
@@ -140,8 +147,16 @@ export const RegisterOutInternal = () => {
   ];
 
   const formFields = [
-    { type: "TextField", label: "Proveedor/Beneficiario", name: "observation" },
-    { type: "TextField", label: "Descripcion del gasto", name: "description" },
+    {
+      type: "TextField",
+      label: "Proveedor/Beneficiario",
+      name: "proveedorBeneficiario",
+    },
+    {
+      type: "TextField",
+      label: "Descripcion del gasto",
+      name: "descripcionGasto",
+    },
     {
       type: "Select",
       label: "Tipo de gasto",
@@ -160,16 +175,26 @@ export const RegisterOutInternal = () => {
     {
       type: "TextField",
       label: "Nº de Orden de Pago",
-      name: "ordenPago",
+      name: "ordenPagoNumero",
       inputType: "number",
     },
     { type: "DatePicker", label: "Fecha del pago", name: "fechaPago" },
 
-    { type: "TextField", label: "Relación mes de pago", name: "mesPago" },
+    {
+      type: "TextField",
+      label: "Relación mes de pago",
+      name: "relacionMesPago",
+    },
     {
       type: "TextField",
       label: "Monto Pagado Bolivares",
       name: "montoPagadoBs",
+      inputType: "number",
+    },
+    {
+      type: "TextField",
+      label: "Monto Pagado $",
+      name: "montoPagadoUsd",
       inputType: "number",
     },
     {
@@ -261,6 +286,7 @@ export const RegisterOutInternal = () => {
                           );
                         }}
                         renderInput={(params) => <TextField {...params} />}
+                        format="dd/MM/yyyy"
                       />
                     )}
                   </Grid>
@@ -334,7 +360,7 @@ export const RegisterOutInternal = () => {
           variant="contained"
           color="primary"
           onClick={save}
-          disabled={isSaveButtonDisabled}
+          // disabled={isSaveButtonDisabled}
           style={{ marginRight: 10 }}
         >
           Guardar
