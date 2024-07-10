@@ -4,23 +4,28 @@ import {
   Button,
   Grid,
   Paper,
-  Box,
-  FormControl,
-  InputLabel,
   Select,
   MenuItem,
 } from "@mui/material";
 import { useSnackbar } from "../../hooks/useSnackBar";
-import { Controller } from "react-hook-form";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 type FormularioType = {
   id: any;
   id_items: number;
-  quantity: string;
-  observation: string;
-  selectedValue: any;
+  observation: string; // Proveedor/Beneficiario
+  description: string; // Descripcion del gasto
+  ordenPago: string; // Nº de Orden de Pago
+  mesPago: string; // Relación mes de pago
+  montoPagadoBs: string; // Monto Pagado Bolivares
+  montoCompromisoUsd: string; // Monto compromiso $
+  montoCompromisoBs: string; // Monto compromiso Bolivares
+  tipoGasto: string; // Tipo de gasto
+  fechaTasa: Date | null; // Fecha de la tasa
+  fechaPago: Date | null; // Fecha del pago
+  fechaFactura: Date | null; // Fecha factura
+  tasaBcv: string; // Tasa Bcv
 };
 
 export const RegisterOutInternal = () => {
@@ -31,24 +36,21 @@ export const RegisterOutInternal = () => {
     {
       id: "",
       id_items: 1,
-      quantity: "",
       observation: "",
-      selectedValue: "", // Nuevo campo para almacenar el valor seleccionado
+      description: "",
+      ordenPago: "",
+      mesPago: "",
+      montoPagadoBs: "",
+      montoCompromisoUsd: "",
+      montoCompromisoBs: "",
+      tipoGasto: "",
+      fechaTasa: null,
+      fechaPago: null,
+      fechaFactura: null,
+      tasaBcv: "",
     },
   ]);
   const [nextId, setNextId] = useState(2);
-
-  const handleCantidadChange = (event: any, index: any) => {
-    const updatedFormularios = [...formularios];
-    updatedFormularios[index].quantity = event.target.value;
-    setFormularios(updatedFormularios);
-  };
-
-  const handleProveedorChange = (event: any, index: any) => {
-    const updatedFormularios = [...formularios];
-    updatedFormularios[index].observation = event.target.value;
-    setFormularios(updatedFormularios);
-  };
 
   const agregarFormulario = () => {
     setFormularios(
@@ -56,9 +58,18 @@ export const RegisterOutInternal = () => {
         {
           id: "",
           id_items: nextId,
-          quantity: "",
           observation: "",
-          selectedValue: "",
+          description: "",
+          ordenPago: "",
+          mesPago: "",
+          montoPagadoBs: "",
+          montoCompromisoUsd: "",
+          montoCompromisoBs: "",
+          tipoGasto: "",
+          fechaTasa: null,
+          fechaPago: null,
+          fechaFactura: null,
+          tasaBcv: "",
         },
       ])
     );
@@ -101,11 +112,87 @@ export const RegisterOutInternal = () => {
     //   );
     // }
   };
-  const [value, setValue] = useState("");
 
-  const handleChange = (event: any, index: any) => {
+  // const [value, setValue] = useState("");
+
+  // const handleChange = (event: any, index: any) => {
+  //   const updatedFormularios = [...formularios];
+  //   updatedFormularios[index].selectedValue = event.target.value;
+  //   setFormularios(updatedFormularios);
+  // };
+
+  const formFieldOptions = [
+    { value: "", label: "Seleccione un tipo de gasto" }, // Opción por defecto
+
+    { value: "apoyoInstitucional", label: "Apoyo institucional" },
+    { value: "ayuda", label: "Ayuda" },
+    { value: "bolsaDeTrabajo", label: "Bolsa de trabajo" },
+    {
+      value: "bonoVarios",
+      label: "Bono (Coordinador, Vialidad, Recaudación y Apoyo Institucional)",
+    },
+    { value: "donacion", label: "Donación" },
+    { value: "honorarios", label: "Honorarios" },
+    { value: "viaticos", label: "Viáticos" },
+    { value: "funcionamiento", label: "Funcionamiento" },
+    { value: "nomina", label: "Nómina" },
+    { value: "bonoCoordinadores", label: "Bono coordinadores" },
+  ];
+
+  const formFields = [
+    { type: "TextField", label: "Proveedor/Beneficiario", name: "observation" },
+    { type: "TextField", label: "Descripcion del gasto", name: "description" },
+    {
+      type: "Select",
+      label: "Tipo de gasto",
+      name: "tipoGasto",
+      options: formFieldOptions,
+    },
+    { type: "DatePicker", label: "Fecha factura", name: "fechaFactura" },
+    {
+      type: "TextField",
+      label: "Tasa Bcv",
+      name: "tasaBcv",
+      inputType: "number",
+    },
+    { type: "DatePicker", label: "Fecha de la tasa", name: "fechaTasa" },
+
+    {
+      type: "TextField",
+      label: "Nº de Orden de Pago",
+      name: "ordenPago",
+      inputType: "number",
+    },
+    { type: "DatePicker", label: "Fecha del pago", name: "fechaPago" },
+
+    { type: "TextField", label: "Relación mes de pago", name: "mesPago" },
+    {
+      type: "TextField",
+      label: "Monto Pagado Bolivares",
+      name: "montoPagadoBs",
+      inputType: "number",
+    },
+    {
+      type: "TextField",
+      label: "Monto compromiso  $",
+      name: "montoCompromisoUsd",
+      inputType: "number",
+    },
+    {
+      type: "TextField",
+      label: "Monto compromiso Bolivares",
+      name: "montoCompromisoBs",
+      inputType: "number",
+    },
+  ];
+
+  const handleFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+    fieldName: keyof FormularioType
+  ) => {
     const updatedFormularios = [...formularios];
-    updatedFormularios[index].selectedValue = event.target.value;
+    updatedFormularios[index][fieldName] = event.target.value;
     setFormularios(updatedFormularios);
   };
 
@@ -129,152 +216,55 @@ export const RegisterOutInternal = () => {
           >
             <form>
               <Grid container spacing={2}>
-                <Grid item xs={3}>
-                  <TextField
-                    label="Proveedor/Beneficiario"
-                    onChange={(event) => handleProveedorChange(event, index)}
-                    value={formulario.observation}
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    label="Descripcion del gasto"
-                    onChange={(event) => ({})}
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      Tipo de gasto
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={formulario.selectedValue} // Cambiado para usar el valor del formulario actual
-                      label="Categoría"
-                      onChange={(event) => handleChange(event, index)} // Asegúrate de pasar el índice correcto
-                    >
-                      <MenuItem value="apoyoInstitucional">
-                        Apoyo institucional
-                      </MenuItem>
-                      <MenuItem value="ayuda">Ayuda</MenuItem>
-                      <MenuItem value="bolsaDeTrabajo">
-                        Bolsa de trabajo
-                      </MenuItem>
-                      <MenuItem value="bonoVarios">
-                        Bono (Coordinador, Vialidad, Recaudación y Apoyo
-                        Institucional)
-                      </MenuItem>
-                      <MenuItem value="donacion">Donación</MenuItem>
-                      <MenuItem value="honorarios">Honorarios</MenuItem>
-                      <MenuItem value="viaticos">Viáticos</MenuItem>
-                      <MenuItem value="funcionamiento">Funcionamiento</MenuItem>
-                      <MenuItem value="nomina">Nómina</MenuItem>
-                      <MenuItem value="bonoCoordinadores">
-                        Bono coordinadores
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={3}>
-                  <DatePicker
-                    label="Fecha de la tasa"
-                    onChange={(date) => {}}
-                    format="dd/MM/yyyy"
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    onChange={(event) => handleCantidadChange(event, index)}
-                    value={formulario.quantity}
-                    label="Tasa Bcv"
-                    type="number"
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <DatePicker
-                    label="Fecha Factura"
-                    onChange={(date) => {}}
-                    format="dd/MM/yyyy"
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    onChange={(event) => ({})}
-                    label="Nº de Orden de Pago"
-                    type="number"
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-
-                <Grid item xs={3}>
-                  <DatePicker
-                    label="Fecha de Pago"
-                    onChange={(date: any) => {}}
-                    format="dd/MM/yyyy"
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    onChange={(event) => ({})}
-                    label="Relación mes de pago"
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    onChange={(event) => ({})}
-                    label="Monto compromiso Bolivares"
-                    type="number"
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    onChange={(event) => ({})}
-                    label="Monto Pagado Bolivares "
-                    type="number"
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    onChange={(event) => ({})}
-                    label="Monto compromiso  $$ "
-                    type="number"
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    onChange={(event) => ({})}
-                    label="Monto Pagado $$  "
-                    type="number"
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    marginTop: 20,
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
-                ></Grid>
+                {formFields.map((field) => (
+                  <Grid item xs={3} key={field.label}>
+                    {field.type === "TextField" && (
+                      <TextField
+                        label={field.label}
+                        type={field.inputType || "text"}
+                        value={formulario[field.name]}
+                        onChange={(event) =>
+                          handleFieldChange(event, index, field.name)
+                        }
+                        variant="outlined"
+                        fullWidth
+                      />
+                    )}
+                    {field.type === "Select" && (
+                      <Select
+                        value={formulario[field.name]}
+                        onChange={(event) =>
+                          handleFieldChange(event, index, field.name)
+                        }
+                        displayEmpty
+                        fullWidth
+                      >
+                        <MenuItem value="" disabled>
+                          Seleccione un tipo de pago
+                        </MenuItem>
+                        {field.options?.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                    {field.type === "DatePicker" && (
+                      <DatePicker
+                        label={field.label}
+                        value={formulario[field.name]}
+                        onChange={(newValue) => {
+                          handleFieldChange(
+                            { target: { value: newValue } },
+                            index,
+                            field.name
+                          );
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    )}
+                  </Grid>
+                ))}
               </Grid>
             </form>
             {index === formularios.length - 1 && (
