@@ -11,6 +11,9 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useSnackbar } from "../../hooks/useSnackBar";
+import { Controller } from "react-hook-form";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 type FormularioType = {
   id: any;
@@ -41,7 +44,7 @@ export const RegisterOutInternal = () => {
     setFormularios(updatedFormularios);
   };
 
-  const handleObservacionChange = (event: any, index: any) => {
+  const handleProveedorChange = (event: any, index: any) => {
     const updatedFormularios = [...formularios];
     updatedFormularios[index].observation = event.target.value;
     setFormularios(updatedFormularios);
@@ -110,7 +113,10 @@ export const RegisterOutInternal = () => {
     <div style={{ overflowY: "auto", maxHeight: "85vh" }}>
       <h2>Registrar gasto de funcionamiento</h2>
       {formularios.map((formulario, index) => (
-        <Box key={formulario.id || index}>
+        <LocalizationProvider
+          dateAdapter={AdapterDateFns}
+          key={formulario.id || index}
+        >
           <Paper
             key={formulario.id}
             elevation={3}
@@ -126,7 +132,7 @@ export const RegisterOutInternal = () => {
                 <Grid item xs={3}>
                   <TextField
                     label="Proveedor/Beneficiario"
-                    onChange={(event) => handleObservacionChange(event, index)}
+                    onChange={(event) => handleProveedorChange(event, index)}
                     value={formulario.observation}
                     variant="outlined"
                     fullWidth
@@ -135,8 +141,7 @@ export const RegisterOutInternal = () => {
                 <Grid item xs={3}>
                   <TextField
                     label="Descripcion del gasto"
-                    onChange={(event) => handleObservacionChange(event, index)}
-                    value={formulario.observation}
+                    onChange={(event) => ({})}
                     variant="outlined"
                     fullWidth
                   />
@@ -175,15 +180,11 @@ export const RegisterOutInternal = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-
                 <Grid item xs={3}>
-                  <TextField
-                    onChange={(event) => handleCantidadChange(event, index)}
-                    value={formulario.quantity}
-                    label="Fecha factura"
-                    type="number"
-                    variant="outlined"
-                    fullWidth
+                  <DatePicker
+                    label="Fecha de la tasa"
+                    onChange={(date) => {}}
+                    format="dd/MM/yyyy"
                   />
                 </Grid>
                 <Grid item xs={3}>
@@ -197,19 +198,15 @@ export const RegisterOutInternal = () => {
                   />
                 </Grid>
                 <Grid item xs={3}>
-                  <TextField
-                    onChange={(event) => handleCantidadChange(event, index)}
-                    value={formulario.quantity}
-                    label="Fecha de la tasa"
-                    type="number"
-                    variant="outlined"
-                    fullWidth
+                  <DatePicker
+                    label="Fecha Factura"
+                    onChange={(date) => {}}
+                    format="dd/MM/yyyy"
                   />
                 </Grid>
                 <Grid item xs={3}>
                   <TextField
-                    onChange={(event) => handleCantidadChange(event, index)}
-                    value={formulario.quantity}
+                    onChange={(event) => ({})}
                     label="Nº de Orden de Pago"
                     type="number"
                     variant="outlined"
@@ -218,29 +215,23 @@ export const RegisterOutInternal = () => {
                 </Grid>
 
                 <Grid item xs={3}>
-                  <TextField
-                    onChange={(event) => handleCantidadChange(event, index)}
-                    value={formulario.quantity}
+                  <DatePicker
                     label="Fecha de Pago"
-                    type="number"
-                    variant="outlined"
-                    fullWidth
+                    onChange={(date: any) => {}}
+                    format="dd/MM/yyyy"
                   />
                 </Grid>
                 <Grid item xs={3}>
                   <TextField
-                    onChange={(event) => handleCantidadChange(event, index)}
-                    value={formulario.quantity}
+                    onChange={(event) => ({})}
                     label="Relación mes de pago"
-                    type="number"
                     variant="outlined"
                     fullWidth
                   />
                 </Grid>
                 <Grid item xs={3}>
                   <TextField
-                    onChange={(event) => handleCantidadChange(event, index)}
-                    value={formulario.quantity}
+                    onChange={(event) => ({})}
                     label="Monto compromiso Bolivares"
                     type="number"
                     variant="outlined"
@@ -249,8 +240,7 @@ export const RegisterOutInternal = () => {
                 </Grid>
                 <Grid item xs={3}>
                   <TextField
-                    onChange={(event) => handleCantidadChange(event, index)}
-                    value={formulario.quantity}
+                    onChange={(event) => ({})}
                     label="Monto Pagado Bolivares "
                     type="number"
                     variant="outlined"
@@ -259,8 +249,7 @@ export const RegisterOutInternal = () => {
                 </Grid>
                 <Grid item xs={3}>
                   <TextField
-                    onChange={(event) => handleCantidadChange(event, index)}
-                    value={formulario.quantity}
+                    onChange={(event) => ({})}
                     label="Monto compromiso  $$ "
                     type="number"
                     variant="outlined"
@@ -269,8 +258,7 @@ export const RegisterOutInternal = () => {
                 </Grid>
                 <Grid item xs={3}>
                   <TextField
-                    onChange={(event) => handleCantidadChange(event, index)}
-                    value={formulario.quantity}
+                    onChange={(event) => ({})}
                     label="Monto Pagado $$  "
                     type="number"
                     variant="outlined"
@@ -330,7 +318,7 @@ export const RegisterOutInternal = () => {
               </Grid>
             )}
           </Paper>
-        </Box>
+        </LocalizationProvider>
       ))}
       <div
         style={{
