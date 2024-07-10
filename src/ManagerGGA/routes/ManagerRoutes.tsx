@@ -10,6 +10,8 @@ import CreateNoteInvoicePage from "../pages/CreateNoteInvoicePage";
 import ListNoteInvoicesPage from "../pages/ListNoteInvoicesPage";
 import InventoryPage from "../pages/InventoryPage";
 import PrivateRoute from "./PrivateRoute";
+import ListOutInternalPage from "../pages/ListOutInternalPage";
+import RegisterOutInternalPage from "../pages/RegisterOutInternalPage";
 
 const ManagerRoutes = () => {
   return (
@@ -25,6 +27,8 @@ const ManagerRoutes = () => {
       <Route path="/note-invoices" element={<CreateNoteInvoicePage />} />
       <Route path="/note-invoices-list" element={<ListNoteInvoicesPage />} />
       <Route path="/inventory" element={<InventoryPage />} />
+      <Route path="/register-internal" element={<RegisterOutInternalPage />} />
+      <Route path="/list-internal" element={<ListOutInternalPage />} />
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
   );
