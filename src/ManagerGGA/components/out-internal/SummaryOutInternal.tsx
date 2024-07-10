@@ -2,7 +2,19 @@ import { useSelector } from "react-redux";
 
 export const SummaryOutInternal = () => {
   const sumatorias = useSelector(
-    (state: any) => state.outInternal.list.sumatorias
+    (state: any) =>
+      state.outInternal?.list?.sumatorias || {
+        apoyoInstitucional: {},
+        ayuda: {},
+        bolsaDeTrabajo: {},
+        bonoCoordinadores: {},
+        bonoVarios: {},
+        donacion: {},
+        funcionamiento: {},
+        honorarios: {},
+        nomina: {},
+        viaticos: {},
+      }
   );
 
   const {

@@ -24,8 +24,7 @@ export const TableOutInternal = () => {
   useEffect(() => {
     dispatch(startGetOutInternal());
   }, []);
-  const rows = useSelector((state: any) => state.outInternal.list.row);
-
+  const rows = useSelector((state: any) => state.outInternal.list?.row || []);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
