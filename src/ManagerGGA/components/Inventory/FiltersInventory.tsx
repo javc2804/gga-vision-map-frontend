@@ -3,10 +3,10 @@ import { TextField, Button } from "@mui/material";
 export const FiltersInventory = () => {
   return (
     <div>
-      {[...Array(5)].map((_, index) => (
+      {[...Array(1)].map((_, index) => (
         <TextField
           key={index}
-          label={`Campo ${index + 1}`}
+          label={`Buscar`}
           variant="outlined"
           margin="normal"
         />
@@ -15,10 +15,10 @@ export const FiltersInventory = () => {
         <Button variant="contained" color="primary" style={{ margin: "8px" }}>
           Buscar
         </Button>
-        <Button variant="contained" color="secondary" style={{ margin: "8px" }}>
+        {/* <Button variant="contained" color="secondary" style={{ margin: "8px" }}>
           Limpiar filtros
-        </Button>
-        <Button variant="contained" color="primary" style={{ margin: "8px" }}>
+        </Button> */}
+        <Button variant="contained" color="secondary" style={{ margin: "8px" }}>
           Crear
         </Button>
         <Button variant="contained" color="warning" style={{ margin: "8px" }}>
