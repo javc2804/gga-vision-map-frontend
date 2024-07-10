@@ -3,7 +3,7 @@ import { TextField, Button } from "@mui/material";
 export const FiltersOutInternal = () => {
   return (
     <div>
-      {[...Array(10)].map((_, index) => (
+      {[...Array(4)].map((_, index) => (
         <TextField
           key={index}
           label={`Campo ${index + 1}`}
