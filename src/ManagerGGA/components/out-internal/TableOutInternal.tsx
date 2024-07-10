@@ -24,7 +24,7 @@ export const TableOutInternal = () => {
   useEffect(() => {
     dispatch(startGetOutInternal());
   }, []);
-  const rows = useSelector((state: any) => state.outInternal.list);
+  const rows = useSelector((state: any) => state.outInternal.list.row);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -39,6 +39,24 @@ export const TableOutInternal = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const formFieldOptions = [
+    { value: "", label: "Seleccione un tipo de gasto" }, // Opción por defecto
+
+    { value: "apoyoInstitucional", label: "Apoyo institucional" },
+    { value: "ayuda", label: "Ayuda" },
+    { value: "bolsaDeTrabajo", label: "Bolsa de trabajo" },
+    {
+      value: "bonoVarios",
+      label: "Bono (Coordinador, Vialidad, Recaudación y Apoyo Institucional)",
+    },
+    { value: "donacion", label: "Donación" },
+    { value: "honorarios", label: "Honorarios" },
+    { value: "viaticos", label: "Viáticos" },
+    { value: "funcionamiento", label: "Funcionamiento" },
+    { value: "nomina", label: "Nómina" },
+    { value: "bonoCoordinadores", label: "Bono coordinadores" },
+  ];
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -84,11 +102,14 @@ export const TableOutInternal = () => {
                     </TableCell>
                     <TableCell>{row.proveedorBeneficiario}</TableCell>
                     <TableCell>{row.descripcionGasto}</TableCell>
-                    <TableCell>{row.tipoGasto}</TableCell>
+                    <TableCell>
+                      {formFieldOptions.find(
+                        (option) => option.value === row.tipoGasto
+                      )?.label || "Tipo de gasto no encontrado"}
+                    </TableCell>{" "}
                     <TableCell>{row.tasaBcv}</TableCell>
                     <TableCell>{row.montoCompromisoUsd}</TableCell>
                     <TableCell>{row.montoPagadoUsd}</TableCell>
-
                     <TableCell>
                       <DeleteIcon sx={{ color: "red" }} />
                       <EditIcon sx={{ marginLeft: 1, color: "orange" }} />
