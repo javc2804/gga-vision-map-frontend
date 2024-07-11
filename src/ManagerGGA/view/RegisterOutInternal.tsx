@@ -344,14 +344,14 @@ export const RegisterOutInternal = () => {
         }}
       >
         <TextField
-          label="Cantidad Disponible"
+          label="Monto"
           variant="outlined"
           style={{ marginBottom: 10 }}
           InputLabelProps={{ shrink: true }}
           disabled
         />
         <TextField
-          label="Cantidad asignada"
+          label="otro monto"
           disabled
           variant="outlined"
           style={{ marginBottom: 10 }}
