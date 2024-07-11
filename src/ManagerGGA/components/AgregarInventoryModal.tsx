@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useProveedor } from "../hooks/useProveedor";
+import { useInventory } from "../hooks/useInventory";
 
 // import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 // import { useCreateUser } from "../../auth/pages/hooks/useCreateUser";
@@ -31,7 +32,7 @@ const AgregarInventoryModal: React.FC<AgregarInventoryModalProps> = ({
   proveedor,
   onProveedorCreationFeedback,
 }) => {
-  const { createProveedor } = useProveedor();
+  const { addInventory } = useInventory();
   const [name, setName] = useState(proveedor ? proveedor.name : "");
   const [id, setId] = useState(proveedor ? proveedor.id : "");
 
@@ -47,26 +48,23 @@ const AgregarInventoryModal: React.FC<AgregarInventoryModalProps> = ({
       user_rel: localStorage.getItem("email"),
     };
 
-    console.log(proveedorData);
-    // const response =
-    //   : await createProveedor(proveedorData);
-    // if (response && response.wasSuccessful) {
-    //   const message = proveedor
-    //     ? "Proveedor editado con éxito"
-    //     : "Proveedor creado con éxito";
-    //   onProveedorCreationFeedback &&
-    //     onProveedorCreationFeedback({
-    //       msg: message,
-    //       type: "success",
-    //     });
-    // } else {
-    //   onProveedorCreationFeedback &&
-    //     onProveedorCreationFeedback({
-    //       msg: "Ocurrió un error, inténtelo de nuevo",
-    //       type: "error",
-    //     });
-    // }
-    // handleClose();
+    const response = await addInventory(proveedorData);
+    console.log(response);
+    if (response && response.wasSuccessful) {
+      const message = "Agregado con éxito";
+      onProveedorCreationFeedback &&
+        onProveedorCreationFeedback({
+          msg: message,
+          type: "success",
+        });
+    } else {
+      onProveedorCreationFeedback &&
+        onProveedorCreationFeedback({
+          msg: "Ocurrió un error, inténtelo de nuevo",
+          type: "error",
+        });
+    }
+    handleClose();
   };
 
   return (

@@ -31,3 +31,18 @@ export const startGetInventoryByDescription =
       }
     }
   };
+export const startAddInventory =
+  (description: any): any =>
+  async (dispatch: AppDispatch) => {
+    console.log(description);
+    try {
+      const result = await inventoryService.addInventory(description);
+      dispatch(getInventoryByDescription(result));
+    } catch (error: any) {
+      if (error instanceof Error) {
+        // dispatch(getPurchaseFailure(error.message));
+      } else {
+        // dispatch(getPurchaseFailure("An unknown error occurred."));
+      }
+    }
+  };

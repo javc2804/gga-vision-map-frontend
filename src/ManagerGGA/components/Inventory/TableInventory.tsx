@@ -15,17 +15,21 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { startGetInventory } from "../../../store/inventory/inventoryThunk";
 import AgregarInventoryModal from "../AgregarInventoryModal";
+import { useSnackbar } from "../../../hooks/useSnackBar";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 const TableInventory = () => {
   const [page, setPage] = useState(0);
+  const { openSnackbar, SnackbarComponent } = useSnackbar();
+  const [proveedorCreationMessage, setproveedorCreationMessage] = useState("");
+
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const dispatch = useDispatch();
   const result = useSelector((state: any) => state.inventory.list);
   const rows = result.response || [];
   const [openAgregarModal, setOpenAgregarModal] = useState(false);
-  const [selectedProveedor, setSelectedProveedor] = useState<Proveedor | null>(
-    null
-  );
+  const [selectedProveedor, setSelectedProveedor] = useState(null);
   const handleChangePage = (newPage: any) => {
     setPage(newPage);
   };
@@ -43,15 +47,15 @@ const TableInventory = () => {
 
   const handleProveedorCreationFeedback = (data: any) => {
     console.log(data);
-    // openSnackbar(
-    //   `${data.msg}`,
-    //   data.type,
-    //   data.type === "success" ? CheckCircleIcon : ErrorOutlineIcon
-    // );
+    openSnackbar(
+      `${data.msg}`,
+      data.type,
+      data.type === "success" ? CheckCircleIcon : ErrorOutlineIcon
+    );
 
-    // dispatch(startGetProviders());
+    dispatch(startGetInventory());
 
-    // setproveedorCreationMessage(data);
+    setproveedorCreationMessage(data);
   };
 
   useEffect(() => {
