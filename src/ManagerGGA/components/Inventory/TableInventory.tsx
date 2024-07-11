@@ -8,11 +8,13 @@ import {
   TableRow,
   Paper,
   TablePagination,
+  Button,
 } from "@mui/material";
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
 import { startGetInventory } from "../../../store/inventory/inventoryThunk";
+import AgregarInventoryModal from "../AgregarInventoryModal";
 
 const TableInventory = () => {
   const [page, setPage] = useState(0);
@@ -20,6 +22,10 @@ const TableInventory = () => {
   const dispatch = useDispatch();
   const result = useSelector((state: any) => state.inventory.list);
   const rows = result.response || [];
+  const [openAgregarModal, setOpenAgregarModal] = useState(false);
+  const [selectedProveedor, setSelectedProveedor] = useState<Proveedor | null>(
+    null
+  );
   const handleChangePage = (newPage: any) => {
     setPage(newPage);
   };
@@ -27,6 +33,25 @@ const TableInventory = () => {
   const handleChangeRowsPerPage = (event: any) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleButtonClick = (row: any) => {
+    console.log(row);
+    setSelectedProveedor(row);
+    setOpenAgregarModal(true);
+  };
+
+  const handleProveedorCreationFeedback = (data: any) => {
+    console.log(data);
+    // openSnackbar(
+    //   `${data.msg}`,
+    //   data.type,
+    //   data.type === "success" ? CheckCircleIcon : ErrorOutlineIcon
+    // );
+
+    // dispatch(startGetProviders());
+
+    // setproveedorCreationMessage(data);
   };
 
   useEffect(() => {
@@ -46,7 +71,7 @@ const TableInventory = () => {
               <TableCell style={{ fontWeight: "bold" }}>
                 Stock Disponible
               </TableCell>
-              {/* <TableCell style={{ fontWeight: "bold" }}>Descripcion</TableCell> */}
+              <TableCell style={{ fontWeight: "bold" }}>Agregar</TableCell>
               {/* <TableCell style={{ fontWeight: "bold" }}>Acciones</TableCell> */}
             </TableRow>
           </TableHead>
@@ -60,7 +85,15 @@ const TableInventory = () => {
                   <TableCell>{row.salida}</TableCell>
                   {/* <TableCell>{row.factura}</TableCell> */}
                   <TableCell>{row.cantidad}</TableCell>
-                  {/* <TableCell>{row.descripcion}</TableCell> */}
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleButtonClick(row)}
+                    >
+                      +
+                    </Button>
+                  </TableCell>
                   {/* <TableCell>
                     <DeleteIcon sx={{ color: "red" }} />
                     <EditIcon sx={{ marginLeft: 1, color: "orange" }} />
@@ -68,6 +101,16 @@ const TableInventory = () => {
                 </TableRow>
               ))}
           </TableBody>
+          <AgregarInventoryModal
+            open={openAgregarModal}
+            handleClose={() => {
+              setOpenAgregarModal(false);
+              // setproveedorCreationMessage("");
+            }}
+            proveedor={selectedProveedor}
+            onProveedorCreationFeedback={handleProveedorCreationFeedback} // Añadir esta línea
+            initialValues={selectedProveedor}
+          />
         </Table>
       </TableContainer>
       <TablePagination

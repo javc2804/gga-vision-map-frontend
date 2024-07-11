@@ -18,9 +18,9 @@ export const FiltersInventory = () => {
         {/* <Button variant="contained" color="secondary" style={{ margin: "8px" }}>
           Limpiar filtros
         </Button> */}
-        <Button variant="contained" color="secondary" style={{ margin: "8px" }}>
+        {/* <Button variant="contained" color="secondary" style={{ margin: "8px" }}>
           Crear
-        </Button>
+        </Button> */}
         <Button variant="contained" color="warning" style={{ margin: "8px" }}>
           Exportar
         </Button>
