@@ -4,6 +4,7 @@ export const inventorySlice = createSlice({
   initialState: {
     list: {},
     totalDescription: 0,
+    history: {},
   },
   reducers: {
     getInventory: (state, { payload }) => {
@@ -12,8 +13,11 @@ export const inventorySlice = createSlice({
     getInventoryByDescription: (state, { payload }) => {
       state.totalDescription = payload;
     },
+    getInventoryHistory: (state, { payload }) => {
+      state.history = payload;
+    },
   },
 });
 
-export const { getInventory, getInventoryByDescription } =
+export const { getInventory, getInventoryByDescription, getInventoryHistory } =
   inventorySlice.actions;

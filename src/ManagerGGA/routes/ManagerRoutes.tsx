@@ -12,6 +12,7 @@ import InventoryPage from "../pages/InventoryPage";
 import PrivateRoute from "./PrivateRoute";
 import ListOutInternalPage from "../pages/ListOutInternalPage";
 import RegisterOutInternalPage from "../pages/RegisterOutInternalPage";
+import HistoryInventoryPage from "../pages/HistoryInventoryPage";
 
 const ManagerRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const ManagerRoutes = () => {
       <Route path="/inventory" element={<InventoryPage />} />
       <Route path="/register-internal" element={<RegisterOutInternalPage />} />
       <Route path="/list-internal" element={<ListOutInternalPage />} />
+      <Route path="/inventory-history" element={<HistoryInventoryPage />} />
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
   );

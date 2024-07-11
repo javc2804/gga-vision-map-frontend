@@ -28,4 +28,13 @@ export const inventoryService = {
         return { ok: false, response: error.response.data.msg };
       });
   },
+  history: () => {
+    return API_URL.get("inventory/history")
+      .then((response) => {
+        return { ok: true, response: response.data };
+      })
+      .catch((error) => {
+        return { ok: false, response: error.response.data.msg };
+      });
+  },
 };
