@@ -112,92 +112,60 @@ const GraphsOut = () => {
   ];
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        overflowY: "auto",
-        height: "85vh",
-      }}
-    >
-      <button onClick={() => window.print()}>Imprimir gráficos</button>
+    <>
+      <style>
+        {`
+          @media print {
+            body * {
+              visibility: hidden;
+            }
+            .print-only, .print-only * {
+              visibility: visible;
+            }
+            .print-only {
+              position: absolute;
+              left: 0;
+              top: 0;
+            }
+          }
+        `}
+      </style>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          overflowY: "auto",
+          height: "85vh",
+        }}
+      >
+        <button onClick={() => window.print()}>Imprimir gráficos</button>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center", // Add this line
-        }}
-      >
-        <div style={{ flex: "0 40%" }}>
-          <FiltersGraph
-            headers={headers}
-            filters={filters}
-            dateRange={dateRange}
-            setDateRange={setDateRange}
-            clearFilters={clearFilters}
-            updateFilter={updateFilter}
-            onSearch={onSearch}
-          />
-        </div>
-        <div style={{ flex: "0 60%" }}>
-          <h2 style={{ textAlign: "center", fontSize: "32px" }}>General</h2>
-          <ComposedChart
-            width={800} // Adjust this value as needed
-            height={500}
-            data={generalData}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" tick={{ fontSize: "24px" }} />
-            <YAxis tick={{ fontSize: "24px" }} />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend />
-            <Bar dataKey="gastos">
-              {generalData &&
-                generalData.map((_, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={colors[index % colors.length]}
-                  />
-                ))}
-              <LabelList dataKey="gastos" position="top" />
-              <LabelList dataKey="cantidad" content={<CustomizedLabel />} />
-            </Bar>
-            <Label
-              value="Mi Gráfico General"
-              offset={0}
-              position="top"
-              style={{ fontSize: "24px" }}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center", // Add this line
+          }}
+        >
+          <div style={{ flex: "0 40%" }}>
+            <FiltersGraph
+              headers={headers}
+              filters={filters}
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+              clearFilters={clearFilters}
+              updateFilter={updateFilter}
+              onSearch={onSearch}
             />
-          </ComposedChart>
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-        }}
-      >
-        {transformedData.map((data, i) => (
-          <div style={{ flex: "0 1 calc(40% - 10px)", margin: "5px" }} key={i}>
-            <h2 style={{ textAlign: "center", fontSize: "32px" }}>
-              {data && data[0].title}
-            </h2>
+          </div>
+          <div style={{ flex: "0 60%" }}>
+            <h2 style={{ textAlign: "center", fontSize: "32px" }}>General</h2>
             <ComposedChart
-              key={i}
               width={800} // Adjust this value as needed
-              height={800} // Adjust this value as needed
-              data={data || []}
+              height={500}
+              data={generalData}
               margin={{
                 top: 5,
                 right: 30,
@@ -222,16 +190,71 @@ const GraphsOut = () => {
                 <LabelList dataKey="cantidad" content={<CustomizedLabel />} />
               </Bar>
               <Label
-                value={`Mi Gráfico ${i + 2}`}
+                value="Mi Gráfico General"
                 offset={0}
                 position="top"
                 style={{ fontSize: "24px" }}
               />
             </ComposedChart>
           </div>
-        ))}
+        </div>
+        <div
+          className="print-only"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          {transformedData.map((data, i) => (
+            <div
+              style={{ flex: "0 1 calc(40% - 10px)", margin: "5px" }}
+              key={i}
+            >
+              <h2 style={{ textAlign: "center", fontSize: "32px" }}>
+                {data && data[0].title}
+              </h2>
+              <ComposedChart
+                key={i}
+                width={800} // Adjust this value as needed
+                height={800} // Adjust this value as needed
+                data={data || []}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" tick={{ fontSize: "24px" }} />
+                <YAxis tick={{ fontSize: "24px" }} />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                <Bar dataKey="gastos">
+                  {generalData &&
+                    generalData.map((_, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={colors[index % colors.length]}
+                      />
+                    ))}
+                  <LabelList dataKey="gastos" position="top" />
+                  <LabelList dataKey="cantidad" content={<CustomizedLabel />} />
+                </Bar>
+                <Label
+                  value={`Mi Gráfico ${i + 2}`}
+                  offset={0}
+                  position="top"
+                  style={{ fontSize: "24px" }}
+                />
+              </ComposedChart>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
