@@ -181,16 +181,6 @@ const CostData = React.memo(
             </Grid>
           </LocalizationProvider>
         )}
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Checkbox
-              // checked={/* Aquí va la prop que controla si el checkbox está marcado */}
-              // onChange={/* Aquí va el manejador para cuando el checkbox cambia */}
-              />
-            }
-          />
-        </Grid>
       </>
     );
   }

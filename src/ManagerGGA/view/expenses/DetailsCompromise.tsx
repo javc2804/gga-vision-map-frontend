@@ -16,6 +16,8 @@ import {
   Snackbar,
   Alert,
   Paper,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -27,13 +29,14 @@ import Loading from "../../../components/Loading";
 import { AlertColor } from "@mui/material/Alert";
 
 const DetailsCompromise = () => {
+  useEffect(() => {
+    dispatch(startGetPurchaseTrans(invoice.note_number));
+  }, []);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const invoice = location.state?.invoice || {};
-  useEffect(() => {
-    dispatch(startGetPurchaseTrans(invoice.note_number));
-  }, []);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
   const [snackbarType, setSnackbarType] = useState<AlertColor>("success");
@@ -48,8 +51,20 @@ const DetailsCompromise = () => {
     }))
   );
 
+  const [checkedState, setCheckedState] = useState(() =>
+    invoice.invoices.map(() => false)
+  );
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const handleCheckboxChange = (index: number) => {
+    setCheckedState((prevCheckedState) =>
+      prevCheckedState.map((item, itemIndex) =>
+        index === itemIndex ? !item : item
+      )
+    );
+  };
 
   const handleCostDataChange = (index: any, newCostData: any) => {
     setCostData((prevCostData: any) =>
@@ -60,6 +75,12 @@ const DetailsCompromise = () => {
   };
 
   const handleSave = () => {
+    checkedState.forEach((isChecked, index) => {
+      if (isChecked) {
+        console.log(`Checkbox ${index} está marcado.`);
+      }
+    });
+
     const userEmail = { user_rel: localStorage.getItem("email") };
     const {
       id,
@@ -79,6 +100,8 @@ const DetailsCompromise = () => {
     } = compromise.response;
     const updatedInvoices = invoice.invoices.map((inv: any, index: any) => {
       const { fleet, ...restInv } = inv; // Extraer fleet y el resto de las propiedades de inv
+      const isChecked = checkedState[index]; // Determinar si el índice actual está marcado
+
       const updatedInvoice = {
         ...restInv, // Propiedades de inv sin fleet
         ...userEmail,
@@ -109,6 +132,7 @@ const DetailsCompromise = () => {
         repuesto,
         formaPago,
         compromiso,
+        processed: isChecked ? true : false,
       };
 
       return updatedInvoice;
@@ -174,36 +198,35 @@ const DetailsCompromise = () => {
                   <Box sx={{ p: 4, mr: 4, mt: 2, ml: 2 }}>
                     <h3>Asignación</h3>
                   </Box>
-                  <Grid
-                    container
-                    spacing={2}
-                    direction={matches ? "column" : "row"}
-                  >
+                  <Grid container spacing={2} direction="row">
                     {invoice.invoices.map((invoiceData: any, index: any) => (
                       <React.Fragment key={index}>
-                        <Grid item xs={12} sm={6}>
-                          <Box
-                            height="100%"
-                            style={{ marginLeft: "1%", overflowY: "auto" }}
-                          >
-                            {invoiceData && (
-                              <UTData invoiceData={invoiceData} />
-                            )}
-                          </Box>
+                        <Grid item xs={5}>
+                          <UTData invoiceData={invoiceData} />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box height="100%" style={{ overflowY: "auto" }}>
-                            <CostData
-                              compromise={compromise.response}
-                              invoiceData={costData[index]}
-                              invoice={invoice.invoices[index]}
-                              onValuesChangeProp={(newCostData: any) =>
-                                handleCostDataChange(index, newCostData)
+                        <Grid item xs={5}>
+                          <CostData
+                            compromise={compromise.response}
+                            invoiceData={costData[index]}
+                            invoice={invoice.invoices[index]}
+                            onValuesChangeProp={(newCostData: any) =>
+                              handleCostDataChange(index, newCostData)
+                            }
+                            showFields={{ modoPago: modoPago }}
+                          />
+                        </Grid>
+                        <Grid item xs={2} container alignItems="center">
+                          <Grid item xs={2} container alignItems="center">
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={checkedState[index]}
+                                  onChange={() => handleCheckboxChange(index)}
+                                />
                               }
-                              showFields={{ modoPago: modoPago }}
-                              style={{ width: "97%", height: "525px" }}
+                              label=""
                             />
-                          </Box>
+                          </Grid>
                         </Grid>
                         {index < invoice.invoices.length - 1 && (
                           <Divider style={{ width: "100%", margin: "1% 0" }} />
