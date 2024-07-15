@@ -7,6 +7,8 @@ export const PrivateRoute = () => {
 
   if (role === "store") {
     return <ListNoteInvoicesPage />;
+  } else if (role === "operator") {
+    return <ManagerGGAPage />;
   } else if (role === "admin") {
     return <ManagerGGAPage />;
   } else {

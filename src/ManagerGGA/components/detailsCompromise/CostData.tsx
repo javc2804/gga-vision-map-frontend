@@ -2,6 +2,7 @@ import { Grid, TextField } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import React, { useEffect, useMemo, useCallback } from "react";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 interface InvoiceData {
   [key: string]: number | undefined; // Assuming all values are numbers or undefined
@@ -180,6 +181,16 @@ const CostData = React.memo(
             </Grid>
           </LocalizationProvider>
         )}
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={
+              <Checkbox
+              // checked={/* Aquí va la prop que controla si el checkbox está marcado */}
+              // onChange={/* Aquí va el manejador para cuando el checkbox cambia */}
+              />
+            }
+          />
+        </Grid>
       </>
     );
   }

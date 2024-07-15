@@ -29,6 +29,7 @@ export const useCreateUser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
   const createUser = async (userDetails: {
     email: string;
     password: string;

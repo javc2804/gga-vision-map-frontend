@@ -146,8 +146,10 @@ export const SideBar = ({ drawerWidth = 240, open, onClose }: SideBarProps) => {
             />
           </Link>
           <Typography variant="h6" noWrap>
-            {localStorage.getItem("role") === "admin"
+            {localStorage.getItem("role") === "operator"
               ? "Administración"
+              : localStorage.getItem("role") === "admin"
+              ? "Administrador"
               : "Almacén"}
           </Typography>
         </Toolbar>

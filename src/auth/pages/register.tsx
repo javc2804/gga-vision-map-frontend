@@ -45,7 +45,7 @@ interface Errors {
 export const Register = () => {
   const dispatch = useDispatch();
   const { snackbar } = useSelector((state: RootState) => state.auth);
-  const createUser = useCreateUser();
+  const { createUser } = useCreateUser();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const onRoleChange = (event: SelectChangeEvent<string>) => {
     onInputChange({
@@ -174,7 +174,7 @@ export const Register = () => {
                     name="role"
                     error={!!errors.role}
                   >
-                    <MenuItem value={"admin"}>Administrador</MenuItem>
+                    <MenuItem value={"operator"}>Operador</MenuItem>
                     <MenuItem value={"store"}>Almacén</MenuItem>
                   </Select>
                   {!!errors.role && (
