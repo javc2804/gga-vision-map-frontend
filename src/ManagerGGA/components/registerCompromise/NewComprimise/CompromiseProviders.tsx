@@ -29,14 +29,14 @@ export const CompromiseProviders: React.FC<InvoiceProvidersProps> = ({
   const dispatch = useDispatch();
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
-  const [nde, setNde] = useState<number>(editPurchase.facNDE || 0);
+  const [nde, setNde] = useState<number>(editPurchase.facNDE || "");
   const [compromiso, setCompromiso] = useState("");
   // const [selectedProvider, setSelectedProvider] = useState<Provider | null>(
   // null
   // );
 
   // useEffect(() => {
-  //   if (editPurchase && Object.keys(editPurchase).length !== 0) {
+  //   if (editPurchase && Object.keysditPurchase).length !== 0) {
   //     setnde(editPurchase.facNDE);
   //     setCompromiso(editPurchase.compromiso);
   //     const foundProvider = providers.find(

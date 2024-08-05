@@ -76,12 +76,14 @@ const useMultipleFormCompromise = (
         });
 
         setTotalFactUsd(totalUsd);
+        console.log(totalFactUsd);
 
         return newForms;
       });
     },
     [setForms]
   );
+
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
   const handleSaveClick = async (isEdit: boolean) => {
