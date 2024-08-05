@@ -18,6 +18,13 @@ import { useSnackbar } from "../../../hooks/useSnackBar";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
+interface Proveedor {
+  cantidad: string;
+  name: string;
+  user_rel: string;
+  id: string;
+}
+
 const TableInventory = () => {
   const [page, setPage] = useState(0);
   const { openSnackbar } = useSnackbar();
@@ -28,7 +35,8 @@ const TableInventory = () => {
   const result = useSelector((state: any) => state.inventory.list);
   const rows = result.response || [];
   const [openAgregarModal, setOpenAgregarModal] = useState(false);
-  const [selectedProveedor] = useState(null);
+  const [selectedProveedor] = useState<Proveedor | undefined>(undefined);
+
   const handleChangePage = (newPage: any) => {
     setPage(newPage);
   };
@@ -45,7 +53,6 @@ const TableInventory = () => {
   // };
 
   const handleProveedorCreationFeedback = (data: any) => {
-    console.log(data);
     openSnackbar(
       `${data.msg}`,
       data.type,
@@ -112,7 +119,6 @@ const TableInventory = () => {
             }}
             proveedor={selectedProveedor}
             onProveedorCreationFeedback={handleProveedorCreationFeedback} // Añadir esta línea
-            initialValues={selectedProveedor}
           />
         </Table>
       </TableContainer>

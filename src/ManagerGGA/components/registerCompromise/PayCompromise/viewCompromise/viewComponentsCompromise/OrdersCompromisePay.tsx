@@ -49,7 +49,6 @@ export const OrdersCompromisePay: React.FC<Props> = ({
           rules={{ required: "Fecha de OC/OS es requerido" }}
           render={({ field: { onChange, value } }) => (
             <DatePicker
-              id="fechaOcOs"
               label="Fecha OC/OS"
               value={value}
               onChange={(date) => {
@@ -60,11 +59,6 @@ export const OrdersCompromisePay: React.FC<Props> = ({
                 });
               }}
               format="dd/MM/yyyy"
-              components={{
-                textField: TextField,
-              }}
-              error={!!errors.fechaOcOs}
-              helperText={errors.fechaOcOs?.message}
             />
           )}
         />

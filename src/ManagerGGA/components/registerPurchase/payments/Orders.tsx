@@ -49,7 +49,6 @@ export const Orders: React.FC<Props> = ({
           rules={{ required: "Fecha de OC/OS es requerido" }}
           render={({ field: { onChange, value } }) => (
             <DatePicker
-              id="fechaOcOs"
               label="Fecha OC/OS"
               value={value ? new Date(value) : null} // Convierte la cadena a un objeto Date
               onChange={(date) => {
@@ -60,11 +59,6 @@ export const Orders: React.FC<Props> = ({
                 });
               }}
               format="dd/MM/yyyy"
-              components={{
-                textField: TextField,
-              }}
-              error={!!errors.fechaOcOs}
-              helperText={errors.fechaOcOs?.message}
             />
           )}
         />

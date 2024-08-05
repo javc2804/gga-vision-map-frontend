@@ -247,9 +247,13 @@ export const RegisterOutInternal = () => {
                       <TextField
                         label={field.label}
                         type={field.inputType || "text"}
-                        value={formulario[field.name]}
-                        onChange={(event) =>
-                          handleFieldChange(event, index, field.name)
+                        value={formulario[field.name as keyof FormularioType]}
+                        onChange={(event: any) =>
+                          handleFieldChange(
+                            event,
+                            index,
+                            field.name as keyof FormularioType
+                          )
                         }
                         variant="outlined"
                         fullWidth
@@ -257,9 +261,13 @@ export const RegisterOutInternal = () => {
                     )}
                     {field.type === "Select" && (
                       <Select
-                        value={formulario[field.name]}
-                        onChange={(event) =>
-                          handleFieldChange(event, index, field.name)
+                        value={formulario[field.name as keyof FormularioType]}
+                        onChange={(event: any) =>
+                          handleFieldChange(
+                            event,
+                            index,
+                            field.name as keyof FormularioType
+                          )
                         }
                         displayEmpty
                         fullWidth
@@ -277,15 +285,15 @@ export const RegisterOutInternal = () => {
                     {field.type === "DatePicker" && (
                       <DatePicker
                         label={field.label}
-                        value={formulario[field.name]}
+                        value={formulario[field.name as keyof FormularioType]}
                         onChange={(newValue) => {
                           handleFieldChange(
                             { target: { value: newValue } },
                             index,
-                            field.name
+                            field.name as keyof FormularioType
                           );
                         }}
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params: any) => <TextField {...params} />}
                         format="dd/MM/yyyy"
                       />
                     )}
