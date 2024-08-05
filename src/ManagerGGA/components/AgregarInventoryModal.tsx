@@ -34,6 +34,7 @@ const AgregarInventoryModal: React.FC<AgregarInventoryModalProps> = ({
 }) => {
   const { addInventory } = useInventory();
   const [name, setName] = useState(proveedor ? proveedor.name : "");
+  const [cantidad, setCantidad] = useState("");
   const [id, setId] = useState(proveedor ? proveedor.id : "");
 
   useEffect(() => {
@@ -45,11 +46,11 @@ const AgregarInventoryModal: React.FC<AgregarInventoryModalProps> = ({
     const proveedorData = {
       id,
       name,
+      cantidad,
       user_rel: localStorage.getItem("email"),
     };
 
     const response = await addInventory(proveedorData);
-    console.log(response);
     if (response && response.wasSuccessful) {
       const message = "Agregado con éxito";
       onProveedorCreationFeedback &&
@@ -74,12 +75,22 @@ const AgregarInventoryModal: React.FC<AgregarInventoryModalProps> = ({
         <TextField
           autoFocus
           margin="dense"
-          label="Cantidad"
+          label="Repuesto"
           type="text"
           fullWidth
           variant="standard"
           value={name}
           onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          autoFocus
+          margin="dense"
+          label="Cantidad"
+          type="text"
+          fullWidth
+          variant="standard"
+          value={cantidad}
+          onChange={(e) => setCantidad(e.target.value)}
         />
       </DialogContent>
       <DialogActions>

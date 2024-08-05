@@ -89,7 +89,7 @@ const TableInventory = () => {
                   <TableCell>{row.salida}</TableCell>
                   {/* <TableCell>{row.factura}</TableCell> */}
                   <TableCell>{row.cantidad}</TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <Button
                       variant="contained"
                       color="primary"
@@ -97,7 +97,7 @@ const TableInventory = () => {
                     >
                       +
                     </Button>
-                  </TableCell>
+                  </TableCell> */}
                   {/* <TableCell>
                     <DeleteIcon sx={{ color: "red" }} />
                     <EditIcon sx={{ marginLeft: 1, color: "orange" }} />

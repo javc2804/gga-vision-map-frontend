@@ -1,6 +1,35 @@
 import { TextField, Button } from "@mui/material";
+import AgregarInventoryModal from "../AgregarInventoryModal";
+import { useEffect, useState } from "react";
+import { useSnackbar } from "../../../hooks/useSnackBar";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 export const FiltersInventory = () => {
+  const [openAgregarModal, setOpenAgregarModal] = useState(false);
+  const [selectedProveedor, setSelectedProveedor] = useState(null);
+  const { openSnackbar, SnackbarComponent } = useSnackbar();
+
+  const handleButtonClick = () => {
+    setSelectedProveedor(null);
+    setOpenAgregarModal(true);
+  };
+  const handleProveedorCreationFeedback = (data: any) => {
+    console.log(data);
+    openSnackbar(
+      `${data.msg}`,
+      data.type,
+      data.type === "success" ? CheckCircleIcon : ErrorOutlineIcon
+    );
+
+    // dispatch(startGetInventory());
+
+    // setproveedorCreationMessage(data);
+  };
+
+  useEffect(() => {
+    // dispatch(startGetInventory());
+  }, []);
   return (
     <div>
       {[...Array(1)].map((_, index) => (
@@ -24,7 +53,25 @@ export const FiltersInventory = () => {
         <Button variant="contained" color="warning" style={{ margin: "8px" }}>
           Exportar
         </Button>
+        <Button
+          onClick={() => handleButtonClick()}
+          variant="contained"
+          color="secondary"
+          style={{ margin: "8px" }}
+        >
+          Crear
+        </Button>
       </div>
+      <AgregarInventoryModal
+        open={openAgregarModal}
+        handleClose={() => {
+          setOpenAgregarModal(false);
+          // setproveedorCreationMessage("");
+        }}
+        proveedor={[]}
+        onProveedorCreationFeedback={handleProveedorCreationFeedback} // Añadir esta línea
+        initialValues={selectedProveedor}
+      />
     </div>
   );
 };

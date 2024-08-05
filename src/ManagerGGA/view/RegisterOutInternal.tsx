@@ -187,14 +187,14 @@ export const RegisterOutInternal = () => {
     },
     {
       type: "TextField",
-      label: "Monto Pagado Bolivares",
-      name: "montoPagadoBs",
+      label: "Monto compromiso Bolivares",
+      name: "montoCompromisoBs",
       inputType: "number",
     },
     {
       type: "TextField",
-      label: "Monto Pagado $",
-      name: "montoPagadoUsd",
+      label: "Monto Pagado Bolivares",
+      name: "montoPagadoBs",
       inputType: "number",
     },
     {
@@ -205,8 +205,8 @@ export const RegisterOutInternal = () => {
     },
     {
       type: "TextField",
-      label: "Monto compromiso Bolivares",
-      name: "montoCompromisoBs",
+      label: "Monto Pagado $",
+      name: "montoPagadoUsd",
       inputType: "number",
     },
   ];
