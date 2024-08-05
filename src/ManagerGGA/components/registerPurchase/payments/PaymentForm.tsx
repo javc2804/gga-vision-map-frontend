@@ -24,12 +24,12 @@ export const PaymentForm = ({
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
   const dispatch = useDispatch();
-  const [formValues, setFormValues] = useState(() => {
-    if (editPurchase && Object.keys(editPurchase).length !== 0) {
-      return editPurchase;
-    }
-    return initialValues;
-  });
+  // const [formValues, setFormValues] = useState(() => {
+  //   if (editPurchase && Object.keys(editPurchase).length !== 0) {
+  //     return editPurchase;
+  //   }
+  //   return initialValues;
+  // });
 
   const {
     handleSubmit,

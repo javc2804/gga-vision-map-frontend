@@ -11,8 +11,8 @@ import {
   Grid,
   Divider,
   Box,
-  useMediaQuery,
-  useTheme,
+  // useMediaQuery,
+  // useTheme,
   Snackbar,
   Alert,
   Paper,
@@ -37,8 +37,8 @@ const DetailsCompromise = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const invoice = location.state?.invoice || {};
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("sm"));
+  // const theme = useTheme();
+  // const matches = useMediaQuery(theme.breakpoints.down("sm"));
   const [snackbarType, setSnackbarType] = useState<AlertColor>("success");
   const [costData, setCostData] = useState(
     invoice.invoices.map(() => ({
@@ -59,8 +59,8 @@ const DetailsCompromise = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleCheckboxChange = (index: number) => {
-    setCheckedState((prevCheckedState) =>
-      prevCheckedState.map((item, itemIndex) =>
+    setCheckedState((prevCheckedState: any) =>
+      prevCheckedState.map((item: any, itemIndex: any) =>
         index === itemIndex ? !item : item
       )
     );
@@ -75,7 +75,7 @@ const DetailsCompromise = () => {
   };
 
   const handleSave = () => {
-    checkedState.forEach((isChecked, index) => {
+    checkedState.forEach((isChecked: any, index: any) => {
       if (isChecked) {
         console.log(`Checkbox ${index} está marcado.`);
       }

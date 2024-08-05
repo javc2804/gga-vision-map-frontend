@@ -50,7 +50,7 @@ export const Providers = () => {
   const [selectedProveedor, setSelectedProveedor] = useState<Proveedor | null>(
     null
   );
-  const [proveedorCreationMessage, setproveedorCreationMessage] = useState("");
+  const [, setproveedorCreationMessage] = useState("");
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [, setSnackbarOpen] = useState(false);
 

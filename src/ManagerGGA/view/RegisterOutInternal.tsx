@@ -16,10 +16,10 @@ import { startCreateOutInternal } from "../../store/out-internal/outInternalThun
 
 type FormularioType = {
   id_items: number;
-  proveedorBeneficiario: string; // Proveedor/Beneficiario
-  descripcionGasto: string; // Descripcion del gasto
-  ordenPagoNumero: string; // Nº de Orden de Pago
-  relacionMesPago: string; // Relación mes de pago
+  proveedorBeneficiario: string;
+  descripcionGasto: string;
+  ordenPagoNumero: string;
+  relacionMesPago: string;
   montoPagadoBs: string; // Monto Pagado Bolivares
   montoPagadoUsd: string; // Monto Pagado Bolivares
   montoCompromisoUsd: string; // Monto compromiso $

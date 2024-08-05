@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { useProveedor } from "../hooks/useProveedor";
 import { useInventory } from "../hooks/useInventory";
 
 // import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";

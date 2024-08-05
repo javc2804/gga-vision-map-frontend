@@ -39,14 +39,14 @@ const SparePartsModal: React.FC<SparePartsModalProps> = ({
   );
 
   useEffect(() => {
-    setsparePart(SpareParts ? SpareParts.sparePart : "");
+    setsparePart(SpareParts ? SpareParts.spareParts : "");
     setSpareParts_variant(SpareParts ? SpareParts.spareParts_variant : ""); // Asegurar que el ID también se actualice
   }, [SpareParts]);
 
   const handleSubmit = async () => {
     const SparePartsData = {
+      name: sparePart,
       spareParts_variant,
-      SpareParts,
       user_rel: localStorage.getItem("email"),
     };
 

@@ -25,7 +25,7 @@ export const PaymentFormCompromise = ({
 }: PaymentFormProps) => {
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
   const dispatch = useDispatch();
-  const [formValues, setFormValues] = useState(() => {
+  const [formValues] = useState(() => {
     if (editPurchase && Object.keys(editPurchase).length !== 0) {
       return editPurchase;
     }

@@ -8,7 +8,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 export const FiltersInventory = () => {
   const [openAgregarModal, setOpenAgregarModal] = useState(false);
   const [selectedProveedor, setSelectedProveedor] = useState(null);
-  const { openSnackbar, SnackbarComponent } = useSnackbar();
+  const { openSnackbar } = useSnackbar();
 
   const handleButtonClick = () => {
     setSelectedProveedor(null);

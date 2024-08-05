@@ -21,8 +21,8 @@ import {
   startGetSpareParts,
 } from "../../store/spareParts/sparePartsThunk";
 import SparePartsModal from "../components/SparePartsModal";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+// import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useSnackbar } from "../../hooks/useSnackBar";
 
 interface SpareParts {
@@ -46,13 +46,13 @@ const SpareParts = () => {
   }, []);
 
   const spareParts = useSelector((state: any) => state.spareParts.list);
-  const { openSnackbar, SnackbarComponent } = useSnackbar();
+  const { SnackbarComponent } = useSnackbar();
 
   const [selectedSpareparts, setSelectedSpareparts] =
     useState<SpareParts | null>(null);
   const [openSparePartsModal, setopenSparePartsModal] = useState(false);
-  const [sparePartsCreationMessage, setSparePartsCreationMessage] =
-    useState("");
+  // const [sparePartsCreationMessage, setSparePartsCreationMessage] =
+  //   useState("");
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);

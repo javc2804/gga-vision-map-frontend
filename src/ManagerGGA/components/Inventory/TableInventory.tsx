@@ -28,7 +28,7 @@ const TableInventory = () => {
   const result = useSelector((state: any) => state.inventory.list);
   const rows = result.response || [];
   const [openAgregarModal, setOpenAgregarModal] = useState(false);
-  const [selectedProveedor, setSelectedProveedor] = useState(null);
+  const [selectedProveedor] = useState(null);
   const handleChangePage = (newPage: any) => {
     setPage(newPage);
   };

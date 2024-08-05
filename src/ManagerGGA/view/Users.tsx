@@ -62,7 +62,7 @@ export const Users = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const [openUserModal, setOpenUserModal] = useState(false);
-  const [userCreationMessage, setUserCreationMessage] = useState("");
+  const [, setUserCreationMessage] = useState("");
   const { openSnackbar, SnackbarComponent } = useSnackbar();
   const [, setSnackbarOpen] = useState(false);
 
