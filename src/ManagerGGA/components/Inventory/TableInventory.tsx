@@ -8,7 +8,6 @@ import {
   TableRow,
   Paper,
   TablePagination,
-  Button,
 } from "@mui/material";
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import EditIcon from "@mui/icons-material/Edit";
@@ -21,8 +20,8 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 const TableInventory = () => {
   const [page, setPage] = useState(0);
-  const { openSnackbar, SnackbarComponent } = useSnackbar();
-  const [proveedorCreationMessage, setproveedorCreationMessage] = useState("");
+  const { openSnackbar } = useSnackbar();
+  const [, setproveedorCreationMessage] = useState("");
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const dispatch = useDispatch();
@@ -39,11 +38,11 @@ const TableInventory = () => {
     setPage(0);
   };
 
-  const handleButtonClick = (row: any) => {
-    console.log(row);
-    setSelectedProveedor(row);
-    setOpenAgregarModal(true);
-  };
+  // const handleButtonClick = (row: any) => {
+  //   console.log(row);
+  //   setSelectedProveedor(row);
+  //   setOpenAgregarModal(true);
+  // };
 
   const handleProveedorCreationFeedback = (data: any) => {
     console.log(data);

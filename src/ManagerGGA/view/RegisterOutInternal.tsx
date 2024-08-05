@@ -34,7 +34,7 @@ type FormularioType = {
 export const RegisterOutInternal = () => {
   const dispatch = useDispatch();
   const { SnackbarComponent, openSnackbar } = useSnackbar();
-  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
+  const [, setIsSaveButtonDisabled] = useState(false);
 
   const [formularios, setFormularios] = useState<FormularioType[]>([
     {
