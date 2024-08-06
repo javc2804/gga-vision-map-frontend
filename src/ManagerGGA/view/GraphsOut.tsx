@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import FiltersGraph from "../components/filters/FiltersGraph";
 import useGraphsOut from "../hooks/useGraph";
+import { Button } from "@mui/material";
 
 interface TooltipProps {
   active?: boolean;
@@ -127,6 +128,9 @@ const GraphsOut = () => {
               left: 0;
               top: 0;
             }
+            .print-page {
+              page-break-before: always;
+            }
           }
         `}
       </style>
@@ -137,19 +141,28 @@ const GraphsOut = () => {
           justifyContent: "space-between",
           overflowY: "auto",
           height: "85vh",
+          alignItems: "center", // Centra el contenido horizontalmente
         }}
       >
-        <button onClick={() => window.print()}>Imprimir gráficos</button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => window.print()}
+          style={{ marginBottom: "20px" }} // Añade un margen inferior para separar el botón de los filtros
+        >
+          Imprimir gráficos
+        </Button>
 
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center", // Add this line
+            justifyContent: "center", // Centra los filtros horizontalmente
+            alignItems: "center",
+            width: "100%", // Asegura que el contenedor ocupe todo el ancho disponible
           }}
         >
-          <div style={{ flex: "0 40%" }}>
+          <div style={{ flex: "0 80%" }}>
             <FiltersGraph
               headers={headers}
               filters={filters}
@@ -160,10 +173,20 @@ const GraphsOut = () => {
               onSearch={onSearch}
             />
           </div>
-          <div style={{ flex: "0 60%" }}>
+        </div>
+        <div
+          className="print-only"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          <div className="print-page">
             <h2 style={{ textAlign: "center", fontSize: "32px" }}>General</h2>
             <ComposedChart
-              width={800} // Adjust this value as needed
+              width={800}
               height={500}
               data={generalData}
               margin={{
@@ -197,28 +220,14 @@ const GraphsOut = () => {
               />
             </ComposedChart>
           </div>
-        </div>
-        <div
-          className="print-only"
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-          }}
-        >
           {transformedData.map((data, i) => (
-            <div
-              style={{ flex: "0 1 calc(40% - 10px)", margin: "5px" }}
-              key={i}
-            >
+            <div className="print-page" key={i}>
               <h2 style={{ textAlign: "center", fontSize: "32px" }}>
                 {data && data[0].title}
               </h2>
               <ComposedChart
-                key={i}
-                width={800} // Adjust this value as needed
-                height={800} // Adjust this value as needed
+                width={800}
+                height={800}
                 data={data || []}
                 margin={{
                   top: 5,
@@ -277,9 +286,3 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
 };
 
 export default GraphsOut;
-
-// const GraphsOut = () => {
-//   return <div>GraphsOut</div>;
-// };
-
-// export default GraphsOut;
