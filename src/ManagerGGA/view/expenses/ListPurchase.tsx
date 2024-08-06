@@ -27,6 +27,27 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import MoneyOffIcon from "@mui/icons-material/MoneyOff";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
+type HeaderNames =
+  | ""
+  | "id"
+  | "createdAt"
+  | "facNDE"
+  | "proveedor"
+  | "ut"
+  | "eje"
+  | "subeje"
+  | "cantidad"
+  | "formaPago"
+  | "compromiso"
+  | "repuesto"
+  | "descripcionRepuesto"
+  | "montoTotalBs"
+  | "montoTotalUsd"
+  | "deudaTotalUsd"
+  | "tasaBcv"
+  | "ndeAlmacen"
+  | "Acciones";
+
 export interface IRow {
   ID: number;
   Fecha: string;
@@ -107,7 +128,7 @@ export const ListPurchase = () => {
   const titles = {
     margin: "0.2em 0",
   };
-  const headers = [
+  const headers: HeaderNames[] = [
     "",
     "id",
     "createdAt",
@@ -164,7 +185,7 @@ export const ListPurchase = () => {
     new Date(),
   ]);
 
-  const headerDisplayNames = {
+  const headerDisplayNames: Record<HeaderNames, string> = {
     "": "",
     createdAt: "Creado",
     formaPago: "Tipo Pago",
@@ -178,7 +199,7 @@ export const ListPurchase = () => {
     eje: "Eje",
     ndeAlmacen: "NDE(A)",
     compromiso: "Compromiso",
-  };
+  } as Record<HeaderNames, string>;
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
@@ -437,13 +458,13 @@ export const ListPurchase = () => {
               <TableHead>
                 <TableRow>
                   <TableCell padding="checkbox"></TableCell>
-                  {headers.map((header: any) => (
+                  {headers.map((header: HeaderNames) => (
                     <SortableTableHeader
                       key={header}
                       header={headerDisplayNames[header] || header}
                       orderBy={orderBy}
-                      order={order} // Asegúrate de pasar la prop order
-                      onSortRequest={handleSortRequest} // Asegúrate de pasar la prop onSortRequest
+                      order={order}
+                      onSortRequest={handleSortRequest}
                     />
                   ))}
                 </TableRow>

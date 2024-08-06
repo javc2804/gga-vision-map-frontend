@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import * as React from "react";
 import {
   Table,
@@ -15,7 +14,6 @@ import {
   IconButton,
 } from "@mui/material";
 import { useEffect } from "react";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch } from "react-redux";
@@ -36,6 +34,7 @@ interface Proveedor {
   name: string;
   user_rel: string;
   status: boolean;
+  id: string; // Asegúrate de que 'id' esté definido
 }
 
 export const Providers = () => {
@@ -128,8 +127,7 @@ export const Providers = () => {
             // setproveedorCreationMessage("");
           }}
           proveedor={selectedProveedor}
-          onProveedorCreationFeedback={handleProveedorCreationFeedback} // Añadir esta línea
-          initialValues={selectedProveedor}
+          onProveedorCreationFeedback={handleProveedorCreationFeedback}
         />
         <Button variant="contained" color="secondary" onClick={exportData}>
           Exportar Proveedores

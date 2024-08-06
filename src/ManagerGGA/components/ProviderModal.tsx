@@ -13,15 +13,16 @@ import { useProveedor } from "../hooks/useProveedor";
 // import { useCreateUser } from "../../auth/pages/hooks/useCreateUser";
 
 interface Proveedor {
+  createdAt: string;
   name: string;
   user_rel: string;
-  id: string;
+  status: boolean;
+  id: string; // Asegúrate de que 'id' esté definido
 }
-
 interface ProviderModalProps {
   open: boolean;
   handleClose: () => void;
-  proveedor?: Proveedor;
+  proveedor?: Proveedor | null;
   onProveedorCreationFeedback?: (data: {}) => void;
 }
 const ProviderModal: React.FC<ProviderModalProps> = ({

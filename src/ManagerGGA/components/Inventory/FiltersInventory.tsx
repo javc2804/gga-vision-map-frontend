@@ -68,9 +68,8 @@ export const FiltersInventory = () => {
           setOpenAgregarModal(false);
           // setproveedorCreationMessage("");
         }}
-        proveedor={[]}
-        onProveedorCreationFeedback={handleProveedorCreationFeedback} // Añadir esta línea
-        initialValues={selectedProveedor}
+        proveedor={selectedProveedor || undefined}
+        onProveedorCreationFeedback={handleProveedorCreationFeedback}
       />
     </div>
   );

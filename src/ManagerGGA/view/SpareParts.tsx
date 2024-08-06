@@ -26,9 +26,10 @@ import SparePartsModal from "../components/SparePartsModal";
 import { useSnackbar } from "../../hooks/useSnackBar";
 
 interface SpareParts {
+  id: number;
   createdAt: string;
-  sparePart: string;
-  sparePart_variant: string;
+  spareParts: string;
+  spareParts_variant: string;
 }
 
 const rows = [

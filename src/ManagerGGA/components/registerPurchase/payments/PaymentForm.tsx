@@ -54,6 +54,12 @@ export const PaymentForm = ({
     repuesto: "",
     descripcionRepuesto: "",
     descripcion: "",
+    cantidad: 0,
+    precioUnitarioBs: 0,
+    precioUnitarioUsd: 0,
+    tasaBcv: 0,
+    montoTotalBs: 0,
+    montoTotalUsd: 0,
   });
   const lastValuesRef = useRef(values);
 

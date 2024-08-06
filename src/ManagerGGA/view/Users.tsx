@@ -34,6 +34,7 @@ interface User {
   email: string;
   role: string;
   status: boolean;
+  password?: string; // Make password optional
 }
 
 // interface UserModalProps {

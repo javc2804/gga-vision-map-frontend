@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { startCreateOutInternal } from "../../store/out-internal/outInternalThunk";
 
 type FormularioType = {
+  id?: string;
+  [key: string]: string | number | Date | null | undefined;
   id_items: number;
   proveedorBeneficiario: string;
   descripcionGasto: string;
@@ -221,6 +223,16 @@ export const RegisterOutInternal = () => {
     setFormularios(updatedFormularios);
   };
 
+  const handleDateChange = (
+    date: Date | null,
+    index: number,
+    fieldName: keyof FormularioType
+  ) => {
+    const updatedFormularios = [...formularios];
+    updatedFormularios[index][fieldName] = date;
+    setFormularios(updatedFormularios);
+  };
+
   return (
     <div style={{ overflowY: "auto", maxHeight: "85vh" }}>
       <h2>Registrar gasto de funcionamiento</h2>
@@ -285,16 +297,20 @@ export const RegisterOutInternal = () => {
                     {field.type === "DatePicker" && (
                       <DatePicker
                         label={field.label}
-                        value={formulario[field.name as keyof FormularioType]}
+                        value={
+                          formulario[
+                            field.name as keyof FormularioType
+                          ] as Date | null
+                        }
                         onChange={(newValue) => {
-                          handleFieldChange(
-                            { target: { value: newValue } },
+                          handleDateChange(
+                            newValue,
                             index,
                             field.name as keyof FormularioType
                           );
                         }}
-                        renderInput={(params: any) => <TextField {...params} />}
                         format="dd/MM/yyyy"
+                        renderInput={(params: any) => <TextField {...params} />}
                       />
                     )}
                   </Grid>

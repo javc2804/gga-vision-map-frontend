@@ -13,6 +13,8 @@ import { useSpareParts } from "../hooks/useSpareParts";
 // import { useCreateUser } from "../../auth/pages/hooks/useCreateUser";
 
 interface SpareParts {
+  id: number;
+  createdAt: string;
   spareParts: string;
   spareParts_variant: string;
 }
@@ -20,9 +22,11 @@ interface SpareParts {
 interface SparePartsModalProps {
   open: boolean;
   handleClose: () => void;
-  SpareParts?: SpareParts;
+  SpareParts?: SpareParts | null;
   onSparePartsCreationFeedback?: (data: {}) => void;
+  initialValues?: SpareParts | null;
 }
+
 const SparePartsModal: React.FC<SparePartsModalProps> = ({
   open,
   handleClose,

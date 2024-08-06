@@ -12,19 +12,23 @@ import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import { useCreateUser } from "../../auth/pages/hooks/useCreateUser";
 
 interface User {
+  createdAt: string;
   name: string;
   lastName: string;
   email: string;
   role: string;
-  password: string;
+  status: boolean;
+  password?: string; // Make password optional
 }
 
 interface UserModalProps {
   open: boolean;
   handleClose: () => void;
-  user?: User;
-  onUserCreationFeedback?: (data: {}) => void; // Añadir esta línea
+  user?: User | null;
+  onUserCreationFeedback?: (data: any) => void;
+  initialValues?: User | null; // Add initialValues property
 }
+
 const UserModal: React.FC<UserModalProps> = ({
   open,
   handleClose,
