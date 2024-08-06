@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import {
   TextField,
@@ -122,14 +123,6 @@ export const RegisterOutInternal = () => {
     }
   };
 
-  // const [value, setValue] = useState("");
-
-  // const handleChange = (event: any, index: any) => {
-  //   const updatedFormularios = [...formularios];
-  //   updatedFormularios[index].selectedValue = event.target.value;
-  //   setFormularios(updatedFormularios);
-  // };
-
   const formFieldOptions = [
     { value: "", label: "Seleccione un tipo de gasto" }, // Opción por defecto
 
@@ -232,6 +225,38 @@ export const RegisterOutInternal = () => {
     updatedFormularios[index][fieldName] = date;
     setFormularios(updatedFormularios);
   };
+
+  useEffect(() => {
+    const updatedFormularios = formularios.map((formulario) => {
+      const tasaBcv = parseFloat(formulario.tasaBcv as string);
+      const montoCompromisoBs = parseFloat(
+        formulario.montoCompromisoBs as string
+      );
+      const montoPagadoBs = parseFloat(formulario.montoPagadoBs as string);
+
+      if (!isNaN(tasaBcv) && !isNaN(montoCompromisoBs) && tasaBcv !== 0) {
+        formulario.montoCompromisoUsd = (montoCompromisoBs / tasaBcv).toFixed(
+          2
+        );
+      } else {
+        formulario.montoCompromisoUsd = "";
+      }
+
+      if (!isNaN(tasaBcv) && !isNaN(montoPagadoBs) && tasaBcv !== 0) {
+        formulario.montoPagadoUsd = (montoPagadoBs / tasaBcv).toFixed(2);
+      } else {
+        formulario.montoPagadoUsd = "";
+      }
+
+      return formulario;
+    });
+
+    setFormularios(updatedFormularios);
+  }, [
+    formularios.map((f) => f.tasaBcv),
+    formularios.map((f) => f.montoCompromisoBs),
+    formularios.map((f) => f.montoPagadoBs),
+  ]);
 
   return (
     <div style={{ overflowY: "auto", maxHeight: "85vh" }}>
