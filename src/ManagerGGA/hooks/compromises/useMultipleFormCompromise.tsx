@@ -86,7 +86,7 @@ const useMultipleFormCompromise = (
 
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
 
-  const handleSaveClick = async (isEdit: boolean) => {
+  const handleSaveClick = async (isEdit?: boolean) => {
     let result;
     const userEmail = localStorage.getItem("email");
     if (!isEdit) {

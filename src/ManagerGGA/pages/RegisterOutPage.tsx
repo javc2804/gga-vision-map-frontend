@@ -85,8 +85,8 @@ export const RegisterOutPage = () => {
               />
             ) : (
               <RegisterCompromise
+                selectedValueProp={selectedValue}
                 selectedValue={selectedValue}
-                setSelectedValue={setSelectedValue}
                 params={editPurchase}
               />
             );
@@ -99,8 +99,9 @@ export const RegisterOutPage = () => {
               />
             ) : (
               <RegisterCompromise
+                selectedValueProp={selectedValue}
                 selectedValue={selectedValue}
-                setSelectedValue={setSelectedValue}
+                params={{}}
               />
             );
           }

@@ -144,7 +144,13 @@ export const NewCompromise: React.FC<RegisterPurchaseProps> = () => {
       ))}
       <InvoiceTotalsCompromisesPay
         totalFactUsd={totalFactUsd}
+        totalFactBs={0}
+        totalCantidad={0}
+        compromise={{}}
+        isSaveButtonDisabled={false}
         setTotalFactUsd={setTotalFactUsd}
+        setTotalFactBs={() => {}}
+        setTotalCantidad={() => {}}
         handleSaveClick={handleSaveClick}
       />
       {SnackbarComponent}

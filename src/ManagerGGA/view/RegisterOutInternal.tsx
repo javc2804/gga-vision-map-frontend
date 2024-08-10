@@ -327,15 +327,14 @@ export const RegisterOutInternal = () => {
                             field.name as keyof FormularioType
                           ] as Date | null
                         }
-                        onChange={(newValue) => {
+                        onChange={(date: any) => {
                           handleDateChange(
-                            newValue,
+                            date,
                             index,
                             field.name as keyof FormularioType
                           );
                         }}
                         format="dd/MM/yyyy"
-                        renderInput={(params: any) => <TextField {...params} />}
                       />
                     )}
                   </Grid>
