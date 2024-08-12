@@ -90,7 +90,7 @@ export const RegisterOutInternal = () => {
       );
       setFormularios(formulariosActualizados);
     } else {
-      console.log("No se puede eliminar el único formulario restante.");
+      console.log("Nso se puede eliminar el único formulario restante.");
     }
   };
 
