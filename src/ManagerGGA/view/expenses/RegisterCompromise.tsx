@@ -70,7 +70,9 @@ export const RegisterCompromise: React.FC<RegisterCompromiseProps> = ({
       <Select displayEmpty value={selectedValue} onChange={handleChange}>
         <MenuItem value="">Selecciona tipo</MenuItem>
         <MenuItem value={"new"}>
-          {!params ? "Registrar nuevo" : "Editar Compromiso"}
+          {Object.keys(params).length === 0
+            ? "Registrar nuevo"
+            : "Editar Compromiso"}{" "}
         </MenuItem>
         {params ? <MenuItem value={"pay"}>Pagar Compromiso</MenuItem> : null}
         {/* <MenuItem value={"detail"}>Detalle Compromiso</MenuItem> */}
