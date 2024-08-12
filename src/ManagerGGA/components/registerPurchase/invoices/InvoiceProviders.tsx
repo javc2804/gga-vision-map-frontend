@@ -24,9 +24,7 @@ export const InvoiceProviders: React.FC<InvoiceProvidersProps> = ({
 }) => {
   const dispatch = useDispatch();
   const editPurchase = useSelector((state: any) => state.purchase.purchaseEdit);
-  const [facNDE, setFacNDE] = useState<number>(
-    Number(editPurchase.facNDE) || 0
-  );
+  const [facNDE, setFacNDE] = useState<number>(editPurchase.facNDE || "");
   const handleFacNDEChange = (e: any) => {
     const newFacNDE = Number(e.target.value);
     if (!isNaN(newFacNDE)) {
