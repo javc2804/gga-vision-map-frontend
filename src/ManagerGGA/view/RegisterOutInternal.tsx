@@ -95,13 +95,10 @@ export const RegisterOutInternal = () => {
   };
 
   const save = () => {
-    console.log(formularios);
     const formulariosConUserRel = formularios.map((formulario) => ({
       ...formulario,
       user_rel: localStorage.getItem("email") || "",
     }));
-
-    console.log(formulariosConUserRel);
 
     const todosCamposRellenados = formulariosConUserRel.every((formulario) => {
       return Object.values(formulario).every((valor) => {
